@@ -1,0 +1,10 @@
+{
+  "files.autoSave": "onFocusChange",
+  "editor.formatOnType": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.enable": true,
+  "prettier.singleQuote": true,
+  "prettier.semi": true,
+  "prettier.arrowParens": "avoid",
+  "prettier.jsxSingleQuote": true
+}
