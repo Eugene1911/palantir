@@ -1,3 +1,21 @@
+## Start dev app
+
+`npm run start:trafficstars npm run start:runative`
+
+## Build app
+
+`npm run build:trafficstars npm run build:runative`
+
+`"scripts": { "start": "react-app-rewired start", "build": "react-app-rewired build", "test": "react-app-rewired test --env=jsdom", "eject": "react-scripts eject" },`
+
+## Use WebPack hook
+
+For configuration WebPack without create-react-app enject
+
+`npm install react-app-rewired --save-dev`
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
