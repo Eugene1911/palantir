@@ -3,75 +3,81 @@ const tableHeaderRows = [
     id: 'id',
     numeric: true,
     order: true,
-    disablePadding: true,
     label: 'ID',
     style: {
-      width: 70,
+      width: '6%',
+    },
+  },
+  {
+    id: 'button_stats',
+    style: {
+      width: '2%',
     },
   },
   {
     order: true,
     id: 'name',
     numeric: false,
-    disablePadding: false,
     label: 'Name',
     style: {
-      width: 300,
+      width: '31%',
     },
   },
   {
     id: 'user_email',
     numeric: false,
     order: true,
-    disablePadding: false,
     label: 'User',
     style: {
-      width: 100,
+      width: '12%',
     },
   },
   {
     id: 'pricing_model',
     numeric: false,
     order: true,
-    disablePadding: false,
     label: 'Pricing model',
     style: {
-      width: 100,
+      width: '8%',
     },
   },
   {
     id: 'max_daily',
     numeric: true,
-    disablePadding: false,
     label: 'Daily spending',
     style: {
-      width: 50,
+      width: '7%',
     },
   },
   {
     id: 'format_id',
     numeric: true,
-    disablePadding: false,
     label: 'Ad format',
     style: {
-      width: 30,
+      width: '7%',
     },
   },
   {
     order: true,
     id: 'price',
     numeric: true,
-    disablePadding: false,
     label: 'Price',
     style: {
-      width: 20,
+      width: '7%',
+    },
+  },
+  {
+    id: 'status',
+    label: 'Status',
+    style: {
+      width: '10%',
     },
   },
   {
     id: 'actions',
     label: '',
     style: {
-      width: 80,
+      width: '10%',
     },
   },
 ];

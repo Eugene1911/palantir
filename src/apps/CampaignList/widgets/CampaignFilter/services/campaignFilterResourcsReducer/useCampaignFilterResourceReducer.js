@@ -1,15 +1,10 @@
 import { useReducer, useEffect } from 'react';
-import campaignFilterResourceReducer from './campaignFilterResourceReducer';
+import {
+  initCampaignFilterResourceState,
+  campaignFilterResourceReducer,
+} from './campaignFilterResourceReducer';
 import requestCampaignFilterResourcs from './actionsCampaignFilterResourcs';
 
-const initCampaignFilterResourceState = {
-  isFetching: true,
-  data: {
-    formats: [],
-    pricingModel: [],
-    campaignStatuses: [],
-  },
-};
 function useCampaignFilterResourceReducer() {
   const [
     campaignFilterResourceState,

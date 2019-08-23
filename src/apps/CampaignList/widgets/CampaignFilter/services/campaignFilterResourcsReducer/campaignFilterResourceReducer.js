@@ -1,6 +1,15 @@
 import CAMPAIGN_RESOURCE_TYPES_ACTIONS from './campaignFilterResourceActionTypes';
 
-function campaignFilterResourceReducer(state, acton) {
+export const initCampaignFilterResourceState = {
+  isFetching: true,
+  data: {
+    formats: [],
+    pricingModel: [],
+    campaignStatuses: [],
+  },
+};
+
+export function campaignFilterResourceReducer(state, acton) {
   switch (acton.type) {
     case CAMPAIGN_RESOURCE_TYPES_ACTIONS.BEGIN:
       return {
@@ -17,14 +26,12 @@ function campaignFilterResourceReducer(state, acton) {
 
     case CAMPAIGN_RESOURCE_TYPES_ACTIONS.FAILURE:
       return {
-        ...state,
+        ...initCampaignFilterResourceState,
         isFetching: false,
         error: acton.payload,
       };
 
     default:
-      break;
+      return state;
   }
 }
-
-export default campaignFilterResourceReducer;

@@ -1,30 +1,11 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { COOKIE_NAME_AUTH_TOKEN } from 'config/constants';
-import { API_DOMAIN, FORMATS, CAMPAIGNS } from './endpointsApi';
-
-const AUTH_TOKEN = Cookies.get(COOKIE_NAME_AUTH_TOKEN);
-const apiOptions = {
-  baseURL: API_DOMAIN,
-  headers: {
-    Authorization: `Bearer ${AUTH_TOKEN}`,
-  },
-};
-const API = axios.create(apiOptions);
+import { FORMATS, CAMPAIGNS } from './services/APIEndpoints';
+import API from './services/APIService';
 
 /**
  * Get Ad Formats
  * @param {Object} params
  */
-export const getFormats = async params => {
-  try {
-    const response = await API.get(FORMATS, { params });
-
-    return response;
-  } catch (error) {
-    return error;
-  }
-};
+export const getFormats = params => API.get(FORMATS, { params });
 
 /**
  * Get compaigns
@@ -33,14 +14,25 @@ export const getFormats = async params => {
 export const getCampaigns = params => API.get(CAMPAIGNS, { params });
 
 /**
+ * Put campaign status
+ * @param {number} id
+ * @param {String} status
+ */
+export const putCampaignStatus = async (id, status) =>
+  API.put(`${CAMPAIGNS}/${id}/${status}`);
+
+/**
  * Get compaign by ID
  * @param {Object} params
  */
 export const getCampaignById = campaignId =>
   API.get(`${CAMPAIGNS}/${campaignId}`);
 
-export const getCampaignStatuses = async () => {
-  const CAMPAIGN_STATUSES = [
+/**
+ * Get campaign statuses
+ */
+export const getCampaignStatuses = () =>
+  Promise.resolve([
     {
       name: 'Not Approved',
       value: 'unapproved',
@@ -69,16 +61,11 @@ export const getCampaignStatuses = async () => {
       name: 'No approved banners',
       value: 'unapproved_banners',
     },
-  ];
-  try {
-    const response = await Promise.resolve(CAMPAIGN_STATUSES);
+  ]);
 
-    return response;
-  } catch (error) {
-    return error;
-  }
-};
-
+/**
+ * Get pricing model
+ */
 export const getPricingModel = async () => {
   const PRICING_MODEL = [
     {

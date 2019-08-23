@@ -1,4 +1,4 @@
-import { getCampaigns, getCampaignById } from 'helpers/resources';
+import { getCampaigns, getCampaignById } from 'resources/api';
 import CAMPAIGN_LIST_ACTIONS from './campaignListAppReducerTypeActions';
 
 export function requestCampaignById(dispatch, campaignId) {

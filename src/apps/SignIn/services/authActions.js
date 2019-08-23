@@ -1,5 +1,8 @@
-import { AUTH_TOKEN } from 'helpers/endpointsApi';
-import { COOKIE_NAME_AUTH_TOKEN } from 'config/constants';
+import { AUTH_TOKEN } from 'resources/services/APIEndpoints';
+import {
+  COOKIE_NAME_AUTH_TOKEN,
+  COOKIE_NAME_REFRESH_TOKEN,
+} from 'config/constants';
 import Cookies from 'js-cookie';
 import AUTH_TYPES_ACTIONS from './authTypesActions';
 
@@ -30,9 +33,10 @@ function authReuqest(despath) {
   )
     .then(response => response.json())
     .then(response => {
-      const { access_token } = response;
+      const { access_token, refresh_token } = response;
 
       Cookies.set(COOKIE_NAME_AUTH_TOKEN, access_token);
+      Cookies.set(COOKIE_NAME_REFRESH_TOKEN, refresh_token);
 
       despath({
         type: AUTH_TYPES_ACTIONS.SUCCESS,

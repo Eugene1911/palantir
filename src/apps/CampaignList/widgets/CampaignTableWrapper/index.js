@@ -38,7 +38,7 @@ function CampaignTableWrapper() {
             onChange={onChangeHandler}
           />
         </CardContent>
-        <Table size='medium'>
+        <Table>
           <TableHeadMainSort
             disabledSort={searchByCampaignId}
             isFetching={isFetching}

@@ -1,8 +1,9 @@
+import axios from 'axios';
 import {
   getFormats,
   getPricingModel,
   getCampaignStatuses,
-} from 'helpers/resources';
+} from 'resources/api';
 import CAMPAIGN_RESOURCE_TYPES_ACTIONS from './campaignFilterResourceActionTypes';
 
 function requestCampaignFilterResourcs(dispatch) {
@@ -10,11 +11,8 @@ function requestCampaignFilterResourcs(dispatch) {
     type: CAMPAIGN_RESOURCE_TYPES_ACTIONS.BEGIN,
   });
 
-  Promise.all([
-    getFormats(),
-    getPricingModel(),
-    getCampaignStatuses(),
-  ])
+  axios
+    .all([getFormats(), getPricingModel(), getCampaignStatuses()])
     .then(([formats, pricingModel, campaignStatuses]) => {
       dispatch({
         type: CAMPAIGN_RESOURCE_TYPES_ACTIONS.SUCCESS,
