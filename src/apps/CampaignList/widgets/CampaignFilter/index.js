@@ -31,32 +31,33 @@ function CampaignFilter() {
     return (
       <form onSubmit={onSubmitFilterHandler}>
         <Grid
-          justify='space-between'
-          alignItems='flex-end'
+          justify="space-between"
+          alignItems="flex-end"
           container
           spacing={2}
         >
           <Grid item xs>
             <TextField
               fullWidth
-              label='Campaign ID'
-              name='campaignId'
+              label="Campaign ID"
+              name="campaignId"
               value={campaignFilterState.campaignId}
               onChange={onChangeCampaignFilterFielsHandler}
             />
           </Grid>
           <Grid item xs>
             <FormControl fullWidth>
-              <InputLabel shrink htmlFor='status'>
+              <InputLabel shrink htmlFor="status">
                 Campaign status
               </InputLabel>
+
               <Select
                 displayEmpty
-                name='status'
+                name="status"
                 onChange={onChangeCampaignFilterFielsHandler}
                 value={campaignFilterState.status}
               >
-                <MenuItem value=''>All</MenuItem>
+                <MenuItem value="">All</MenuItem>
                 {campaignStatuses.map(({ name, value }) => (
                   <MenuItem key={value} value={value}>
                     {name}
@@ -67,16 +68,16 @@ function CampaignFilter() {
           </Grid>
           <Grid item xs>
             <FormControl fullWidth>
-              <InputLabel shrink htmlFor='format_id'>
+              <InputLabel shrink htmlFor="format_id">
                 Ad Format
               </InputLabel>
               <Select
                 displayEmpty
-                name='format_id'
+                name="format_id"
                 onChange={onChangeCampaignFilterFielsHandler}
                 value={campaignFilterState.format_id}
               >
-                <MenuItem value=''>All</MenuItem>
+                <MenuItem value="">All</MenuItem>
                 {formats.map(({ name, id }) => (
                   <MenuItem key={id} value={id}>
                     {name}
@@ -87,16 +88,16 @@ function CampaignFilter() {
           </Grid>
           <Grid item xs>
             <FormControl fullWidth>
-              <InputLabel shrink htmlFor='pricing_model'>
+              <InputLabel shrink htmlFor="pricing_model">
                 Pricing model
               </InputLabel>
               <Select
                 displayEmpty
-                name='pricing_model'
+                name="pricing_model"
                 onChange={onChangeCampaignFilterFielsHandler}
                 value={campaignFilterState.pricing_model}
               >
-                <MenuItem value=''>All</MenuItem>
+                <MenuItem value="">All</MenuItem>
                 {pricingModel.map(({ name, value }) => (
                   <MenuItem key={value} value={value}>
                     {name}
@@ -106,7 +107,7 @@ function CampaignFilter() {
             </FormControl>
           </Grid>
           <Grid item>
-            <Button type='submit' variant='contained' color='primary'>
+            <Button type="submit" variant="contained" color="primary">
               Filter
             </Button>
           </Grid>

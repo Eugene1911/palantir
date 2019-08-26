@@ -19,21 +19,21 @@ function CampaignTableBody({ data, isFetching, cols }) {
     <TableBody>
       {data.map(row => (
         <TableRow key={row.id}>
-          <TableCell align='right'>{row.id}</TableCell>
+          <TableCell align="right">{row.id}</TableCell>
           <TableCell>
             <IconButton
               href={`${PAGE_PATH.ADVERTISER_CAMPAIGNS_STATISTIC}${row.id}`}
-              size='small'
-              target='_blank'
-              color='primary'
+              size="small"
+              target="_blank"
+              color="primary"
             >
-              <BarChart fontSize='inherit' />
+              <BarChart fontSize="inherit" />
             </IconButton>
           </TableCell>
           <TableCell>
             <Link
               title={row.name}
-              target='_blank'
+              target="_blank"
               href={`${PAGE_PATH.ADVERTISER_CAMPAIGNS_STATISTIC}${row.id}`}
             >
               {row.name}
@@ -48,15 +48,15 @@ function CampaignTableBody({ data, isFetching, cols }) {
             </Link>
           </TableCell>
           <TableCell>{row.pricing_model}</TableCell>
-          <TableCell align='right'>{row.max_daily}</TableCell>
-          <TableCell align='right'>{row.format_id}</TableCell>
-          <TableCell align='right'>
+          <TableCell align="right">{row.max_daily}</TableCell>
+          <TableCell align="right">{row.format_id}</TableCell>
+          <TableCell align="right">
             {numberToFixed(row.price, 3)}
           </TableCell>
           <TableCell>
             <CampaignChangeStatus {...row} />
           </TableCell>
-          <TableCell align='right'>
+          <TableCell align="right">
             <CampaignControlButtons {...row} />
           </TableCell>
         </TableRow>

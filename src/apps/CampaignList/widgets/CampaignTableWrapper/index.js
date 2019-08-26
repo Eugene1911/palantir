@@ -53,7 +53,7 @@ function CampaignTableWrapper() {
         </Table>
       </>
     );
-  }, [isFetching]);
+  }, [data, error, isFetching, onChangeHandler, searchByCampaignId]);
 }
 
 export default CampaignTableWrapper;
