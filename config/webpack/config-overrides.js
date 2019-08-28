@@ -7,7 +7,11 @@ module.exports = {
     if (env === 'production') {
       const { plugins } = config;
 
-      config.entry = entries;
+      (config.output.filename = 'static/js/[name].[hash].js'),
+        (config.output.chunkFilename =
+          'static/js/[name].[hash].chunk.js'),
+        (config.output.publicPath = customPaths.rootStaticPublicPath),
+        (config.entry = entries);
       config.plugins = [...plugins, ...appRoutes];
     }
 
@@ -15,7 +19,7 @@ module.exports = {
   },
 
   paths(paths, env) {
-    paths.appBuild = customPaths.root;
+    paths.appBuild = customPaths.rootStaticDest;
 
     return paths;
   },

@@ -26,12 +26,12 @@
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
-    "start": "sh -ac '. .env.${REACT_APP_ENV}; react-app-rewired start",
-    "start:runative": "REACT_APP_ENV=runative react-app-rewired start",
-    "start:trafficstars": "REACT_APP_ENV=trafficstars react-app-rewired start",
-    "build": "sh -ac '. .env.${REACT_APP_ENV}; react-app-rewired build",
-    "build:runative": "REACT_APP_ENV=runative react-app-rewired build",
-    "build:trafficstars": "REACT_APP_ENV=trafficstars react-app-rewired build",
+    "start": "sh -ac '. .env.${REACT_APP_PRJ}; react-app-rewired start",
+    "start:runative": "REACT_APP_PRJ=runative react-app-rewired start",
+    "start:trafficstars": "REACT_APP_PRJ=trafficstars react-app-rewired start",
+    "build": "sh -ac '. .env.${REACT_APP_PRJ}; react-app-rewired build",
+    "build:runative": "REACT_APP_PRJ=runative react-app-rewired build",
+    "build:trafficstars": "REACT_APP_PRJ=trafficstars react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
   },
@@ -60,6 +60,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-react-hooks": "^2.0.1",
+    "html-webpack-plugin": "^4.0.0-beta.8",
     "husky": "^3.0.4",
     "lint-staged": "^8.2.0",
     "prettier": "^1.17.1",
