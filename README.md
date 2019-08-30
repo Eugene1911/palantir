@@ -1,6 +1,7 @@
 ## Start dev app
 
-`npm run start:trafficstars npm run start:runative`
+`npm run start:trafficstars`
+`npm run start:runative`
 
 ## Build app
 
