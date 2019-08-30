@@ -1,6 +1,6 @@
 {
-  "extends": ["airbnb", "plugin:prettier/recommended", "prettier/react", "prettier/standard", "plugin:react/recommended"],
-  "plugins": ["react", "react-hooks", "prettier"],
+  "extends": ["airbnb", "plugin:import/errors", "plugin:prettier/recommended", "prettier/react", "prettier/standard", "plugin:react/recommended"],
+  "plugins": ["react", "import", "react-hooks", "prettier"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -17,13 +17,12 @@
   "rules": {
     "prettier/prettier": "error",
     "react/button-has-type": "error",
+    "react/forbid-prop-types": [2, { "forbid": ["any"] } ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/forbid-component-props": "error",
-    "react/default-props-match-prop-types": "error",
     "react/jsx-closing-tag-location": "error",
     "react/destructuring-assignment": "error",
-    "react/jsx-curly-newline": "error",
     "react/jsx-boolean-value": ["error", "never"],
     "react/jsx-closing-bracket-location": "error",
     "react/jsx-curly-spacing": ["error", "never"],
