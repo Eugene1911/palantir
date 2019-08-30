@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { CampaignListAppContext } from '../../../../services/CampaignListAppContext';
+import CAMPAIGN_LIST_TYPES_ACTIONS from '../../../../services/campaignListAppActionsType';
 
 const initCampaignFilterState = {
   format_id: '',
@@ -29,8 +30,8 @@ function useCampaignFilterState() {
     event.preventDefault();
     const campaignId = Number(campaignFilterState.campaignId);
     const type = campaignId
-      ? 'CAMPAIGN_LIST_TYPES_ACTIONS/REQUEST_CAMPAIGN_ID'
-      : 'CAMPAIGN_LIST_TYPES_ACTIONS/REQUEST_MAIN_FILTER';
+      ? CAMPAIGN_LIST_TYPES_ACTIONS.REQUEST_CAMPAIGN_ID
+      : CAMPAIGN_LIST_TYPES_ACTIONS.REQUEST_MAIN_FILTER;
     const payload = campaignId ? { campaignId } : campaignFilterState;
 
     campaignListAppStateDispatch({

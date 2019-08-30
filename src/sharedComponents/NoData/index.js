@@ -10,8 +10,8 @@ function NoData({ title = NO_DATA_TITLE }) {
 
   return (
     <div className={classes.root}>
-      <Block fontSize='large' />
-      <Typography variant='h5' gutterBottom>
+      <Block fontSize="large" />
+      <Typography variant="h5" gutterBottom>
         {title}
       </Typography>
     </div>

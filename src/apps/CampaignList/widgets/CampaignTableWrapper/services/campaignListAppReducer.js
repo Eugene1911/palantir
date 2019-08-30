@@ -1,6 +1,10 @@
 import CAMPAIGN_LIST_ACTIONS from './campaignListAppReducerTypeActions';
 
 function campaignListAppReducer(state, acton) {
+  const dataResponse = state.data.response;
+  const { payload } = acton;
+  let findCampaignIndex = null;
+
   switch (acton.type) {
     case CAMPAIGN_LIST_ACTIONS.BEGIN:
       return {
@@ -16,7 +20,7 @@ function campaignListAppReducer(state, acton) {
         isFetching: false,
         searchByCampaignId: false,
         error: null,
-        data: acton.payload,
+        data: payload,
       };
 
     case CAMPAIGN_LIST_ACTIONS.SUCCESS_BY_ID:
@@ -26,7 +30,48 @@ function campaignListAppReducer(state, acton) {
         searchByCampaignId: true,
         error: null,
         data: {
-          response: [acton.payload],
+          response: [payload],
+        },
+      };
+
+    case CAMPAIGN_LIST_ACTIONS.ADD_CLONE:
+      if (Array.isArray(dataResponse)) {
+        dataResponse.unshift(acton.payload);
+      }
+
+      return {
+        ...state,
+        isFetching: false,
+        searchByCampaignId: false,
+        error: null,
+        data: {
+          ...state.data,
+          response: dataResponse,
+        },
+      };
+
+    case CAMPAIGN_LIST_ACTIONS.UPDATE_ITEM:
+      if (payload) {
+        findCampaignIndex = dataResponse.findIndex(
+          ({ id }) => id === payload.id,
+        );
+      }
+
+      if (findCampaignIndex !== -1) {
+        dataResponse[findCampaignIndex] = {
+          ...dataResponse[findCampaignIndex],
+          ...payload,
+        };
+      }
+
+      return {
+        ...state,
+        isFetching: false,
+        searchByCampaignId: false,
+        error: null,
+        data: {
+          ...state.data,
+          response: dataResponse,
         },
       };
 
@@ -34,7 +79,7 @@ function campaignListAppReducer(state, acton) {
       return {
         ...state,
         isFetching: false,
-        error: acton.payload,
+        error: payload,
       };
 
     default:

@@ -4,9 +4,10 @@ import NoData from 'sharedComponents/NoData';
 import TablePaginationMain from 'sharedComponents/TablePaginationMain';
 import TableHeadMainSort from 'sharedComponents/TableHeadMainSort';
 import CardContent from '@material-ui/core/CardContent';
-import CampaignTableBody from '../CampaignTableBody';
+import CampaignTableBody from './components/CampaignTableBody';
 import useCampaignListAppReducer from './services/useCampaignListAppReducer';
 import tableHeaderRows from './tableHeaderRows';
+import CampaignTableWrapperContext from './services/CampaignTableWrapperContext';
 
 function CampaignTableWrapper() {
   const {
@@ -15,6 +16,8 @@ function CampaignTableWrapper() {
     data,
     searchByCampaignId,
     onChangeHandler,
+    addCloneToListHandler,
+    updateItemToCampaignList,
   } = useCampaignListAppReducer();
 
   return useMemo(() => {
@@ -38,22 +41,34 @@ function CampaignTableWrapper() {
             onChange={onChangeHandler}
           />
         </CardContent>
-        <Table>
-          <TableHeadMainSort
-            disabledSort={searchByCampaignId}
-            isFetching={isFetching}
-            rows={tableHeaderRows}
-            onChange={onChangeHandler}
-          />
-          <CampaignTableBody
-            cols={tableHeaderRows.length}
-            isFetching={isFetching}
-            data={data.response}
-          />
-        </Table>
+        <CampaignTableWrapperContext.Provider
+          value={{ addCloneToListHandler, updateItemToCampaignList }}
+        >
+          <Table>
+            <TableHeadMainSort
+              disabledSort={searchByCampaignId}
+              isFetching={isFetching}
+              rows={tableHeaderRows}
+              onChange={onChangeHandler}
+            />
+            <CampaignTableBody
+              cols={tableHeaderRows.length}
+              isFetching={isFetching}
+              data={data.response}
+            />
+          </Table>
+        </CampaignTableWrapperContext.Provider>
       </>
     );
-  }, [data, error, isFetching, onChangeHandler, searchByCampaignId]);
+  }, [
+    addCloneToListHandler,
+    data,
+    error,
+    isFetching,
+    onChangeHandler,
+    searchByCampaignId,
+    updateItemToCampaignList,
+  ]);
 }
 
 export default CampaignTableWrapper;

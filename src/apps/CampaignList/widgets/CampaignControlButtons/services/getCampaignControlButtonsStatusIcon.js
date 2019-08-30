@@ -7,9 +7,9 @@ import Done from '@material-ui/icons/Done';
 export function getCampaignControlButtonPlayPauseStatusIcon(status) {
   switch (status) {
     case 'enabled':
-      return <PlayArrow fontSize='inherit' />;
+      return <Pause fontSize="inherit" />;
     default:
-      return <Pause fontSize='inherit' />;
+      return <PlayArrow fontSize="inherit" />;
   }
 }
 
@@ -18,8 +18,9 @@ export function getCampaignControlButtonApproveRejectStatusIcon(
 ) {
   switch (status) {
     case 'rejected':
-      return <Done fontSize='inherit' />;
+    case '':
+      return <Done fontSize="inherit" />;
     default:
-      return <Block fontSize='inherit' />;
+      return <Block fontSize="inherit" />;
   }
 }

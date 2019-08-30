@@ -1,6 +1,20 @@
 import { getCampaigns, getCampaignById } from 'resources/api';
 import CAMPAIGN_LIST_ACTIONS from './campaignListAppReducerTypeActions';
 
+export function addCloneToCampaignList(dispatch, campaignClone) {
+  dispatch({
+    type: CAMPAIGN_LIST_ACTIONS.ADD_CLONE,
+    payload: campaignClone,
+  });
+}
+
+export function updateItemToCampaignListAction(dispatch, campaign) {
+  dispatch({
+    type: CAMPAIGN_LIST_ACTIONS.UPDATE_ITEM,
+    payload: campaign,
+  });
+}
+
 export function requestCampaignById(dispatch, campaignId) {
   dispatch({
     type: CAMPAIGN_LIST_ACTIONS.BEGIN,

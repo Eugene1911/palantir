@@ -1,4 +1,12 @@
-import { FORMATS, CAMPAIGNS } from './services/APIEndpoints';
+import {
+  FORMATS,
+  CAMPAIGNS,
+  CAMPAIGNS_CLONE,
+  CAMPAIGNS_SAVE_AS,
+  CAMPAIGNS_ARCHIVE,
+  CAMPAIGNS_REJECT_REASONS,
+  CAMPAIGNS_DISAPPROVE,
+} from './services/APIEndpoints';
 import API from './services/APIService';
 
 /**
@@ -27,6 +35,41 @@ export const putCampaignStatus = async (id, status) =>
  */
 export const getCampaignById = campaignId =>
   API.get(`${CAMPAIGNS}/${campaignId}`);
+
+/**
+ * Campaign clone
+ * @param {String} campaignId
+ */
+export const postCampaignClone = campaignId =>
+  API.post(CAMPAIGNS_CLONE.replace('{id}', campaignId), {});
+
+/**
+ * Campaign save as
+ * @param {String} campaignId
+ */
+export const postCampaignSaveAs = (campaignId, params) =>
+  API.post(CAMPAIGNS_SAVE_AS.replace('{id}', campaignId), params);
+
+/**
+ * Campaign archive
+ * @param {Object} params
+ */
+export const putCampaignArchive = params =>
+  API.put(CAMPAIGNS_ARCHIVE, params);
+
+/**
+ * Get Campaign reject reasons
+ * @param {Object} params
+ */
+export const getCampaignRejectReasons = () =>
+  API.get(CAMPAIGNS_REJECT_REASONS);
+
+/**
+ * Get Campaign reject reasons
+ * @param {Object} params
+ */
+export const putCampaignDisapprove = (campaignId, props) =>
+  API.put(CAMPAIGNS_DISAPPROVE.replace('{id}', campaignId), props);
 
 /**
  * Get campaign statuses

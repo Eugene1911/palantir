@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -17,7 +18,7 @@ function CampaignTable({ data }) {
   } = useCampaignTableState();
 
   return (
-    <Table size='medium'>
+    <Table size="medium">
       <TableHead>
         <TableRow>
           {tableHeaderRows.map(row => (
@@ -50,14 +51,14 @@ function CampaignTable({ data }) {
       <TableBody>
         {data.map(row => (
           <TableRow key={row.id}>
-            <TableCell align='right'>{row.id}</TableCell>
+            <TableCell align="right">{row.id}</TableCell>
             <TableCell>{row.name}</TableCell>
             <TableCell>{row.user.email}</TableCell>
             <TableCell>{row.pricing_model}</TableCell>
-            <TableCell align='right'>{row.max_daily}</TableCell>
-            <TableCell align='right'>{row.format_id}</TableCell>
-            <TableCell align='right'>{row.price}</TableCell>
-            <TableCell align='right'>
+            <TableCell align="right">{row.max_daily}</TableCell>
+            <TableCell align="right">{row.format_id}</TableCell>
+            <TableCell align="right">{row.price}</TableCell>
+            <TableCell align="right">
               <CampaignControlButtons />
             </TableCell>
           </TableRow>
@@ -66,5 +67,13 @@ function CampaignTable({ data }) {
     </Table>
   );
 }
+
+CampaignTable.propTypes = {
+  data: PropTypes.array,
+};
+
+CampaignTable.defaultProps = {
+  data: [],
+};
 
 export default CampaignTable;

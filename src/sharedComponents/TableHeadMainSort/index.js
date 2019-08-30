@@ -48,10 +48,10 @@ function TableHeadMainSort({
 }
 
 TableHeadMainSort.propTypes = {
-  rows: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onChange: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   disabledSort: PropTypes.bool,
+  isFetching: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  rows: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 TableHeadMainSort.defaultProps = {

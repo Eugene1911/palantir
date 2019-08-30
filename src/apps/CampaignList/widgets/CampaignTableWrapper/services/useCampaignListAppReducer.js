@@ -4,6 +4,8 @@ import { CampaignListAppContext } from '../../../services/CampaignListAppContext
 import {
   requestCampaignList,
   requestCampaignById,
+  addCloneToCampaignList,
+  updateItemToCampaignListAction,
 } from './campaignListAppReducerActions';
 
 const initCampaignListAppReducer = {
@@ -25,7 +27,16 @@ function useCampaignListAppReducer() {
     campaignListAppStateDispatch({
       payload,
     });
-
+  const addCloneToListHandler = campaignClone =>
+    addCloneToCampaignList(
+      campaignListAppReducerDispatch,
+      campaignClone,
+    );
+  const updateItemToCampaignList = campaign =>
+    updateItemToCampaignListAction(
+      campaignListAppReducerDispatch,
+      campaign,
+    );
   useEffect(() => {
     const { campaignId } = campaignListAppReducerState;
 
@@ -41,6 +52,8 @@ function useCampaignListAppReducer() {
 
   return {
     onChangeHandler,
+    addCloneToListHandler,
+    updateItemToCampaignList,
     ...campaignListAppWrapperReducerState,
   };
 }
