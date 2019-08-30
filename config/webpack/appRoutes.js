@@ -3,22 +3,23 @@ const paths = require('./paths');
 
 const routes = [
   {
-    name: 'campaignsList',
-  },
-  {
-    name: 'home',
+    name: 'campaign_list',
+    filedirSrc: `${paths.rootTemplateSrc}/backoffice`,
+    filedirDest: `${paths.rootTemplateDest}/backoffice`,
+    chunks: ['campaignsList'],
   },
 ];
 
 module.exports = routes.map(
-  ({ name }) =>
-    new HtmlWebpackPlugin({
-      inject: true,
-      filename: `${paths.root}/${name}.html`,
-      template: `${paths.appPublic}/${name}.html`,
-      chunks: [name],
+  ({ name, filedirSrc, filedirDest, chunks }) => {
+    return new HtmlWebpackPlugin({
+      inject: false,
+      filename: `${filedirDest}/${name}.html`,
+      template: `${filedirSrc}/${name}.html`,
+      chunks,
       minify: false,
-    }),
+    });
+  },
 );
 
 /**

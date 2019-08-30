@@ -1,4 +1,4 @@
-export const COOKIE_NAME_AUTH_TOKEN = 'access_token';
+export const COOKIE_NAME_AUTH_TOKEN = 'api_token';
 export const COOKIE_NAME_REFRESH_TOKEN = 'refresh_token';
 
 // Pagination

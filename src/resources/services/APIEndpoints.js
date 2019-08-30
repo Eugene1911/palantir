@@ -1,4 +1,4 @@
-export const API_DOMAIN = '//api.staging.trafficstars.com';
+export const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 export const API_VERSION_1 = '/v1/';
 export const API_VERSION_1_1 = '/v1.1/';
 
