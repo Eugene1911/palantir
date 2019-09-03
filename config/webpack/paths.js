@@ -69,8 +69,8 @@ module.exports = {
   // Custom path
   rootTemplateSrc: resolveApp('../templates_palantir'),
   rootTemplateDest: resolveApp('../templates'),
-  rootStaticDest: resolveApp(`'../static_palantir'`),
-  rootStaticPublicPath: /staticp/,
+  rootStaticDest: resolveApp('../static_palantir'),
+  rootStaticPublicPath: '/staticp/',
   // Standard path
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
