@@ -20,10 +20,11 @@ function requestCampaignFilterResourcs(dispatch) {
       getFlatRate(),
     ])
     .then(([formats, pricingModel, campaignStatuses, flatRate]) => {
+      const formatsList = (formats && formats.data) || [];
       dispatch({
         type: CAMPAIGN_RESOURCE_TYPES_ACTIONS.SUCCESS,
         payload: {
-          formats: formats.data,
+          formats: formatsList.filter(({ hidden }) => !hidden),
           pricingModel,
           campaignStatuses,
           flatRate,
