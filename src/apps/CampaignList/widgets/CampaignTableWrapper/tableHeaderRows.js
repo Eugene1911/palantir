@@ -70,7 +70,7 @@ const tableHeaderRows = [
     id: 'status',
     label: 'Status',
     style: {
-      width: '10%',
+      width: '5%',
     },
   },
   {
