@@ -3,10 +3,12 @@ import { CampaignListAppContext } from '../../../../services/CampaignListAppCont
 import CAMPAIGN_LIST_TYPES_ACTIONS from '../../../../services/campaignListAppActionsType';
 
 const initCampaignFilterState = {
-  format_id: '',
+  format_id: [],
   pricing_model: '',
   status: '',
   campaignId: '',
+  email: '',
+  flat_rate: '',
 };
 
 function useCampaignFilterState() {
@@ -17,7 +19,14 @@ function useCampaignFilterState() {
     initCampaignFilterState,
   );
   const onChangeCampaignFilterFielsHandler = ({ target }) => {
-    const { value, name } = target;
+    let { value } = target;
+    const { name } = target;
+    const isFormatId = name === 'format_id';
+    const lastItem = isFormatId && value[value.length - 1];
+
+    if (lastItem === null) {
+      value = [];
+    }
 
     setCampaignFilter({
       ...campaignFilterState,
