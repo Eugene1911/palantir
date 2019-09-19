@@ -65,13 +65,12 @@ const resolveModule = (resolveFn, filePath) => {
 };
 
 // config after eject: we're in ./config/
-const staticPalantirPath = '/static_palantir/';
 module.exports = {
   // Custom path
   rootTemplateSrc: resolveApp('../templates_palantir'),
   rootTemplateDest: resolveApp('../templates'),
-  rootStaticDest: resolveApp(`..${staticPalantirPath}`),
-  rootStaticPublicPath: staticPalantirPath,
+  rootStaticDest: resolveApp('../static_palantir'),
+  rootStaticPublicPath: '/staticp/',
   // Standard path
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
