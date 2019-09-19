@@ -2,6 +2,7 @@ import transformRequestOptions from 'helpers/transformRequestOptions';
 import {
   FORMATS,
   CAMPAIGNS,
+  USERS,
   CAMPAIGNS_CLONE,
   CAMPAIGNS_SAVE_AS,
   CAMPAIGNS_ARCHIVE,
@@ -15,6 +16,12 @@ import API from './services/APIService';
  * @param {Object} params
  */
 export const getFormats = params => API.get(FORMATS, { params });
+
+/**
+ * Get Users
+ * @param {Object} params
+ */
+export const getUsers = params => API.get(USERS, { params });
 
 /**
  * Get compaigns
