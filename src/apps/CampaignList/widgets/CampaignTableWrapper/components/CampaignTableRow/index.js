@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import BarChart from '@material-ui/icons/BarChart';
 import { numberToFixed } from 'helpers/numberFormat';
 import PAGE_PATH from 'helpers/pagePath';
+import getUserCampaignStatus from 'helpers/getUserCampaignStatus';
 import getStatusColor from 'helpers/getStatusColor';
 import CampaignControlButtons from '../../../CampaignControlButtons';
 
@@ -62,7 +63,9 @@ function CampaignTableRow(row) {
       <TableCell align="right">
         {numberToFixed(row.price, 3)}
       </TableCell>
-      <TableCell>{row.status}</TableCell>
+      <TableCell style={{ textTransform: 'capitalize' }}>
+        {getUserCampaignStatus(row.status)}
+      </TableCell>
       <TableCell align="right">
         <CampaignControlButtons {...row} />
       </TableCell>
