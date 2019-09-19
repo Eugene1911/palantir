@@ -1,5 +1,18 @@
-import { getCampaigns, getCampaignById } from 'resources/api';
+import {
+  getCampaigns,
+  getCampaignById,
+  getFormats,
+} from 'resources/api';
 import CAMPAIGN_LIST_ACTIONS from './campaignListAppReducerTypeActions';
+
+export function requestAdFormat(dispatch) {
+  getFormats().then(({ data }) =>
+    dispatch({
+      type: CAMPAIGN_LIST_ACTIONS.ADD_ADFORMAT,
+      payload: data,
+    }),
+  );
+}
 
 export function addCloneToCampaignList(dispatch, campaignClone) {
   dispatch({
