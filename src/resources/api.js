@@ -1,3 +1,4 @@
+import transformRequestOptions from 'helpers/transformRequestOptions';
 import {
   FORMATS,
   CAMPAIGNS,
@@ -19,7 +20,14 @@ export const getFormats = params => API.get(FORMATS, { params });
  * Get compaigns
  * @param {Object} params
  */
-export const getCampaigns = params => API.get(CAMPAIGNS, { params });
+export const getCampaigns = params =>
+  API({
+    url: CAMPAIGNS,
+    method: 'GET',
+    params,
+    paramsSerializer: requestParams =>
+      transformRequestOptions(requestParams),
+  });
 
 /**
  * Put campaign status
@@ -103,6 +111,21 @@ export const getCampaignStatuses = () =>
     {
       name: 'No approved banners',
       value: 'unapproved_banners',
+    },
+  ]);
+
+/**
+ *  Flat rate
+ */
+export const getFlatRate = () =>
+  Promise.resolve([
+    {
+      value: true,
+      name: 'Flat rate only',
+    },
+    {
+      value: false,
+      name: 'Exclude flat rate',
     },
   ]);
 
