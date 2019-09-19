@@ -42,6 +42,7 @@ function CampaignTableRow(row) {
       <TableCell>
         {row.user && (
           <Link
+            target="_blank"
             title={row.user.email}
             href={`${PAGE_PATH.BACKOFFICE_CLIENT_RECORD}${row.user.id}`}
           >
@@ -49,13 +50,13 @@ function CampaignTableRow(row) {
           </Link>
         )}
       </TableCell>
-      <TableCell>
+      <TableCell align="right">
         <Typography
           style={{
             textTransform: 'uppercase',
           }}
         >
-          {row.pricing_model}
+          {numberToFixed(row.spent_today || 0, 3)}
         </Typography>
       </TableCell>
       <TableCell align="right">{row.max_daily}</TableCell>

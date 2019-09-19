@@ -34,7 +34,7 @@ const tableHeaderRows = [
   },
   {
     id: 'pricing_model',
-    numeric: false,
+    numeric: true,
     order: true,
     label: 'Pricing model',
     style: {
