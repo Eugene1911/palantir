@@ -3,8 +3,11 @@ import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import FilterLoader from 'sharedComponents/loaders/FilterLoader';
 import useCampaignFilterResourceReducer from './services/campaignFilterResourcsReducer/useCampaignFilterResourceReducer';
@@ -16,6 +19,7 @@ function CampaignFilter() {
     formats,
     pricingModel,
     campaignStatuses,
+    flatRate,
   } = useCampaignFilterResourceReducer();
   const {
     campaignFilterState,
@@ -46,6 +50,15 @@ function CampaignFilter() {
             />
           </Grid>
           <Grid item xs>
+            <TextField
+              fullWidth
+              label="E-mail"
+              name="email"
+              value={campaignFilterState.email}
+              onChange={onChangeCampaignFilterFielsHandler}
+            />
+          </Grid>
+          <Grid item xs>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="status">
                 Campaign status
@@ -66,21 +79,37 @@ function CampaignFilter() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs>
+          <Grid zeroMinWidth item xs>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="format_id">
                 Ad Format
               </InputLabel>
               <Select
+                multiple
                 displayEmpty
                 name="format_id"
                 onChange={onChangeCampaignFilterFielsHandler}
+                renderValue={selected => {
+                  if (!selected.length) return 'All';
+
+                  const formatList = formats
+                    .filter(({ id }) => selected.includes(id))
+                    .map(({ name }) => name)
+                    .join(', ');
+
+                  return <Typography noWrap>{formatList}</Typography>;
+                }}
                 value={campaignFilterState.format_id}
               >
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value={null}>All</MenuItem>
                 {formats.map(({ name, id }) => (
                   <MenuItem key={id} value={id}>
-                    {name}
+                    <Checkbox
+                      checked={
+                        campaignFilterState.format_id.indexOf(id) > -1
+                      }
+                    />
+                    <ListItemText primary={name} />
                   </MenuItem>
                 ))}
               </Select>
@@ -106,6 +135,26 @@ function CampaignFilter() {
               </Select>
             </FormControl>
           </Grid>
+          <Grid item xs>
+            <FormControl fullWidth>
+              <InputLabel shrink htmlFor="pricing_model">
+                Flat rate
+              </InputLabel>
+              <Select
+                displayEmpty
+                name="flat_rate"
+                onChange={onChangeCampaignFilterFielsHandler}
+                value={campaignFilterState.flat_rate}
+              >
+                <MenuItem value="">All</MenuItem>
+                {flatRate.map(({ name, value }) => (
+                  <MenuItem key={value} value={value}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
           <Grid item>
             <Button type="submit" variant="contained" color="primary">
               Filter
@@ -115,13 +164,19 @@ function CampaignFilter() {
       </form>
     );
   }, [
-    onChangeCampaignFilterFielsHandler,
-    campaignFilterState,
-    pricingModel,
-    onSubmitFilterHandler,
     isFetching,
+    onSubmitFilterHandler,
+    campaignFilterState.campaignId,
+    campaignFilterState.email,
+    campaignFilterState.status,
+    campaignFilterState.format_id,
+    campaignFilterState.pricing_model,
+    campaignFilterState.flat_rate,
+    onChangeCampaignFilterFielsHandler,
     campaignStatuses,
     formats,
+    pricingModel,
+    flatRate,
   ]);
 }
 
