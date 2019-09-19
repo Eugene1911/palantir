@@ -14,6 +14,7 @@ function TablePaginationMain({
   isHidden,
 }) {
   const classes = useStyles();
+  const START_PAGE_FROM_ZERO = 1;
 
   if (isFetching) {
     return <PaginationLoader />;
@@ -21,9 +22,9 @@ function TablePaginationMain({
 
   return (
     <TablePagination
-      component='div'
+      component="div"
       className={isHidden ? classes.hidden : ''}
-      page={page}
+      page={page - START_PAGE_FROM_ZERO}
       count={count}
       rowsPerPage={pageSize}
       rowsPerPageOptions={PAGINATIONS_ROWS_PER_PAGE}
@@ -31,19 +32,19 @@ function TablePaginationMain({
         onChange({ size: props.value })
       }
       onChangePage={(event, currentPage) =>
-        onChange({ page: currentPage })
+        onChange({ page: currentPage + START_PAGE_FROM_ZERO })
       }
     />
   );
 }
 
 TablePaginationMain.propTypes = {
-  page: PropTypes.number,
   count: PropTypes.number,
-  isHidden: PropTypes.bool,
-  pageSize: PropTypes.number,
   isFetching: PropTypes.bool.isRequired,
+  isHidden: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
+  page: PropTypes.number,
+  pageSize: PropTypes.number,
 };
 TablePaginationMain.defaultProps = {
   page: 0,
