@@ -2,6 +2,7 @@ import { useReducer, useContext, useEffect } from 'react';
 import campaignListAppReducer from './campaignListAppReducer';
 import { CampaignListAppContext } from '../../../services/CampaignListAppContext';
 import {
+  requestAdFormat,
   requestCampaignList,
   requestCampaignById,
   addCloneToCampaignList,
@@ -12,6 +13,7 @@ const initCampaignListAppReducer = {
   isFetching: true,
   data: {},
   searchByCampaignId: false,
+  adFormat: null,
 };
 
 function useCampaignListAppReducer() {
@@ -23,6 +25,7 @@ function useCampaignListAppReducer() {
     campaignListAppWrapperReducerState,
     campaignListAppReducerDispatch,
   ] = useReducer(campaignListAppReducer, initCampaignListAppReducer);
+  const { adFormat } = campaignListAppWrapperReducerState;
   const onChangeHandler = payload =>
     campaignListAppStateDispatch({
       payload,
@@ -37,18 +40,30 @@ function useCampaignListAppReducer() {
       campaignListAppReducerDispatch,
       campaign,
     );
-  useEffect(() => {
-    const { campaignId } = campaignListAppReducerState;
 
-    if (campaignId) {
-      requestCampaignById(campaignListAppReducerDispatch, campaignId);
-    } else {
-      requestCampaignList(
-        campaignListAppReducerDispatch,
-        campaignListAppReducerState,
-      );
-    }
-  }, [campaignListAppReducerState]);
+  useEffect(() => {
+    const loadCampaignData = async () => {
+      const { campaignId } = campaignListAppReducerState;
+
+      if (!adFormat) {
+        await requestAdFormat(campaignListAppReducerDispatch);
+      }
+
+      if (campaignId) {
+        requestCampaignById(
+          campaignListAppReducerDispatch,
+          campaignId,
+        );
+      } else {
+        requestCampaignList(
+          campaignListAppReducerDispatch,
+          campaignListAppReducerState,
+        );
+      }
+    };
+
+    loadCampaignData();
+  }, [adFormat, campaignListAppReducerState]);
 
   return {
     onChangeHandler,
