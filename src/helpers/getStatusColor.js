@@ -13,17 +13,19 @@ function getStatusColor(status) {
         color = statuses.green;
         break;
       case CAMPAIGNS_STATUSES.PAUSED:
-      case CAMPAIGNS_STATUSES.ARCHIVED:
         color = statuses.orange;
+        break;
+      case CAMPAIGNS_STATUSES.ARCHIVED:
+        color = statuses.orangeDark;
         break;
       case CAMPAIGNS_STATUSES.REJECTED:
         color = statuses.red;
         break;
       case CAMPAIGNS_STATUSES.UNAPPROVED:
-        color = statuses.redDark;
+        color = statuses.blueLight;
         break;
       case CAMPAIGNS_STATUSES.NO_FUNDS:
-        color = statuses.blueLight;
+        color = statuses.redDark;
         break;
       default:
         break;
