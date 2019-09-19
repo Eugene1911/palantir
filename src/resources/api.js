@@ -92,7 +92,7 @@ export const putCampaignDisapprove = (campaignId, props) =>
 export const getCampaignStatuses = () =>
   Promise.resolve([
     {
-      name: 'Not Approved',
+      name: 'Pending',
       value: 'unapproved',
     },
     {
