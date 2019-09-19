@@ -2,7 +2,15 @@ import CAMPAIGN_LIST_ACTIONS from './campaignListAppReducerTypeActions';
 
 function campaignListAppReducer(state, acton) {
   const dataResponse = state.data.response;
+  const { adFormat = {} } = state;
   const { payload } = acton;
+  const setAdFormat = item => {
+    const camapign = item;
+
+    camapign.format = adFormat[item.format_id];
+
+    return camapign;
+  };
   let findCampaignIndex = null;
 
   switch (acton.type) {
@@ -15,12 +23,25 @@ function campaignListAppReducer(state, acton) {
       };
 
     case CAMPAIGN_LIST_ACTIONS.SUCCESS:
+      if (payload.response) {
+        payload.response = payload.response.map(setAdFormat);
+      }
+
       return {
         ...state,
         isFetching: false,
         searchByCampaignId: false,
         error: null,
         data: payload,
+      };
+
+    case CAMPAIGN_LIST_ACTIONS.ADD_ADFORMAT:
+      return {
+        ...state,
+        adFormat: Object.assign(
+          {},
+          ...payload.map(({ id, name }) => ({ [id]: name })),
+        ),
       };
 
     case CAMPAIGN_LIST_ACTIONS.SUCCESS_BY_ID:
@@ -30,13 +51,13 @@ function campaignListAppReducer(state, acton) {
         searchByCampaignId: true,
         error: null,
         data: {
-          response: [payload],
+          response: [setAdFormat(payload)],
         },
       };
 
     case CAMPAIGN_LIST_ACTIONS.ADD_CLONE:
       if (Array.isArray(dataResponse)) {
-        dataResponse.unshift(acton.payload);
+        dataResponse.unshift(setAdFormat(acton.payload));
       }
 
       return {
