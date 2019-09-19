@@ -2,6 +2,7 @@ import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import BarChart from '@material-ui/icons/BarChart';
@@ -32,7 +33,7 @@ function CampaignTableRow(row) {
         <Link
           title={row.name}
           target="_blank"
-          href={`${PAGE_PATH.ADVERTISER_CAMPAIGNS_STATISTIC}${row.id}`}
+          href={`${PAGE_PATH.ADVERTISER_CAMPAIGNS_EDIT}${row.id}`}
         >
           {row.name}
         </Link>
@@ -47,9 +48,17 @@ function CampaignTableRow(row) {
           </Link>
         )}
       </TableCell>
-      <TableCell>{row.pricing_model}</TableCell>
+      <TableCell>
+        <Typography
+          style={{
+            textTransform: 'uppercase',
+          }}
+        >
+          {row.pricing_model}
+        </Typography>
+      </TableCell>
       <TableCell align="right">{row.max_daily}</TableCell>
-      <TableCell align="right">{row.format_id}</TableCell>
+      <TableCell align="right">{row.format}</TableCell>
       <TableCell align="right">
         {numberToFixed(row.price, 3)}
       </TableCell>
