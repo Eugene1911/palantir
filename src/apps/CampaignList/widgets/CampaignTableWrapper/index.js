@@ -25,7 +25,10 @@ function CampaignTableWrapper() {
       return <NoData title={error.msg} />;
     }
 
-    if ((!isFetching && !data) || (!!data && !data.response)) {
+    if (
+      (!isFetching && !data) ||
+      (data && data.response && !data.response.length)
+    ) {
       return <NoData />;
     }
 
