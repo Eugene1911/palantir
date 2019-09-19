@@ -10,3 +10,4 @@ export const CAMPAIGNS_ARCHIVE = `${API_VERSION_1_1}campaigns/archive`;
 export const CAMPAIGNS_REJECT_REASONS = `${API_VERSION_1_1}campaigns/reject_reasons`;
 export const CAMPAIGNS_DISAPPROVE = `${API_VERSION_1_1}campaigns/{id}/disapprove`;
 export const FORMATS = `${API_VERSION_1_1}formats`;
+export const USERS = `${API_VERSION_1_1}users`;
