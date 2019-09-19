@@ -5,6 +5,15 @@ import {
 } from 'resources/api';
 import CAMPAIGN_LIST_ACTIONS from './campaignListAppReducerTypeActions';
 
+export function setEmptyResponse(dispatch) {
+  dispatch({
+    type: CAMPAIGN_LIST_ACTIONS.SUCCESS,
+    payload: {
+      response: [],
+    },
+  });
+}
+
 export function requestAdFormat(dispatch) {
   getFormats().then(({ data }) =>
     dispatch({
