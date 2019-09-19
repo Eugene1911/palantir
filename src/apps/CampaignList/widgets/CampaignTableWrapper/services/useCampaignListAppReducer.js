@@ -2,6 +2,7 @@ import { useReducer, useContext, useEffect } from 'react';
 import campaignListAppReducer from './campaignListAppReducer';
 import { CampaignListAppContext } from '../../../services/CampaignListAppContext';
 import {
+  setEmptyResponse,
   requestAdFormat,
   requestCampaignList,
   requestCampaignById,
@@ -43,7 +44,16 @@ function useCampaignListAppReducer() {
 
   useEffect(() => {
     const loadCampaignData = async () => {
-      const { campaignId } = campaignListAppReducerState;
+      const { campaignId, user_id } = campaignListAppReducerState;
+
+      if (
+        Array.isArray(user_id) && //
+        !user_id.length
+      ) {
+        setEmptyResponse(campaignListAppReducerDispatch);
+
+        return;
+      }
 
       if (!adFormat) {
         await requestAdFormat(campaignListAppReducerDispatch);
