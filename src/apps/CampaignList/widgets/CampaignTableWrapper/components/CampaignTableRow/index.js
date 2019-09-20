@@ -56,10 +56,12 @@ function CampaignTableRow(row) {
             textTransform: 'uppercase',
           }}
         >
-          {numberToFixed(row.spent_today || 0, 3)}
+          {row.pricing_model}
         </Typography>
       </TableCell>
-      <TableCell align="right">{row.max_daily}</TableCell>
+      <TableCell align="right">
+        {numberToFixed(row.spent_today || 0, 3)}
+      </TableCell>
       <TableCell align="right">{row.format}</TableCell>
       <TableCell align="right">
         {numberToFixed(row.price, 3)}
