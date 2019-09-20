@@ -39,17 +39,18 @@ function useCampaignFilterState() {
   const onSubmitFilterHandler = async event => {
     event.preventDefault();
     const { campaignId, email } = campaignFilterState;
+    const clearEmail = email.trim();
     const campaignIdNumnber = Number(campaignId);
     const type = campaignIdNumnber
       ? CAMPAIGN_LIST_TYPES_ACTIONS.REQUEST_CAMPAIGN_ID
       : CAMPAIGN_LIST_TYPES_ACTIONS.REQUEST_MAIN_FILTER;
     const payload = campaignIdNumnber
-      ? { campaignIdNumnber }
+      ? { campaignId: campaignIdNumnber }
       : { ...campaignFilterState };
 
-    if (email && !campaignId) {
-      payload.user_id = await requestUser({ email });
-    } else if (!email) {
+    if (clearEmail && !campaignId) {
+      payload.user_id = await requestUser({ email: clearEmail });
+    } else if (!clearEmail) {
       payload.user_id = null;
     }
 
