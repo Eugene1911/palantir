@@ -3,7 +3,7 @@ import indigo from '@material-ui/core/colors/indigo';
 import { statuses } from './theme.common';
 
 const PRIMARY_COLOR = indigo[900]; // '#04084A';
-const SECONDARY_COLOR = '#cfe207';
+const SECONDARY_COLOR = '#04084a';
 
 export default createMuiTheme({
   palette: {
