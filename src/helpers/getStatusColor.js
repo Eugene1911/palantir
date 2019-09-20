@@ -22,7 +22,7 @@ function getStatusColor(status) {
         color = statuses.red;
         break;
       case CAMPAIGNS_STATUSES.UNAPPROVED:
-        color = statuses.blueLight;
+        color = statuses.red;
         break;
       case CAMPAIGNS_STATUSES.NO_FUNDS:
         color = statuses.redDark;
