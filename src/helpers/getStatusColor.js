@@ -19,7 +19,7 @@ function getStatusColor(status) {
         color = statuses.orangeDark;
         break;
       case CAMPAIGNS_STATUSES.REJECTED:
-        color = statuses.red;
+        color = statuses.blueLight;
         break;
       case CAMPAIGNS_STATUSES.UNAPPROVED:
         color = statuses.red;
