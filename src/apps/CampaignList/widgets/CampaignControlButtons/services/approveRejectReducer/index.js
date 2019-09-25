@@ -28,7 +28,7 @@ function useApproveRejectReducer(
   );
   const { approvStatus } = approveRejectState;
   const nextApproveStatus =
-    approvStatus === 'approved' ? 'rejected' : 'approve';
+    approvStatus === 'rejected' ? 'approve' : 'rejected';
   const onHandlerRejectCampaign = campaign => {
     rejectCampaignAction({
       campaign,
