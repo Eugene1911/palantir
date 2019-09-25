@@ -2,6 +2,7 @@ import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Tooltip from '@material-ui/core/Tooltip';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,16 +21,33 @@ function CampaignTableRow(row) {
     <TableRow className={statusClass.status} key={row.id}>
       <TableCell align="right">{row.id}</TableCell>
       <TableCell>
-        <Tooltip title="Campaign stats">
-          <IconButton
-            href={`${PAGE_PATH.ADVERTISER_CAMPAIGNS_STATISTIC}${row.id}`}
-            size="small"
-            target="_blank"
-            color="primary"
-          >
-            <BarChart fontSize="inherit" />
-          </IconButton>
-        </Tooltip>
+        <Grid
+          wrap="nowrap"
+          justify="space-between"
+          alignItems="flex-end"
+          container
+          spacing={2}
+        >
+          <Tooltip title="Campaign stats">
+            <IconButton
+              href={`${PAGE_PATH.ADVERTISER_CAMPAIGNS_STATISTIC}${row.id}`}
+              size="small"
+              target="_blank"
+              color="primary"
+            >
+              <BarChart fontSize="inherit" />
+            </IconButton>
+          </Tooltip>
+          {row.flat_rate ? (
+            <Tooltip title="Flat rate">
+              <IconButton style={{ cursor: 'default' }} size="small">
+                <TrendingUp fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            ''
+          )}
+        </Grid>
       </TableCell>
       <TableCell>
         <Link
@@ -37,7 +55,6 @@ function CampaignTableRow(row) {
           target="_blank"
           href={`${PAGE_PATH.ADVERTISER_CAMPAIGNS_EDIT}${row.id}`}
         >
-          {row.flat_rate && <TrendingUp fontSize="inherit" />}{' '}
           {row.name}
         </Link>
       </TableCell>
