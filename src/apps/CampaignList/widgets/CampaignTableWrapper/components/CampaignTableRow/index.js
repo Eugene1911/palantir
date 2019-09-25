@@ -5,6 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
+import TrendingUp from '@material-ui/icons/TrendingUp';
 import BarChart from '@material-ui/icons/BarChart';
 import { numberToFixed } from 'helpers/numberFormat';
 import PAGE_PATH from 'helpers/pagePath';
@@ -36,6 +37,7 @@ function CampaignTableRow(row) {
           target="_blank"
           href={`${PAGE_PATH.ADVERTISER_CAMPAIGNS_EDIT}${row.id}`}
         >
+          {row.flat_rate && <TrendingUp fontSize="inherit" />}{' '}
           {row.name}
         </Link>
       </TableCell>
