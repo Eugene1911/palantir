@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import TrendingUp from '@material-ui/icons/TrendingUp';
+import Lock from '@material-ui/icons/Lock';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import BarChart from '@material-ui/icons/BarChart';
 import { numberToFixed } from 'helpers/numberFormat';
 import PAGE_PATH from 'helpers/pagePath';
@@ -23,7 +25,7 @@ function CampaignTableRow(row) {
       <TableCell>
         <Grid
           wrap="nowrap"
-          justify="space-between"
+          justify="flex-start"
           alignItems="flex-end"
           container
           spacing={2}
@@ -42,6 +44,24 @@ function CampaignTableRow(row) {
             <Tooltip title="Flat rate">
               <IconButton style={{ cursor: 'default' }} size="small">
                 <TrendingUp fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            ''
+          )}
+          {row.exclusive ? (
+            <Tooltip title="Exclusive">
+              <IconButton style={{ cursor: 'default' }} size="small">
+                <Lock fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            ''
+          )}
+          {row.backup ? (
+            <Tooltip title="Backup">
+              <IconButton style={{ cursor: 'default' }} size="small">
+                <ArrowDownward fontSize="inherit" />
               </IconButton>
             </Tooltip>
           ) : (
