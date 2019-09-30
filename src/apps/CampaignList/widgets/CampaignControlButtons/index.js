@@ -6,7 +6,6 @@ import Archive from '@material-ui/icons/Archive';
 import FileCopy from '@material-ui/icons/FileCopy';
 import Tooltip from '@material-ui/core/Tooltip';
 import CampaignRejactDialog from 'sharedWidgets/CampaignRejactDialog';
-import { useTheme } from '@material-ui/styles';
 import CloneCampaignMenu from './components/CloneCampaignMenu';
 import useCloneMenuState from './services/cloneMenuState/useCloneMenuState';
 import useApproveRejectReducer from './services/approveRejectReducer';
@@ -19,7 +18,6 @@ import useCampaignPlayPauseReducer from './services/playPauseReducer/useCampaign
 import useRejectReasosnsState from './services/rejectReasosnsState';
 
 function CampaignControlButtons({ id, approved, status }) {
-  const { palette } = useTheme();
   const {
     isOpenDialogRejectReasosns,
     setDialogRejectReasosnsState,
@@ -106,12 +104,7 @@ function CampaignControlButtons({ id, approved, status }) {
         </Tooltip>
         <Tooltip title={titleStatusToolTip}>
           <Button
-            style={{
-              color:
-                campaignStatus === 'enabled'
-                  ? palette.statuses.orange
-                  : palette.statuses.green,
-            }}
+            variant="contained"
             onClick={() =>
               changeCampaignStatusHandler(id, campaignStatus)
             }
