@@ -22,3 +22,9 @@ export const CAMPAIGNS_STATUSES = {
   REJECTED: 'rejected',
   NO_FUNDS: 'no_funds',
 };
+
+// Projects name
+export const PROJECTS = {
+  trafficstars: 'trafficstars',
+  runative: 'runative',
+};
