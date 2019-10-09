@@ -19,11 +19,4 @@ export default createMuiTheme({
     statuses,
   },
   typography,
-  overrides: {
-    MuiTableCell: {
-      root: {
-        padding: '14px 7px 14px 7px',
-      },
-    },
-  },
 });
