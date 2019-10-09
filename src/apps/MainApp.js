@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import mainAppRoutes from 'helpers/mainAppRoutes';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import theme from 'themes/theme.trafficstars';
+import theme from 'config/theme';
 
 function MainApp() {
   return (
