@@ -57,6 +57,7 @@ function useCampaignListAppReducer() {
 
       if (!adFormat) {
         await requestAdFormat(campaignListAppReducerDispatch);
+        return;
       }
 
       if (campaignId) {
