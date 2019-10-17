@@ -8,6 +8,7 @@ import CampaignTableBody from './components/CampaignTableBody';
 import useCampaignListAppReducer from './services/useCampaignListAppReducer';
 import tableHeaderRows from './tableHeaderRows';
 import CampaignTableWrapperContext from './services/CampaignTableWrapperContext';
+import useStyles from './styles';
 
 function CampaignTableWrapper() {
   const {
@@ -19,6 +20,7 @@ function CampaignTableWrapper() {
     addCloneToListHandler,
     updateItemToCampaignList,
   } = useCampaignListAppReducer();
+  const classes = useStyles();
 
   return useMemo(() => {
     if (error) {
@@ -47,24 +49,27 @@ function CampaignTableWrapper() {
         <CampaignTableWrapperContext.Provider
           value={{ addCloneToListHandler, updateItemToCampaignList }}
         >
-          <Table>
-            <TableHeadMainSort
-              disabledSort={searchByCampaignId}
-              isFetching={isFetching}
-              rows={tableHeaderRows}
-              onChange={onChangeHandler}
-            />
-            <CampaignTableBody
-              cols={tableHeaderRows.length}
-              isFetching={isFetching}
-              data={data.response}
-            />
-          </Table>
+          <div className={classes.tableResponsive}>
+            <Table>
+              <TableHeadMainSort
+                disabledSort={searchByCampaignId}
+                isFetching={isFetching}
+                rows={tableHeaderRows}
+                onChange={onChangeHandler}
+              />
+              <CampaignTableBody
+                cols={tableHeaderRows.length}
+                isFetching={isFetching}
+                data={data.response}
+              />
+            </Table>
+          </div>
         </CampaignTableWrapperContext.Provider>
       </>
     );
   }, [
     addCloneToListHandler,
+    classes.tableResponsive,
     data,
     error,
     isFetching,
