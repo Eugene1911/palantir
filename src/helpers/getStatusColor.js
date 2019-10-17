@@ -1,5 +1,8 @@
 import { makeStyles } from '@material-ui/styles';
-import { CAMPAIGNS_STATUSES } from 'config/constants';
+import {
+  CAMPAIGNS_STATUSES,
+  CLIENT_STATUSES,
+} from 'config/constants';
 
 function getStatusColor(status) {
   return makeStyles(theme => {
@@ -9,6 +12,7 @@ function getStatusColor(status) {
     let color = null;
 
     switch (status) {
+      case CLIENT_STATUSES.ACTIVE:
       case CAMPAIGNS_STATUSES.ENABLED:
         color = statuses.green;
         break;
@@ -21,11 +25,16 @@ function getStatusColor(status) {
       case CAMPAIGNS_STATUSES.REJECTED:
         color = statuses.blueLight;
         break;
+      case CLIENT_STATUSES.FRAUD:
+      case CLIENT_STATUSES.INACTIVE:
       case CAMPAIGNS_STATUSES.UNAPPROVED:
         color = statuses.red;
         break;
       case CAMPAIGNS_STATUSES.NO_FUNDS:
         color = statuses.redDark;
+        break;
+      case CLIENT_STATUSES.PENDING:
+        color = statuses.grey;
         break;
       default:
         break;
