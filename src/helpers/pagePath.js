@@ -6,6 +6,7 @@ const PAGE_PATH = {
 
   // BACKOFFICE
   BACKOFFICE_CLIENT_RECORD: '/backoffice/client_record/',
+  CLIENT_LOGIN_AS: '/backoffice/login/user/',
 };
 
 export default PAGE_PATH;
