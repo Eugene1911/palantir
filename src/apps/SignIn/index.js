@@ -21,13 +21,13 @@ export default function SignIn() {
   } = useAuthReducer();
 
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           Sign in
         </Typography>
 
@@ -39,36 +39,36 @@ export default function SignIn() {
           onSubmit={event => onSubmitAuthForm(event, authForm)}
         >
           <TextField
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
-            id='email'
-            label='Email Address'
-            name='email'
+            id="email"
+            label="Email Address"
+            name="email"
             onChange={onChangeAuthFielsHandler}
-            autoComplete='email'
+            autoComplete="email"
             value={authForm.email}
             autoFocus
           />
           <TextField
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
-            name='password'
-            label='Password'
-            type='password'
-            id='password'
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
             onChange={onChangeAuthFielsHandler}
             value={authForm.password}
-            autoComplete='current-password'
+            autoComplete="current-password"
           />
           <Button
-            type='submit'
+            type="submit"
             fullWidth
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             className={classes.submit}
           >
             Sign In
