@@ -8,12 +8,12 @@ const routes = [
     filedirDest: `${paths.rootTemplateDest}/backoffice`,
     chunks: ['campaignsList'],
   },
-  // {
-  //   name: 'client_listing',
-  //   filedirSrc: `${paths.rootTemplateSrc}/backoffice`,
-  //   filedirDest: `${paths.rootTemplateDest}/backoffice`,
-  //   chunks: ['clientList'],
-  // },
+  {
+    name: 'client_listing',
+    filedirSrc: `${paths.rootTemplateSrc}/backoffice`,
+    filedirDest: `${paths.rootTemplateDest}/backoffice`,
+    chunks: ['clientList'],
+  },
 ];
 
 module.exports = routes.map(
