@@ -1,6 +1,8 @@
-import AppList from 'apps/AppList';
+/* eslint-disable import/no-cycle */
+import ClientListingApp from 'apps/ClientListing/app';
 import SignIn from 'apps/SignIn';
 import CampaignListApp from 'apps/CampaignList/app';
+import AppList from 'apps/AppList';
 
 const mainAppRoutes = [
   {
@@ -16,6 +18,11 @@ const mainAppRoutes = [
   {
     component: CampaignListApp,
     path: '/CampaignList',
+    exact: true,
+  },
+  {
+    component: ClientListingApp,
+    path: '/ClientListing',
     exact: true,
   },
 ];
