@@ -1,3 +1,5 @@
+import grey from '@material-ui/core/colors/grey';
+
 export const statuses = {
   green: '#78cd51',
   orange: '#e6af5f',
@@ -5,6 +7,7 @@ export const statuses = {
   red: '#ca5c54',
   redDark: '#943028',
   blueLight: '#b9e0ed',
+  grey: grey[400],
 };
 
 export const typography = {
@@ -24,5 +27,21 @@ export const typography = {
   },
   h5: {
     fontSize: 18,
+  },
+};
+
+export const overrides = {
+  MuiTableCell: {
+    root: {
+      padding: '14px 7px 14px 7px',
+    },
+  },
+};
+
+export const global = {
+  global: {
+    tableResponsive: {
+      overflowX: 'auto',
+    },
   },
 };

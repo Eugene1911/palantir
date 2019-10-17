@@ -1,11 +1,17 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import indigo from '@material-ui/core/colors/indigo';
-import { statuses, typography } from './theme.common';
+import {
+  statuses,
+  typography,
+  overrides,
+  global,
+} from './theme.common';
 
 const PRIMARY_COLOR = indigo[900]; // '#04084A';
 const SECONDARY_COLOR = '#04084a';
 
 export default createMuiTheme({
+  ...global,
   palette: {
     primary: {
       light: SECONDARY_COLOR,
@@ -19,4 +25,5 @@ export default createMuiTheme({
     statuses,
   },
   typography,
+  overrides,
 });
