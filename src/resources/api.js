@@ -8,6 +8,7 @@ import {
   CAMPAIGNS_ARCHIVE,
   CAMPAIGNS_REJECT_REASONS,
   CAMPAIGNS_DISAPPROVE,
+  CURRENCY_EXCHANGE,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -162,3 +163,10 @@ export const getPricingModel = async () => {
     return error;
   }
 };
+
+/**
+ * Currency exchange
+ * @param {Object} params
+ */
+export const currencyExchange = params =>
+  API.get(CURRENCY_EXCHANGE, { params });
