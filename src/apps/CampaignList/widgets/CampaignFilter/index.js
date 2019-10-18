@@ -40,7 +40,7 @@ function CampaignFilter() {
           container
           spacing={2}
         >
-          <Grid item xs>
+          <Grid item xs={12} sm={6} md>
             <TextField
               fullWidth
               label="Campaign ID"
@@ -49,7 +49,7 @@ function CampaignFilter() {
               onChange={onChangeCampaignFilterFielsHandler}
             />
           </Grid>
-          <Grid item xs>
+          <Grid item xs={12} sm={6} md>
             <TextField
               fullWidth
               label="E-mail"
@@ -58,7 +58,7 @@ function CampaignFilter() {
               onChange={onChangeCampaignFilterFielsHandler}
             />
           </Grid>
-          <Grid item xs>
+          <Grid item xs={12} sm={6} md>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="status">
                 Campaign status
@@ -79,7 +79,7 @@ function CampaignFilter() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid zeroMinWidth item xs>
+          <Grid zeroMinWidth item xs={12} sm={6} md>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="format_id">
                 Ad Format
@@ -115,7 +115,7 @@ function CampaignFilter() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs>
+          <Grid item xs={12} sm={6} md>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="pricing_model">
                 Pricing model

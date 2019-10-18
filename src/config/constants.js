@@ -23,8 +23,33 @@ export const CAMPAIGNS_STATUSES = {
   NO_FUNDS: 'no_funds',
 };
 
+// Client statuses
+export const CLIENT_STATUSES = {
+  PENDING: 'pending',
+  INACTIVE: 'inactive',
+  FRAUD: 'fraud',
+  ACTIVE: 'active',
+};
+
 // Projects name
 export const PROJECTS = {
   trafficstars: 'trafficstars',
   runative: 'runative',
 };
+
+// Load states
+export const LOAD_STATES = {
+  PENDING: 'pending',
+  DONE: 'done',
+  ERROR: 'error',
+  NOT_LOAD: 'not_load',
+};
+
+// Date
+export const DATE_MAIN_FORMAT = 'DD.MM.YYYY';
+
+// Users
+export const USERS_ROLES = {
+  MANAGER: 2,
+};
+export const MAX_COUNT_LOAD_USERS = 900;

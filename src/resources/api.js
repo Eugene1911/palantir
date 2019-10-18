@@ -165,6 +165,63 @@ export const getPricingModel = async () => {
 };
 
 /**
+ *  Client fiscal status
+ */
+export const getClientFiscalStatus = () =>
+  Promise.resolve([
+    {
+      name: 'Company',
+      value: 'company',
+    },
+    {
+      name: 'Individual',
+      value: 'individual',
+    },
+  ]);
+
+/**
+ *  Client statuses
+ */
+export const getClientStatuses = () =>
+  Promise.resolve([
+    {
+      name: 'Inactive',
+      value: 'inactive',
+    },
+    {
+      name: 'Active',
+      value: 'active',
+    },
+    {
+      name: 'Pending',
+      value: 'pending',
+    },
+    {
+      name: 'Fraud',
+      value: 'fraud',
+    },
+  ]);
+
+/**
+ *  Client roles
+ */
+export const getClientRols = () =>
+  Promise.resolve([
+    {
+      name: 'Advertiser',
+      value: 'advertiser',
+    },
+    {
+      name: 'Publisher',
+      value: 'publisher',
+    },
+    {
+      name: 'Manager',
+      value: 'manager',
+    },
+  ]);
+
+/**
  * Currency exchange
  * @param {Object} params
  */

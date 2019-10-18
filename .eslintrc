@@ -48,7 +48,8 @@
     "no-underscore-dangle": 1,
     "import/imports-first": ["error", "absolute-first"],
     "import/newline-after-import": "error",
-    "react/jsx-props-no-spreading": 1 
+    "react/jsx-props-no-spreading": 1,
+    "no-param-reassign": ["error", { "props": false }]
   },
   "globals": {
     "window": true,

@@ -5,6 +5,7 @@ const entries = {
     // require.resolve('react-dev-utils/webpackHotDevClient'),
     // require.resolve('react-scripts/config/polyfills'),
     `${paths.appSrc}/apps/CampaignList/index.js`,
+    // `${paths.appSrc}/apps/ClientList/index.js`,
   ],
   // stats: [
   // // require.resolve('react-dev-utils/webpackHotDevClient'),
