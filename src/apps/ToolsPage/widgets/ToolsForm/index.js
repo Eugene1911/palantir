@@ -15,6 +15,10 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import {
+  CURRENCY_EXCHANGE_DATE_FORMAT,
+  DATE_MAIN_FORMAT,
+} from 'config/constants';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -56,7 +60,7 @@ const ToolsForm = ({ CurrencyExchangeStore }) => {
 
   const onSubmit = () => {
     const params = {
-      date: format(date, 'yyyy-MM-dd'),
+      date: format(date, CURRENCY_EXCHANGE_DATE_FORMAT),
       usd: amount,
     };
     exchange(params, infoNotification);
@@ -82,7 +86,7 @@ const ToolsForm = ({ CurrencyExchangeStore }) => {
               margin="normal"
               id="date-picker-dialog"
               label="Date picker dialog"
-              format="MM/dd/yyyy"
+              format={DATE_MAIN_FORMAT}
               value={date}
               onChange={handleDateChange}
               KeyboardButtonProps={{
@@ -121,7 +125,7 @@ const ToolsForm = ({ CurrencyExchangeStore }) => {
         >
           {loading && (
             <CircularProgress
-              color="white"
+              color="inherit"
               size={20}
               className={classes.circular}
             />
@@ -136,7 +140,7 @@ const ToolsForm = ({ CurrencyExchangeStore }) => {
 ToolsForm.propTypes = {
   CurrencyExchangeStore: PropTypes.shape({
     amountInEuro: PropTypes.number,
-    exchange: PropTypes.number,
+    exchange: PropTypes.func,
     loading: PropTypes.bool,
     rate: PropTypes.number,
   }),

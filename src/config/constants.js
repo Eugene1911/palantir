@@ -46,7 +46,8 @@ export const LOAD_STATES = {
 };
 
 // Date
-export const DATE_MAIN_FORMAT = 'DD.MM.YYYY';
+export const DATE_MAIN_FORMAT = 'dd.MM.yyyy';
+export const CURRENCY_EXCHANGE_DATE_FORMAT = 'yyyy-MM-dd';
 
 // Users
 export const USERS_ROLES = {

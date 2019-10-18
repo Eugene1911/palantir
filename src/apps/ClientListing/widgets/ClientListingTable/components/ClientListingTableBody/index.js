@@ -1,5 +1,5 @@
 import React from 'react';
-import dayjs from 'dayjs';
+import { format } from 'date-fns';
 import { DATE_MAIN_FORMAT } from 'config/constants';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
@@ -29,7 +29,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
         >
           <TableCell align="right">{client.id}</TableCell>
           <TableCell>
-            {dayjs(client.last_login).format(DATE_MAIN_FORMAT)}
+            {format(new Date(client.last_login), DATE_MAIN_FORMAT)}
           </TableCell>
           <TableCell>
             <Tooltip title={`Login as ${client.email}`}>
@@ -56,7 +56,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
           </TableCell>
           <TableCell>{client.status}</TableCell>
           <TableCell>
-            {dayjs(client.created_at).format(DATE_MAIN_FORMAT)}
+            {format(new Date(client.created_at), DATE_MAIN_FORMAT)}
           </TableCell>
           <TableCell>{client.country_name}</TableCell>
           <TableCell>
@@ -80,7 +80,10 @@ function ClientListingTableBody({ clients, isPending, cols }) {
             )}
           </TableCell>
           <TableCell>
-            {dayjs(client.status_updated_at).format(DATE_MAIN_FORMAT)}
+            {format(
+              new Date(client.status_updated_at),
+              DATE_MAIN_FORMAT,
+            )}
           </TableCell>
           <TableCell align="right">
             {numberToFixed(client.balance, 3)}
