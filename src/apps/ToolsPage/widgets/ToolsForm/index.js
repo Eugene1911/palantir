@@ -85,7 +85,7 @@ const ToolsForm = ({ CurrencyExchangeStore }) => {
               className={classes.datePicker}
               margin="normal"
               id="date-picker-dialog"
-              label="Date picker dialog"
+              label="Date"
               format={DATE_MAIN_FORMAT}
               value={date}
               onChange={handleDateChange}
