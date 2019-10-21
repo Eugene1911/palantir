@@ -51,7 +51,8 @@ const ToolsForm = ({ CurrencyExchangeStore }) => {
   const viewAmount = amountInEuro ? amountInEuro.toFixed(2) : 0;
 
   const handleAmountChange = event => {
-    setAmount(event.target.value);
+    const { value } = event.target;
+    setAmount(value.replace(/[^\d]/g, ''));
   };
 
   const handleDateChange = selectedDate => {
