@@ -7,6 +7,7 @@ function campaignPlayPauseActions(
   newStatus,
   infoNotification,
   updateItemToCampaignList,
+  t,
 ) {
   dispatch({
     type: CAMPAIGN_PLAY_PAUSE_BUTTON_ACTIONS.BEGIN,
@@ -22,7 +23,9 @@ function campaignPlayPauseActions(
       updateItemToCampaignList(data);
       infoNotification({
         variant: 'success',
-        message: `Campaign was changed status to ${newStatus}`,
+        message: `${t(
+          'campaign_list:control_button.campaign_was_changed_status_to',
+        )} ${newStatus}`,
       });
     })
     .catch(({ response }) => {
@@ -33,7 +36,7 @@ function campaignPlayPauseActions(
 
       infoNotification({
         variant: 'error',
-        message: 'Something went wrong',
+        message: t('common:error.something_went_wrong'),
       });
     });
 }

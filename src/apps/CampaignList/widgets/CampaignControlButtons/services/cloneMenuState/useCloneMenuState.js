@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import { campaignCloneRequest } from './campaignCloneAction';
 import useCloneCampaignReducer from './useCloneCampaignReducer';
@@ -8,6 +9,7 @@ const campaignCloneMenuId = 'campaignCloneMenuId';
 const CONFIRM_MESSAGE = 'Are you sure ?';
 
 function useCloneMenuState(campaignId) {
+  const { t } = useTranslation();
   const infoNotification = useHookInfoNotification();
   const {
     cloneCampaignState,
@@ -29,6 +31,7 @@ function useCloneMenuState(campaignId) {
       addCloneToListHandler,
       cloneCampaignDispatch,
       infoNotification,
+      t,
     });
   };
 

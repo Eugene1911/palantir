@@ -6,12 +6,13 @@ import NoData from 'sharedComponents/NoData';
 import TablePaginationMain from 'sharedComponents/TablePaginationMain';
 import TableHeadMainSort from 'sharedComponents/TableHeadMainSort';
 import ClientListingTableBody from './components/ClientListingTableBody';
-import tableHeaderRows from './tableHeaderRows';
+import useTableHeaderRows from './tableHeaderRows';
 import useClientListingTable from './services/useClientListingTable';
 import useStyles from './styles';
 
 const ClientListingTable = inject('clientListingStore')(
   observer(({ clientListingStore }) => {
+    const tableHeaderRows = useTableHeaderRows();
     const {
       setRequestGetClients,
       clientsList,

@@ -1,4 +1,5 @@
 import { useReducer, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import CampaignTableWrapperContext from 'apps/CampaignList/widgets/CampaignTableWrapper/services/CampaignTableWrapperContext';
 import {
@@ -8,6 +9,7 @@ import {
 import campaignPlayPauseActions from './campaignPlayPauseActions';
 
 function useCampaignPlayPauseReducer(initStatus) {
+  const { t } = useTranslation();
   const { updateItemToCampaignList } = useContext(
     CampaignTableWrapperContext,
   );
@@ -34,11 +36,12 @@ function useCampaignPlayPauseReducer(initStatus) {
       newStatus,
       infoNotification,
       updateItemToCampaignList,
+      t,
     );
   };
-  const titleStatusToolTip = `Change status to ${nextCampaignStatus(
-    campaignStatus,
-  )}`;
+  const titleStatusToolTip = `${t(
+    'campaign_list:control_button.change_status_to',
+  )} ${nextCampaignStatus(campaignStatus)}`;
 
   return {
     campaignStatus,
