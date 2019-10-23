@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from 'date-fns';
+import format from 'date-fns/format';
 import { DATE_MAIN_FORMAT } from 'config/constants';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';

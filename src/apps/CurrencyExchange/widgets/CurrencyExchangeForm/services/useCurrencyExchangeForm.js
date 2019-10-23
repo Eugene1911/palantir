@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { format } from 'date-fns';
+import format from 'date-fns/format';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import {
   CURRENCY_EXCHANGE_DATE_FORMAT,
