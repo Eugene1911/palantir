@@ -8,7 +8,6 @@ import CampaignTableBody from './components/CampaignTableBody';
 import useCampaignListAppReducer from './services/useCampaignListAppReducer';
 import tableHeaderRows from './tableHeaderRows';
 import CampaignTableWrapperContext from './services/CampaignTableWrapperContext';
-import useStyles from './styles';
 
 function CampaignTableWrapper() {
   const {
@@ -20,7 +19,6 @@ function CampaignTableWrapper() {
     addCloneToListHandler,
     updateItemToCampaignList,
   } = useCampaignListAppReducer();
-  const classes = useStyles();
 
   return useMemo(() => {
     if (error) {
@@ -49,7 +47,7 @@ function CampaignTableWrapper() {
         <CampaignTableWrapperContext.Provider
           value={{ addCloneToListHandler, updateItemToCampaignList }}
         >
-          <div className={classes.tableResponsive}>
+          <div className="global-table-responsive">
             <Table>
               <TableHeadMainSort
                 disabledSort={searchByCampaignId}
@@ -69,7 +67,6 @@ function CampaignTableWrapper() {
     );
   }, [
     addCloneToListHandler,
-    classes.tableResponsive,
     data,
     error,
     isFetching,

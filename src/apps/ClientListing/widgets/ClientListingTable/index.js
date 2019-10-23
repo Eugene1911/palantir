@@ -8,7 +8,6 @@ import TableHeadMainSort from 'sharedComponents/TableHeadMainSort';
 import ClientListingTableBody from './components/ClientListingTableBody';
 import tableHeaderRows from './tableHeaderRows';
 import useClientListingTable from './services/useClientListingTable';
-import useStyles from './styles';
 
 const ClientListingTable = inject('clientListingStore')(
   observer(({ clientListingStore }) => {
@@ -23,8 +22,6 @@ const ClientListingTable = inject('clientListingStore')(
       return <NoData />;
     }
 
-    const classes = useStyles();
-
     return (
       <>
         <CardContent>
@@ -37,7 +34,7 @@ const ClientListingTable = inject('clientListingStore')(
           />
         </CardContent>
 
-        <div className={classes.tableResponsive}>
+        <div className="global-table-responsive">
           <Table>
             <TableHeadMainSort
               onChange={setRequestGetClients}

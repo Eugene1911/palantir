@@ -54,7 +54,9 @@ function ClientListingTableBody({ clients, isPending, cols }) {
               {client.email}
             </a>
           </TableCell>
-          <TableCell>{client.status}</TableCell>
+          <TableCell className="global-first-character-uppercase">
+            {client.status}
+          </TableCell>
           <TableCell>
             {dayjs(client.created_at).format(DATE_MAIN_FORMAT)}
           </TableCell>
@@ -64,7 +66,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
             {!client.company_name &&
               `${client.first_name} ${client.last_name}`}
           </TableCell>
-          <TableCell>
+          <TableCell className="global-first-character-uppercase">
             {client.roles &&
               client.roles.map(role => role).join(',\n')}
           </TableCell>
