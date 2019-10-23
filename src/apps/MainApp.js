@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import mainAppRoutes from 'helpers/mainAppRoutes';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import theme from 'config/theme';
 
 function MainApp() {
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <div
         style={{
           margin: '0 auto',
@@ -19,7 +19,7 @@ function MainApp() {
           ))}
         </Router>
       </div>
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 }
 

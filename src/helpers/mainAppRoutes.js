@@ -2,7 +2,7 @@
 import ClientListingApp from 'apps/ClientListing/app';
 import SignIn from 'apps/SignIn';
 import CampaignListApp from 'apps/CampaignList/app';
-import ToolsPage from 'apps/ToolsPage/app';
+import CurrencyExchange from 'apps/CurrencyExchange/app';
 import AppList from 'apps/AppList';
 
 const mainAppRoutes = [
@@ -22,8 +22,8 @@ const mainAppRoutes = [
     exact: true,
   },
   {
-    component: ToolsPage,
-    path: '/ToolsPage',
+    component: CurrencyExchange,
+    path: '/CurrencyExchange',
   },
   {
     component: ClientListingApp,

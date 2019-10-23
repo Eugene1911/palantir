@@ -11,5 +11,4 @@ export const CAMPAIGNS_REJECT_REASONS = `${API_VERSION_1_1}campaigns/reject_reas
 export const CAMPAIGNS_DISAPPROVE = `${API_VERSION_1_1}campaigns/{id}/disapprove`;
 export const FORMATS = `${API_VERSION_1_1}formats`;
 export const USERS = `${API_VERSION_1_1}users`;
-
-export const CURRENCY_EXCHANGE = `${API_VERSION_1_1}tools/currency_exchange`;
+export const TOOLS_CURRENCY_EXCHANGE = `${API_VERSION_1_1}tools/currency_exchange`;

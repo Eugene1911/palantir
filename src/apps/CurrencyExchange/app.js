@@ -6,8 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import { SnackbarProvider } from 'notistack';
 import { MAX_COUNT_SNACK } from 'config/constants';
 import { Provider } from 'mobx-react';
-import CurrencyExchangeStore from 'stors/CurrencyExchangeStore';
-import ToolsForm from './widgets/ToolsForm';
+import CurrencyExchangeStore from './stores/CurrencyExchangeStore';
+import CurrencyExchangeForm from './widgets/CurrencyExchangeForm';
 
 const store = {
   CurrencyExchangeStore: CurrencyExchangeStore.create(),
@@ -22,7 +22,7 @@ function ToolsApp() {
             <Typography variant="h5" component="h3" gutterBottom>
               CURRENCY EXCHANGE
             </Typography>
-            <ToolsForm />
+            <CurrencyExchangeForm />
           </CardContent>
         </SnackbarProvider>
       </Paper>

@@ -15,6 +15,11 @@ import getStatusColor from 'helpers/getStatusColor';
 import getClientFiscalStatusIcon from './services/getClientFiscalStatusIcon';
 import getEstimatedFilter from './services/getEstimatedFilter';
 
+const formatDate = (date, dateFormat) => {
+  const dateObject = new Date(date);
+  return format(dateObject, dateFormat);
+};
+
 function ClientListingTableBody({ clients, isPending, cols }) {
   if (isPending) {
     return <TableLoader cols={cols} />;
@@ -29,7 +34,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
         >
           <TableCell align="right">{client.id}</TableCell>
           <TableCell>
-            {format(new Date(client.last_login), DATE_MAIN_FORMAT)}
+            {formatDate(client.last_login, DATE_MAIN_FORMAT)}
           </TableCell>
           <TableCell>
             <Tooltip title={`Login as ${client.email}`}>
@@ -56,7 +61,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
           </TableCell>
           <TableCell>{client.status}</TableCell>
           <TableCell>
-            {format(new Date(client.created_at), DATE_MAIN_FORMAT)}
+            {formatDate(client.created_at, DATE_MAIN_FORMAT)}
           </TableCell>
           <TableCell>{client.country_name}</TableCell>
           <TableCell>
@@ -80,10 +85,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
             )}
           </TableCell>
           <TableCell>
-            {format(
-              new Date(client.status_updated_at),
-              DATE_MAIN_FORMAT,
-            )}
+            {formatDate(client.status_updated_at, DATE_MAIN_FORMAT)}
           </TableCell>
           <TableCell align="right">
             {numberToFixed(client.balance, 3)}

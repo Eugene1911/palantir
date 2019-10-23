@@ -54,3 +54,6 @@ export const USERS_ROLES = {
   MANAGER: 2,
 };
 export const MAX_COUNT_LOAD_USERS = 900;
+
+// Regular expressions
+export const REGEXP_ONLY_NUMBERS = /[^\d]/g;
