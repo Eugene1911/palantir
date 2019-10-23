@@ -37,11 +37,3 @@ export const overrides = {
     },
   },
 };
-
-export const global = {
-  global: {
-    tableResponsive: {
-      overflowX: 'auto',
-    },
-  },
-};
