@@ -12,7 +12,7 @@ const routes = [
     name: 'client_listing',
     filedirSrc: `${paths.rootTemplateSrc}/backoffice`,
     filedirDest: `${paths.rootTemplateDest}/backoffice`,
-    chunks: ['clientList'],
+    chunks: ['clientListing'],
   },
 ];
 
