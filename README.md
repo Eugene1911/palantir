@@ -5,7 +5,8 @@
 
 ## Build app
 
-`npm run build:trafficstars npm run build:runative`
+`npm run build:trafficstars`
+`npm run build:runative`
 
 `"scripts": { "start": "react-app-rewired start", "build": "react-app-rewired build", "test": "react-app-rewired test --env=jsdom", "eject": "react-scripts eject" },`
 

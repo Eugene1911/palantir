@@ -105,7 +105,7 @@ function CampaignTableRow(row) {
       <TableCell align="right">
         {numberToFixed(row.price, 3)}
       </TableCell>
-      <TableCell style={{ textTransform: 'capitalize' }}>
+      <TableCell className="global-first-character-uppercase">
         {getUserCampaignStatus(row.status)}
       </TableCell>
       <TableCell align="right">
