@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { SnackbarProvider } from 'notistack';
 import { MAX_COUNT_SNACK } from 'config/constants';
 import { Provider } from 'mobx-react';
+import globalStyles from 'themes/global.styles';
 import ClientListingFilter from './widgets/ClientListingFilter';
 import ClientListingTable from './widgets/ClientListingTable';
 import ClientListingStore from './stores/ClientListingStore';
@@ -15,6 +16,8 @@ const store = {
 };
 
 function ClientListingApp() {
+  globalStyles();
+
   return (
     <Provider {...store}>
       <Paper>

@@ -7,6 +7,7 @@ import { SnackbarProvider } from 'notistack';
 import { MAX_COUNT_SNACK } from 'config/constants';
 import { Provider } from 'mobx-react';
 import { RejectReasonsStore } from 'stors/RejectReasonsStore';
+import globalStyles from 'themes/global.styles';
 import CampaignFilter from './widgets/CampaignFilter';
 import CampaignTableWrapper from './widgets/CampaignTableWrapper';
 import { CampaignListAppProvider } from './services/CampaignListAppContext';
@@ -16,6 +17,8 @@ const store = {
 };
 
 function CampaignListApp() {
+  globalStyles();
+
   return (
     <Provider {...store}>
       <Paper>
