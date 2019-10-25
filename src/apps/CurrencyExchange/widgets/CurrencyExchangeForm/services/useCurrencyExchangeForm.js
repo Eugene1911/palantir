@@ -1,41 +1,42 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import format from 'date-fns/format';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import {
   CURRENCY_EXCHANGE_DATE_FORMAT,
+  REGEXP_ONLY_NUMBERS,
   LOAD_STATES,
 } from 'config/constants';
-import { leaveOnlyNumbers } from 'helpers/stringFormat';
-import { initCurrencyExchangeStore } from '../../../stores/CurrencyExchangeStore';
+import { replaceSubstring } from 'helpers/stringFormat';
 
 function useCurrencyExchangeForm(CurrencyExchangeStore) {
-  const { amount, exchangeRateDate } = initCurrencyExchangeStore;
   const {
-    rate,
-    amountInEuro,
+    currencyExchangeFormData: {
+      rate,
+      amountInEuro,
+      amount,
+      exchangeRateDate,
+    },
     exchange,
     currencyExchangeState,
   } = CurrencyExchangeStore;
-
   const infoNotification = useHookInfoNotification();
   const isPending = currencyExchangeState === LOAD_STATES.PENDING;
-
-  const [values, setValue] = React.useState({
+  const [formValues, setFormValue] = useState({
     amount,
     exchangeRateDate,
   });
 
   const handleAmountChange = event => {
     const { value } = event.target;
-    setValue({
-      ...values,
-      amount: leaveOnlyNumbers(value),
+    setFormValue({
+      ...formValues,
+      amount: replaceSubstring(REGEXP_ONLY_NUMBERS, value),
     });
   };
 
   const handleDateChange = selectedDate => {
-    setValue({
-      ...values,
+    setFormValue({
+      ...formValues,
       exchangeRateDate: selectedDate,
     });
   };
@@ -43,10 +44,10 @@ function useCurrencyExchangeForm(CurrencyExchangeStore) {
   const onSubmit = () => {
     const params = {
       date: format(
-        values.exchangeRateDate,
+        formValues.exchangeRateDate,
         CURRENCY_EXCHANGE_DATE_FORMAT,
       ),
-      usd: values.amount,
+      usd: formValues.amount,
     };
     exchange(params);
   };
@@ -58,7 +59,7 @@ function useCurrencyExchangeForm(CurrencyExchangeStore) {
         message: 'Something went wrong',
       });
     }
-  });
+  }, [currencyExchangeState, infoNotification]);
 
   return {
     isPending,
@@ -67,7 +68,7 @@ function useCurrencyExchangeForm(CurrencyExchangeStore) {
     handleAmountChange,
     rate,
     amountInEuro,
-    values,
+    formValues,
   };
 }
 

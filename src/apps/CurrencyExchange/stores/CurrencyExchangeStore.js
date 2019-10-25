@@ -3,31 +3,26 @@ import { toolsCurrencyExchange } from 'resources/api';
 import { LOAD_STATES } from 'config/constants';
 import { numberToFixed } from '../../../helpers/numberFormat';
 
-const today = new Date();
 const initCurrencyExchangeStore = {
   amount: 0,
-  exchangeRateDate: today,
+  exchangeRateDate: new Date(),
   rate: 0,
   amountInEuro: '0',
-  currencyExchangeState: LOAD_STATES.DONE,
 };
-const {
-  rate: initRate,
-  amountInEuro: initAmountInEuro,
-  currencyExchangeState: initCurrencyExchangeState,
-} = initCurrencyExchangeStore;
 
 export default types
   .model('CurrencyExchangeStore', {
-    rate: types.optional(types.number, initRate),
-    amountInEuro: types.optional(types.string, initAmountInEuro),
+    currencyExchangeFormData: types.optional(
+      types.frozen(),
+      initCurrencyExchangeStore,
+    ),
     currencyExchangeState: types.optional(
       types.enumeration('State', [
         LOAD_STATES.PENDING,
         LOAD_STATES.DONE,
         LOAD_STATES.ERROR,
       ]),
-      initCurrencyExchangeState,
+      LOAD_STATES.DONE,
     ),
   })
   .actions(self => ({
@@ -37,14 +32,23 @@ export default types
         const {
           data: { rate, converted_in_eur },
         } = yield toolsCurrencyExchange(params);
-        self.rate = rate;
-        self.amountInEuro = numberToFixed(converted_in_eur, 2);
+
+        self.setCurrencyExchangeFormData({
+          rate,
+          amountInEuro: numberToFixed(converted_in_eur, 2),
+        });
         self.currencyExchangeState = LOAD_STATES.DONE;
       } catch (error) {
         console.error('Failed to exchange currency', error);
         self.currencyExchangeState = LOAD_STATES.ERROR;
       }
     }),
+    setCurrencyExchangeFormData(newParams) {
+      self.currencyExchangeFormData = {
+        ...self.currencyExchangeFormData,
+        ...newParams,
+      };
+    },
   }));
 
 export { initCurrencyExchangeStore };
