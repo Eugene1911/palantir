@@ -1,5 +1,6 @@
 export const replaceSubstring = (regexp, value) => {
-  return regexp && value && typeof value === 'string'
-    ? value.replace(regexp, '')
-    : '';
+  if (value && regexp && typeof value === 'string') {
+    return value.replace(regexp, '');
+  }
+  return '';
 };
