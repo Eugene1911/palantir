@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import useStyles from './styles';
 
-function ButtonWithLoading({ isPending, onClick }) {
+function ButtonWithLoading({ isPending, onClick, label }) {
   const classes = useStyles();
 
   return (
@@ -16,7 +16,7 @@ function ButtonWithLoading({ isPending, onClick }) {
         onClick={onClick}
         fullWidth
       >
-        Accept terms
+        {label}
       </Button>
       {isPending && (
         <CircularProgress
@@ -30,6 +30,7 @@ function ButtonWithLoading({ isPending, onClick }) {
 
 ButtonWithLoading.propTypes = {
   isPending: PropTypes.bool,
+  label: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

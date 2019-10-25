@@ -13,9 +13,11 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { DATE_MAIN_FORMAT } from 'config/constants';
+import { useTranslation, withTranslation } from 'react-i18next';
 import useCurrencyExchangeForm from './services/useCurrencyExchangeForm';
 
 const CurrencyExchangeForm = ({ CurrencyExchangeStore }) => {
+  const { t } = useTranslation();
   const {
     isPending,
     onSubmit,
@@ -24,7 +26,7 @@ const CurrencyExchangeForm = ({ CurrencyExchangeStore }) => {
     rate,
     amountInEuro,
     formValues,
-  } = useCurrencyExchangeForm(CurrencyExchangeStore);
+  } = useCurrencyExchangeForm(CurrencyExchangeStore, t);
 
   return (
     <Grid
@@ -38,7 +40,7 @@ const CurrencyExchangeForm = ({ CurrencyExchangeStore }) => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Amount USD"
+                label={t('currency_exchange:form.amount')}
                 value={formValues.amount}
                 onChange={handleAmountChange}
                 margin="normal"
@@ -50,7 +52,7 @@ const CurrencyExchangeForm = ({ CurrencyExchangeStore }) => {
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     margin="normal"
-                    label="Date"
+                    label={t('currency_exchange:form.date')}
                     format={DATE_MAIN_FORMAT}
                     value={formValues.exchangeRateDate}
                     onChange={handleDateChange}
@@ -67,7 +69,9 @@ const CurrencyExchangeForm = ({ CurrencyExchangeStore }) => {
             <Box p={3} mb={2}>
               <Grid container spacing={2}>
                 <Grid item xs={6} sm={4}>
-                  <Typography color="textSecondary">Rate</Typography>
+                  <Typography color="textSecondary">
+                    {t('currency_exchange:form.rate')}
+                  </Typography>
                 </Grid>
                 <Grid item xs={6} sm={6}>
                   <Typography>{rate}</Typography>
@@ -76,7 +80,7 @@ const CurrencyExchangeForm = ({ CurrencyExchangeStore }) => {
               <Grid container spacing={2}>
                 <Grid item xs={6} sm={4}>
                   <Typography color="textSecondary">
-                    Amount in EUR
+                    {t('currency_exchange:form.amount_in_eur')}
                   </Typography>
                 </Grid>
                 <Grid item xs={6} sm={8}>
@@ -89,6 +93,7 @@ const CurrencyExchangeForm = ({ CurrencyExchangeStore }) => {
             <ButtonWithLoading
               isPending={isPending}
               onClick={onSubmit}
+              label={t('currency_exchange:form.accept_terms')}
             />
           </Grid>
         </form>
@@ -109,6 +114,6 @@ CurrencyExchangeForm.propTypes = {
   }).isRequired,
 };
 
-export default inject('CurrencyExchangeStore')(
-  observer(CurrencyExchangeForm),
+export default withTranslation(['currency_exchange'])(
+  inject('CurrencyExchangeStore')(observer(CurrencyExchangeForm)),
 );

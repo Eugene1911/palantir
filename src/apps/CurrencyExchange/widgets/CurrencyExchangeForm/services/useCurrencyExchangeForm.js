@@ -8,7 +8,7 @@ import {
 } from 'config/constants';
 import { replaceSubstring } from 'helpers/stringFormat';
 
-function useCurrencyExchangeForm(CurrencyExchangeStore) {
+function useCurrencyExchangeForm(CurrencyExchangeStore, t) {
   const {
     currencyExchangeFormData: {
       rate,
@@ -56,10 +56,12 @@ function useCurrencyExchangeForm(CurrencyExchangeStore) {
     if (currencyExchangeState === LOAD_STATES.ERROR) {
       infoNotification({
         variant: 'error',
-        message: 'Something went wrong',
+        message: t(
+          'currency_exchange:notification.something_went_wrong',
+        ),
       });
     }
-  }, [currencyExchangeState, infoNotification]);
+  }, [currencyExchangeState, infoNotification, t]);
 
   return {
     isPending,
