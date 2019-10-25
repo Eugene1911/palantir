@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -13,6 +14,7 @@ import useClientListingFilter from './services/useClientListingFilter';
 
 const ClientListingFilter = inject('clientListingStore')(
   observer(({ clientListingStore }) => {
+    const { t } = useTranslation();
     const {
       filterStore,
       clientFilterState,
@@ -35,7 +37,7 @@ const ClientListingFilter = inject('clientListingStore')(
           <Grid item xs={12} sm={6} md>
             <TextField
               fullWidth
-              label="ID"
+              label={t('common:form.id')}
               name="id"
               value={clientFilterState.id}
               onChange={onChangeClientFilterFielsHandler}
@@ -44,7 +46,7 @@ const ClientListingFilter = inject('clientListingStore')(
           <Grid item xs={12} sm={6} md>
             <TextField
               fullWidth
-              label="E-mail"
+              label={t('common:form.e_mail')}
               name="email"
               value={clientFilterState.email}
               onChange={onChangeClientFilterFielsHandler}
@@ -53,7 +55,7 @@ const ClientListingFilter = inject('clientListingStore')(
           <Grid item xs={12} sm={6} md>
             <TextField
               fullWidth
-              label="Company name"
+              label={t('client_listing:form.company_name')}
               name="company_name"
               value={clientFilterState.company_name}
               onChange={onChangeClientFilterFielsHandler}
@@ -62,7 +64,7 @@ const ClientListingFilter = inject('clientListingStore')(
           <Grid item xs={12} sm={6} md>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="fiscal_status">
-                Company / Individual status
+                {t('client_listing:form.company_individual_status')}
               </InputLabel>
 
               <Select
@@ -71,7 +73,7 @@ const ClientListingFilter = inject('clientListingStore')(
                 onChange={onChangeClientFilterFielsHandler}
                 value={clientFilterState.fiscal_status}
               >
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {filterStore.resources.clientFiscalStatus.map(
                   ({ name, value }) => (
                     <MenuItem key={value} value={value}>
@@ -85,7 +87,7 @@ const ClientListingFilter = inject('clientListingStore')(
           <Grid item xs={12} sm={6} md>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="status">
-                Status
+                {t('client_listing:form.status')}
               </InputLabel>
 
               <Select
@@ -94,7 +96,7 @@ const ClientListingFilter = inject('clientListingStore')(
                 onChange={onChangeClientFilterFielsHandler}
                 value={clientFilterState.status}
               >
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {filterStore.resources.clientStatuses.map(
                   ({ name, value }) => (
                     <MenuItem key={value} value={value}>
@@ -108,7 +110,7 @@ const ClientListingFilter = inject('clientListingStore')(
           <Grid item xs={12} sm={6} md>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="account_manager_id">
-                Managers
+                {t('client_listing:form.managers')}
               </InputLabel>
 
               <Select
@@ -117,7 +119,7 @@ const ClientListingFilter = inject('clientListingStore')(
                 onChange={onChangeClientFilterFielsHandler}
                 value={clientFilterState.account_manager_id}
               >
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {filterStore.resources.managers.map(
                   ({ email, id }) => (
                     <MenuItem key={id} value={id}>
@@ -131,7 +133,7 @@ const ClientListingFilter = inject('clientListingStore')(
           <Grid item xs>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="role">
-                Role
+                {t('client_listing:form.role')}
               </InputLabel>
 
               <Select
@@ -140,7 +142,7 @@ const ClientListingFilter = inject('clientListingStore')(
                 onChange={onChangeClientFilterFielsHandler}
                 value={clientFilterState.role}
               >
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {filterStore.resources.clientRols.map(
                   ({ name, value }) => (
                     <MenuItem key={value} value={value}>
@@ -153,7 +155,7 @@ const ClientListingFilter = inject('clientListingStore')(
           </Grid>
           <Grid item>
             <Button type="submit" variant="contained" color="primary">
-              Filter
+              {t('common:form.button_filter')}
             </Button>
           </Grid>
         </Grid>

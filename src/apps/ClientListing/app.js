@@ -1,15 +1,11 @@
 import 'typeface-roboto';
-import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import CardContent from '@material-ui/core/CardContent';
-import { SnackbarProvider } from 'notistack';
-import { MAX_COUNT_SNACK } from 'config/constants';
+import 'config/i18n';
+import React, { Suspense } from 'react';
 import { Provider } from 'mobx-react';
 import globalStyles from 'themes/global.styles';
-import ClientListingFilter from './widgets/ClientListingFilter';
-import ClientListingTable from './widgets/ClientListingTable';
+import SuspenseFallbackMain from 'sharedComponents/SuspenseFallbackMain';
 import ClientListingStore from './stores/ClientListingStore';
+import ClientListingMain from './widgets/ClientListingMain';
 
 const store = {
   clientListingStore: ClientListingStore.create(),
@@ -20,17 +16,9 @@ function ClientListingApp() {
 
   return (
     <Provider {...store}>
-      <Paper>
-        <SnackbarProvider maxSnack={MAX_COUNT_SNACK}>
-          <CardContent>
-            <Typography variant="h5" component="h3" gutterBottom>
-              CLIENT LISTING
-            </Typography>
-            <ClientListingFilter />
-          </CardContent>
-          <ClientListingTable />
-        </SnackbarProvider>
-      </Paper>
+      <Suspense fallback={<SuspenseFallbackMain />}>
+        <ClientListingMain />
+      </Suspense>
     </Provider>
   );
 }

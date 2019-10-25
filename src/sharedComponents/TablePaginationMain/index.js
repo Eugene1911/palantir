@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import TablePagination from '@material-ui/core/TablePagination';
 import { PAGINATIONS_ROWS_PER_PAGE } from 'config/constants';
 import PaginationLoader from '../loaders/PaginationLoader';
@@ -13,6 +14,7 @@ function TablePaginationMain({
   onChange,
   isHidden,
 }) {
+  const { t } = useTranslation();
   const classes = useStyles();
   const START_PAGE_FROM_ZERO = 1;
 
@@ -22,6 +24,7 @@ function TablePaginationMain({
 
   return (
     <TablePagination
+      labelRowsPerPage={t('common:pagination.rows_per_page')}
       component="div"
       className={isHidden ? classes.hidden : ''}
       page={page - START_PAGE_FROM_ZERO}
