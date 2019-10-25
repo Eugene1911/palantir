@@ -6,10 +6,11 @@ import TableHeadMainSort from 'sharedComponents/TableHeadMainSort';
 import CardContent from '@material-ui/core/CardContent';
 import CampaignTableBody from './components/CampaignTableBody';
 import useCampaignListAppReducer from './services/useCampaignListAppReducer';
-import tableHeaderRows from './tableHeaderRows';
+import useTableHeaderRows from './tableHeaderRows';
 import CampaignTableWrapperContext from './services/CampaignTableWrapperContext';
 
 function CampaignTableWrapper() {
+  const tableHeaderRows = useTableHeaderRows();
   const {
     isFetching,
     error,
@@ -72,6 +73,7 @@ function CampaignTableWrapper() {
     isFetching,
     onChangeHandler,
     searchByCampaignId,
+    tableHeaderRows,
     updateItemToCampaignList,
   ]);
 }

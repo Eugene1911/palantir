@@ -1,4 +1,5 @@
 import { useReducer, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import CampaignTableWrapperContext from 'apps/CampaignList/widgets/CampaignTableWrapper/services/CampaignTableWrapperContext';
 import {
@@ -15,6 +16,7 @@ function useApproveRejectReducer(
   id,
   setDialogRejectReasosnsState,
 ) {
+  const { t } = useTranslation();
   const { updateItemToCampaignList } = useContext(
     CampaignTableWrapperContext,
   );
@@ -46,6 +48,7 @@ function useApproveRejectReducer(
         approveRejectDispath,
         infoNotification,
         updateItemToCampaignList,
+        t,
       });
     }
   };

@@ -1,0 +1,29 @@
+{
+  "title": "CAMPAIGN LIST",
+  "filter": {
+    "campaign_id": "Campaign ID",
+    "campaign_status": "Campaign status",
+    "pricing_model": "Pricing model",
+    "flat_rate": "Flat rate"
+  },
+  "table_header": {
+    "id": "ID",
+    "name": "Name",
+    "user": "User",
+    "pricing_model": "Pricing model",
+    "daily_spending": "Daily spending",
+    "ad_format": "Ad format",
+    "price": "Price",
+    "status": "Status"
+  },
+  "control_button": {
+    "archive": "Archive",
+    "change_to": "Change to",
+    "clone_campaign": "Clone Campaign",
+    "campaign_was_changed_status_to": "Campaign was changed status to",
+    "campaign_was_archived": "Campaign was archived",
+    "campaign_was_be_cloned_as_prime": "Campaign was be cloned as Prime",
+    "сampaign_was_be_cloned": "Campaign was be cloned",
+    "change_status_to": "Change status to"
+  }
+}

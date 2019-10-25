@@ -6,6 +6,7 @@ export function campaignCloneAsRonRequest({
   addCloneToListHandler,
   cloneCampaignDispatch,
   infoNotification,
+  t,
 }) {
   cloneCampaignDispatch({
     type: CLONE_CAMPAIGN_TYPE.BEGIN,
@@ -18,7 +19,9 @@ export function campaignCloneAsRonRequest({
       });
       infoNotification({
         variant: 'success',
-        message: 'Campaign was be cloned',
+        message: t(
+          'campaign_list:control_button.сampaign_was_be_cloned',
+        ),
       });
       addCloneToListHandler(data);
     })
@@ -28,7 +31,7 @@ export function campaignCloneAsRonRequest({
       });
       infoNotification({
         variant: 'error',
-        message: 'Something went wrong',
+        message: t('common:error.something_went_wrong'),
       });
     });
 }
@@ -37,6 +40,7 @@ export function campaignSaveAsRequest({
   addCloneToListHandler,
   cloneCampaignDispatch,
   infoNotification,
+  t,
 }) {
   const defaultCloneParams = {
     disabled_applications: [],
@@ -62,7 +66,9 @@ export function campaignSaveAsRequest({
       addCloneToListHandler(data);
       infoNotification({
         variant: 'success',
-        message: 'Campaign was be cloned as Prime',
+        message: t(
+          'campaign_list:control_button.campaign_was_be_cloned_as_prime',
+        ),
       });
     })
     .catch(() => {
@@ -71,7 +77,7 @@ export function campaignSaveAsRequest({
       });
       infoNotification({
         variant: 'error',
-        message: 'Something went wrong',
+        message: t('common:error.something_went_wrong'),
       });
     });
 }

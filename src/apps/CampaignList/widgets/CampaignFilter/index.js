@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -14,6 +15,7 @@ import useCampaignFilterResourceReducer from './services/campaignFilterResourcsR
 import useCampaignFilterState from './services/campaignFilterState';
 
 function CampaignFilter() {
+  const { t } = useTranslation();
   const {
     isFetching,
     formats,
@@ -43,7 +45,7 @@ function CampaignFilter() {
           <Grid item xs={12} sm={6} md>
             <TextField
               fullWidth
-              label="Campaign ID"
+              label={t('campaign_list:filter.campaign_id')}
               name="campaignId"
               value={campaignFilterState.campaignId}
               onChange={onChangeCampaignFilterFielsHandler}
@@ -52,7 +54,7 @@ function CampaignFilter() {
           <Grid item xs={12} sm={6} md>
             <TextField
               fullWidth
-              label="E-mail"
+              label={t('common:form.e_mail')}
               name="email"
               value={campaignFilterState.email}
               onChange={onChangeCampaignFilterFielsHandler}
@@ -61,7 +63,7 @@ function CampaignFilter() {
           <Grid item xs={12} sm={6} md>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="status">
-                Campaign status
+                {t('campaign_list:filter.campaign_status')}
               </InputLabel>
 
               <Select
@@ -70,7 +72,7 @@ function CampaignFilter() {
                 onChange={onChangeCampaignFilterFielsHandler}
                 value={campaignFilterState.status}
               >
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {campaignStatuses.map(({ name, value }) => (
                   <MenuItem key={value} value={value}>
                     {name}
@@ -82,7 +84,7 @@ function CampaignFilter() {
           <Grid zeroMinWidth item xs={12} sm={6} md>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="format_id">
-                Ad Format
+                {t('common:form.ad_format')}
               </InputLabel>
               <Select
                 multiple
@@ -101,7 +103,9 @@ function CampaignFilter() {
                 }}
                 value={campaignFilterState.format_id}
               >
-                <MenuItem value={null}>All</MenuItem>
+                <MenuItem value={null}>
+                  {t('common:form.all')}
+                </MenuItem>
                 {formats.map(({ name, id }) => (
                   <MenuItem key={id} value={id}>
                     <Checkbox
@@ -118,7 +122,7 @@ function CampaignFilter() {
           <Grid item xs={12} sm={6} md>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="pricing_model">
-                Pricing model
+                {t('campaign_list:filter.pricing_model')}
               </InputLabel>
               <Select
                 displayEmpty
@@ -126,7 +130,7 @@ function CampaignFilter() {
                 onChange={onChangeCampaignFilterFielsHandler}
                 value={campaignFilterState.pricing_model}
               >
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {pricingModel.map(({ name, value }) => (
                   <MenuItem key={value} value={value}>
                     {name}
@@ -138,7 +142,7 @@ function CampaignFilter() {
           <Grid item xs>
             <FormControl fullWidth>
               <InputLabel shrink htmlFor="pricing_model">
-                Flat rate
+                {t('campaign_list:filter.flat_rate')}
               </InputLabel>
               <Select
                 displayEmpty
@@ -146,7 +150,7 @@ function CampaignFilter() {
                 onChange={onChangeCampaignFilterFielsHandler}
                 value={campaignFilterState.flat_rate}
               >
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {flatRate.map(({ name, value }) => (
                   <MenuItem key={value} value={value}>
                     {name}
@@ -157,7 +161,7 @@ function CampaignFilter() {
           </Grid>
           <Grid item>
             <Button type="submit" variant="contained" color="primary">
-              Filter
+              {t('common:form.button_filter')}
             </Button>
           </Grid>
         </Grid>
@@ -166,6 +170,7 @@ function CampaignFilter() {
   }, [
     isFetching,
     onSubmitFilterHandler,
+    t,
     campaignFilterState.campaignId,
     campaignFilterState.email,
     campaignFilterState.status,

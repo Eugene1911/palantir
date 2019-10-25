@@ -19,6 +19,7 @@ export function requestChangeApproveStatus({
   approveRejectDispath,
   infoNotification,
   updateItemToCampaignList,
+  t,
 }) {
   putCampaignStatus(id, approveStatus)
     .then(({ data }) => {
@@ -29,7 +30,9 @@ export function requestChangeApproveStatus({
       updateItemToCampaignList(data);
       infoNotification({
         variant: 'success',
-        message: `Campaign was changed status to ${approveStatus}`,
+        message: `${t(
+          'campaign_list:control_button:campaign_was_changed_status_to',
+        )} ${approveStatus}`,
       });
     })
     .catch(({ response }) => {
@@ -40,7 +43,7 @@ export function requestChangeApproveStatus({
 
       infoNotification({
         variant: 'error',
-        message: 'Something went wrong',
+        message: t('common:error.something_went_wrong'),
       });
     });
 }
