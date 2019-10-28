@@ -36,7 +36,7 @@ const routes = [
 /**
  * Patch ouptuts deploy path
  */
-const custonOutput = {
+const customOutput = {
   filename: 'static/js/[name].[hash].js',
   chunkFilename: 'static/js/[name].[hash].chunk.js',
   publicPath: paths.rootStaticPublicPath,
@@ -45,5 +45,5 @@ const custonOutput = {
 module.exports = {
   routes,
   entries,
-  custonOutput,
+  customOutput,
 };

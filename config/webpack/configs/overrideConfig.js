@@ -1,6 +1,6 @@
 const customPaths = require('./paths');
 const { productionPlugins, commonPlugins } = require('./plugins');
-const { entries, custonOutput } = require('./config');
+const { entries, customOutput } = require('./config');
 
 const commonBuildConfig = () => (config, env) => {
   const { plugins, output } = config;
@@ -10,7 +10,7 @@ const commonBuildConfig = () => (config, env) => {
   if (env === 'production') {
     config.output = {
       ...output,
-      ...custonOutput,
+      ...customOutput,
     };
     config.entry = entries;
     config.plugins = [...plugins, ...productionPlugins];
@@ -21,6 +21,7 @@ const commonBuildConfig = () => (config, env) => {
 
 const overridePaths = paths => {
   paths.appBuild = customPaths.rootStaticDest;
+  paths.publicUrl = customPaths.rootStaticPublicPath;
 
   return paths;
 };
