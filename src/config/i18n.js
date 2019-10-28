@@ -6,6 +6,9 @@ i18n
   .use(Backend)
   .use(initReactI18next)
   .init({
+    backend: {
+      loadPath: '/staticp/locales/{{lng}}/{{ns}}.json',
+    },
     lng: 'en',
     fallbackLng: 'en',
     ns: ['common'],

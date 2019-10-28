@@ -21,7 +21,6 @@ const commonBuildConfig = () => (config, env) => {
 
 const overridePaths = paths => {
   paths.appBuild = customPaths.rootStaticDest;
-  paths.publicUrl = customPaths.rootStaticPublicPath;
 
   return paths;
 };
