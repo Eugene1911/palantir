@@ -35,7 +35,7 @@ const routes = [
     chunks: ['clientListing'],
   },
   {
-    name: 'currency_exchange',
+    name: 'tools',
     filedirSrc: `${paths.rootTemplateSrc}/backoffice`,
     filedirDest: `${paths.rootTemplateDest}/backoffice`,
     chunks: ['currencyExchange'],
