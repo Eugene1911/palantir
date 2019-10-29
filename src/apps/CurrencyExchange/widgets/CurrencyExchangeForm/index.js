@@ -13,11 +13,10 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { DATE_MAIN_FORMAT } from 'config/constants';
-import { useTranslation, withTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import useCurrencyExchangeForm from './services/useCurrencyExchangeForm';
 
 const CurrencyExchangeForm = ({ CurrencyExchangeStore }) => {
-  const { t } = useTranslation();
   const {
     isPending,
     onSubmit,
@@ -26,7 +25,8 @@ const CurrencyExchangeForm = ({ CurrencyExchangeStore }) => {
     rate,
     amountInEuro,
     formValues,
-  } = useCurrencyExchangeForm(CurrencyExchangeStore, t);
+    t,
+  } = useCurrencyExchangeForm(CurrencyExchangeStore);
 
   return (
     <Grid

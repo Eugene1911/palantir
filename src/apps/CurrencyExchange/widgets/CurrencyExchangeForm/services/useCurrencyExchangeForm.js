@@ -7,8 +7,10 @@ import {
   LOAD_STATES,
 } from 'config/constants';
 import { replaceSubstring } from 'helpers/stringFormat';
+import { useTranslation } from 'react-i18next';
 
-function useCurrencyExchangeForm(CurrencyExchangeStore, t) {
+function useCurrencyExchangeForm(CurrencyExchangeStore) {
+  const { t } = useTranslation();
   const {
     currencyExchangeFormData: {
       rate,
@@ -71,6 +73,7 @@ function useCurrencyExchangeForm(CurrencyExchangeStore, t) {
     rate,
     amountInEuro,
     formValues,
+    t,
   };
 }
 
