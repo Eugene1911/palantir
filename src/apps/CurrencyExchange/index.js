@@ -1,12 +1,12 @@
 import React from 'react';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core';
 import ReactDOM from 'react-dom';
 import theme from 'config/theme';
 import CurrencyExchange from './app';
 
 ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
+  <ThemeProvider theme={theme}>
     <CurrencyExchange />
-  </MuiThemeProvider>,
+  </ThemeProvider>,
   document.getElementById('root'),
 );

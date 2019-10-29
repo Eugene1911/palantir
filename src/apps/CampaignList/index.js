@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core';
 import ReactDOM from 'react-dom';
 import theme from 'config/theme';
 import CampaignListApp from './app';
