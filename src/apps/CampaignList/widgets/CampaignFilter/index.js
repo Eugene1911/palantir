@@ -92,7 +92,7 @@ function CampaignFilter() {
                 name="format_id"
                 onChange={onChangeCampaignFilterFielsHandler}
                 renderValue={selected => {
-                  if (!selected.length) return 'All';
+                  if (!selected.length) return t('common:form.all');
 
                   const formatList = formats
                     .filter(({ id }) => selected.includes(id))
