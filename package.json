@@ -82,6 +82,7 @@
     "prettier-eslint-cli": "^4.7.1",
     "pretty-quick": "^1.11.0",
     "react-app-rewired": "^2.1.4",
+    "string-replace-loader": "^2.2.0",
     "webpack-dashboard": "^3.2.0"
   },
   "config-overrides-path": "./config/webpack/config-overrides.js",
