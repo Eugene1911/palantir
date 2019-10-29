@@ -8,6 +8,9 @@ const paths = require('./paths');
 const entries = {
   campaignsList: [`${paths.appSrc}/apps/CampaignList/index.js`],
   clientListing: [`${paths.appSrc}/apps/ClientListing/index.js`],
+  currencyExchange: [
+    `${paths.appSrc}/apps/currencyExchange/index.js`,
+  ],
 };
 
 /**
@@ -30,6 +33,12 @@ const routes = [
     filedirSrc: `${paths.rootTemplateSrc}/backoffice`,
     filedirDest: `${paths.rootTemplateDest}/backoffice`,
     chunks: ['clientListing'],
+  },
+  {
+    name: 'currency_exchange',
+    filedirSrc: `${paths.rootTemplateSrc}/backoffice/tools`,
+    filedirDest: `${paths.rootTemplateDest}/backoffice/currency_exchange`,
+    chunks: ['currencyExchange'],
   },
 ];
 
