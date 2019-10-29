@@ -59,4 +59,4 @@ export const MAX_COUNT_LOAD_USERS = 900;
 export const I18N_LOCALES_FILES_PATH = '/locales/{{lng}}/{{ns}}.json';
 
 // Regular expressions
-export const REGEXP_ONLY_NUMBERS = /[^\d]/g;
+export const REGEXP_AMOUNT = /^[0-9]*\.?[0-9]*$/;

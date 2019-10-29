@@ -3,10 +3,9 @@ import format from 'date-fns/format';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import {
   CURRENCY_EXCHANGE_DATE_FORMAT,
-  REGEXP_ONLY_NUMBERS,
+  REGEXP_AMOUNT,
   LOAD_STATES,
 } from 'config/constants';
-import { replaceSubstring } from 'helpers/stringFormat';
 import { useTranslation } from 'react-i18next';
 
 function useCurrencyExchangeForm(CurrencyExchangeStore) {
@@ -30,9 +29,12 @@ function useCurrencyExchangeForm(CurrencyExchangeStore) {
 
   const handleAmountChange = event => {
     const { value } = event.target;
+    const amountToSet = value.match(REGEXP_AMOUNT)
+      ? value
+      : formValues.amount;
     setFormValue({
       ...formValues,
-      amount: replaceSubstring(REGEXP_ONLY_NUMBERS, value),
+      amount: amountToSet,
     });
   };
 
