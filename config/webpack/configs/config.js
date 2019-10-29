@@ -9,7 +9,7 @@ const entries = {
   campaignsList: [`${paths.appSrc}/apps/CampaignList/index.js`],
   clientListing: [`${paths.appSrc}/apps/ClientListing/index.js`],
   currencyExchange: [
-    `${paths.appSrc}/apps/currencyExchange/index.js`,
+    `${paths.appSrc}/apps/CurrencyExchange/index.js`,
   ],
 };
 
