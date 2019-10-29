@@ -71,6 +71,7 @@ module.exports = {
   rootTemplateDest: resolveApp('../templates'),
   rootStaticDest: resolveApp('../static_palantir'),
   rootStaticPublicPath: '/staticp/',
+  i18nLocalesFilesPath: '/locales/{{lng}}/{{ns}}.json',
   // Standard path
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
