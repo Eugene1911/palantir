@@ -37,7 +37,7 @@ const routes = [
   {
     name: 'currency_exchange',
     filedirSrc: `${paths.rootTemplateSrc}/backoffice`,
-    filedirDest: `${paths.rootTemplateDest}/backoffice/currency_exchange`,
+    filedirDest: `${paths.rootTemplateDest}/backoffice`,
     chunks: ['currencyExchange'],
   },
 ];
