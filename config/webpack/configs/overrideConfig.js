@@ -10,7 +10,7 @@ const commonBuildConfig = () => (config, env) => {
   const { output, plugins } = config;
 
   // config.plugins.push(...commonPlugins);
-  config.plugins = [...plugins, ...commonPlugins];
+  // config.plugins = [...plugins, ...commonPlugins];
 
   if (env === 'production') {
     config.output = {
@@ -20,7 +20,7 @@ const commonBuildConfig = () => (config, env) => {
     config.entry = entries;
     // config.plugins.push(...productionPlugins);
     config.plugins = [...plugins, ...productionPlugins];
-    config.module.rules.push(...moduleRules);
+    // config.module.rules.push(...moduleRules);
   }
 
   return config;
