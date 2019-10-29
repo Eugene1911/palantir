@@ -53,3 +53,5 @@ export const USERS_ROLES = {
   MANAGER: 2,
 };
 export const MAX_COUNT_LOAD_USERS = 900;
+
+export const I18N_LOCALES_FILES_PATH = '/locales/{{lng}}/{{ns}}.json';
