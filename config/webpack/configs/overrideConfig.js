@@ -7,9 +7,10 @@ const {
 const { entries, customOutput } = require('./config');
 
 const commonBuildConfig = () => (config, env) => {
-  const { output } = config;
+  const { output, plugins } = config;
 
-  config.plugins.push(...commonPlugins);
+  // config.plugins.push(...commonPlugins);
+  config.plugins = [...plugins, ...commonPlugins];
 
   if (env === 'production') {
     config.output = {
@@ -17,7 +18,8 @@ const commonBuildConfig = () => (config, env) => {
       ...customOutput,
     };
     config.entry = entries;
-    config.plugins.push(...productionPlugins);
+    // config.plugins.push(...productionPlugins);
+    config.plugins = [...plugins, ...productionPlugins];
     config.module.rules.push(...moduleRules);
   }
 
