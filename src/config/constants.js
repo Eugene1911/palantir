@@ -56,4 +56,4 @@ export const USERS_ROLES = {
 export const MAX_COUNT_LOAD_USERS = 900;
 
 // Regular expressions
-export const REGEXP_ONLY_NUMBERS = /[^\d]/g;
+export const REGEXP_AMOUNT = /^[0-9]*\.?[0-9]*$/;
