@@ -1,5 +1,9 @@
 const customPaths = require('./paths');
-const { productionPlugins, commonPlugins } = require('./plugins');
+const {
+  productionPlugins,
+  commonPlugins,
+  moduleRules,
+} = require('./plugins');
 const { entries, customOutput } = require('./config');
 
 const commonBuildConfig = () => (config, env) => {
@@ -14,6 +18,7 @@ const commonBuildConfig = () => (config, env) => {
     };
     config.entry = entries;
     config.plugins = [...plugins, ...productionPlugins];
+    config.module.rules.push(...moduleRules);
   }
 
   return config;
