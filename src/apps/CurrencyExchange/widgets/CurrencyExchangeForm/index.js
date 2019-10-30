@@ -93,7 +93,7 @@ const CurrencyExchangeForm = ({ CurrencyExchangeStore }) => {
             <ButtonWithLoading
               isPending={isPending}
               onClick={onSubmit}
-              label={t('currency_exchange:form.accept_terms')}
+              label={t('currency_exchange:form.exchange')}
             />
           </Grid>
         </form>
