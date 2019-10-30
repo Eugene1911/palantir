@@ -8,6 +8,7 @@ import {
   CAMPAIGNS_ARCHIVE,
   CAMPAIGNS_REJECT_REASONS,
   CAMPAIGNS_DISAPPROVE,
+  TOOLS_CURRENCY_EXCHANGE,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -219,3 +220,10 @@ export const getClientRols = () =>
       value: 'manager',
     },
   ]);
+
+/**
+ * Currency exchange
+ * @param {Object} params
+ */
+export const toolsCurrencyExchange = params =>
+  API.get(TOOLS_CURRENCY_EXCHANGE, { params });

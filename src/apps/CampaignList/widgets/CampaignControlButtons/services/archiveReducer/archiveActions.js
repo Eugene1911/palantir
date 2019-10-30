@@ -6,6 +6,7 @@ function requestArchiveCampaign({
   archiveReducerDispatch,
   infoNotification,
   updateItemToCampaignList,
+  t,
 }) {
   archiveReducerDispatch({
     type: ARCHIVE_TYPE.BEGIN,
@@ -21,7 +22,9 @@ function requestArchiveCampaign({
       });
       infoNotification({
         variant: 'success',
-        message: 'Campaign was archived',
+        message: t(
+          'campaign_list:control_button.campaign_was_archived',
+        ),
       });
       updateItemToCampaignList({
         id,
@@ -36,7 +39,7 @@ function requestArchiveCampaign({
 
       infoNotification({
         variant: 'error',
-        message: 'Something went wrong',
+        message: t('common:error.something_went_wrong'),
       });
     });
 }

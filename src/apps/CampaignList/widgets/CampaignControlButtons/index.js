@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Archive from '@material-ui/icons/Archive';
@@ -18,6 +19,7 @@ import useCampaignPlayPauseReducer from './services/playPauseReducer/useCampaign
 import useRejectReasosnsState from './services/rejectReasosnsState';
 
 function CampaignControlButtons({ id, approved, status }) {
+  const { t } = useTranslation();
   const {
     isOpenDialogRejectReasosns,
     setDialogRejectReasosnsState,
@@ -71,7 +73,7 @@ function CampaignControlButtons({ id, approved, status }) {
         size="small"
         variant="outlined"
       >
-        <Tooltip title="Archive">
+        <Tooltip title={t('campaign_list:control_button.archive')}>
           <Button
             disabled={isArchived || isDisabledArchiveButton}
             onClick={onChangeArchiveHandler}
@@ -79,7 +81,11 @@ function CampaignControlButtons({ id, approved, status }) {
             <Archive fontSize="inherit" />
           </Button>
         </Tooltip>
-        <Tooltip title={`Change to ${nextApproveStatus}`}>
+        <Tooltip
+          title={`${t(
+            'campaign_list:control_button.change_to',
+          )} ${nextApproveStatus}`}
+        >
           <Button
             onClick={onChangeApproveStatusHandler}
             disabled={isArchived || approveRejectState.isFetching}
@@ -89,7 +95,9 @@ function CampaignControlButtons({ id, approved, status }) {
             )}
           </Button>
         </Tooltip>
-        <Tooltip title="Clone Campaign">
+        <Tooltip
+          title={t('campaign_list:control_button.clone_campaign')}
+        >
           <Button
             disabled={isArchived || cloneCampaignState.isFetching}
             onClick={({ currentTarget }) =>

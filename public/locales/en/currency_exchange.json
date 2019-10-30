@@ -1,0 +1,14 @@
+{
+  "title": "CURRENCY EXCHANGE",
+  "form": {
+    "amount_usd": "Amount USD",
+    "date": "Date",
+    "amount_in_eur": "Amount in EUR",
+    "amount": "Amount",
+    "rate": "Rate",
+    "exchange": "Exchange"
+  },
+  "notification": {
+    "something_went_wrong": "Something went wrong"
+  }
+}

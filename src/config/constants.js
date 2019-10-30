@@ -46,10 +46,17 @@ export const LOAD_STATES = {
 };
 
 // Date
-export const DATE_MAIN_FORMAT = 'DD.MM.YYYY';
+export const DATE_MAIN_FORMAT = 'dd.MM.yyyy';
+export const CURRENCY_EXCHANGE_DATE_FORMAT = 'yyyy-MM-dd';
 
 // Users
 export const USERS_ROLES = {
   MANAGER: 2,
 };
 export const MAX_COUNT_LOAD_USERS = 900;
+
+// I18N Locales path
+export const I18N_LOCALES_FILES_PATH = '/locales/{{lng}}/{{ns}}.json';
+
+// Regular expressions
+export const REGEXP_AMOUNT = /^[0-9]*\.?[0-9]*$/;

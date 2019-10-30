@@ -8,6 +8,10 @@
 `npm run build:trafficstars`
 `npm run build:runative`
 
+## Dashboard mode
+
+`npm run dm`
+
 `"scripts": { "start": "react-app-rewired start", "build": "react-app-rewired build", "test": "react-app-rewired test --env=jsdom", "eject": "react-scripts eject" },`
 
 ## Use WebPack hook

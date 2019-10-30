@@ -1,6 +1,4 @@
 import React from 'react';
-import dayjs from 'dayjs';
-import { DATE_MAIN_FORMAT } from 'config/constants';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableLoader from 'sharedComponents/loaders/TableLoader';
 import { numberToFixed } from 'helpers/numberFormat';
+import dateFnsFormat from 'helpers/dateFnsFormat';
 import PAGE_PATH from 'helpers/pagePath';
 import getStatusColor from 'helpers/getStatusColor';
 import getClientFiscalStatusIcon from './services/getClientFiscalStatusIcon';
@@ -28,9 +27,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
           key={client.id}
         >
           <TableCell align="right">{client.id}</TableCell>
-          <TableCell>
-            {dayjs(client.last_login).format(DATE_MAIN_FORMAT)}
-          </TableCell>
+          <TableCell>{dateFnsFormat(client.last_login)}</TableCell>
           <TableCell>
             <Tooltip title={`Login as ${client.email}`}>
               <IconButton
@@ -57,9 +54,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
           <TableCell className="global-first-character-uppercase">
             {client.status}
           </TableCell>
-          <TableCell>
-            {dayjs(client.created_at).format(DATE_MAIN_FORMAT)}
-          </TableCell>
+          <TableCell>{dateFnsFormat(client.created_at)}</TableCell>
           <TableCell>{client.country_name}</TableCell>
           <TableCell>
             {!!client.company_name && client.company_name}
@@ -82,7 +77,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
             )}
           </TableCell>
           <TableCell>
-            {dayjs(client.status_updated_at).format(DATE_MAIN_FORMAT)}
+            {dateFnsFormat(client.status_updated_at)}
           </TableCell>
           <TableCell align="right">
             {numberToFixed(client.balance, 3)}

@@ -1,0 +1,24 @@
+{
+  "title": "CLIENT LISTING",
+  "form": {
+    "company_name": "Company name",
+    "company_individual_status": "Company / Individual status",
+    "status": "Status",
+    "managers": "Managers",
+    "role": "Role"
+  },
+  "table_header": {
+    "id": "ID",
+    "last_login": "Last login",
+    "e_mail": "E-mail",
+    "status": "Status",
+    "registration_date": "Registration date",
+    "country": "Country",
+    "company_or_name": "Company/Name",
+    "account_type": "Account Type",
+    "account_manager": "Account manager",
+    "last_change": "Last change",
+    "balance": "Balance",
+    "estimated_days": "Estimated days"
+  }
+}
