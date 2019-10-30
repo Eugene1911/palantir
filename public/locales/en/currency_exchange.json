@@ -6,7 +6,7 @@
     "amount_in_eur": "Amount in EUR",
     "amount": "Amount",
     "rate": "Rate",
-    "accept_terms": "Accept terms"
+    "exchange": "Exchange"
   },
   "notification": {
     "something_went_wrong": "Something went wrong"
