@@ -5,9 +5,9 @@ import LocationCity from '@material-ui/icons/LocationCity';
 function getClientFiscalStatusIcon(status) {
   switch (status) {
     case 'company':
-      return <Person fontSize="small" />;
-    case 'individual':
       return <LocationCity fontSize="small" />;
+    case 'individual':
+      return <Person fontSize="small" />;
     default:
       return null;
   }
