@@ -4,7 +4,8 @@
     "button_filter": "Filter",
     "e_mail": "E-mail",
     "ad_format": "Ad Format",
-    "id": "ID"
+    "id": "ID",
+    "date_range": "Date range"
   },
   "pagination": {
     "rows_per_page": "Rows per page:"
