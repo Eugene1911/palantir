@@ -11,4 +11,9 @@ export const CAMPAIGNS_REJECT_REASONS = `${API_VERSION_1_1}campaigns/reject_reas
 export const CAMPAIGNS_DISAPPROVE = `${API_VERSION_1_1}campaigns/{id}/disapprove`;
 export const FORMATS = `${API_VERSION_1_1}formats`;
 export const USERS = `${API_VERSION_1_1}users`;
+export const APPLICATIONS = `${API_VERSION_1_1}applications`;
 export const TOOLS_CURRENCY_EXCHANGE = `${API_VERSION_1_1}tools/currency_exchange`;
+export const COUNTRIES = `${API_VERSION_1_1}countries`;
+
+// Stats
+export const PUBLISHER_CUSTOM_REPORT = `${API_VERSION_1_1}publisher/custom/report/by-`;
