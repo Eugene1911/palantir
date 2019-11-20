@@ -21,7 +21,7 @@ function TableHeadMainSort({
   return (
     <TableHead>
       <TableRow>
-        {rows.map(({ id, style, label, numeric, order }) => (
+        {rows.map(({ id, style, label, name, numeric, order }) => (
           <TableCell
             style={style}
             key={id}
@@ -35,7 +35,7 @@ function TableHeadMainSort({
                 direction={direction}
                 onClick={() => onChangeOrderHandler(id)}
               >
-                {label}
+                {label || name}
               </TableSortLabel>
             ) : (
               label
