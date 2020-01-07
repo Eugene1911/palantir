@@ -1,54 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { observer, inject } from 'mobx-react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { inject } from 'mobx-react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import DateRangePickerDropDown from 'sharedComponents/DateRangePickerDropDown';
 import ApplicationsMultiSelect from 'sharedWidgets/ApplicationsMultiSelect';
+import AutocompleteMultiSelect from 'sharedWidgets/AutocompleteMultiSelect';
+import SpotsAutocompleteMultiSelect from 'sharedWidgets/SpotsAutocompleteMultiSelect';
 import CountriesMultiSelect from 'sharedWidgets/CountriesMultiSelect';
-import dateFnsFormat from 'helpers/dateFnsFormat';
-import { subMonths, format } from 'date-fns';
-import { CURRENCY_EXCHANGE_DATE_FORMAT } from 'config/constants';
+import { getFormats } from 'resources/api';
 
-const LAST_MOUNTH = subMonths(new Date(), 2);
-const TODAY = new Date();
-const LAST_MOUNTH_FORMAT = format(
-  LAST_MOUNTH,
-  CURRENCY_EXCHANGE_DATE_FORMAT,
-);
-const TODAY_FORMAT = format(TODAY, CURRENCY_EXCHANGE_DATE_FORMAT);
-
-function AdvancedCustomStatisticsFilter({
-  advancedCustomStatisticsStore,
-}) {
-  const { getStats } = advancedCustomStatisticsStore;
-  const [filterDate, setFilterDate] = useState({
-    startDate: LAST_MOUNTH,
-    endDate: TODAY,
-  });
-  const onSubmitFilterHandler = event => {
-    event.preventDefault();
-
-    getStats({
-      date_from: dateFnsFormat(
-        filterDate.startDate,
-        CURRENCY_EXCHANGE_DATE_FORMAT,
-      ),
-      date_to: dateFnsFormat(
-        filterDate.endDate,
-        CURRENCY_EXCHANGE_DATE_FORMAT,
-      ),
-    });
-  };
-
-  useEffect(() => {
-    getStats({
-      date_from: LAST_MOUNTH_FORMAT,
-      date_to: TODAY_FORMAT,
-    });
-  }, [getStats]);
-
+function AdvancedCustomStatisticsFilter({ filterForm }) {
   return (
-    <form onSubmit={onSubmitFilterHandler}>
+    <form onSubmit={filterForm.onSubmitFilterFormHandler}>
       <Grid
         justify="space-between"
         alignItems="flex-end"
@@ -57,15 +21,46 @@ function AdvancedCustomStatisticsFilter({
       >
         <Grid item xs={12} sm={6} md>
           <DateRangePickerDropDown
-            {...{ ...filterDate }}
-            onChange={setFilterDate}
+            startDate={filterForm.date_from}
+            endDate={filterForm.date_to}
+            onChange={filterForm.onChangeDateHandler}
           />
         </Grid>
         <Grid item xs={12} sm={6} md>
-          <ApplicationsMultiSelect />
+          <ApplicationsMultiSelect
+            applicationsIds={filterForm.app_id}
+            onChange={filterForm.onChangeApplicationsHandler}
+          />
         </Grid>
         <Grid item xs={12} sm={6} md>
-          <CountriesMultiSelect />
+          <SpotsAutocompleteMultiSelect
+            label="spots"
+            applicationsIds={filterForm.app_id}
+            onChange={(event, value) => {
+              console.log(
+                'SpotsAutocompleteMultiSelect - onChange',
+                value,
+              );
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md>
+          <CountriesMultiSelect
+            selectedCountries={filterForm.countries}
+            onChange={filterForm.onChangeHandlerCountries}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md>
+          <AutocompleteMultiSelect
+            label="format"
+            onChange={(event, value) => {
+              console.log(
+                'AutocompleteMultiSelect - onChange',
+                value,
+              );
+            }}
+            functionRequestData={getFormats}
+          />
         </Grid>
         <Grid item>
           <Button type="submit" variant="contained" color="primary">
@@ -77,6 +72,19 @@ function AdvancedCustomStatisticsFilter({
   );
 }
 
-export default inject('advancedCustomStatisticsStore')(
-  observer(AdvancedCustomStatisticsFilter),
-);
+AdvancedCustomStatisticsFilter.propTypes = {
+  filterForm: PropTypes.shape({
+    app_id: PropTypes.arrayOf(PropTypes.number),
+    countries: PropTypes.arrayOf(PropTypes.string),
+    date_from: PropTypes.instanceOf(Date),
+    date_to: PropTypes.instanceOf(Date),
+    onChangeApplicationsHandler: PropTypes.func,
+    onChangeDateHandler: PropTypes.func,
+    onChangeHandlerCountries: PropTypes.func,
+    onSubmitFilterFormHandler: PropTypes.func,
+  }).isRequired,
+};
+
+export default inject(({ advancedCustomStatisticsStore }) => ({
+  filterForm: advancedCustomStatisticsStore.filter,
+}))(AdvancedCustomStatisticsFilter);
