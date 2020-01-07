@@ -5,7 +5,10 @@
     "e_mail": "E-mail",
     "ad_format": "Ad Format",
     "id": "ID",
-    "date_range": "Date range"
+    "date_range": "Date range",
+    "selected_applications": "Selected applications",
+    "applications": "Applications",
+    "search": "Search"
   },
   "pagination": {
     "rows_per_page": "Rows per page:"
