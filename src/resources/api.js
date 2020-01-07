@@ -1,4 +1,5 @@
 import transformRequestOptions from 'helpers/transformRequestOptions';
+import requestParamsSerializer from 'helpers/requestParamsSerializer';
 import {
   FORMATS,
   USERS,
@@ -12,6 +13,7 @@ import {
   CAMPAIGNS_DISAPPROVE,
   TOOLS_CURRENCY_EXCHANGE,
   PUBLISHER_CUSTOM_REPORT,
+  SPOTS,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -20,6 +22,16 @@ import API from './services/APIService';
  * @param {Object} params
  */
 export const getFormats = params => API.get(FORMATS, { params });
+
+/**
+ * Get Spots
+ * @param {Object} params
+ */
+export const getSpots = params =>
+  API.get(SPOTS, {
+    params,
+    paramsSerializer: requestParamsSerializer,
+  });
 
 /**
  * Get Users
@@ -32,7 +44,10 @@ export const getUsers = params => API.get(USERS, { params });
  * @param {Object} params
  */
 export const getApplications = params =>
-  API.get(APPLICATIONS, { params });
+  API.get(APPLICATIONS, {
+    params,
+    paramsSerializer: requestParamsSerializer,
+  });
 
 /**
  * Get Countries
@@ -46,7 +61,10 @@ export const getCountries = params => API.get(COUNTRIES, { params });
  * @param {Object} params
  */
 export const getPublisherCustomReport = (groupType, params) =>
-  API.get(`${PUBLISHER_CUSTOM_REPORT}${groupType}`, { params });
+  API.get(`${PUBLISHER_CUSTOM_REPORT}${groupType}`, {
+    params,
+    paramsSerializer: requestParamsSerializer,
+  });
 
 /**
  * Cutsom report group type
