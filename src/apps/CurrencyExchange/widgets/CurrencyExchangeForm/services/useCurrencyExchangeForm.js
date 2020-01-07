@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import format from 'date-fns/format';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import {
-  CURRENCY_EXCHANGE_DATE_FORMAT,
+  DATE_REQUEST_FORMAT,
   REGEXP_AMOUNT,
   LOAD_STATES,
 } from 'config/constants';
@@ -47,10 +47,7 @@ function useCurrencyExchangeForm(CurrencyExchangeStore) {
 
   const onSubmit = () => {
     const params = {
-      date: format(
-        formValues.exchangeRateDate,
-        CURRENCY_EXCHANGE_DATE_FORMAT,
-      ),
+      date: format(formValues.exchangeRateDate, DATE_REQUEST_FORMAT),
       usd: formValues.amount,
     };
     exchange(params);
