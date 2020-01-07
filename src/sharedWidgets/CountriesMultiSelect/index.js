@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
@@ -9,49 +10,24 @@ import FormControl from '@material-ui/core/FormControl';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import ListItemText from '@material-ui/core/ListItemText';
-import { getCountries } from 'resources/api';
+import { MAX_COUNT_SELECTED_ITEMS } from 'config/constants';
+import ProgressLoaderMultiSelect from 'sharedComponents/ProgressLoaderMultiSelect';
+import useCountriesMultiSelect from './services/useCountriesMultiSelect';
 import useStyles from './styles';
 
-const tiersList = [
-  {
-    name: 'tier 1',
-    value: 1,
-  },
-  {
-    name: 'tier 2',
-    value: 2,
-  },
-  {
-    name: 'tier 3',
-    value: 3,
-  },
-];
-function CountriesMultiSelect() {
+function CountriesMultiSelect({ onChange, selectedCountries }) {
   const classes = useStyles();
-  const [selectTier, setSelectTier] = useState(null);
-  const [countriesList, setCountriesList] = useState([]);
-  const [selectedCountriesIds, setSelectedCountriesIds] = useState(
-    [],
-  );
-  const onSelectTierHandler = value => {
-    setSelectTier(value === selectTier ? null : value);
-  };
-
-  useMemo(() => {
-    setSelectedCountriesIds(
-      countriesList
-        .filter(({ tier }) => tier === selectTier)
-        .map(({ code }) => code),
-    );
-  }, [countriesList, selectTier]);
-
-  useEffect(() => {
-    const loadCountries = async () => {
-      const { data } = await getCountries();
-      setCountriesList(data);
-    };
-    loadCountries();
-  }, []);
+  const {
+    onChangeFilterTextHandler,
+    onChangeSelectHandler,
+    onSelectTierHandler,
+    selectedCountriesIds,
+    countriesList,
+    isProgress,
+    searchText,
+    setLoading,
+    tiersList,
+  } = useCountriesMultiSelect(onChange, selectedCountries);
 
   return (
     <FormControl fullWidth>
@@ -62,23 +38,15 @@ function CountriesMultiSelect() {
         displayEmpty
         name="countries"
         multiple
-        onChange={({ target }) => {
-          const { value } = target;
-          const isAll = value.includes('all');
-
-          if (isAll) {
-            setSelectedCountriesIds([]);
-          } else {
-            setSelectedCountriesIds(value);
-          }
-        }}
+        onOpen={() => setLoading(true)}
+        onChange={onChangeSelectHandler}
         renderValue={selected => {
           if (!selected || !selected.length)
             return <Typography noWrap>All</Typography>;
 
           const selectedLength = selected.length;
 
-          if (selectedLength > 4) {
+          if (selectedLength > MAX_COUNT_SELECTED_ITEMS) {
             return (
               <Typography noWrap>
                 {`Selected countries: ${selectedLength}`}
@@ -104,20 +72,20 @@ function CountriesMultiSelect() {
             fullWidth
             label="Search"
             name="search_country"
-            value=""
-            onChange={() => {}}
+            value={searchText}
+            onKeyDown={event => event.stopPropagation()}
+            onChange={onChangeFilterTextHandler}
+            InputProps={{
+              endAdornment: (
+                <ProgressLoaderMultiSelect isLoading={isProgress} />
+              ),
+            }}
           />
-          <ButtonGroup
-            size="small"
-            fullWidth
-            variant="contained"
-            aria-label="small outlined button group"
-          >
+          <ButtonGroup size="small" fullWidth variant="contained">
             {tiersList.map(({ name, value }) => (
               <Button
-                color={selectTier === value ? 'primary' : ''}
                 key={value}
-                onClick={() => onSelectTierHandler(value)}
+                onClick={event => onSelectTierHandler(event, value)}
               >
                 {name}
               </Button>
@@ -143,5 +111,14 @@ function CountriesMultiSelect() {
     </FormControl>
   );
 }
+
+CountriesMultiSelect.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  selectedCountries: PropTypes.array,
+};
+
+CountriesMultiSelect.defaultProps = {
+  selectedCountries: [],
+};
 
 export default CountriesMultiSelect;
