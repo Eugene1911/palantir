@@ -1,27 +1,28 @@
 import React from 'react';
-import { observer, inject } from 'mobx-react';
+import PropTypes from 'prop-types';
+import { inject } from 'mobx-react';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import { LOAD_STATES } from 'config/constants';
 import TableLoader from 'sharedComponents/loaders/TableLoader';
 import TableHeadMainSort from 'sharedComponents/TableHeadMainSort';
-import statsDataProcessing from 'helpers/statistic/processing';
-import tableScheme from './tableScheme';
+import { LOAD_STATES } from 'config/constants';
 
 function AdvancedCustomStatisticsTable({
-  advancedCustomStatisticsStore,
+  statsList,
+  tableScheme,
+  statsListState,
+  isLoadingStatsByOrder,
+  onChangeOrderHandler,
 }) {
-  const { statsList, statsListState } = advancedCustomStatisticsStore;
-  const isPending = statsListState === LOAD_STATES.PENDING;
-  const finishData = statsDataProcessing(statsList, tableScheme);
-  console.log('statsList', finishData);
+  const isPending =
+    isLoadingStatsByOrder || statsListState === LOAD_STATES.PENDING;
 
   return (
     <Table>
       <TableHeadMainSort
-        onChange={() => {}}
+        onChange={onChangeOrderHandler}
         isFetching={isPending}
         rows={tableScheme}
       />
@@ -29,7 +30,7 @@ function AdvancedCustomStatisticsTable({
         <TableLoader cols={tableScheme.length} />
       ) : (
         <TableBody>
-          {finishData.map((data, index) => (
+          {statsList.map((data, index) => (
             <TableRow key={Symbol(index).toString()}>
               {tableScheme.map((sheme, j) => (
                 <TableCell
@@ -47,6 +48,21 @@ function AdvancedCustomStatisticsTable({
   );
 }
 
-export default inject('advancedCustomStatisticsStore')(
-  observer(AdvancedCustomStatisticsTable),
-);
+AdvancedCustomStatisticsTable.propTypes = {
+  isLoadingStatsByOrder: PropTypes.bool.isRequired,
+  onChangeOrderHandler: PropTypes.func.isRequired,
+  statsList: PropTypes.array.isRequired,
+  statsListState: PropTypes.string.isRequired,
+  tableScheme: PropTypes.array.isRequired,
+};
+
+export default inject(({ advancedCustomStatisticsStore }) => ({
+  statsList: advancedCustomStatisticsStore.statsList,
+  isLoadingStatsByOrder:
+    advancedCustomStatisticsStore.isLoadingStatsByOrder,
+  statsListState: advancedCustomStatisticsStore.statsListState,
+  getStats: advancedCustomStatisticsStore.getStats,
+  tableScheme: advancedCustomStatisticsStore.tableScheme,
+  onChangeOrderHandler:
+    advancedCustomStatisticsStore.filter.onChangeOrderHandler,
+}))(AdvancedCustomStatisticsTable);
