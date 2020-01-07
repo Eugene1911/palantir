@@ -13,7 +13,7 @@ const tableScheme = [
     sufix: '',
     numeric: false,
     order: true,
-    filters: [statsDateFormat('dd.MM.yyyy')],
+    // filters: [statsDateFormat('dd.MM.yyyy')],
     calculated: null,
     style: {},
   },
