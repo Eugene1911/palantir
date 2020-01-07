@@ -52,10 +52,6 @@
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "resolutions": {
-    "old-package-with-old-@babel/runtime/@babel/runtime": "^7.7.1",
-    "semver": "^6.3.0"
-  },
   "eslintConfig": {
     "extends": "react-app"
   },
