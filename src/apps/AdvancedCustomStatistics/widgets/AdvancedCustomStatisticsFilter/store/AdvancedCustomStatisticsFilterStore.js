@@ -1,37 +1,53 @@
-import { types, flow } from 'mobx-state-tree';
-import { LOAD_STATES } from 'config/constants';
-import { getApplications } from 'resources/api';
+import { types, getParent, applySnapshot } from 'mobx-state-tree';
+import mapValues from 'lodash/mapValues';
+import formatReqestParams from 'helpers/formatReqestParams';
 
-const AdvancedCustomStatisticsFilterStore = types
-  .model('AdvancedCustomStatisticsFilterStore', {
-    applicationsList: types.frozen([]),
-    filterResources: types.frozen(),
-    filterState: types.optional(
-      types.enumeration('State', [
-        LOAD_STATES.PENDING,
-        LOAD_STATES.DONE,
-        LOAD_STATES.ERROR,
-      ]),
-      LOAD_STATES.PENDING,
-    ),
-  })
-  .actions(self => ({
-    getApplications: flow(function*(params) {
-      self.clientsListState = LOAD_STATES.PENDING;
+const AdvancedCustomStatisticsFilterModel = types.model({
+  countries: types.array(types.string),
+  app_id: types.array(types.number),
+  format_id: types.array(types.number),
+  date_from: types.Date,
+  date_to: types.Date,
+  order: types.optional(types.string, ''),
+});
 
-      try {
-        const response = yield getApplications({
-          url: params,
-          name: params,
-        });
-
-        self.clientsListState = LOAD_STATES.DONE;
-
-        self.applicationsList = response.data.response;
-      } catch (error) {
-        self.clientsListState = LOAD_STATES.ERROR;
-      }
-    }),
+const AdvancedCustomStatisticsFilterViews = types
+  .model({})
+  .views(self => ({
+    get requestParams() {
+      return mapValues(self.toJSON(), formatReqestParams);
+    },
   }));
+
+const AdvancedCustomStatisticsFilterActions = types
+  .model({})
+  .actions(self => ({
+    onSubmitFilterFormHandler(event) {
+      const { getStats } = getParent(self);
+      getStats();
+      event.preventDefault();
+    },
+    onChangeHandlerCountries(value) {
+      applySnapshot(self.countries, value);
+    },
+    onChangeDateHandler({ startDate, endDate }) {
+      self.date_from = startDate;
+      self.date_to = endDate;
+    },
+    onChangeApplicationsHandler(value) {
+      applySnapshot(self.app_id, value);
+    },
+    onChangeOrderHandler({ order }) {
+      const { getStatsByOrder } = getParent(self);
+      self.order = order;
+      getStatsByOrder();
+    },
+  }));
+
+const AdvancedCustomStatisticsFilterStore = types.compose(
+  AdvancedCustomStatisticsFilterModel,
+  AdvancedCustomStatisticsFilterActions,
+  AdvancedCustomStatisticsFilterViews,
+);
 
 export default AdvancedCustomStatisticsFilterStore;
