@@ -75,7 +75,7 @@ const ClientListingFilter = inject('clientListingStore')(
               >
                 <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {filterStore.resources.clientFiscalStatus.map(
-                  ({ name, value }) => (
+                  ({ name, value }: any) => (
                     <MenuItem key={value} value={value}>
                       {name}
                     </MenuItem>
@@ -98,7 +98,7 @@ const ClientListingFilter = inject('clientListingStore')(
               >
                 <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {filterStore.resources.clientStatuses.map(
-                  ({ name, value }) => (
+                  ({ name, value }: any) => (
                     <MenuItem key={value} value={value}>
                       {name}
                     </MenuItem>
@@ -121,7 +121,7 @@ const ClientListingFilter = inject('clientListingStore')(
               >
                 <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {filterStore.resources.managers.map(
-                  ({ email, id }) => (
+                  ({ email, id }: any) => (
                     <MenuItem key={id} value={id}>
                       {email}
                     </MenuItem>
@@ -144,7 +144,7 @@ const ClientListingFilter = inject('clientListingStore')(
               >
                 <MenuItem value="">{t('common:form.all')}</MenuItem>
                 {filterStore.resources.clientRols.map(
-                  ({ name, value }) => (
+                  ({ name, value }: any) => (
                     <MenuItem key={value} value={value}>
                       {name}
                     </MenuItem>
