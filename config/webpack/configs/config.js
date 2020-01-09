@@ -7,7 +7,7 @@ const paths = require('./paths');
  */
 const entries = {
   campaignsList: [`${paths.appSrc}/apps/CampaignList/index.js`],
-  clientListing: [`${paths.appSrc}/apps/ClientListing/index.js`],
+  clientListing: [`${paths.appSrc}/apps/ClientListing/index.tsx`],
   currencyExchange: [
     `${paths.appSrc}/apps/CurrencyExchange/index.js`,
   ],
