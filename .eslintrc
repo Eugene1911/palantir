@@ -1,12 +1,28 @@
 {
-  "extends": ["airbnb", "plugin:import/errors", "plugin:prettier/recommended", "prettier/react", "prettier/standard", "plugin:react/recommended"],
+  "extends": [
+    "airbnb",
+    "plugin:import/errors",
+    "plugin:prettier/recommended",
+    "prettier/react",
+    "prettier/standard",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended"
+  ],
   "plugins": ["react", "import", "react-hooks", "prettier"],
   "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
   },
   "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx", ".mjs"],
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"],
@@ -15,9 +31,16 @@
     }
   },
   "rules": {
+    "@typescript-eslint/interface-name-prefix": [
+      "error",
+      {
+        "prefixWithI": "always"
+      }
+    ],
+    "import/extensions": [1, "never"],
     "prettier/prettier": "error",
     "react/button-has-type": "error",
-    "react/forbid-prop-types": [2, { "forbid": ["any"] } ],
+    "react/forbid-prop-types": [2, { "forbid": ["any"] }],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/forbid-component-props": "error",
@@ -38,7 +61,7 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [".js", ".jsx"]
+        "extensions": [".tsx", ".js", ".jsx"]
       }
     ],
     "react/jsx-uses-react": "error",
@@ -61,5 +84,5 @@
     "navigator": true,
     "fetch": true
   },
-  "parser": "babel-eslint"
+  "parser": "@typescript-eslint/parser"
 }
