@@ -5,7 +5,11 @@ import useStyles from './styles';
 
 const NO_DATA_TITLE = 'NO DATA';
 
-function NoData({ title = NO_DATA_TITLE }) {
+type NoDataProps = {
+  title?: string;
+};
+
+function NoData({ title = NO_DATA_TITLE }: NoDataProps): JSX.Element {
   const classes = useStyles();
 
   return (

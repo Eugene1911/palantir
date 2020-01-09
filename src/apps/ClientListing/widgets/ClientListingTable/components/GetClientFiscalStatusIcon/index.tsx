@@ -2,7 +2,7 @@ import React from 'react';
 import Person from '@material-ui/icons/Person';
 import LocationCity from '@material-ui/icons/LocationCity';
 
-function getClientFiscalStatusIcon(status) {
+function GetClientFiscalStatusIcon(status: string): JSX.Element {
   switch (status) {
     case 'company':
       return <LocationCity fontSize="small" />;
@@ -13,4 +13,4 @@ function getClientFiscalStatusIcon(status) {
   }
 }
 
-export default getClientFiscalStatusIcon;
+export default GetClientFiscalStatusIcon;

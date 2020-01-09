@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-function useTableHeaderRows() {
+function useTableHeaderRows(): Array<Record<string, any>> {
   const { t } = useTranslation();
 
   const tableHeaderRows = [

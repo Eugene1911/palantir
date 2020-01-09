@@ -11,157 +11,164 @@ import { inject, observer } from 'mobx-react';
 import { LOAD_STATES } from 'config/constants';
 import FilterLoader from 'sharedComponents/loaders/FilterLoader';
 import useClientListingFilter from './services/useClientListingFilter';
+import { IClientListingStore } from '../../stores/ClientListingStore';
 
-const ClientListingFilter = inject('clientListingStore')(
-  observer(({ clientListingStore }) => {
-    const { t } = useTranslation();
-    const {
-      filterStore,
-      clientFilterState,
-      onSubmitFilterHandler,
-      onChangeClientFilterFielsHandler,
-    } = useClientListingFilter(clientListingStore);
+type ClientListingFilterProps = {
+  clientListingStore?: IClientListingStore;
+};
 
-    if (filterStore.state === LOAD_STATES.PENDING) {
-      return <FilterLoader />;
-    }
+function ClientListingFilter({
+  clientListingStore,
+}: ClientListingFilterProps): JSX.Element {
+  const { t } = useTranslation();
+  const {
+    filterStore,
+    clientFilterState,
+    onSubmitFilterHandler,
+    onChangeClientFilterFielsHandler,
+  } = useClientListingFilter(clientListingStore);
 
-    return (
-      <form onSubmit={onSubmitFilterHandler}>
-        <Grid
-          justify="space-between"
-          alignItems="flex-end"
-          container
-          spacing={2}
-        >
-          <Grid item xs={12} sm={6} md>
-            <TextField
-              fullWidth
-              label={t('common:form.id')}
-              name="id"
-              value={clientFilterState.id}
-              onChange={onChangeClientFilterFielsHandler}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md>
-            <TextField
-              fullWidth
-              label={t('common:form.e_mail')}
-              name="email"
-              value={clientFilterState.email}
-              onChange={onChangeClientFilterFielsHandler}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md>
-            <TextField
-              fullWidth
-              label={t('client_listing:form.company_name')}
-              name="company_name"
-              value={clientFilterState.company_name}
-              onChange={onChangeClientFilterFielsHandler}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md>
-            <FormControl fullWidth>
-              <InputLabel shrink htmlFor="fiscal_status">
-                {t('client_listing:form.company_individual_status')}
-              </InputLabel>
+  if (filterStore.state === LOAD_STATES.PENDING) {
+    return <FilterLoader />;
+  }
 
-              <Select
-                displayEmpty
-                name="fiscal_status"
-                onChange={onChangeClientFilterFielsHandler}
-                value={clientFilterState.fiscal_status}
-              >
-                <MenuItem value="">{t('common:form.all')}</MenuItem>
-                {filterStore.resources.clientFiscalStatus.map(
-                  ({ name, value }: any) => (
-                    <MenuItem key={value} value={value}>
-                      {name}
-                    </MenuItem>
-                  ),
-                )}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6} md>
-            <FormControl fullWidth>
-              <InputLabel shrink htmlFor="status">
-                {t('client_listing:form.status')}
-              </InputLabel>
-
-              <Select
-                displayEmpty
-                name="status"
-                onChange={onChangeClientFilterFielsHandler}
-                value={clientFilterState.status}
-              >
-                <MenuItem value="">{t('common:form.all')}</MenuItem>
-                {filterStore.resources.clientStatuses.map(
-                  ({ name, value }: any) => (
-                    <MenuItem key={value} value={value}>
-                      {name}
-                    </MenuItem>
-                  ),
-                )}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6} md>
-            <FormControl fullWidth>
-              <InputLabel shrink htmlFor="account_manager_id">
-                {t('client_listing:form.managers')}
-              </InputLabel>
-
-              <Select
-                displayEmpty
-                name="account_manager_id"
-                onChange={onChangeClientFilterFielsHandler}
-                value={clientFilterState.account_manager_id}
-              >
-                <MenuItem value="">{t('common:form.all')}</MenuItem>
-                {filterStore.resources.managers.map(
-                  ({ email, id }: any) => (
-                    <MenuItem key={id} value={id}>
-                      {email}
-                    </MenuItem>
-                  ),
-                )}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs>
-            <FormControl fullWidth>
-              <InputLabel shrink htmlFor="role">
-                {t('client_listing:form.role')}
-              </InputLabel>
-
-              <Select
-                displayEmpty
-                name="role"
-                onChange={onChangeClientFilterFielsHandler}
-                value={clientFilterState.role}
-              >
-                <MenuItem value="">{t('common:form.all')}</MenuItem>
-                {filterStore.resources.clientRols.map(
-                  ({ name, value }: any) => (
-                    <MenuItem key={value} value={value}>
-                      {name}
-                    </MenuItem>
-                  ),
-                )}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item>
-            <Button type="submit" variant="contained" color="primary">
-              {t('common:form.button_filter')}
-            </Button>
-          </Grid>
+  return (
+    <form onSubmit={onSubmitFilterHandler}>
+      <Grid
+        justify="space-between"
+        alignItems="flex-end"
+        container
+        spacing={2}
+      >
+        <Grid item xs={12} sm={6} md>
+          <TextField
+            fullWidth
+            label={t('common:form.id')}
+            name="id"
+            value={clientFilterState.id}
+            onChange={onChangeClientFilterFielsHandler}
+          />
         </Grid>
-      </form>
-    );
-  }),
-);
+        <Grid item xs={12} sm={6} md>
+          <TextField
+            fullWidth
+            label={t('common:form.e_mail')}
+            name="email"
+            value={clientFilterState.email}
+            onChange={onChangeClientFilterFielsHandler}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md>
+          <TextField
+            fullWidth
+            label={t('client_listing:form.company_name')}
+            name="company_name"
+            value={clientFilterState.company_name}
+            onChange={onChangeClientFilterFielsHandler}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md>
+          <FormControl fullWidth>
+            <InputLabel shrink htmlFor="fiscal_status">
+              {t('client_listing:form.company_individual_status')}
+            </InputLabel>
 
-export default ClientListingFilter;
+            <Select
+              displayEmpty
+              name="fiscal_status"
+              onChange={onChangeClientFilterFielsHandler}
+              value={clientFilterState.fiscal_status}
+            >
+              <MenuItem value="">{t('common:form.all')}</MenuItem>
+              {filterStore.resources.clientFiscalStatus.map(
+                ({ name, value }: any) => (
+                  <MenuItem key={value} value={value}>
+                    {name}
+                  </MenuItem>
+                ),
+              )}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6} md>
+          <FormControl fullWidth>
+            <InputLabel shrink htmlFor="status">
+              {t('client_listing:form.status')}
+            </InputLabel>
+
+            <Select
+              displayEmpty
+              name="status"
+              onChange={onChangeClientFilterFielsHandler}
+              value={clientFilterState.status}
+            >
+              <MenuItem value="">{t('common:form.all')}</MenuItem>
+              {filterStore.resources.clientStatuses.map(
+                ({ name, value }: any) => (
+                  <MenuItem key={value} value={value}>
+                    {name}
+                  </MenuItem>
+                ),
+              )}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6} md>
+          <FormControl fullWidth>
+            <InputLabel shrink htmlFor="account_manager_id">
+              {t('client_listing:form.managers')}
+            </InputLabel>
+
+            <Select
+              displayEmpty
+              name="account_manager_id"
+              onChange={onChangeClientFilterFielsHandler}
+              value={clientFilterState.account_manager_id}
+            >
+              <MenuItem value="">{t('common:form.all')}</MenuItem>
+              {filterStore.resources.managers.map(
+                ({ email, id }: any) => (
+                  <MenuItem key={id} value={id}>
+                    {email}
+                  </MenuItem>
+                ),
+              )}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs>
+          <FormControl fullWidth>
+            <InputLabel shrink htmlFor="role">
+              {t('client_listing:form.role')}
+            </InputLabel>
+
+            <Select
+              displayEmpty
+              name="role"
+              onChange={onChangeClientFilterFielsHandler}
+              value={clientFilterState.role}
+            >
+              <MenuItem value="">{t('common:form.all')}</MenuItem>
+              {filterStore.resources.clientRols.map(
+                ({ name, value }: any) => (
+                  <MenuItem key={value} value={value}>
+                    {name}
+                  </MenuItem>
+                ),
+              )}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <Button type="submit" variant="contained" color="primary">
+            {t('common:form.button_filter')}
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
+  );
+}
+
+export default inject(({ clientListingStore }) => ({
+  clientListingStore,
+}))(observer(ClientListingFilter));

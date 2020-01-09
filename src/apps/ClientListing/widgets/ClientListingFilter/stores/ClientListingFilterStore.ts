@@ -1,5 +1,4 @@
 import { types, flow } from 'mobx-state-tree';
-import axios from 'axios';
 import {
   LOAD_STATES,
   USERS_ROLES,
@@ -25,7 +24,7 @@ const ClientListingFilterStore = types
     ),
   })
   .views(self => ({
-    get getCampaigns() {
+    get getCampaigns(): any {
       return self.resources.getCampaigns;
     },
   }))
@@ -39,7 +38,7 @@ const ClientListingFilterStore = types
           clientStatuses,
           clientRols,
           managers,
-        ] = yield axios.all([
+        ] = yield Promise.all([
           getClientFiscalStatus(),
           getClientStatuses(),
           getClientRols(),

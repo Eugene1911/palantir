@@ -1,4 +1,5 @@
-import { types, flow } from 'mobx-state-tree';
+/* eslint-disable @typescript-eslint/camelcase */
+import { types, flow, Instance } from 'mobx-state-tree';
 import { LOAD_STATES } from 'config/constants';
 import emptyFieldsToNull from 'helpers/emptyFieldsToNull';
 import { getUsers } from 'resources/api';
@@ -39,7 +40,7 @@ const ClientListingStore = types
       return emptyFieldsToNull(self.requestParams);
     },
   }))
-  .actions(self => ({
+  .actions((self: any) => ({
     getClientList: flow(function* getResources() {
       const params = self.requestParamsWithoutEmpty;
 
@@ -58,7 +59,7 @@ const ClientListingStore = types
       }
     }),
 
-    requestFromFilter(newParams) {
+    requestFromFilter(newParams: any): void {
       self.setRequestParams({
         ...newParams,
         page: 0,
@@ -66,17 +67,19 @@ const ClientListingStore = types
       self.getClientList();
     },
 
-    setRequestGetClients(newParams) {
+    setRequestGetClients(newParams: any): void {
       self.setRequestParams(newParams);
       self.getClientList();
     },
 
-    setRequestParams(newParams) {
+    setRequestParams(newParams: any): void {
       self.requestParams = {
         ...self.requestParams,
         ...newParams,
       };
     },
   }));
+
+export type IClientListingStore = Instance<typeof ClientListingStore>;
 
 export default ClientListingStore;

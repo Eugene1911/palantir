@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { InferProps } from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import TableCell from '@material-ui/core/TableCell';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -11,10 +11,14 @@ import { numberToFixed } from 'helpers/numberFormat';
 import dateFnsFormat from 'helpers/dateFnsFormat';
 import PAGE_PATH from 'helpers/pagePath';
 import getStatusColor from 'helpers/getStatusColor';
-import getClientFiscalStatusIcon from './services/getClientFiscalStatusIcon';
+import GetClientFiscalStatusIcon from '../GetClientFiscalStatusIcon';
 import getEstimatedFilter from './services/getEstimatedFilter';
 
-function ClientListingTableBody({ clients, isPending, cols }) {
+function ClientListingTableBody({
+  clients,
+  isPending,
+  cols,
+}: InferProps<typeof ClientListingTableBody.propTypes>): JSX.Element {
   if (isPending) {
     return <TableLoader cols={cols} />;
   }
@@ -46,7 +50,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
               href={`${PAGE_PATH.BACKOFFICE_CLIENT_RECORD}${client.id}`}
             >
               <IconButton color="primary" size="small">
-                {getClientFiscalStatusIcon(client.fiscal_status)}
+                {GetClientFiscalStatusIcon(client.fiscal_status)}
               </IconButton>
               {client.email}
             </a>
@@ -63,7 +67,7 @@ function ClientListingTableBody({ clients, isPending, cols }) {
           </TableCell>
           <TableCell className="global-first-character-uppercase">
             {client.roles &&
-              client.roles.map(role => role).join(',\n')}
+              client.roles.map((role: any) => role).join(',\n')}
           </TableCell>
           <TableCell>
             {client.account_manager_id && (

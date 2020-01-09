@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import ClientListingFilter from '../ClientListingFilter';
 import ClientListingTable from '../ClientListingTable';
 
-function ClientListingMain() {
+function ClientListingMain(): JSX.Element {
   const { t } = useTranslation();
 
   return (
