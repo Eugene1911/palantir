@@ -1,7 +1,6 @@
 import {
   statsCalculatesECPC,
   statsNumberToFixed,
-  statsDateFormat,
 } from 'helpers/statistic/calculated';
 
 const tableScheme = [
