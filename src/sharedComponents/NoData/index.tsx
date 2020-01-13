@@ -10,7 +10,7 @@ type NoDataProps = {
 };
 
 function NoData({ title = NO_DATA_TITLE }: NoDataProps): JSX.Element {
-  const classes = useStyles();
+  const classes = useStyles({});
 
   return (
     <div className={classes.root}>
