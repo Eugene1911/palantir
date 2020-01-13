@@ -1,67 +1,72 @@
-import { types, flow } from 'mobx-state-tree';
-import {
-  LOAD_STATES,
-  USERS_ROLES,
-  MAX_COUNT_LOAD_USERS,
-} from 'config/constants';
-import {
-  getClientFiscalStatus,
-  getClientStatuses,
-  getClientRols,
-  getUsers,
-} from 'resources/api';
+import { types, Instance, getParent } from 'mobx-state-tree';
+import mapValues from 'lodash/mapValues';
+import formatReqestParams from 'helpers/formatReqestParams';
+import { PAGINATIONS_DEFAULT_COUNT_PAGE } from 'config/constants';
+
+const START_PAGE = 1;
 
 const ClientListingFilterStore = types
-  .model('ClientListingFilterStore', {
-    resources: types.frozen(),
-    state: types.optional(
-      types.enumeration('State', [
-        LOAD_STATES.PENDING,
-        LOAD_STATES.DONE,
-        LOAD_STATES.ERROR,
-      ]),
-      LOAD_STATES.PENDING,
+  .model({
+    id: types.optional(types.string, ''),
+    account_manager_id: types.optional(
+      types.union(types.number, types.string),
+      '',
+    ),
+    email: types.optional(types.string, ''),
+    role: types.optional(types.string, ''),
+    company_name: types.optional(types.string, ''),
+    fiscal_status: types.optional(types.string, ''),
+    status: types.optional(types.string, ''),
+    order: types.optional(types.string, ''),
+    page: types.optional(types.number, START_PAGE),
+    size: types.optional(
+      types.number,
+      PAGINATIONS_DEFAULT_COUNT_PAGE,
     ),
   })
-  .views(self => ({
-    get getCampaigns(): any {
-      return self.resources.getCampaigns;
+  .views((self: any) => ({
+    get requestParams(): any {
+      return mapValues(self, formatReqestParams);
     },
   }))
-  .actions(self => ({
-    getResources: flow(function* getResources() {
-      self.state = LOAD_STATES.PENDING;
-
-      try {
-        const [
-          clientFiscalStatus,
-          clientStatuses,
-          clientRols,
-          managers,
-        ] = yield Promise.all([
-          getClientFiscalStatus(),
-          getClientStatuses(),
-          getClientRols(),
-          getUsers({
-            size: MAX_COUNT_LOAD_USERS,
-            roles: USERS_ROLES.MANAGER,
-          }),
-        ]);
-
-        self.state = LOAD_STATES.DONE;
-
-        self.resources = {
-          clientFiscalStatus,
-          clientStatuses,
-          clientRols,
-          managers: managers.data.response,
-        };
-      } catch (error) {
-        console.error('Failed to fetch projects', error);
-
-        self.state = LOAD_STATES.ERROR;
-      }
-    }),
+  .actions((self: any) => ({
+    onSubmitFilterHandler: (
+      event: React.FormEvent<Element>,
+    ): void => {
+      const { getClientList } = getParent(self);
+      event.preventDefault();
+      self.page = START_PAGE;
+      getClientList();
+    },
+    onChangePaginationHandler: (params: any): void => {
+      const { getClientList } = getParent(self);
+      self.setPagination(params);
+      getClientList();
+    },
+    setPagination: ({ page, size }: any): void => {
+      self.page = page || self.page;
+      self.size = size || self.size;
+    },
+    onChangeOrderHandler: ({
+      order,
+    }: Record<string, string>): void => {
+      const { getClientList } = getParent(self);
+      self.order = order;
+      getClientList();
+    },
+    onChangeClientFilterFielsHandler: ({
+      target,
+    }: React.ChangeEvent<{
+      name?: string;
+      value: unknown;
+    }>): void => {
+      const { name, value } = target;
+      self[name] = value;
+    },
   }));
+
+export type IClientListingFilterStore = Instance<
+  typeof ClientListingFilterStore
+>;
 
 export default ClientListingFilterStore;

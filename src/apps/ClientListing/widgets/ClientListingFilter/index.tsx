@@ -10,30 +10,26 @@ import Button from '@material-ui/core/Button';
 import { inject, observer } from 'mobx-react';
 import { LOAD_STATES } from 'config/constants';
 import FilterLoader from 'sharedComponents/loaders/FilterLoader';
-import useClientListingFilter from './services/useClientListingFilter';
-import { IClientListingStore } from '../../stores/ClientListingStore';
+import { IClientListingFilterResourceStore } from './stores/ClientListingFilterResourceStore';
+import { IClientListingFilterStore } from './stores/ClientListingFilterStore';
 
 type ClientListingFilterProps = {
-  clientListingStore?: IClientListingStore;
+  filterResources?: IClientListingFilterResourceStore;
+  filter?: IClientListingFilterStore;
 };
 
 function ClientListingFilter({
-  clientListingStore,
+  filterResources,
+  filter,
 }: ClientListingFilterProps): JSX.Element {
   const { t } = useTranslation();
-  const {
-    filterStore,
-    clientFilterState,
-    onSubmitFilterHandler,
-    onChangeClientFilterFielsHandler,
-  } = useClientListingFilter(clientListingStore);
 
-  if (filterStore.state === LOAD_STATES.PENDING) {
+  if (filterResources.state === LOAD_STATES.PENDING) {
     return <FilterLoader />;
   }
 
   return (
-    <form onSubmit={onSubmitFilterHandler}>
+    <form onSubmit={filter.onSubmitFilterHandler}>
       <Grid
         justify="space-between"
         alignItems="flex-end"
@@ -45,8 +41,8 @@ function ClientListingFilter({
             fullWidth
             label={t('common:form.id')}
             name="id"
-            value={clientFilterState.id}
-            onChange={onChangeClientFilterFielsHandler}
+            value={filter.id}
+            onChange={filter.onChangeClientFilterFielsHandler}
           />
         </Grid>
         <Grid item xs={12} sm={6} md>
@@ -54,8 +50,8 @@ function ClientListingFilter({
             fullWidth
             label={t('common:form.e_mail')}
             name="email"
-            value={clientFilterState.email}
-            onChange={onChangeClientFilterFielsHandler}
+            value={filter.email}
+            onChange={filter.onChangeClientFilterFielsHandler}
           />
         </Grid>
         <Grid item xs={12} sm={6} md>
@@ -63,8 +59,8 @@ function ClientListingFilter({
             fullWidth
             label={t('client_listing:form.company_name')}
             name="company_name"
-            value={clientFilterState.company_name}
-            onChange={onChangeClientFilterFielsHandler}
+            value={filter.company_name}
+            onChange={filter.onChangeClientFilterFielsHandler}
           />
         </Grid>
         <Grid item xs={12} sm={6} md>
@@ -76,11 +72,11 @@ function ClientListingFilter({
             <Select
               displayEmpty
               name="fiscal_status"
-              onChange={onChangeClientFilterFielsHandler}
-              value={clientFilterState.fiscal_status}
+              onChange={filter.onChangeClientFilterFielsHandler}
+              value={filter.fiscal_status}
             >
               <MenuItem value="">{t('common:form.all')}</MenuItem>
-              {filterStore.resources.clientFiscalStatus.map(
+              {filterResources.resources.clientFiscalStatus.map(
                 ({ name, value }: any) => (
                   <MenuItem key={value} value={value}>
                     {name}
@@ -99,11 +95,11 @@ function ClientListingFilter({
             <Select
               displayEmpty
               name="status"
-              onChange={onChangeClientFilterFielsHandler}
-              value={clientFilterState.status}
+              onChange={filter.onChangeClientFilterFielsHandler}
+              value={filter.status}
             >
               <MenuItem value="">{t('common:form.all')}</MenuItem>
-              {filterStore.resources.clientStatuses.map(
+              {filterResources.resources.clientStatuses.map(
                 ({ name, value }: any) => (
                   <MenuItem key={value} value={value}>
                     {name}
@@ -122,11 +118,11 @@ function ClientListingFilter({
             <Select
               displayEmpty
               name="account_manager_id"
-              onChange={onChangeClientFilterFielsHandler}
-              value={clientFilterState.account_manager_id}
+              onChange={filter.onChangeClientFilterFielsHandler}
+              value={filter.account_manager_id}
             >
               <MenuItem value="">{t('common:form.all')}</MenuItem>
-              {filterStore.resources.managers.map(
+              {filterResources.resources.managers.map(
                 ({ email, id }: any) => (
                   <MenuItem key={id} value={id}>
                     {email}
@@ -145,11 +141,11 @@ function ClientListingFilter({
             <Select
               displayEmpty
               name="role"
-              onChange={onChangeClientFilterFielsHandler}
-              value={clientFilterState.role}
+              onChange={filter.onChangeClientFilterFielsHandler}
+              value={filter.role}
             >
               <MenuItem value="">{t('common:form.all')}</MenuItem>
-              {filterStore.resources.clientRols.map(
+              {filterResources.resources.clientRols.map(
                 ({ name, value }: any) => (
                   <MenuItem key={value} value={value}>
                     {name}
@@ -170,5 +166,6 @@ function ClientListingFilter({
 }
 
 export default inject(({ clientListingStore }) => ({
-  clientListingStore,
+  filterResources: clientListingStore.filterResources,
+  filter: clientListingStore.filter,
 }))(observer(ClientListingFilter));

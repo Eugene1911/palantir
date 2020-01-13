@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Table from '@material-ui/core/Table';
 import CardContent from '@material-ui/core/CardContent';
@@ -19,17 +19,12 @@ function ClientListingTable({
 }: ClientListingTableProps): JSX.Element {
   const tableHeaderRows = useTableHeaderRows();
   const {
-    setRequestGetClients,
     clientsList,
-    clientsListPages,
+    filter,
+    countPage,
     clientsListState,
-    getClientList,
   } = clientListingStore;
   const isPending: boolean = clientsListState === LOAD_STATES.PENDING;
-
-  useEffect(() => {
-    getClientList();
-  }, [getClientList]);
 
   if (!isPending && !clientsList.length) {
     return <NoData />;
@@ -39,18 +34,18 @@ function ClientListingTable({
     <>
       <CardContent>
         <TablePaginationMain
-          page={clientsListPages.page}
-          count={clientsListPages.count}
-          pageSize={clientsListPages.page_size}
+          page={filter.page}
+          count={countPage}
+          pageSize={filter.size}
           isFetching={isPending}
-          onChange={setRequestGetClients}
+          onChange={filter.onChangePaginationHandler}
         />
       </CardContent>
 
       <div className="global-table-responsive">
         <Table>
           <TableHeadMainSort
-            onChange={setRequestGetClients}
+            onChange={filter.onChangeOrderHandler}
             isFetching={isPending}
             rows={tableHeaderRows}
           />

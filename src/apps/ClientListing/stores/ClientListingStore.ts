@@ -4,6 +4,7 @@ import { LOAD_STATES } from 'config/constants';
 import emptyFieldsToNull from 'helpers/emptyFieldsToNull';
 import { getUsers } from 'resources/api';
 import ClientListingFilterStore from '../widgets/ClientListingFilter/stores/ClientListingFilterStore';
+import ClientListingFilterResourceStore from '../widgets/ClientListingFilter/stores/ClientListingFilterResourceStore';
 
 const initClientFilterState = {
   id: '',
@@ -17,9 +18,13 @@ const initClientFilterState = {
 
 const ClientListingStore = types
   .model('ClientListingStore', {
-    filterStore: types.optional(ClientListingFilterStore, {
-      resources: {},
-    }),
+    filter: types.optional(ClientListingFilterStore, {}),
+    filterResources: types.optional(
+      ClientListingFilterResourceStore,
+      {
+        resources: {},
+      },
+    ),
     requestParams: types.optional(
       types.frozen(),
       initClientFilterState,
@@ -32,6 +37,7 @@ const ClientListingStore = types
       ]),
       LOAD_STATES.PENDING,
     ),
+    countPage: types.optional(types.number, 0),
     clientsList: types.optional(types.frozen(), []),
     clientsListPages: types.optional(types.frozen(), {}),
   })
@@ -41,43 +47,32 @@ const ClientListingStore = types
     },
   }))
   .actions((self: any) => ({
+    afterCreate() {
+      self.getClientList();
+    },
     getClientList: flow(function* getResources() {
-      const params = self.requestParamsWithoutEmpty;
+      const params = self.filter.requestParams;
 
       self.clientsListState = LOAD_STATES.PENDING;
 
       try {
-        const response = yield getUsers(params);
+        const { data } = yield getUsers(params);
+        const { page, page_count, page_size } = data;
 
         self.clientsListState = LOAD_STATES.DONE;
 
-        self.clientsList = response.data.response;
-        self.clientsListPages = response.data;
+        self.clientsList = data.response;
+        self.countPage = page_count;
+        self.filter.setPagination({
+          page,
+          size: page_size,
+        });
+        self.clientsListPages = data;
       } catch (error) {
         console.error('Failed to fetch projects', error);
         self.clientsListState = LOAD_STATES.ERROR;
       }
     }),
-
-    requestFromFilter(newParams: any): void {
-      self.setRequestParams({
-        ...newParams,
-        page: 0,
-      });
-      self.getClientList();
-    },
-
-    setRequestGetClients(newParams: any): void {
-      self.setRequestParams(newParams);
-      self.getClientList();
-    },
-
-    setRequestParams(newParams: any): void {
-      self.requestParams = {
-        ...self.requestParams,
-        ...newParams,
-      };
-    },
   }));
 
 export type IClientListingStore = Instance<typeof ClientListingStore>;
