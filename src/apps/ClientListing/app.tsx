@@ -1,15 +1,15 @@
 import React from 'react';
 import globalStyles from 'themes/global.styles';
+import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
 import ClientListingStore from './stores/ClientListingStore';
 import ClientListingMain from './widgets/ClientListingMain';
-import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
-
-const store = {
-  clientListingStore: ClientListingStore.create(),
-};
 
 function ClientListingApp(): JSX.Element {
   globalStyles();
+
+  const store = {
+    clientListingStore: ClientListingStore.create(),
+  };
 
   return (
     <WrapperStartAppComponent store={store}>
