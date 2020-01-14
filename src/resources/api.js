@@ -1,14 +1,19 @@
 import transformRequestOptions from 'helpers/transformRequestOptions';
+import requestParamsSerializer from 'helpers/requestParamsSerializer';
 import {
   FORMATS,
-  CAMPAIGNS,
   USERS,
+  COUNTRIES,
+  CAMPAIGNS,
+  APPLICATIONS,
   CAMPAIGNS_CLONE,
   CAMPAIGNS_SAVE_AS,
   CAMPAIGNS_ARCHIVE,
   CAMPAIGNS_REJECT_REASONS,
   CAMPAIGNS_DISAPPROVE,
   TOOLS_CURRENCY_EXCHANGE,
+  PUBLISHER_CUSTOM_REPORT,
+  SPOTS,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -19,10 +24,69 @@ import API from './services/APIService';
 export const getFormats = params => API.get(FORMATS, { params });
 
 /**
+ * Get Spots
+ * @param {Object} params
+ */
+export const getSpots = params =>
+  API.get(SPOTS, {
+    params,
+    paramsSerializer: requestParamsSerializer,
+  });
+
+/**
  * Get Users
  * @param {Object} params
  */
 export const getUsers = params => API.get(USERS, { params });
+
+/**
+ * Get Applications
+ * @param {Object} params
+ */
+export const getApplications = params =>
+  API.get(APPLICATIONS, {
+    params,
+    paramsSerializer: requestParamsSerializer,
+  });
+
+/**
+ * Get Countries
+ * @param {Object} params
+ */
+export const getCountries = params => API.get(COUNTRIES, { params });
+
+/**
+ * Publisher custom report
+ * @param {String} groupType -[app, domain, browser, carrier, campaign, creative, etc]
+ * @param {Object} params
+ */
+export const getPublisherCustomReport = (groupType, params) =>
+  API.get(`${PUBLISHER_CUSTOM_REPORT}${groupType}`, {
+    params,
+    paramsSerializer: requestParamsSerializer,
+  });
+
+/**
+ * Cutsom report group type
+ */
+export const GROUP_TYPES_CUSTOM_REPORTS = {
+  app: 'app',
+  domain: 'domain',
+  browser: 'browser',
+  carrier: 'carrier',
+  campaign: 'campaign',
+  creative: 'creative',
+  country: 'country',
+  day: 'day',
+  hour: 'hour',
+  device: 'device',
+  format: 'format',
+  language: 'language',
+  os: 'os',
+  rtbClient: 'rtb-client',
+  spot: 'spot',
+  category: 'category',
+};
 
 /**
  * Get compaigns

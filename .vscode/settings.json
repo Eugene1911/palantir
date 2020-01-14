@@ -1,12 +1,16 @@
 {
   "files.autoSave": "onFocusChange",
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.formatOnType": true,
-  "eslint.autoFixOnSave": true,
   "eslint.enable": true,
+  "typescript.format.enable": true,
   "prettier.singleQuote": true,
   "prettier.semi": true,
   "prettier.arrowParens": "avoid",
   "prettier.jsxSingleQuote": false,
-  "prettier.eslintIntegration": true
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.tslint": true,
+    "source.fixAll.stylelint": true
+  }
 }

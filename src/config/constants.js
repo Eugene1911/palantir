@@ -47,7 +47,7 @@ export const LOAD_STATES = {
 
 // Date
 export const DATE_MAIN_FORMAT = 'dd.MM.yyyy';
-export const CURRENCY_EXCHANGE_DATE_FORMAT = 'yyyy-MM-dd';
+export const DATE_REQUEST_FORMAT = 'yyyy-MM-dd';
 
 // Users
 export const USERS_ROLES = {
@@ -60,3 +60,17 @@ export const I18N_LOCALES_FILES_PATH = '/locales/{{lng}}/{{ns}}.json';
 
 // Regular expressions
 export const REGEXP_AMOUNT = /^[0-9]*\.?[0-9]*$/;
+
+// Multi select
+export const MAX_COUNT_SELECTED_ITEMS = 3;
+export const ALL_ITEAM_MULTISELECT = {
+  name: 'All',
+  id: 'all',
+};
+
+// Payments types
+export const PRICING_MODELS = {
+  CPM: 'cpm',
+  CPC: 'cpc',
+  CPA: 'cpa',
+};
