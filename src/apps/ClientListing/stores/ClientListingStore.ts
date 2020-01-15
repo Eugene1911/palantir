@@ -57,12 +57,12 @@ const ClientListingStore = types
 
       try {
         const { data } = yield getUsers(params);
-        const { page, page_count, page_size } = data;
+        const { page, count, page_size } = data;
 
         self.clientsListState = LOAD_STATES.DONE;
 
         self.clientsList = data.response;
-        self.countPage = page_count;
+        self.countPage = count;
         self.filter.setPagination({
           page,
           size: page_size,
