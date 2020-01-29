@@ -29,6 +29,10 @@ function campaignPlayPauseActions(
       });
     })
     .catch(({ response }) => {
+      const {
+        data: { msg: errorMessage },
+      } = response;
+
       dispatch({
         type: CAMPAIGN_PLAY_PAUSE_BUTTON_ACTIONS.FAILURE,
         payload: response.data,
@@ -36,7 +40,8 @@ function campaignPlayPauseActions(
 
       infoNotification({
         variant: 'error',
-        message: t('common:error.something_went_wrong'),
+        message:
+          errorMessage || t('common:error.something_went_wrong'),
       });
     });
 }
