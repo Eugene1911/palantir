@@ -107,7 +107,8 @@
       "parameter",
       "arrow-call-signature",
       "arrow-parameter",
-      "property-declaration"
+      "property-declaration",
+      "variable-declaration"
     ],
     "no-consecutive-blank-lines": true
   },
