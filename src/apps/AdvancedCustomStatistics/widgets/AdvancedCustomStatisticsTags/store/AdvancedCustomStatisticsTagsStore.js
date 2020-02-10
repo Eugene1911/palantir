@@ -6,6 +6,7 @@ const AdvancedCustomStatisticsTagsStore = types
     spots: types.frozen([]),
     countries: types.frozen([]),
     formats: types.frozen([]),
+    devices: types.frozen([]),
   })
   .actions(self => ({
     setApplications(applications) {
@@ -19,6 +20,9 @@ const AdvancedCustomStatisticsTagsStore = types
     },
     setFormat(formats) {
       self.formats = formats;
+    },
+    setDevices(devices) {
+      self.devices = devices;
     },
     onDeleteSpotHandler(value) {
       const { filter } = getParent(self);
@@ -53,6 +57,17 @@ const AdvancedCustomStatisticsTagsStore = types
       );
 
       filter.onChangeHandlerFormat(
+        resultList.map(({ id }) => id),
+        resultList,
+      );
+    },
+    onDeleteDevicesHandler(value) {
+      const { filter } = getParent(self);
+      const resultList = self.devices.filter(
+        ({ id }) => id !== value,
+      );
+
+      filter.onChangeDeviceHandler(
         resultList.map(({ id }) => id),
         resultList,
       );
