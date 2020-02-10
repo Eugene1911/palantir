@@ -52,6 +52,8 @@ function FilterSide({
           <Typography variant="h5" component="h3" gutterBottom>
             {t('common:title.Filter')}
           </Typography>
+          <br />
+          <br />
           {children}
         </CardContent>
       </Drawer>
