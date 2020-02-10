@@ -12,6 +12,7 @@ import {
 function useSpotsAutocompleteMultiSelect(
   label,
   onChange,
+  spotsIds,
   applicationsIds,
 ) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +35,7 @@ function useSpotsAutocompleteMultiSelect(
       ({ id }) => id === ALL_ITEAM_MULTISELECT.id,
     );
     const countSelected = selectedValue.length;
-    const isSelectedAll = indexAllItem !== -1 && countSelected;
+    const isSelectedAll = indexAllItem !== -1;
 
     if (isSelectedAll && isOpenEvent) {
       setSelectedValue([]);
@@ -47,8 +48,9 @@ function useSpotsAutocompleteMultiSelect(
     <>
       <Checkbox
         indeterminate={id === ALL_ITEAM_MULTISELECT.id}
-        value={id}
+        // value={id}
         checked={selected}
+        // checked={spotsIds.includes(id)}
       />
       {name}
     </>
@@ -81,6 +83,11 @@ function useSpotsAutocompleteMultiSelect(
         response,
         ({ application }) => application.id,
       );
+      const selectedSpots = sortSpotsList.filter(({ id }) =>
+        spotsIds.includes(id),
+      );
+      setSelectedValue(selectedSpots);
+      onChange(selectedSpots);
       lastApplicationsIds.current = clone(applicationsIds);
       sortSpotsList.unshift(ALL_ITEAM_MULTISELECT);
       setAutocompleteData(sortSpotsList);
@@ -98,7 +105,11 @@ function useSpotsAutocompleteMultiSelect(
       setAutocompleteData([ALL_ITEAM_MULTISELECT]);
       onChange([]);
     }
-  }, [applicationsIds, onChange]);
+  }, [applicationsIds, onChange, spotsIds]);
+
+  useEffect(() => {
+    console.log('useEffect SPOTS ----->', spotsIds);
+  }, [spotsIds]);
 
   return {
     isOpen,
