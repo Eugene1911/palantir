@@ -42,8 +42,8 @@ const tableScheme = [
   },
   {
     name: 'CTR',
-    field: 'ctr',
-    id: 'ctr',
+    field: 'amount',
+    id: 'amount',
     prefix: '',
     sufix: '%',
     numeric: true,
