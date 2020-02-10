@@ -9,6 +9,7 @@ function SpotsAutocompleteMultiSelect({
   label,
   onChange,
   applicationsIds,
+  spotsIds,
 }) {
   const {
     isOpen,
@@ -22,6 +23,7 @@ function SpotsAutocompleteMultiSelect({
   } = useSpotsAutocompleteMultiSelect(
     label,
     onChange,
+    spotsIds,
     applicationsIds,
   );
 
