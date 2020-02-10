@@ -2,6 +2,9 @@ import transformRequestOptions from 'helpers/transformRequestOptions';
 import requestParamsSerializer from 'helpers/requestParamsSerializer';
 import {
   FORMATS,
+  DEVICES,
+  OS,
+  BROWSERS,
   USERS,
   COUNTRIES,
   CAMPAIGNS,
@@ -22,6 +25,24 @@ import API from './services/APIService';
  * @param {Object} params
  */
 export const getFormats = params => API.get(FORMATS, { params });
+
+/**
+ * Get Ad Devices
+ * @param {Object} params
+ */
+export const getDevices = params => API.get(DEVICES, { params });
+
+/**
+ * Get OSes
+ * @param {Object} params
+ */
+export const getOSes = params => API.get(OS, { params });
+
+/**
+ * Get Browsers
+ * @param {Object} params
+ */
+export const getBrowsers = params => API.get(BROWSERS, { params });
 
 /**
  * Get Spots
