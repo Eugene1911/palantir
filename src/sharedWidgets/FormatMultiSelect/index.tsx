@@ -3,18 +3,30 @@ import PropTypes from 'prop-types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import ProgressLoaderMultiSelect from 'sharedComponents/ProgressLoaderMultiSelect';
-import useFormatMultiSelect from './services/useFormatMultiSelect';
-import renderTagsFormatMultiSelect from './services/renderTagsFormatMultiSelect';
-import renderOptionFormatMultiSelect from './services/renderOptionFormatMultiSelect';
+import { TMultiSelectOnChangeHandler, TFormatAPI } from 'sharedTypes';
+import OptionFormatMultiSelect from 'sharedComponents/OptionFilterMultiSelect';
+import tagsForFilterMultiSelect from 'helpers/tagsForFilterMultiSelect';
+import useFormatMultiSelect, {
+  TUseFormatMultiSelect,
+} from './services/useFormatMultiSelect';
 
-function FormatMultiSelect({ onChange, value }) {
+export type TFormatMultiSelectProps = {
+  onChange: TMultiSelectOnChangeHandler<TFormatAPI>;
+  value: Array<number>;
+};
+
+function FormatMultiSelect({
+  onChange,
+  value,
+}: TFormatMultiSelectProps): JSX.Element {
   const {
     isLoading,
     selectedValue,
     autocompleteData,
     onOpenHandler,
     onChangeHandler,
-  } = useFormatMultiSelect(onChange, value);
+    getOptionLabel,
+  }: TUseFormatMultiSelect = useFormatMultiSelect(onChange, value);
 
   return (
     <Autocomplete
@@ -26,10 +38,10 @@ function FormatMultiSelect({ onChange, value }) {
       onOpen={onOpenHandler}
       onChange={onChangeHandler}
       disableClearable
-      renderTags={renderTagsFormatMultiSelect}
-      getOptionLabel={({ name }) => name}
-      renderOption={renderOptionFormatMultiSelect}
-      renderInput={params => (
+      renderTags={tagsForFilterMultiSelect}
+      getOptionLabel={getOptionLabel}
+      renderOption={OptionFormatMultiSelect}
+      renderInput={(params): JSX.Element => (
         <TextField
           {...params}
           label="Format"
