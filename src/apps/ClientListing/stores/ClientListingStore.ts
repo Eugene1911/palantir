@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { types, flow, Instance } from 'mobx-state-tree';
+import {
+  types,
+  flow,
+  Instance,
+  IAnyStateTreeNode,
+} from 'mobx-state-tree';
 import { LOAD_STATES } from 'config/constants';
 import emptyFieldsToNull from 'helpers/emptyFieldsToNull';
 import { getUsers } from 'resources/api';
@@ -46,7 +51,7 @@ const ClientListingStore = types
       return emptyFieldsToNull(self.requestParams);
     },
   }))
-  .actions((self: any) => ({
+  .actions((self: IAnyStateTreeNode) => ({
     afterCreate() {
       self.getClientList();
     },
