@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { getCountries } from 'resources/api';
 
 const tiersList = [
@@ -21,17 +21,22 @@ function useCountriesMultiSelect(onChange, selectedCountries) {
   const [isLoading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [countriesList, setCountriesList] = useState([]);
-  const [selectedCountriesIds, setSelectedCountriesIds] = useState([
-    ...selectedCountries,
-  ]);
+  const getSelectedCountriesValue = useCallback(
+    values =>
+      countriesList.filter(({ code }) => values.includes(code)),
+    [countriesList],
+  );
   const onSelectTierHandler = (event, value) => {
-    const selectedTiers = countriesList
-      .filter(({ tier }) => tier === value)
-      .map(({ code }) => code);
+    const selectedTiers = countriesList.filter(
+      ({ tier }) => tier === value,
+    );
 
     event.stopPropagation();
 
-    setSelectedCountriesIds(selectedTiers);
+    onChange(
+      selectedTiers.map(({ code }) => code),
+      selectedTiers,
+    );
   };
   const onChangeFilterTextHandler = ({ target }) => {
     const { value } = target;
@@ -43,15 +48,15 @@ function useCountriesMultiSelect(onChange, selectedCountries) {
     const isAll = value.includes('all');
 
     if (isAll) {
-      setSelectedCountriesIds([]);
-    } else {
-      setSelectedCountriesIds(value);
+      onChange([], []);
+    } else if (value) {
+      onChange(value, getSelectedCountriesValue(value));
     }
   };
 
   useMemo(() => {
-    onChange(selectedCountriesIds);
-  }, [onChange, selectedCountriesIds]);
+    onChange(null, getSelectedCountriesValue(selectedCountries));
+  }, [getSelectedCountriesValue, onChange, selectedCountries]);
 
   useEffect(() => {
     const loadCountries = async () => {
@@ -61,16 +66,22 @@ function useCountriesMultiSelect(onChange, selectedCountries) {
     };
     if (
       (isLoading && !countriesList.length) ||
-      (!countriesList.length && selectedCountriesIds.length)
+      (!countriesList.length && selectedCountries.length)
     )
       loadCountries();
-  }, [countriesList.length, isLoading, selectedCountriesIds.length]);
+  }, [
+    countriesList.length,
+    getSelectedCountriesValue,
+    isLoading,
+    onChange,
+    selectedCountries,
+    selectedCountries.length,
+  ]);
 
   return {
     onChangeFilterTextHandler,
     onChangeSelectHandler,
     onSelectTierHandler,
-    selectedCountriesIds,
     countriesList,
     isProgress,
     searchText,
