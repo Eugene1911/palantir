@@ -10,11 +10,13 @@ function AdvancedCustomStatisticsTags({
     applications,
     spots,
     countries,
+    devices,
     formats,
     onDeleteApplicationHandler,
     onDeleteSpotHandler,
     onDeleteCountriesHandler,
     onDeleteFormatsHandler,
+    onDeleteDevicesHandler,
   } = advancedCustomStatisticsTags;
 
   return (
@@ -56,6 +58,16 @@ function AdvancedCustomStatisticsTags({
           size="small"
           label={name}
           onDelete={() => onDeleteFormatsHandler(id)}
+        />
+      ))}
+      <Divider />
+      {devices.map(({ id, name }) => (
+        <Chip
+          key={id}
+          variant="outlined"
+          size="small"
+          label={name}
+          onDelete={() => onDeleteDevicesHandler(id)}
         />
       ))}
     </>
