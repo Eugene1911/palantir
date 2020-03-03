@@ -3,52 +3,47 @@ import PropTypes from 'prop-types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import ProgressLoaderMultiSelect from 'sharedComponents/ProgressLoaderMultiSelect';
-import useSpotsAutocompleteMultiSelect from './services/useSpotsAutocompleteMultiSelect';
+import { TMultiSelectOnChangeHandler, TOSAPI } from 'sharedTypes';
+import OptionDeviceMultiSelect from 'sharedComponents/OptionFilterMultiSelect';
+import tagsForFilterMultiSelect from 'helpers/tagsForFilterMultiSelect';
+import { getOSes } from 'resources/api';
+import useFilterMultiSelect from 'helpers/useFilterMultiSelect';
 
-function SpotsAutocompleteMultiSelect({
-  label,
+export type TOSMultiSelectProps = {
+  onChange: TMultiSelectOnChangeHandler<TOSAPI>;
+  value: Array<number>;
+};
+
+function OSMultiSelect({
   onChange,
-  applicationsIds,
-  spotsIds,
-}) {
+  value,
+}: TOSMultiSelectProps): JSX.Element {
   const {
-    isOpen,
     isLoading,
     selectedValue,
     autocompleteData,
-    onOpenCloseHandler,
-    renderTagsHandler,
+    onOpenHandler,
     onChangeHandler,
-    renderOptionHandler,
-  } = useSpotsAutocompleteMultiSelect(
-    label,
-    onChange,
-    spotsIds,
-    applicationsIds,
-  );
+    getOptionLabel,
+  } = useFilterMultiSelect(onChange, value, getOSes);
 
   return (
     <Autocomplete
-      open={isOpen}
       multiple
       disableCloseOnSelect
       value={selectedValue}
       loading={isLoading}
       options={autocompleteData}
-      onOpen={() => onOpenCloseHandler(true)}
-      onClose={() => onOpenCloseHandler(false)}
+      onOpen={onOpenHandler}
       onChange={onChangeHandler}
-      groupBy={({ application }) =>
-        application ? application.name : null
-      }
       disableClearable
-      renderTags={renderTagsHandler}
-      getOptionLabel={({ name }) => name}
-      renderOption={renderOptionHandler}
-      renderInput={params => (
+      renderTags={tagsForFilterMultiSelect}
+      getOptionLabel={getOptionLabel}
+      renderOption={OptionDeviceMultiSelect}
+      renderInput={(params): React.ReactNode => (
         <TextField
           {...params}
-          label={label}
+          label="OS"
           InputProps={{
             ...params.InputProps,
             endAdornment: (
@@ -65,14 +60,9 @@ function SpotsAutocompleteMultiSelect({
   );
 }
 
-SpotsAutocompleteMultiSelect.propTypes = {
-  applicationsIds: PropTypes.array,
-  label: PropTypes.string.isRequired,
+OSMultiSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
+  value: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
-SpotsAutocompleteMultiSelect.defaultProps = {
-  applicationsIds: [],
-};
-
-export default SpotsAutocompleteMultiSelect;
+export default OSMultiSelect;

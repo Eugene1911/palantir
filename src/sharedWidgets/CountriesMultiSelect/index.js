@@ -21,7 +21,6 @@ function CountriesMultiSelect({ onChange, selectedCountries }) {
     onChangeFilterTextHandler,
     onChangeSelectHandler,
     onSelectTierHandler,
-    selectedCountriesIds,
     countriesList,
     isProgress,
     searchText,
@@ -63,7 +62,7 @@ function CountriesMultiSelect({ onChange, selectedCountries }) {
             <Typography noWrap>{countriesSelectedList}</Typography>
           );
         }}
-        value={selectedCountriesIds}
+        value={selectedCountries}
       >
         <div className={classes.content}>
           <TextField
@@ -73,6 +72,7 @@ function CountriesMultiSelect({ onChange, selectedCountries }) {
             label="Search"
             name="search_country"
             value={searchText}
+            onClick={event => event.stopPropagation()}
             onKeyDown={event => event.stopPropagation()}
             onChange={onChangeFilterTextHandler}
             InputProps={{
@@ -95,7 +95,7 @@ function CountriesMultiSelect({ onChange, selectedCountries }) {
 
         <MenuItem value="all">
           <Checkbox
-            checked={!selectedCountriesIds.length}
+            checked={!selectedCountries.length}
             value="all"
             indeterminate
           />
@@ -103,7 +103,7 @@ function CountriesMultiSelect({ onChange, selectedCountries }) {
         </MenuItem>
         {countriesList.map(({ code, name }) => (
           <MenuItem key={code} value={code}>
-            <Checkbox checked={selectedCountriesIds.includes(code)} />
+            <Checkbox checked={selectedCountries.includes(code)} />
             <ListItemText primary={name} />
           </MenuItem>
         ))}

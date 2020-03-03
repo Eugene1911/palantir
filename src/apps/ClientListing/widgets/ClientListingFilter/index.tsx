@@ -18,10 +18,10 @@ type ClientListingFilterProps = {
   filter?: IClientListingFilterStore;
 };
 
-function ClientListingFilter({
+const ClientListingFilter: React.FC<ClientListingFilterProps> = ({
   filterResources,
   filter,
-}: ClientListingFilterProps): JSX.Element {
+}): JSX.Element => {
   const { t } = useTranslation();
 
   if (filterResources.state === LOAD_STATES.PENDING) {
@@ -163,7 +163,7 @@ function ClientListingFilter({
       </Grid>
     </form>
   );
-}
+};
 
 export default inject(({ clientListingStore }) => ({
   filterResources: clientListingStore.filterResources,

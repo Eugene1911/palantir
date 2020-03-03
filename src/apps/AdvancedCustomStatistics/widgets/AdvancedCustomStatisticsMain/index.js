@@ -6,24 +6,34 @@ import CardContent from '@material-ui/core/CardContent';
 import AdvancedCustomStatisticsFilter from '../AdvancedCustomStatisticsFilter';
 import AdvancedCustomStatisticsTable from '../AdvancedCustomStatisticsTable';
 import AdvancedCustomStatisticsChart from '../AdvancedCustomStatisticsChart';
+import AdvancedCustomStatisticsTopFilter from '../AdvancedCustomStatisticsTopFilter';
+import AdvancedCustomStatisticsTags from '../AdvancedCustomStatisticsTags';
 
 function AdvancedCustomStatisticsMain() {
   const { t } = useTranslation();
 
   return (
-    <Paper>
-      <CardContent>
-        <Typography variant="h5" component="h3" gutterBottom>
-          {t('advanced_custom_statistics:title')}
-        </Typography>
-        <br />
-        <AdvancedCustomStatisticsFilter />
-      </CardContent>
-      <br />
-      <AdvancedCustomStatisticsChart />
-      <br />
-      <AdvancedCustomStatisticsTable />
-    </Paper>
+    <div style={{ display: 'flex' }}>
+      <div style={{ flexGrow: 1 }}>
+        <Paper>
+          <CardContent>
+            <Typography variant="h5" component="h3" gutterBottom>
+              {t('advanced_custom_statistics:title')}
+            </Typography>
+            <br />
+            <AdvancedCustomStatisticsTags />
+            <br />
+            <br />
+            <AdvancedCustomStatisticsTopFilter />
+          </CardContent>
+          <br />
+          <AdvancedCustomStatisticsChart />
+          <br />
+          <AdvancedCustomStatisticsTable />
+        </Paper>
+      </div>
+      <AdvancedCustomStatisticsFilter />
+    </div>
   );
 }
 

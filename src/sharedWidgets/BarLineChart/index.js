@@ -16,7 +16,7 @@ function BarLineChart({ data, isLoading, barMetric, lineMetric }) {
   }
 
   return (
-    <div style={{ height: 450 }}>
+    <div style={{ height: 450, width: '99%' }}>
       <ReactEcharts
         opts={{
           height: 450,

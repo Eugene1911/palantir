@@ -6,8 +6,10 @@ const AdvancedCustomStatisticsFilterModel = types.model({
   countries: types.array(types.string),
   app_id: types.array(types.number),
   format_id: types.array(types.number),
+  spot_id: types.array(types.number),
   date_from: types.Date,
   date_to: types.Date,
+  device_id: types.array(types.number),
   order: types.optional(types.string, ''),
 });
 
@@ -27,20 +29,48 @@ const AdvancedCustomStatisticsFilterActions = types
       getStats();
       event.preventDefault();
     },
-    onChangeHandlerCountries(value) {
-      applySnapshot(self.countries, value);
+    onChangeHandlerCountries(value, listValue) {
+      const { advancedCustomStatisticsTags } = getParent(self);
+
+      if (listValue)
+        advancedCustomStatisticsTags.setCountries(listValue);
+
+      if (value) applySnapshot(self.countries, value);
     },
     onChangeDateHandler({ startDate, endDate }) {
       self.date_from = startDate;
       self.date_to = endDate;
     },
-    onChangeApplicationsHandler(value) {
+    onChangeSpotsHandler(listValue) {
+      const { advancedCustomStatisticsTags } = getParent(self);
+      const spotsIds = listValue.map(({ id }) => id);
+
+      advancedCustomStatisticsTags.setSpots(listValue);
+      applySnapshot(self.spot_id, spotsIds);
+    },
+    onChangeApplicationsHandler(value, listValue) {
+      const { advancedCustomStatisticsTags } = getParent(self);
+
+      advancedCustomStatisticsTags.setApplications(listValue);
       applySnapshot(self.app_id, value);
+    },
+    onChangeHandlerFormat(value, listValue) {
+      const { advancedCustomStatisticsTags } = getParent(self);
+
+      advancedCustomStatisticsTags.setFormat(listValue);
+      applySnapshot(self.format_id, value);
     },
     onChangeOrderHandler({ order }) {
       const { getStatsByOrder } = getParent(self);
       self.order = order;
       getStatsByOrder();
+    },
+    onChangeDeviceHandler(ids, values) {
+      const { advancedCustomStatisticsTags } = getParent(self);
+
+      advancedCustomStatisticsTags.setDevices(values);
+
+      applySnapshot(self.device_id, ids);
     },
   }));
 
