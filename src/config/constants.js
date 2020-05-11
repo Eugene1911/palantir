@@ -74,3 +74,6 @@ export const PRICING_MODELS = {
   CPC: 'cpc',
   CPA: 'cpa',
 };
+
+// Key codes
+export const KEY_ENTER_CODE = 'Enter';
