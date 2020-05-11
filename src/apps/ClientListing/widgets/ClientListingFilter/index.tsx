@@ -112,6 +112,29 @@ function ClientListingFilter({
         <Grid item xs={12} sm={6} md>
           <FormControl fullWidth>
             <InputLabel shrink htmlFor="account_manager_id">
+              {t('client_listing:form.activity')}
+            </InputLabel>
+
+            <Select
+              displayEmpty
+              name="is_retention"
+              onChange={filter.onChangeClientFilterFielsHandler}
+              value={filter.is_retention}
+            >
+              <MenuItem value="">{t('common:form.all')}</MenuItem>
+              {filterResources.resources.retentionClientsFlag.map(
+                ({ name, value }: any) => (
+                  <MenuItem key={value} value={value.toString()}>
+                    {name}
+                  </MenuItem>
+                ),
+              )}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6} md>
+          <FormControl fullWidth>
+            <InputLabel shrink htmlFor="account_manager_id">
               {t('client_listing:form.managers')}
             </InputLabel>
 

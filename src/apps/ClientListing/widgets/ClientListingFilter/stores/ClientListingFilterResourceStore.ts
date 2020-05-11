@@ -5,6 +5,7 @@ import {
   MAX_COUNT_LOAD_USERS,
 } from 'config/constants';
 import {
+  getRetentionClientsFlag,
   getClientFiscalStatus,
   getClientStatuses,
   getClientRols,
@@ -37,11 +38,13 @@ const ClientListingFilterResourceStore = types
 
       try {
         const [
+          retentionClientsFlag,
           clientFiscalStatus,
           clientStatuses,
           clientRols,
           managers,
         ] = yield Promise.all([
+          getRetentionClientsFlag(),
           getClientFiscalStatus(),
           getClientStatuses(),
           getClientRols(),
@@ -54,6 +57,7 @@ const ClientListingFilterResourceStore = types
         self.state = LOAD_STATES.DONE;
 
         self.resources = {
+          retentionClientsFlag,
           clientFiscalStatus,
           clientStatuses,
           clientRols,
