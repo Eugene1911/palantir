@@ -5,6 +5,7 @@
     "company_individual_status": "Company / Individual status",
     "status": "Status",
     "managers": "Managers",
+    "activity": "Activity",
     "role": "Role"
   },
   "table_header": {
