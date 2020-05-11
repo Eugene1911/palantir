@@ -18,6 +18,8 @@ export const APPLICATIONS = `${API_VERSION_1_1}applications`;
 export const TOOLS_CURRENCY_EXCHANGE = `${API_VERSION_1_1}tools/currency_exchange`;
 export const COUNTRIES = `${API_VERSION_1_1}countries`;
 export const SPOTS = `${API_VERSION_1_1}spots`;
+export const CATEGORIES = `${API_VERSION_1_1}categories`;
+export const LANGUAGES = `${API_VERSION_1_1}languages`;
 
 // Stats
 export const PUBLISHER_CUSTOM_REPORT = `${API_VERSION_1_1}publisher/custom/report/by-`;
