@@ -6,6 +6,8 @@ import {
   OS,
   BROWSERS,
   USERS,
+  CATEGORIES,
+  LANGUAGES,
   COUNTRIES,
   CAMPAIGNS,
   APPLICATIONS,
@@ -37,6 +39,12 @@ export const getDevices = params => API.get(DEVICES, { params });
  * @param {Object} params
  */
 export const getOSes = params => API.get(OS, { params });
+
+/**
+ * Get Languages
+ * @param {Object} params
+ */
+export const getLanguages = params => API.get(LANGUAGES, { params });
 
 /**
  * Get Browsers
@@ -171,6 +179,12 @@ export const getCampaignRejectReasons = () =>
  */
 export const putCampaignDisapprove = (campaignId, props) =>
   API.put(CAMPAIGNS_DISAPPROVE.replace('{id}', campaignId), props);
+
+/**
+ * Get Campaign reject reasons
+ * @param {Object} params
+ */
+export const getCategories = props => API.get(CATEGORIES, props);
 
 /**
  * Get campaign statuses
@@ -312,3 +326,66 @@ export const getClientRols = () =>
  */
 export const toolsCurrencyExchange = params =>
   API.get(TOOLS_CURRENCY_EXCHANGE, { params });
+
+/**
+ * Traffic Types
+ */
+export const TRAFFICS_TYPE = [
+  {
+    name: 'RON',
+    id: 0,
+  },
+  {
+    name: 'Premium',
+    id: 1,
+  },
+  {
+    name: 'Members area',
+    id: 2,
+  },
+];
+
+/**
+ *  Get Traffic Types
+ */
+export const getTrafficTypes = () => Promise.resolve(TRAFFICS_TYPE);
+
+/**
+ * Campaign DCPM Type
+ */
+export const CAMPAIGN_DCPM_TYPE = [
+  {
+    name: 'Standart',
+    id: 0,
+  },
+  {
+    name: 'Dynamic',
+    id: 1,
+  },
+];
+
+/**
+ * Get Campaign DCPM Type
+ */
+export const getCampaignDcpmType = () =>
+  Promise.resolve(CAMPAIGN_DCPM_TYPE);
+
+/**
+ * Campaign stretch time type
+ */
+export const campaignStretchTimeType = [
+  {
+    name: 'ASAP',
+    id: 0,
+  },
+  {
+    name: 'Even',
+    id: 1,
+  },
+];
+
+/**
+ * Get Campaign stretch time type
+ */
+export const getCampaignStretchTimeType = () =>
+  Promise.resolve(campaignStretchTimeType);

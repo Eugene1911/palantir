@@ -2,21 +2,24 @@ import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import ProgressLoaderMultiSelect from 'sharedComponents/ProgressLoaderMultiSelect';
-import { TMultiSelectOnChangeHandler, TOSAPI } from 'sharedTypes';
+import {
+  TMultiSelectOnChangeHandler,
+  TLanguagesAPI,
+} from 'sharedTypes';
 import OptionDeviceMultiSelect from 'sharedComponents/OptionFilterMultiSelect';
 import tagsForFilterMultiSelect from 'helpers/tagsForFilterMultiSelect';
-import { getOSes } from 'resources/api';
+import { getLanguages } from 'resources/api';
 import useFilterMultiSelect from 'helpers/useFilterMultiSelect';
 
-export type TOSMultiSelectProps = {
-  onChange: TMultiSelectOnChangeHandler<TOSAPI>;
+export type TLanguagesMultiSelectProps = {
+  onChange: TMultiSelectOnChangeHandler<TLanguagesAPI>;
   value: Array<number>;
 };
 
-function OSMultiSelect({
+function LanguagesMultiSelect({
   onChange,
   value,
-}: TOSMultiSelectProps): JSX.Element {
+}: TLanguagesMultiSelectProps): JSX.Element {
   const {
     isLoading,
     selectedValue,
@@ -24,7 +27,7 @@ function OSMultiSelect({
     onOpenHandler,
     onChangeHandler,
     getOptionLabel,
-  } = useFilterMultiSelect(onChange, value, getOSes);
+  } = useFilterMultiSelect(onChange, value, getLanguages);
 
   return (
     <Autocomplete
@@ -42,7 +45,7 @@ function OSMultiSelect({
       renderInput={(params): React.ReactNode => (
         <TextField
           {...params}
-          label="OS"
+          label="Languages"
           InputProps={{
             ...params.InputProps,
             endAdornment: (
@@ -59,4 +62,4 @@ function OSMultiSelect({
   );
 }
 
-export default OSMultiSelect;
+export default LanguagesMultiSelect;
