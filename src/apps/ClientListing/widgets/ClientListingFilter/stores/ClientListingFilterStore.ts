@@ -19,6 +19,7 @@ const ClientListingFilterStore = types
     status: types.optional(types.string, ''),
     order: types.optional(types.string, ''),
     page: types.optional(types.number, START_PAGE),
+    is_retention: types.optional(types.string, ''),
     size: types.optional(
       types.number,
       PAGINATIONS_DEFAULT_COUNT_PAGE,

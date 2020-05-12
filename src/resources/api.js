@@ -291,3 +291,18 @@ export const getClientRols = () =>
  */
 export const toolsCurrencyExchange = params =>
   API.get(TOOLS_CURRENCY_EXCHANGE, { params });
+
+/**
+ *  Client roles
+ */
+export const getRetentionClientsFlag = () =>
+  Promise.resolve([
+    {
+      name: 'Active (last 30 days)',
+      value: false,
+    },
+    {
+      name: 'Retention',
+      value: true,
+    },
+  ]);
