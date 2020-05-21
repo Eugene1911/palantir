@@ -7,6 +7,7 @@ import {
 import {
   getRetentionClientsFlag,
   getClientFiscalStatus,
+  getTrafficSourceType,
   getClientStatuses,
   getClientRols,
   getUsers,
@@ -40,12 +41,14 @@ const ClientListingFilterResourceStore = types
         const [
           retentionClientsFlag,
           clientFiscalStatus,
+          trafficSourceType,
           clientStatuses,
           clientRols,
           managers,
         ] = yield Promise.all([
           getRetentionClientsFlag(),
           getClientFiscalStatus(),
+          getTrafficSourceType(),
           getClientStatuses(),
           getClientRols(),
           getUsers({
@@ -59,6 +62,9 @@ const ClientListingFilterResourceStore = types
         self.resources = {
           retentionClientsFlag,
           clientFiscalStatus,
+          trafficSourceType: trafficSourceType.filter(
+            ({ value }: any) => !!value,
+          ),
           clientStatuses,
           clientRols,
           managers: managers.data.response,
