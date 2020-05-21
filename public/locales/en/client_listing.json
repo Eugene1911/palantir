@@ -22,6 +22,6 @@
     "last_change": "Last change",
     "balance": "Balance",
     "estimated_days": "Estimated days",
-    "traffic_source_type": "Traffic sourcetype"
+    "source_type": "Source Type"
   }
 }

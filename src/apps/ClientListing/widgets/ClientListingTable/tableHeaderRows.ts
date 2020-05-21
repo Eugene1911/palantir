@@ -85,7 +85,7 @@ function useTableHeaderRows(): Array<Record<string, any>> {
     },
     {
       id: 'traffic_source_type',
-      label: t('client_listing:table_header.traffic_source_type'),
+      label: t('client_listing:table_header.source_type'),
       style: {
         width: '14%',
       },
