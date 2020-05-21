@@ -74,3 +74,13 @@ export const PRICING_MODELS = {
   CPC: 'cpc',
   CPA: 'cpa',
 };
+
+// Notifier default options
+export const NOTIFIER_DEFAULT_OPTIONS = {
+  anchorOrigin: {
+    horizontal: 'right',
+    vertical: 'bottom',
+  },
+  autoHideDuration: 3000,
+  variant: 'success',
+};
