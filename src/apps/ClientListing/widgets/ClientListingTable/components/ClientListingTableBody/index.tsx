@@ -3,6 +3,8 @@ import PropTypes, { InferProps } from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import TableCell from '@material-ui/core/TableCell';
 import Tooltip from '@material-ui/core/Tooltip';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
@@ -18,6 +20,8 @@ function ClientListingTableBody({
   clients,
   isPending,
   cols,
+  trafficSourceType,
+  onChangeTrafficSourceType,
 }: InferProps<typeof ClientListingTableBody.propTypes>): JSX.Element {
   if (isPending) {
     return <TableLoader cols={cols} />;
@@ -81,6 +85,21 @@ function ClientListingTableBody({
             )}
           </TableCell>
           <TableCell>
+            <Select
+              name="traffic_source_type"
+              onChange={(event): void =>
+                onChangeTrafficSourceType(client.id, event)
+              }
+              value={client.traffic_source_type}
+            >
+              {trafficSourceType.map(({ value, name }: any) => (
+                <MenuItem key={value} value={value}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </TableCell>
+          <TableCell>
             {dateFnsFormat(client.status_updated_at)}
           </TableCell>
           <TableCell align="right">
@@ -102,10 +121,13 @@ ClientListingTableBody.propTypes = {
   clients: PropTypes.array,
   cols: PropTypes.number.isRequired,
   isPending: PropTypes.bool.isRequired,
+  onChangeTrafficSourceType: PropTypes.func.isRequired,
+  trafficSourceType: PropTypes.array,
 };
 
 ClientListingTableBody.defaultProps = {
   clients: [],
+  trafficSourceType: [],
 };
 
 export default ClientListingTableBody;

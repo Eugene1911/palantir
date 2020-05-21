@@ -23,6 +23,8 @@ function ClientListingTable({
     filter,
     countPage,
     clientsListState,
+    trafficSourceType,
+    onChangeTrafficSourceType,
   } = clientListingStore;
   const isPending: boolean = clientsListState === LOAD_STATES.PENDING;
 
@@ -51,7 +53,9 @@ function ClientListingTable({
           />
           <ClientListingTableBody
             clients={clientsList}
+            trafficSourceType={trafficSourceType}
             cols={tableHeaderRows.length}
+            onChangeTrafficSourceType={onChangeTrafficSourceType}
             isPending={isPending}
           />
         </Table>
