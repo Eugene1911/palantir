@@ -40,6 +40,13 @@ export const getSpots = params =>
 export const getUsers = params => API.get(USERS, { params });
 
 /**
+ * PATCH Users
+ * @param {Object} params
+ */
+export const patchUsers = (id, params) =>
+  API.patch(`${USERS}/${id}`, params);
+
+/**
  * Get Applications
  * @param {Object} params
  */
@@ -304,5 +311,24 @@ export const getRetentionClientsFlag = () =>
     {
       name: 'Retention',
       value: true,
+    },
+  ]);
+
+/**
+ *  Get traffic source type
+ */
+export const getTrafficSourceType = () =>
+  Promise.resolve([
+    {
+      name: 'None',
+      value: null,
+    },
+    {
+      name: 'Direct',
+      value: 'direct',
+    },
+    {
+      name: 'Network',
+      value: 'network',
     },
   ]);

@@ -14,6 +14,7 @@ const ClientListingFilterStore = types
     ),
     email: types.optional(types.string, ''),
     role: types.optional(types.string, ''),
+    traffic_source_type: types.optional(types.string, ''),
     company_name: types.optional(types.string, ''),
     fiscal_status: types.optional(types.string, ''),
     status: types.optional(types.string, ''),

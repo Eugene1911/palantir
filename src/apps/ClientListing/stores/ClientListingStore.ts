@@ -1,8 +1,18 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import React from 'react';
 import { types, flow, Instance } from 'mobx-state-tree';
-import { LOAD_STATES } from 'config/constants';
+import {
+  LOAD_STATES,
+  NOTIFIER_DEFAULT_OPTIONS,
+} from 'config/constants';
 import emptyFieldsToNull from 'helpers/emptyFieldsToNull';
-import { getUsers } from 'resources/api';
+import NotifierStore from 'sharedWidgets/Notifier/services/NotifierStore';
+import { notiferActionOk } from 'sharedComponents/NotiferActionOk';
+import {
+  getUsers,
+  getTrafficSourceType,
+  patchUsers,
+} from 'resources/api';
 import ClientListingFilterStore from '../widgets/ClientListingFilter/stores/ClientListingFilterStore';
 import ClientListingFilterResourceStore from '../widgets/ClientListingFilter/stores/ClientListingFilterResourceStore';
 
@@ -29,6 +39,7 @@ const ClientListingStore = types
       types.frozen(),
       initClientFilterState,
     ),
+    trafficSourceType: types.optional(types.frozen(), []),
     clientsListState: types.optional(
       types.enumeration('State', [
         LOAD_STATES.PENDING,
@@ -40,6 +51,7 @@ const ClientListingStore = types
     countPage: types.optional(types.number, 0),
     clientsList: types.optional(types.frozen(), []),
     clientsListPages: types.optional(types.frozen(), {}),
+    notifier: types.optional(NotifierStore, {}),
   })
   .views(self => ({
     get requestParamsWithoutEmpty() {
@@ -47,9 +59,23 @@ const ClientListingStore = types
     },
   }))
   .actions((self: any) => ({
-    afterCreate() {
+    afterCreate(): void {
       self.getClientList();
+      self.getTrafficSourceType();
     },
+    getTrafficSourceType: flow(
+      function* getTrafficSourceTypeResources() {
+        try {
+          const trafficSourceType = yield getTrafficSourceType();
+
+          self.trafficSourceType = trafficSourceType.filter(
+            ({ value }: any) => !!value,
+          );
+        } catch (error) {
+          console.error('Failed to fetch projects', error);
+        }
+      },
+    ),
     getClientList: flow(function* getResources() {
       const params = self.filter.requestParams;
 
@@ -73,6 +99,43 @@ const ClientListingStore = types
         self.clientsListState = LOAD_STATES.ERROR;
       }
     }),
+    changeUser: flow(function* changeUser(id: number, params) {
+      try {
+        const { data } = yield patchUsers(id, params);
+
+        self.clientsList = self.clientsList.map(
+          (client: any): void => {
+            if (client.id === data.id) return data;
+            return client;
+          },
+        );
+      } catch (error) {
+        console.error('Failed to fetch projects', error);
+      }
+    }),
+    onChangeTrafficSourceType: async (
+      id: number,
+      {
+        target,
+      }: React.ChangeEvent<{
+        name: string;
+        value: string;
+      }>,
+    ): Promise<void> => {
+      const { value } = target;
+
+      await self.changeUser(id, {
+        traffic_source_type: value,
+      });
+
+      self.notifier.pushSnackbar({
+        message: 'Client was changed',
+        options: {
+          ...NOTIFIER_DEFAULT_OPTIONS,
+          action: notiferActionOk,
+        },
+      });
+    },
   }));
 
 export type IClientListingStore = Instance<typeof ClientListingStore>;

@@ -6,7 +6,8 @@
     "status": "Status",
     "managers": "Managers",
     "activity": "Activity",
-    "role": "Role"
+    "role": "Role",
+    "user_type": "User type"
   },
   "table_header": {
     "id": "ID",
@@ -20,6 +21,7 @@
     "account_manager": "Account manager",
     "last_change": "Last change",
     "balance": "Balance",
-    "estimated_days": "Estimated days"
+    "estimated_days": "Estimated days",
+    "source_type": "Source Type"
   }
 }

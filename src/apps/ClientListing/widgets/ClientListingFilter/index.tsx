@@ -155,6 +155,29 @@ function ClientListingFilter({
             </Select>
           </FormControl>
         </Grid>
+        <Grid item xs={12} sm={6} md>
+          <FormControl fullWidth>
+            <InputLabel shrink htmlFor="traffic_source_type">
+              {t('client_listing:form.user_type')}
+            </InputLabel>
+
+            <Select
+              displayEmpty
+              name="traffic_source_type"
+              onChange={filter.onChangeClientFilterFielsHandler}
+              value={filter.traffic_source_type}
+            >
+              <MenuItem value="">{t('common:form.all')}</MenuItem>
+              {filterResources.resources.trafficSourceType.map(
+                ({ value, name }: any) => (
+                  <MenuItem key={value} value={value}>
+                    {name}
+                  </MenuItem>
+                ),
+              )}
+            </Select>
+          </FormControl>
+        </Grid>
         <Grid item xs>
           <FormControl fullWidth>
             <InputLabel shrink htmlFor="role">
