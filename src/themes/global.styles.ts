@@ -1,17 +1,19 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const globalStyles = (): any =>
-  makeStyles({
-    '@global': {
-      '.global': {
-        '&-first-character-uppercase': {
-          textTransform: 'capitalize',
-        },
-        '&-table-responsive': {
-          overflowX: 'auto',
-        },
+const useGlobalStyles = makeStyles({
+  '@global': {
+    '.global': {
+      '&-first-character-uppercase': {
+        textTransform: 'capitalize',
+      },
+      '&-table-responsive': {
+        overflowX: 'auto',
+      },
+      '&-text-align-right': {
+        textAlign: 'right',
       },
     },
-  });
+  },
+});
 
-export default globalStyles;
+export default useGlobalStyles;

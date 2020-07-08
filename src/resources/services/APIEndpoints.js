@@ -10,11 +10,16 @@ export const CAMPAIGNS_ARCHIVE = `${API_VERSION_1_1}campaigns/archive`;
 export const CAMPAIGNS_REJECT_REASONS = `${API_VERSION_1_1}campaigns/reject_reasons`;
 export const CAMPAIGNS_DISAPPROVE = `${API_VERSION_1_1}campaigns/{id}/disapprove`;
 export const FORMATS = `${API_VERSION_1_1}formats`;
+export const DEVICES = `${API_VERSION_1_1}devices`;
+export const OS = `${API_VERSION_1_1}os`;
+export const BROWSERS = `${API_VERSION_1_1}browsers`;
 export const USERS = `${API_VERSION_1_1}users`;
 export const APPLICATIONS = `${API_VERSION_1_1}applications`;
 export const TOOLS_CURRENCY_EXCHANGE = `${API_VERSION_1_1}tools/currency_exchange`;
 export const COUNTRIES = `${API_VERSION_1_1}countries`;
 export const SPOTS = `${API_VERSION_1_1}spots`;
+export const CATEGORIES = `${API_VERSION_1_1}categories`;
+export const LANGUAGES = `${API_VERSION_1_1}languages`;
 
 // Stats
 export const PUBLISHER_CUSTOM_REPORT = `${API_VERSION_1_1}publisher/custom/report/by-`;

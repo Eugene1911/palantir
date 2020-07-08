@@ -8,15 +8,14 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import ApplicationsAutocompleteMultiSelect from 'sharedWidgets/ApplicationsAutocompleteMultiSelect';
 import useApplicationsMultiSelect from './services/useApplicationsMultiSelect';
+import ApplicationMultiSelectSelectValue from './components/ApplicationMultiSelectSelectValue';
 
 function ApplicationsMultiSelect({ applicationsIds, onChange }) {
   const {
     t,
-    selectedApplicationsIds,
     selectedApplications,
     onChangeApplicationHandler,
     onChangeSeleactHandler,
-    onRenderValueHandler,
     applicationsAutocompleteMultiSelectRef,
   } = useApplicationsMultiSelect(applicationsIds, onChange);
 
@@ -30,19 +29,19 @@ function ApplicationsMultiSelect({ applicationsIds, onChange }) {
         name="applications"
         multiple
         onChange={onChangeSeleactHandler}
-        renderValue={onRenderValueHandler}
-        value={selectedApplicationsIds}
+        renderValue={ApplicationMultiSelectSelectValue(
+          selectedApplications,
+          t,
+        )}
+        value={applicationsIds}
       >
         <ApplicationsAutocompleteMultiSelect
           ref={applicationsAutocompleteMultiSelectRef}
-          selectedApplicationsIds={selectedApplicationsIds}
+          selectedApplicationsIds={applicationsIds}
           onChange={onChangeApplicationHandler}
         />
         <MenuItem value="all">
-          <Checkbox
-            checked={!selectedApplicationsIds.length}
-            indeterminate
-          />
+          <Checkbox checked={!applicationsIds.length} indeterminate />
           <ListItemText primary={t('common:form.all')} />
         </MenuItem>
         {selectedApplications.map(app => (

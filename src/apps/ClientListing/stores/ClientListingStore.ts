@@ -2,9 +2,10 @@
 import React from 'react';
 import { types, flow, Instance } from 'mobx-state-tree';
 import {
-  LOAD_STATES,
   NOTIFIER_DEFAULT_OPTIONS,
+  LOAD_STATES,
 } from 'config/constants';
+
 import emptyFieldsToNull from 'helpers/emptyFieldsToNull';
 import NotifierStore from 'sharedWidgets/Notifier/services/NotifierStore';
 import { notiferActionOk } from 'sharedComponents/NotiferActionOk';

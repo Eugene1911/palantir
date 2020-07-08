@@ -4,6 +4,7 @@ import SignIn from 'apps/SignIn';
 import CampaignListApp from 'apps/CampaignList/app';
 import CurrencyExchange from 'apps/CurrencyExchange/app';
 import AdvancedCustomStatistics from 'apps/AdvancedCustomStatistics/app';
+import CampaignEdit from 'apps/CampaignEdit/app';
 import AppList from 'apps/AppList';
 
 const mainAppRoutes = [
@@ -34,6 +35,11 @@ const mainAppRoutes = [
   {
     component: AdvancedCustomStatistics,
     path: '/AdvancedCustomStatistics',
+    exact: true,
+  },
+  {
+    component: CampaignEdit,
+    path: '/CampaignEdit',
     exact: true,
   },
 ];

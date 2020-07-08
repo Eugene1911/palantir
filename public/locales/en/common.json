@@ -10,6 +10,9 @@
     "applications": "Applications",
     "search": "Search"
   },
+  "title": {
+    "Filter": "Filter"
+  },
   "pagination": {
     "rows_per_page": "Rows per page:"
   },

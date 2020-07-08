@@ -6,7 +6,7 @@ import { SnackbarProvider } from 'notistack';
 import { MAX_COUNT_SNACK } from 'config/constants';
 import { Provider } from 'mobx-react';
 import { RejectReasonsStore } from 'stors/RejectReasonsStore';
-import globalStyles from 'themes/global.styles';
+import useGlobalStyles from 'themes/global.styles';
 import SuspenseFallbackMain from 'sharedComponents/SuspenseFallbackMain';
 import { CampaignListAppProvider } from './services/CampaignListAppContext';
 import CampaignListMain from './widgets/CampaignListMain';
@@ -16,7 +16,7 @@ const store = {
 };
 
 function CampaignListApp() {
-  globalStyles();
+  useGlobalStyles();
 
   return (
     <Provider {...store}>

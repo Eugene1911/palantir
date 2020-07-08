@@ -1,4 +1,9 @@
-import { types, Instance, getParent } from 'mobx-state-tree';
+import {
+  types,
+  Instance,
+  getParent,
+  IAnyStateTreeNode,
+} from 'mobx-state-tree';
 import mapValues from 'lodash/mapValues';
 import formatReqestParams from 'helpers/formatReqestParams';
 import { PAGINATIONS_DEFAULT_COUNT_PAGE } from 'config/constants';
@@ -31,7 +36,7 @@ const ClientListingFilterStore = types
       return mapValues(self, formatReqestParams);
     },
   }))
-  .actions((self: any) => ({
+  .actions((self: IAnyStateTreeNode) => ({
     onSubmitFilterHandler: (
       event: React.FormEvent<Element>,
     ): void => {
