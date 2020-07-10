@@ -17,6 +17,7 @@ import {
   CAMPAIGNS_REJECT_REASONS,
   CAMPAIGNS_DISAPPROVE,
   TOOLS_CURRENCY_EXCHANGE,
+  TOOLS_URL_UNPACK,
   PUBLISHER_CUSTOM_REPORT,
   SPOTS,
 } from './services/APIEndpoints';
@@ -333,6 +334,13 @@ export const getClientRols = () =>
  */
 export const toolsCurrencyExchange = params =>
   API.get(TOOLS_CURRENCY_EXCHANGE, { params });
+
+/**
+ * URL unpack
+ * @param {Object} params
+ */
+export const toolsUrlUnpack = params =>
+  API.get(TOOLS_URL_UNPACK, { params });
 
 /**
  *  Client roles

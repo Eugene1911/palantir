@@ -16,6 +16,7 @@ export const BROWSERS = `${API_VERSION_1_1}browsers`;
 export const USERS = `${API_VERSION_1_1}users`;
 export const APPLICATIONS = `${API_VERSION_1_1}applications`;
 export const TOOLS_CURRENCY_EXCHANGE = `${API_VERSION_1_1}tools/currency_exchange`;
+export const TOOLS_URL_UNPACK = `${API_VERSION_1_1}tools/url-unpack`;
 export const COUNTRIES = `${API_VERSION_1_1}countries`;
 export const SPOTS = `${API_VERSION_1_1}spots`;
 export const CATEGORIES = `${API_VERSION_1_1}categories`;
