@@ -57,3 +57,8 @@ export type TCommonFetchingDataType = {
   name: string;
   id: number;
 };
+
+export type TCommonFetchingDataValueType = {
+  name: string;
+  value: number;
+};
