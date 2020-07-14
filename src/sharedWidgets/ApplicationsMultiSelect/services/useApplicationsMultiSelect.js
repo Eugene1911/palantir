@@ -1,108 +1,82 @@
-import React, { useState, createRef, useEffect } from 'react';
+import { useState, createRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Typography from '@material-ui/core/Typography';
 import { getApplications } from 'resources/api';
-import { MAX_COUNT_SELECTED_ITEMS } from 'config/constants';
+import clone from 'lodash/clone';
 
 function useApplicationsMultiSelect(applicationsIds, onChange) {
-  const [
-    { selectedApplications, selectedApplicationsIds },
-    setSelectedApplications,
-  ] = useState({
-    selectedApplications: [],
-    selectedApplicationsIds: applicationsIds,
-  });
   const { t } = useTranslation();
   const applicationsAutocompleteMultiSelectRef = createRef();
-  const onSetSelectedApplicationsHandler = params => {
-    onChange(params.selectedApplicationsIds);
-    setSelectedApplications(params);
+  const [selectedApplications, setSelectedApplications] = useState(
+    [],
+  );
+  const onSetSelectedApplicationsHandler = (ids, applications) => {
+    onChange(ids, applications);
+    setSelectedApplications(applications);
   };
   const onChangeApplicationHandler = (event, app) => {
     if (app) {
-      const selectedIndex = selectedApplications.findIndex(
+      const selectApplications = clone(selectedApplications);
+      const selectedIndex = selectApplications.findIndex(
         ({ id }) => id === app.id,
       );
 
       if (selectedIndex !== -1) {
-        selectedApplications.splice(selectedIndex, 1);
+        selectApplications.splice(selectedIndex, 1);
       } else {
-        selectedApplications.push(app);
+        selectApplications.push(app);
       }
 
-      onSetSelectedApplicationsHandler({
-        selectedApplicationsIds: selectedApplications.map(
-          ({ id }) => id,
-        ),
-        selectedApplications,
-      });
+      onSetSelectedApplicationsHandler(
+        selectApplications.map(({ id }) => id),
+        selectApplications,
+      );
     }
   };
-
   const onChangeSeleactHandler = (event, { props }) => {
     const { value } = props;
 
     if (value === 'all') {
-      onSetSelectedApplicationsHandler({
-        selectedApplicationsIds: [],
-        selectedApplications: [],
-      });
+      onSetSelectedApplicationsHandler([], []);
     } else {
       onChangeApplicationHandler(null, { id: value });
     }
   };
-  const onRenderValueHandler = selected => {
-    if (!selected || !selected.length)
-      return <Typography noWrap>{t('common:form.all')}</Typography>;
 
-    const selectedLength = selected.length;
-
-    if (selectedLength > MAX_COUNT_SELECTED_ITEMS) {
-      return (
-        <Typography noWrap>
-          {`${t(
-            'common:form.selected_applications',
-          )}: ${selectedLength}`}
-        </Typography>
-      );
+  useEffect(() => {
+    if (applicationsIds.length && !selectedApplications.length) {
+      getApplications({
+        id: applicationsIds,
+      }).then(({ data }) => {
+        setSelectedApplications(data.response);
+        onChange(applicationsIds, data.response);
+      });
     }
-
-    const applicationsSelectedList = selectedApplications
-      .filter(({ id }) => selected.includes(id))
-      .map(({ name }) => name)
-      .join(', ');
-
-    return <Typography noWrap>{applicationsSelectedList}</Typography>;
-  };
+  }, [
+    applicationsIds,
+    applicationsIds.length,
+    onChange,
+    selectedApplications.length,
+  ]);
 
   useEffect(() => {
     if (
-      selectedApplicationsIds.length &&
-      !selectedApplications.length
+      selectedApplications.length &&
+      applicationsIds.length !== selectedApplications.length
     ) {
-      getApplications({
-        id: selectedApplicationsIds,
-      }).then(({ data }) =>
-        setSelectedApplications({
-          selectedApplicationsIds,
-          selectedApplications: data.response,
-        }),
+      setSelectedApplications(
+        selectedApplications.filter(({ id }) =>
+          applicationsIds.includes(id),
+        ),
       );
     }
-  }, [
-    selectedApplications.length,
-    selectedApplicationsIds,
-    selectedApplicationsIds.length,
-  ]);
+  }, [applicationsIds, applicationsIds.length, selectedApplications]);
 
   return {
     t,
     selectedApplications,
-    selectedApplicationsIds,
     setSelectedApplications,
     onChangeApplicationHandler,
     onChangeSeleactHandler,
-    onRenderValueHandler,
     applicationsAutocompleteMultiSelectRef,
   };
 }

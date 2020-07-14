@@ -9,6 +9,7 @@ import tableSchemeProcessing from 'helpers/statistic/tableSchemeProcessing';
 import statsDataProcessing from 'helpers/statistic/processing';
 import AdvancedCustomStatisticsFilter from '../widgets/AdvancedCustomStatisticsFilter/store/AdvancedCustomStatisticsFilterStore';
 import tableScheme from '../widgets/AdvancedCustomStatisticsTable/tableScheme';
+import AdvancedCustomStatisticsTagsStore from '../widgets/AdvancedCustomStatisticsTags/store/AdvancedCustomStatisticsTagsStore';
 
 const LAST_MOUNTH = subMonths(new Date(), 2);
 const TODAY = new Date();
@@ -22,6 +23,9 @@ const AdvancedCustomStatisticsStore = types
     filter: types.optional(AdvancedCustomStatisticsFilter, {
       countries: ['A1', 'DE', 'FR'],
       app_id: [8098, 4893, 6360, 30, 12],
+      spot_id: [3658754, 3658753, 3658752, 3658727],
+      format_id: [1, 23, 105],
+      device_id: [],
       date_from: LAST_MOUNTH,
       date_to: TODAY,
     }),
@@ -38,6 +42,10 @@ const AdvancedCustomStatisticsStore = types
     isLoadingStatsByOrder: types.optional(types.boolean, false),
     campaign: types.frozen(CampaignModal),
     tableScheme: types.frozen([]),
+    advancedCustomStatisticsTags: types.optional(
+      AdvancedCustomStatisticsTagsStore,
+      {},
+    ),
   })
   .actions(self => ({
     afterCreate() {

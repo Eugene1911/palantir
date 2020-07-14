@@ -1,5 +1,5 @@
 import React from 'react';
-import globalStyles from 'themes/global.styles';
+import useGlobalStyles from 'themes/global.styles';
 import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
 import NotifierStore from 'sharedWidgets/Notifier/services/NotifierStore';
 import { SnackbarProvider } from 'notistack';
@@ -8,7 +8,7 @@ import ClientListingStore from './stores/ClientListingStore';
 import ClientListingMain from './widgets/ClientListingMain';
 
 function ClientListingApp(): JSX.Element {
-  globalStyles();
+  useGlobalStyles({});
 
   const notifierStore = NotifierStore.create();
   const store = {

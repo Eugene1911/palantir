@@ -2,11 +2,11 @@ import 'typeface-roboto';
 import 'config/i18n';
 import React, { Suspense } from 'react';
 import { Provider } from 'mobx-react';
-import globalStyles from 'themes/global.styles';
+import useGlobalStyles from 'themes/global.styles';
 import SuspenseFallbackMain from 'sharedComponents/SuspenseFallbackMain';
 
 function WrapperStartAppComponent({ store, children }) {
-  globalStyles();
+  useGlobalStyles();
 
   return (
     <Provider {...store}>

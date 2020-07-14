@@ -11,6 +11,8 @@ function statsDataProcessing(statsData, tableScheme) {
       forEach(statsItem, (value, field) => {
         const schemeField = getTableSchemeByField(field);
 
+        // console.log('schemeField ->', schemeField, field);
+
         if (schemeField) {
           const finishValue = statsValueProcessing(
             value,

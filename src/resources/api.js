@@ -2,7 +2,12 @@ import transformRequestOptions from 'helpers/transformRequestOptions';
 import requestParamsSerializer from 'helpers/requestParamsSerializer';
 import {
   FORMATS,
+  DEVICES,
+  OS,
+  BROWSERS,
   USERS,
+  CATEGORIES,
+  LANGUAGES,
   COUNTRIES,
   CAMPAIGNS,
   APPLICATIONS,
@@ -12,6 +17,7 @@ import {
   CAMPAIGNS_REJECT_REASONS,
   CAMPAIGNS_DISAPPROVE,
   TOOLS_CURRENCY_EXCHANGE,
+  TOOLS_URL_UNPACK,
   PUBLISHER_CUSTOM_REPORT,
   SPOTS,
 } from './services/APIEndpoints';
@@ -22,6 +28,30 @@ import API from './services/APIService';
  * @param {Object} params
  */
 export const getFormats = params => API.get(FORMATS, { params });
+
+/**
+ * Get Ad Devices
+ * @param {Object} params
+ */
+export const getDevices = params => API.get(DEVICES, { params });
+
+/**
+ * Get OSes
+ * @param {Object} params
+ */
+export const getOSes = params => API.get(OS, { params });
+
+/**
+ * Get Languages
+ * @param {Object} params
+ */
+export const getLanguages = params => API.get(LANGUAGES, { params });
+
+/**
+ * Get Browsers
+ * @param {Object} params
+ */
+export const getBrowsers = params => API.get(BROWSERS, { params });
 
 /**
  * Get Spots
@@ -157,6 +187,12 @@ export const getCampaignRejectReasons = () =>
  */
 export const putCampaignDisapprove = (campaignId, props) =>
   API.put(CAMPAIGNS_DISAPPROVE.replace('{id}', campaignId), props);
+
+/**
+ * Get Campaign reject reasons
+ * @param {Object} params
+ */
+export const getCategories = props => API.get(CATEGORIES, props);
 
 /**
  * Get campaign statuses
@@ -300,6 +336,13 @@ export const toolsCurrencyExchange = params =>
   API.get(TOOLS_CURRENCY_EXCHANGE, { params });
 
 /**
+ * URL unpack
+ * @param {Object} params
+ */
+export const toolsUrlUnpack = params =>
+  API.get(TOOLS_URL_UNPACK, { params });
+
+/**
  *  Client roles
  */
 export const getRetentionClientsFlag = () =>
@@ -332,3 +375,66 @@ export const getTrafficSourceType = () =>
       value: 'network',
     },
   ]);
+
+/**
+ * Traffic Types
+ */
+export const TRAFFICS_TYPE = [
+  {
+    name: 'RON',
+    id: 0,
+  },
+  {
+    name: 'Premium',
+    id: 1,
+  },
+  {
+    name: 'Members area',
+    id: 2,
+  },
+];
+
+/**
+ *  Get Traffic Types
+ */
+export const getTrafficTypes = () => Promise.resolve(TRAFFICS_TYPE);
+
+/**
+ * Campaign DCPM Type
+ */
+export const CAMPAIGN_DCPM_TYPE = [
+  {
+    name: 'Standart',
+    id: 0,
+  },
+  {
+    name: 'Dynamic',
+    id: 1,
+  },
+];
+
+/**
+ * Get Campaign DCPM Type
+ */
+export const getCampaignDcpmType = () =>
+  Promise.resolve(CAMPAIGN_DCPM_TYPE);
+
+/**
+ * Campaign stretch time type
+ */
+export const campaignStretchTimeType = [
+  {
+    name: 'ASAP',
+    id: 0,
+  },
+  {
+    name: 'Even',
+    id: 1,
+  },
+];
+
+/**
+ * Get Campaign stretch time type
+ */
+export const getCampaignStretchTimeType = () =>
+  Promise.resolve(campaignStretchTimeType);

@@ -2,8 +2,9 @@
 import ClientListingApp from 'apps/ClientListing/app';
 import SignIn from 'apps/SignIn';
 import CampaignListApp from 'apps/CampaignList/app';
-import CurrencyExchange from 'apps/CurrencyExchange/app';
+import BackofficeTools from 'apps/BackofficeTools/app';
 import AdvancedCustomStatistics from 'apps/AdvancedCustomStatistics/app';
+import CampaignEdit from 'apps/CampaignEdit/app';
 import AppList from 'apps/AppList';
 
 const mainAppRoutes = [
@@ -23,8 +24,8 @@ const mainAppRoutes = [
     exact: true,
   },
   {
-    component: CurrencyExchange,
-    path: '/CurrencyExchange',
+    component: BackofficeTools,
+    path: '/BackofficeTools',
   },
   {
     component: ClientListingApp,
@@ -34,6 +35,11 @@ const mainAppRoutes = [
   {
     component: AdvancedCustomStatistics,
     path: '/AdvancedCustomStatistics',
+    exact: true,
+  },
+  {
+    component: CampaignEdit,
+    path: '/CampaignEdit',
     exact: true,
   },
 ];

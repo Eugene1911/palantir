@@ -3,7 +3,11 @@ import SuspenseFallbackMain from 'sharedComponents/SuspenseFallbackMain';
 import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
 import usePreloadUserCampaign from './services/usePreloadUserCampaign';
 
-function PreloadUserCampaign({ ChildrenComonent, InitStore }) {
+function PreloadUserCampaign({
+  ChildrenComonent,
+  InitStore,
+  moreStors,
+}) {
   const { isLoading, campaign } = usePreloadUserCampaign();
 
   if (isLoading) {
@@ -14,6 +18,7 @@ function PreloadUserCampaign({ ChildrenComonent, InitStore }) {
     advancedCustomStatisticsStore: InitStore.create({
       campaign,
     }),
+    ...moreStors,
   };
 
   return (

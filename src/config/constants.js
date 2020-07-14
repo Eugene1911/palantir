@@ -84,3 +84,5 @@ export const NOTIFIER_DEFAULT_OPTIONS = {
   autoHideDuration: 3000,
   variant: 'success',
 };
+// Key codes
+export const KEY_ENTER_CODE = 'Enter';
