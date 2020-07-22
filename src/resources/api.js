@@ -377,6 +377,25 @@ export const getTrafficSourceType = () =>
   ]);
 
 /**
+ *  Get traffic source type
+ */
+export const getComplianceStatuses = () =>
+  Promise.resolve([
+    {
+      name: 'Regular',
+      value: 'regular',
+    },
+    {
+      name: 'Trusted',
+      value: 'trusted',
+    },
+    {
+      name: 'Performance',
+      value: 'performance',
+    },
+  ]);
+
+/**
  * Traffic Types
  */
 export const TRAFFICS_TYPE = [
