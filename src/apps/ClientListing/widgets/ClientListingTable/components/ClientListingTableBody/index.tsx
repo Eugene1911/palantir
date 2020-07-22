@@ -21,7 +21,9 @@ function ClientListingTableBody({
   isPending,
   cols,
   trafficSourceType,
+  complianceStatuses,
   onChangeTrafficSourceType,
+  onChangeComplianceStatus,
 }: InferProps<typeof ClientListingTableBody.propTypes>): JSX.Element {
   if (isPending) {
     return <TableLoader cols={cols} />;
@@ -86,6 +88,7 @@ function ClientListingTableBody({
           </TableCell>
           <TableCell>
             <Select
+              fullWidth
               name="traffic_source_type"
               onChange={(event): void =>
                 onChangeTrafficSourceType(client.id, event)
@@ -100,7 +103,20 @@ function ClientListingTableBody({
             </Select>
           </TableCell>
           <TableCell>
-            {dateFnsFormat(client.status_updated_at)}
+            <Select
+              fullWidth
+              name="compliance_status"
+              onChange={(event): void =>
+                onChangeComplianceStatus(client.id, event)
+              }
+              value={client.compliance_status}
+            >
+              {complianceStatuses.map(({ value, name }: any) => (
+                <MenuItem key={value} value={value}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
           </TableCell>
           <TableCell align="right">
             {numberToFixed(client.balance, 3)}
@@ -120,7 +136,9 @@ function ClientListingTableBody({
 ClientListingTableBody.propTypes = {
   clients: PropTypes.array,
   cols: PropTypes.number.isRequired,
+  complianceStatuses: PropTypes.array,
   isPending: PropTypes.bool.isRequired,
+  onChangeComplianceStatus: PropTypes.func.isRequired,
   onChangeTrafficSourceType: PropTypes.func.isRequired,
   trafficSourceType: PropTypes.array,
 };
@@ -128,6 +146,7 @@ ClientListingTableBody.propTypes = {
 ClientListingTableBody.defaultProps = {
   clients: [],
   trafficSourceType: [],
+  complianceStatuses: [],
 };
 
 export default ClientListingTableBody;

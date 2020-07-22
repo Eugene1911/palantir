@@ -24,7 +24,9 @@ function ClientListingTable({
     countPage,
     clientsListState,
     trafficSourceType,
+    complianceStatuses,
     onChangeTrafficSourceType,
+    onChangeComplianceStatus,
   } = clientListingStore;
   const isPending: boolean = clientsListState === LOAD_STATES.PENDING;
 
@@ -54,7 +56,9 @@ function ClientListingTable({
           <ClientListingTableBody
             clients={clientsList}
             trafficSourceType={trafficSourceType}
+            complianceStatuses={complianceStatuses}
             cols={tableHeaderRows.length}
+            onChangeComplianceStatus={onChangeComplianceStatus}
             onChangeTrafficSourceType={onChangeTrafficSourceType}
             isPending={isPending}
           />
