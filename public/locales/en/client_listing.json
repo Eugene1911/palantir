@@ -17,11 +17,12 @@
     "registration_date": "Registration date",
     "country": "Country",
     "company_or_name": "Company/Name",
-    "account_type": "Account Type",
+    "account_type": "Account type",
     "account_manager": "Account manager",
     "last_change": "Last change",
     "balance": "Balance",
     "estimated_days": "Estimated days",
-    "source_type": "Source Type"
+    "source_type": "Source type",
+    "compliance_status": "Compliance status"
   }
 }
