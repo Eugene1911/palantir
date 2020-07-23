@@ -50,7 +50,7 @@ function useTableHeaderRows(): Array<Record<string, any>> {
       order: true,
       label: t('client_listing:table_header.registration_date'),
       style: {
-        width: '7%',
+        width: '6%',
       },
     },
     {
@@ -91,9 +91,8 @@ function useTableHeaderRows(): Array<Record<string, any>> {
       },
     },
     {
-      id: 'status_updated_at',
-      order: true,
-      label: t('client_listing:table_header.last_change'),
+      id: 'compliance_status',
+      label: t('client_listing:table_header.compliance_status'),
       style: {
         width: '6%',
       },

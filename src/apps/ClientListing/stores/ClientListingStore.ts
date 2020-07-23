@@ -12,6 +12,7 @@ import { notiferActionOk } from 'sharedComponents/NotiferActionOk';
 import {
   getUsers,
   getTrafficSourceType,
+  getComplianceStatuses,
   patchUsers,
 } from 'resources/api';
 import ClientListingFilterStore from '../widgets/ClientListingFilter/stores/ClientListingFilterStore';
@@ -41,6 +42,7 @@ const ClientListingStore = types
       initClientFilterState,
     ),
     trafficSourceType: types.optional(types.frozen(), []),
+    complianceStatuses: types.optional(types.frozen(), []),
     clientsListState: types.optional(
       types.enumeration('State', [
         LOAD_STATES.PENDING,
@@ -62,21 +64,28 @@ const ClientListingStore = types
   .actions((self: any) => ({
     afterCreate(): void {
       self.getClientList();
-      self.getTrafficSourceType();
+      self.loadTableResources();
     },
-    getTrafficSourceType: flow(
-      function* getTrafficSourceTypeResources() {
-        try {
-          const trafficSourceType = yield getTrafficSourceType();
+    loadTableResources: flow(function* loadTableResources() {
+      try {
+        const [
+          trafficSourceType,
+          complianceStatuses,
+        ] = yield Promise.all([
+          getTrafficSourceType(),
+          getComplianceStatuses(),
+        ]);
 
-          self.trafficSourceType = trafficSourceType.filter(
-            ({ value }: any) => !!value,
-          );
-        } catch (error) {
-          console.error('Failed to fetch projects', error);
-        }
-      },
-    ),
+        console.log('complianceStatuses', complianceStatuses);
+
+        self.complianceStatuses = complianceStatuses;
+        self.trafficSourceType = trafficSourceType.filter(
+          ({ value }: any) => !!value,
+        );
+      } catch (error) {
+        console.error('Failed to fetch projects', error);
+      }
+    }),
     getClientList: flow(function* getResources() {
       const params = self.filter.requestParams;
 
@@ -114,6 +123,29 @@ const ClientListingStore = types
         console.error('Failed to fetch projects', error);
       }
     }),
+    onChangeComplianceStatus: async (
+      id: number,
+      {
+        target,
+      }: React.ChangeEvent<{
+        name: string;
+        value: string;
+      }>,
+    ): Promise<void> => {
+      const { value } = target;
+
+      await self.changeUser(id, {
+        compliance_status: value,
+      });
+
+      self.notifier.pushSnackbar({
+        message: 'Client was changed',
+        options: {
+          ...NOTIFIER_DEFAULT_OPTIONS,
+          action: notiferActionOk,
+        },
+      });
+    },
     onChangeTrafficSourceType: async (
       id: number,
       {
