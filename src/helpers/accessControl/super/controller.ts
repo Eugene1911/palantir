@@ -1,3 +1,4 @@
+/* TODO use here a real client code interfaces; remove this one */
 import { IAccessToCampaignTargeting } from 'helpers/accessControl/example/usage';
 
 // Then the dummy implementation which always returns true for any method of the interface will be:

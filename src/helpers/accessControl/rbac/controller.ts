@@ -1,4 +1,6 @@
 import { checkRBACPermissions } from 'resources/api';
+
+/* TODO use here a real client code interfaces; remove this one */
 import { IAccessToCampaignTargeting } from 'helpers/accessControl/example/usage';
 
 // Alse the implementation which uses API RBAC endpoints to resolve the methods of the interface will be:
