@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { UseAutocompleteProps } from '@material-ui/lab';
 import { AxiosResponse } from 'axios';
 import {
   TMultiSelectOnChangeHandler,
@@ -14,9 +13,12 @@ export type TUseFilterMultiSelect = {
   isLoading: boolean;
   selectedValue: Array<number>;
   autocompleteData: Array<TUnionFilterMultiSelect>;
-  onOpenHandler: UseAutocompleteProps['onOpen'];
-  onChangeHandler: UseAutocompleteProps['onChange'];
-  getOptionLabel: UseAutocompleteProps['getOptionLabel'];
+  onOpenHandler: (event: React.ChangeEvent<{}>) => void;
+  onChangeHandler: (
+    event: React.ChangeEvent<{}>,
+    selectedValues: Array<any>,
+  ) => void;
+  getOptionLabel: ({ name }: any) => string;
 };
 
 function useFilterMultiSelect<T extends TUnionFilterMultiSelect>(
@@ -29,7 +31,7 @@ function useFilterMultiSelect<T extends TUnionFilterMultiSelect>(
   const [selectedValue, setSelectedValue] = useState([]);
   const [autocompleteData, setAutocompleteData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const onOpenHandler: UseAutocompleteProps['onOpen'] = (): void => {
+  const onOpenHandler = (): void => {
     if (!autocompleteData.length) setIsLoading(true);
   };
   const onChangeHandler = (
