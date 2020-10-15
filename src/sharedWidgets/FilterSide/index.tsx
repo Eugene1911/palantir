@@ -3,26 +3,28 @@ import { inject, observer } from 'mobx-react';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
-import { useTranslation } from 'react-i18next';
 import useFilterSide, {
   TUseFilterSide,
 } from './services/useFilterSide';
-import { TFilterSideStore } from './store/FilterSideStore';
+import { IFilterSideStore } from './store/FilterSideStore';
 
 type TFilterSideProps = {
   children: JSX.Element;
-  filterSideStore: TFilterSideStore;
+  filterSideStore: IFilterSideStore;
+  title: string;
+  width: number;
 };
 
 function FilterSide({
   children,
   filterSideStore,
+  title,
+  width,
 }: TFilterSideProps): JSX.Element {
-  const { t } = useTranslation();
   const { classes, drawerVariant }: TUseFilterSide = useFilterSide(
     filterSideStore,
+    width,
   );
 
   return (
@@ -39,7 +41,7 @@ function FilterSide({
           paper: classes.drawerPaper,
         }}
       >
-        <CardContent>
+        <div className={classes.header}>
           <IconButton
             onClick={(): void =>
               filterSideStore.onToggleFilterHandler()
@@ -47,15 +49,13 @@ function FilterSide({
             className={classes.closeButton}
             aria-label="close button"
           >
-            <CloseIcon fontSize="large" />
+            <CloseIcon fontSize="small" />
           </IconButton>
-          <Typography variant="h5" component="h3" gutterBottom>
-            {t('common:title.Filter')}
+          <Typography variant="h6" component="h3" gutterBottom>
+            {title}
           </Typography>
-          <br />
-          <br />
-          {children}
-        </CardContent>
+        </div>
+        {children}
       </Drawer>
     </div>
   );
