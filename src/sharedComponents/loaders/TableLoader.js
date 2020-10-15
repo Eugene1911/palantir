@@ -11,14 +11,14 @@ const TableLoaderRow = props => {
 
   return (
     <ContentLoader
-      width='100'
-      height='15'
+      width="100"
+      height="15"
       speed={2}
-      primaryColor='#d9d9d9'
-      secondaryColor='#ecebeb'
+      primaryColor="#d9d9d9"
+      secondaryColor="#ecebeb"
       {...props}
     >
-      <rect x='0' y='0' rx='1' ry='26' width='100%' height='18' />
+      <rect x="0" y="0" rx="1" ry="26" width="100%" height="18" />
     </ContentLoader>
   );
 };
