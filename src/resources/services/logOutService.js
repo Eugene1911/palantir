@@ -1,7 +1,7 @@
 function logOutService(error) {
   const { response } = error;
 
-  switch (response.status) {
+  switch (response && response.status) {
     case 401:
       document.location.href = `/accounts/logout?next=${document.location.pathname}`;
       break;
