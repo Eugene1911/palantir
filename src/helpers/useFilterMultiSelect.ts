@@ -11,7 +11,7 @@ type TUnionFilterMultiSelect = TOSAPI | TBrowserAPI | TDeviceAPI;
 
 export type TUseFilterMultiSelect = {
   isLoading: boolean;
-  selectedValue: Array<number>;
+  selectedValue: Array<string>;
   autocompleteData: Array<TUnionFilterMultiSelect>;
   onOpenHandler: (event: React.ChangeEvent<{}>) => void;
   onChangeHandler: (
