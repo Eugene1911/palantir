@@ -1,11 +1,11 @@
 import React from 'react';
-import { RenderOptionState } from '@material-ui/lab/Autocomplete';
+import { AutocompleteRenderOptionState } from '@material-ui/lab/Autocomplete';
 import Checkbox from '@material-ui/core/Checkbox';
 import { TOptionFilterMultiSelect } from 'sharedTypes';
 
 function OptionFilterMultiSelect<T extends TOptionFilterMultiSelect>(
   { id, name }: T,
-  { selected }: RenderOptionState,
+  { selected }: AutocompleteRenderOptionState,
 ): JSX.Element {
   return (
     <>
