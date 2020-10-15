@@ -3,7 +3,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { DrawerProps } from '@material-ui/core/Drawer';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useStyles, { TFilterSideStyleClasses } from '../styles';
-import { TFilterSideStore } from '../store/FilterSideStore';
+import { IFilterSideStore } from '../store/FilterSideStore';
 
 export type TUseFilterSide = {
   classes: Record<TFilterSideStyleClasses, string>;
@@ -11,20 +11,23 @@ export type TUseFilterSide = {
 };
 
 function useFilterSide(
-  filterSideStore: TFilterSideStore,
+  filterSideStore: IFilterSideStore,
+  width: number,
 ): TUseFilterSide {
   const { breakpoints } = useTheme();
   const isBreakpointsMd = useMediaQuery(
     `(min-width: ${breakpoints.values.md}px)`,
   );
+  const { isFilterSideOpen, onSetStateHandler } = filterSideStore;
   const drawerVariant = isBreakpointsMd ? 'persistent' : 'temporary';
   const classes = useStyles({
     isDrawerOpen: filterSideStore.isFilterSideOpen,
+    width,
   });
 
   useEffect(() => {
-    if (isBreakpointsMd) filterSideStore.onSetStateHandler(true);
-  }, [filterSideStore, isBreakpointsMd]);
+    if (isBreakpointsMd && isFilterSideOpen) onSetStateHandler(true);
+  }, [isFilterSideOpen, onSetStateHandler, isBreakpointsMd]);
 
   return {
     classes,

@@ -9,6 +9,9 @@ export const PAGINATIONS_DEFAULT_COUNT_PAGE = 20;
 export const TABLE_SORT_DIRECTION_DESCENDING = 'desc';
 export const TABLE_SORT_DIRECTION_ASCEDENT = 'asc';
 
+// Wait seccondds
+export const DEBOUNCE_SEARCH_WAIT_TIME = 600;
+
 // Snack max count
 export const MAX_COUNT_SNACK = 3;
 export const AUTO_HIDE_DURATION = 3000; // in ms
@@ -84,5 +87,6 @@ export const NOTIFIER_DEFAULT_OPTIONS = {
   autoHideDuration: 3000,
   variant: 'success',
 };
+
 // Key codes
 export const KEY_ENTER_CODE = 'Enter';

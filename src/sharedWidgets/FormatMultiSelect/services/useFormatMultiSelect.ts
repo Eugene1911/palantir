@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
-import { UseAutocompleteProps } from '@material-ui/lab';
 import { TMultiSelectOnChangeHandler, TFormatAPI } from 'sharedTypes';
 import { getFormats } from 'resources/api';
 
 export type TUseFormatMultiSelect = {
   isLoading: boolean;
-  selectedValue: Array<number>;
+  selectedValue: Array<string>;
   autocompleteData: Array<TFormatAPI>;
-  onOpenHandler: UseAutocompleteProps['onOpen'];
-  onChangeHandler: UseAutocompleteProps['onChange'];
-  getOptionLabel: UseAutocompleteProps['getOptionLabel'];
+  onOpenHandler: () => void;
+  onChangeHandler: (
+    event: React.ChangeEvent<{}>,
+    selectedValues: Array<any>,
+  ) => void;
+  getOptionLabel: ({ name }: TFormatAPI) => string;
 };
 
 function useFormatMultiSelect(
@@ -19,7 +21,7 @@ function useFormatMultiSelect(
   const [selectedValue, setSelectedValue] = useState([]);
   const [autocompleteData, setAutocompleteData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const onOpenHandler = (): void => {
+  const onOpenHandler = () => {
     if (!autocompleteData.length) setIsLoading(true);
   };
   const onChangeHandler = (
