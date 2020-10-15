@@ -62,3 +62,27 @@ export type TCommonFetchingDataValueType = {
   name: string;
   value: number;
 };
+
+export type TOptimizerStrategy = {
+  id: number;
+  user_id: number;
+  external_id: number;
+  status: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  linked_at: string;
+  default_time_interval: string;
+  sources: Array<string>;
+  rule_count: number;
+  campaign_count: number;
+};
+
+export type TPaginationResponse = {
+  page?: number;
+  size?: number;
+};
+
+export type TTableSortResponse = {
+  order: string;
+};
