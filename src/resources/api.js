@@ -20,6 +20,8 @@ import {
   TOOLS_URL_UNPACK,
   PUBLISHER_CUSTOM_REPORT,
   SPOTS,
+  OPTIMIZER_STRATEGIES,
+  OPTIMIZER_VARIABLES,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -193,6 +195,27 @@ export const putCampaignDisapprove = (campaignId, props) =>
  * @param {Object} params
  */
 export const getCategories = props => API.get(CATEGORIES, props);
+
+/**
+ * Get Optimizers
+ * @param {Object} params
+ */
+export const getOptimizersStrategies = params =>
+  API.get(OPTIMIZER_STRATEGIES, { params });
+
+/**
+ * Get Optimizers
+ * @param {Object} params
+ */
+export const getOptimizer = (id, params) =>
+  API.get(`${OPTIMIZER_STRATEGIES}/${id}`, { params });
+
+/**
+ * Get Optimizers variables
+ * @param {Object} params
+ */
+export const getOptimizerVariables = params =>
+  API.get(`${OPTIMIZER_VARIABLES}`, { params });
 
 /**
  * Get campaign statuses
