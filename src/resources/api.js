@@ -22,6 +22,7 @@ import {
   SPOTS,
   OPTIMIZER_STRATEGIES,
   OPTIMIZER_VARIABLES,
+  RBAC_CHECK_ACCESS,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -480,3 +481,16 @@ export const campaignStretchTimeType = [
  */
 export const getCampaignStretchTimeType = () =>
   Promise.resolve(campaignStretchTimeType);
+
+/**
+ * Check RBAC permissions
+ * @param {Array} permissions
+ */
+export const checkRBACPermissions = permissions =>
+  API({
+    url: RBAC_CHECK_ACCESS,
+    method: 'GET',
+    params: { items: permissions },
+    paramsSerializer: requestParams =>
+      transformRequestOptions(requestParams),
+  });
