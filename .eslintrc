@@ -51,6 +51,7 @@
     "react/jsx-curly-spacing": ["error", "never"],
     "react/jsx-equals-spacing": "error",
     "react/no-deprecated": "error",
+    "react/require-default-props": 0,
     "react/no-did-mount-set-state": "error",
     "react/no-did-update-set-state": "error",
     "react/no-string-refs": "error",

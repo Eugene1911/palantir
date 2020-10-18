@@ -2,7 +2,6 @@
   "defaultSeverity": "error",
   "extends": [
     "tslint:latest",
-    "tslint-eslint-rules",
     "tslint:recommended",
     "tslint-react",
     "tslint-config-prettier"
@@ -12,6 +11,8 @@
   "rules": {
     "interface-name-prefix": "always",
     "jsx-wrap-multiline": false,
+    "no-submodule-imports": false,
+    "jsx-boolean-value": false,
     "prettier": true,
     "interface-name": false,
     "jsx-no-lambda": false,
