@@ -8,6 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import useCampaignEditPanelSummary from './useCampaignEditPanelSummary';
 
+import * as S from './AccordeonStyles';
+
 interface IAccordionPanel {
   title: string;
   subInfo1?: string;
@@ -67,7 +69,7 @@ function AccordionPanel(props: IAccordionPanel): JSX.Element {
           </Grid>
         </Grid>
       </ExpansionPanelSummary>
-      {children}
+      <S.ContentWrapper>{children}</S.ContentWrapper>
     </Accordion>
   );
 }
