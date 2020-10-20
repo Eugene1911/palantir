@@ -72,6 +72,7 @@
     "no-underscore-dangle": 1,
     "import/imports-first": ["error", "absolute-first"],
     "import/newline-after-import": "error",
+    "import/prefer-default-export": 0,
     "react/jsx-props-no-spreading": 1,
     "no-param-reassign": ["error", { "props": false }]
   },
