@@ -13,7 +13,7 @@ export interface ITab {
   rightSide: JSX.Element;
 }
 
-export interface IAccordionPanel {
+export interface IAccordionPanelProps {
   title: string;
   subInfo1?: string;
   subInfo2?: string;
@@ -24,7 +24,7 @@ export interface IAccordionPanel {
   tabs?: Array<ITab | JSX.Element>;
 }
 
-function AccordionPanel(props: IAccordionPanel): JSX.Element {
+function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
   const {
     isSelected,
     title,

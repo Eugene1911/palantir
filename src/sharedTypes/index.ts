@@ -86,3 +86,5 @@ export type TPaginationResponse = {
 export type TTableSortResponse = {
   order: string;
 };
+
+export type AnyFunction = (...args: any[]) => any;

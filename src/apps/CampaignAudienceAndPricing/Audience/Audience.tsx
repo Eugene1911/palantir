@@ -1,15 +1,17 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import Accordion, { ITab } from 'sharedComponents/Accordion';
 import { ReactComponent as AudienceIcon } from './assets/images/audienceIcon.svg';
+import createTabs from './assets/utils/createTabs';
+import { ETrafficType } from './assets/constants/trafficTypes';
 
 function Audience(): JSX.Element {
-  const tabs: ITab[] = [
-    {
-      leftSide: <Typography>Traffic selection</Typography>,
-      rightSide: <Typography>Buttons</Typography>,
-    },
-  ];
+  const [trafficType, setTrafficType] = React.useState(
+    ETrafficType.RON,
+  );
+  const tabs: ITab[] = createTabs({
+    scheme: trafficType,
+    onTrafficTypeChange: setTrafficType,
+  });
 
   return (
     <Accordion
@@ -20,11 +22,7 @@ function Audience(): JSX.Element {
       subInfo2="column 2"
       subInfo3="column 3"
       tabs={tabs}
-    >
-      <>
-        <Typography>Traffic selection</Typography>
-      </>
-    </Accordion>
+    />
   );
 }
 export default Audience;
