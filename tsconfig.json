@@ -2,9 +2,6 @@
   "compilerOptions": {
     "target": "es5",
     "baseUrl": "src",
-    "paths": {
-      "*": ["*"]
-    },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -23,7 +20,11 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "plugins": [{ "name": "typescript-tslint-plugin" }],
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ],
     "sourceMap": true,
     "rootDir": "src",
     "importHelpers": true,

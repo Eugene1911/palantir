@@ -8,7 +8,12 @@ import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import useCampaignEditPanelSummary from './useCampaignEditPanelSummary';
 
-interface IAccordionPanel {
+export interface ITab {
+  leftSide: JSX.Element;
+  rightSide: JSX.Element;
+}
+
+export interface IAccordionPanel {
   title: string;
   subInfo1?: string;
   subInfo2?: string;
@@ -16,17 +21,19 @@ interface IAccordionPanel {
   isSelected: boolean;
   icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
   children?: JSX.Element;
+  tabs?: Array<ITab | JSX.Element>;
 }
 
 function AccordionPanel(props: IAccordionPanel): JSX.Element {
   const {
-    title,
-    children,
-    icon,
     isSelected,
+    title,
+    icon,
     subInfo1,
     subInfo2,
     subInfo3,
+    children,
+    tabs,
   } = props;
   const [isExpanded, setIsExpanded] = React.useState(isSelected);
 
@@ -34,6 +41,29 @@ function AccordionPanel(props: IAccordionPanel): JSX.Element {
     classes,
     gridCountInfoColumn,
   } = useCampaignEditPanelSummary({ isExpanded });
+
+  const renderTab = (tab: ITab | JSX.Element): JSX.Element => {
+    if ('leftSide' in tab) {
+      return (
+        <Grid
+          // TODO: нормальный key
+          key={String(tab.leftSide)}
+          alignItems="flex-start"
+          container
+        >
+          <Grid item xs={3} className={classes.tab}>
+            {tab.leftSide}
+          </Grid>
+          <Grid item xs={9} className={classes.tab}>
+            {tab.rightSide}
+          </Grid>
+        </Grid>
+      );
+    }
+    return (
+      <Grid key={String(tab)} item xs={12} className={classes.tab} />
+    );
+  };
 
   return (
     <Accordion
@@ -46,13 +76,13 @@ function AccordionPanel(props: IAccordionPanel): JSX.Element {
         expandIcon={<ExpandMoreIcon color="primary" />}
       >
         <Grid alignItems="flex-start" container>
-          <Grid item xs={1} className={classes.icon}>
-            {icon && <SvgIcon component={icon} />}
-          </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={3} container>
+            {icon && (
+              <SvgIcon className={classes.icon} component={icon} />
+            )}
             <Typography>{title}</Typography>
           </Grid>
-          <Grid className={classes.info} item xs={8} container>
+          <Grid className={classes.info} item xs={9} container>
             <Grid item xs={gridCountInfoColumn}>
               <Typography noWrap>{subInfo1}</Typography>
             </Grid>
@@ -60,14 +90,16 @@ function AccordionPanel(props: IAccordionPanel): JSX.Element {
               <Typography noWrap>{subInfo2}</Typography>
             </Grid>
             <Hidden smDown>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Typography noWrap>{subInfo3}</Typography>
               </Grid>
             </Hidden>
           </Grid>
         </Grid>
       </ExpansionPanelSummary>
-      {children}
+      <Grid className={classes.wrap} container>
+        {tabs ? tabs.map(tab => renderTab(tab)) : children}
+      </Grid>
     </Accordion>
   );
 }
