@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { getSnapshot } from 'mobx-state-tree';
 
+import CampaignStepper from 'sharedComponents/CampaignStepper';
 import { INewCampaignSettingsStore } from '../../stores/NewCampaignSettingsStore';
 import Settings from './widgets/Settings';
 import Scheduling from './widgets/Scheduling';
@@ -20,6 +21,10 @@ const CampaignSettings = ({
   return (
     <div>
       CampaignSettings
+      <CampaignStepper
+        activeStep={0}
+        subLabels={['New Campaign', null, null]}
+      />
       <Settings />
       <Scheduling />
       <Targeting />
