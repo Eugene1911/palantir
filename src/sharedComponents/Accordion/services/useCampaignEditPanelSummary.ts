@@ -24,7 +24,7 @@ function useCampaignEditPanelSummary({
   const isBreakpointsMd = useMediaQuery(
     `(max-width: ${breakpoints.values.sm}px)`,
   );
-  const gridCountInfoColumn = isBreakpointsMd ? 6 : 3;
+  const gridCountInfoColumn = isBreakpointsMd ? 8 : 4;
 
   return {
     classes,
