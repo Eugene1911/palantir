@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
-import useCampaignEditPanelSummary from './useCampaignEditPanelSummary';
+import useCampaignEditPanelSummary from './services/useCampaignEditPanelSummary';
 
 export interface ITab {
   leftSide: JSX.Element;

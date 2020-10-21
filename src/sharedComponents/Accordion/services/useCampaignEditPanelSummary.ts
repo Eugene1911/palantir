@@ -3,7 +3,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { GridSize } from '@material-ui/core/Grid';
 import useStyles, {
   TCampaignEditPanelSummaryClasses,
-} from './useStyles';
+} from '../useStyles';
 
 interface IUseCampaignEditPanelSummaryProps {
   isExpanded: boolean;
