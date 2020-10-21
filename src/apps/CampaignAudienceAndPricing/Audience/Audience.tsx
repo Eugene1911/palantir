@@ -1,6 +1,6 @@
 import React from 'react';
 import Accordion, { ITab } from 'sharedComponents/Accordion';
-import { ReactComponent as AudienceIcon } from './assets/images/audienceIcon.svg';
+import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle';
 import createTabs from './assets/utils/createTabs';
 import { ETrafficType } from './assets/constants/trafficTypes';
 
@@ -16,7 +16,7 @@ function Audience(): JSX.Element {
   return (
     <Accordion
       title="Audience"
-      icon={AudienceIcon}
+      Icon={SupervisedUserCircle}
       isSelected
       subInfo1="column 1"
       subInfo2="column 2"

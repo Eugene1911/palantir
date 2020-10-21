@@ -1,9 +1,8 @@
-import React, { FunctionComponent, SVGProps } from 'react';
+import React, { ElementType } from 'react';
 import Accordion from '@material-ui/core/Accordion';
 import ExpansionPanelSummary from '@material-ui/core/AccordionSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
-import SvgIcon from '@material-ui/core/SvgIcon';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import useCampaignEditPanelSummary from './services/useCampaignEditPanelSummary';
@@ -19,7 +18,7 @@ export interface IAccordionPanelProps {
   subInfo2?: string;
   subInfo3?: string;
   isSelected: boolean;
-  icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
+  Icon?: ElementType;
   children?: JSX.Element;
   tabs?: Array<ITab | JSX.Element>;
 }
@@ -28,7 +27,7 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
   const {
     isSelected,
     title,
-    icon,
+    Icon,
     subInfo1,
     subInfo2,
     subInfo3,
@@ -51,17 +50,19 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
           alignItems="flex-start"
           container
         >
-          <Grid item xs={3} className={classes.tab}>
+          <Grid item xs={2} className={classes.tab}>
             {tab.leftSide}
           </Grid>
-          <Grid item xs={9} className={classes.tab}>
+          <Grid item xs={10} className={classes.tab}>
             {tab.rightSide}
           </Grid>
         </Grid>
       );
     }
     return (
-      <Grid key={String(tab)} item xs={12} className={classes.tab} />
+      <Grid key={String(tab)} item xs={12} className={classes.tab}>
+        {tab}
+      </Grid>
     );
   };
 
@@ -76,22 +77,28 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
         expandIcon={<ExpandMoreIcon color="primary" />}
       >
         <Grid alignItems="flex-start" container>
-          <Grid item xs={3} container>
-            {icon && (
-              <SvgIcon className={classes.icon} component={icon} />
-            )}
-            <Typography>{title}</Typography>
+          <Grid item xs={2} container>
+            {Icon && <Icon className={classes.icon} />}
+            <Typography className={classes.title} variant="h5">
+              {title}
+            </Typography>
           </Grid>
-          <Grid className={classes.info} item xs={9} container>
+          <Grid className={classes.info} item xs={10} container>
             <Grid item xs={gridCountInfoColumn}>
-              <Typography noWrap>{subInfo1}</Typography>
+              <Typography className={classes.subTitle} noWrap>
+                {subInfo1}
+              </Typography>
             </Grid>
             <Grid item xs={gridCountInfoColumn}>
-              <Typography noWrap>{subInfo2}</Typography>
+              <Typography className={classes.subTitle} noWrap>
+                {subInfo2}
+              </Typography>
             </Grid>
             <Hidden smDown>
-              <Grid item xs={3}>
-                <Typography noWrap>{subInfo3}</Typography>
+              <Grid item xs={4}>
+                <Typography className={classes.subTitle} noWrap>
+                  {subInfo3}
+                </Typography>
               </Grid>
             </Hidden>
           </Grid>
