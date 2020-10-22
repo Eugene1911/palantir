@@ -20,7 +20,7 @@
     "jsx": "preserve",
     "strictNullChecks": false,
     "strictFunctionTypes": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "plugins": [

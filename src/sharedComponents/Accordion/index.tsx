@@ -1,4 +1,5 @@
 import React, { ElementType } from 'react';
+import uuid from 'react-uuid';
 import Accordion from '@material-ui/core/Accordion';
 import ExpansionPanelSummary from '@material-ui/core/AccordionSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -44,12 +45,7 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
   const renderTab = (tab: ITab | JSX.Element): JSX.Element => {
     if ('leftSide' in tab) {
       return (
-        <Grid
-          // TODO: нормальный key
-          key={String(tab.leftSide)}
-          alignItems="flex-start"
-          container
-        >
+        <Grid key={uuid()} alignItems="flex-start" container>
           <Grid item xs={2} className={classes.tab}>
             {tab.leftSide}
           </Grid>

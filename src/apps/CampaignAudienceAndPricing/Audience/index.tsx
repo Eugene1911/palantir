@@ -1,7 +1,7 @@
 import React from 'react';
 import Accordion, { ITab } from 'sharedComponents/Accordion';
 import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle';
-import createTabs from './assets/utils/createTabs';
+import createTabs from './services/createTabs';
 import { ETrafficType } from './assets/constants/trafficTypes';
 
 function Audience(): JSX.Element {

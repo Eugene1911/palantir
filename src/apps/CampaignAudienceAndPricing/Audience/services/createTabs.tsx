@@ -1,14 +1,13 @@
 import React from 'react';
 import { ITab } from 'sharedComponents/Accordion';
-import { AnyFunction } from 'sharedTypes';
 import CampaignFormLabel from 'sharedComponents/CampaignFormLabel';
-import { leftSidesConst } from '../constants/leftSidesConst';
-import TrafficSelectionButtons from '../../components/trafficSelectionButtons';
-import { ETrafficType } from '../constants/trafficTypes';
+import { leftSidesConst } from '../assets/constants/leftSidesConst';
+import TrafficSelectionButtons from '../components/trafficSelectionButtons';
+import { ETrafficType } from '../assets/constants/trafficTypes';
 
 export interface ICreateTabsParams {
   scheme: ETrafficType;
-  onTrafficTypeChange: AnyFunction;
+  onTrafficTypeChange: (index: number) => void;
 }
 
 function createTabs(params: ICreateTabsParams): ITab[] {

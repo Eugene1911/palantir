@@ -3,7 +3,6 @@ import RadioButtons, {
   IRadioButton,
 } from 'sharedComponents/RadioButtons';
 
-import { AnyFunction } from 'sharedTypes';
 import {
   ETrafficType,
   trafficTypes,
@@ -11,7 +10,7 @@ import {
 
 interface ITrafficSelectionButtonsProps {
   selected: number;
-  onChange: AnyFunction;
+  onChange: (index: number) => void;
 }
 
 function TrafficSelectionButtons(
