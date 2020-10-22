@@ -16,6 +16,9 @@ export default createMuiTheme({
     secondary: {
       main: SECONDARY_COLOR,
     },
+    text: {
+      primary: '#2a2837',
+    },
     statuses,
   },
   typography,

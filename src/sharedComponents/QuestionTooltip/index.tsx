@@ -4,24 +4,24 @@ import HelpIcon from '@material-ui/icons/Help';
 import Tooltip from '@material-ui/core/Tooltip';
 import useStyles from './useStyles';
 
-type TQuestionTooltipProps = {
+interface IQuestionTooltipProps {
   title: string;
-};
+}
 
 function QuestionTooltip({
   title,
-}: TQuestionTooltipProps): JSX.Element {
+}: IQuestionTooltipProps): JSX.Element {
   const classes = useStyles({});
 
   return (
-    <Tooltip title={title} placement="right" arrow>
-      <IconButton
-        className={classes.button}
-        size="small"
-        color="default"
-        component="span"
-      >
-        <HelpIcon />
+    <Tooltip
+      classes={{ tooltip: classes.tooltip }}
+      title={title}
+      placement="right"
+      arrow
+    >
+      <IconButton className={classes.button} component="span">
+        <HelpIcon fontSize="small" />
       </IconButton>
     </Tooltip>
   );
