@@ -10,6 +10,6 @@ const SpecialModel = types
     },
   }));
 
-export type ISpecialModel = Instance<typeof SpecialModel>;
+export type TSpecialModel = Instance<typeof SpecialModel>;
 
 export default SpecialModel;

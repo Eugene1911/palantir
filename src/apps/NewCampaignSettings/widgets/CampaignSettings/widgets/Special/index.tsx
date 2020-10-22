@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import { getSnapshot } from 'mobx-state-tree';
 
-import { ISpecialModel } from './stores/SpecialStore';
+import { TSpecialModel } from './stores/SpecialStore';
 
 interface ISpecialProps {
-  special?: ISpecialModel;
+  special?: TSpecialModel;
 }
 
 const Special = ({ special }: ISpecialProps): JSX.Element => {

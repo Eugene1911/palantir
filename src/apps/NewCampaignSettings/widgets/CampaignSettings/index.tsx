@@ -3,14 +3,14 @@ import { inject, observer } from 'mobx-react';
 import { getSnapshot } from 'mobx-state-tree';
 
 import CampaignStepper from 'sharedComponents/CampaignStepper';
-import { INewCampaignSettingsStore } from '../../stores/NewCampaignSettingsStore';
+import { TNewCampaignSettingsStore } from '../../stores/NewCampaignSettingsStore';
 import Settings from './widgets/Settings';
 import Scheduling from './widgets/Scheduling';
 import Targeting from './widgets/Targeting';
 import Special from './widgets/Special';
 
 interface ICampaignSettingsProps {
-  newCampaignSettings?: INewCampaignSettingsStore;
+  newCampaignSettings?: TNewCampaignSettingsStore;
 }
 
 const CampaignSettings = ({

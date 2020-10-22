@@ -10,6 +10,6 @@ const TargetingModel = types
     },
   }));
 
-export type ITargetingModel = Instance<typeof TargetingModel>;
+export type TTargetingModel = Instance<typeof TargetingModel>;
 
 export default TargetingModel;
