@@ -16,14 +16,15 @@ const SchedulingModel = types
   .model({
     timezones: types.array(TimezoneModel),
     timezone: types.number,
-    dateStart: types.maybe(types.string),
-    dateEnd: types.maybe(types.string),
+    dateStart: types.maybe(types.Date),
+    dateEnd: types.maybe(types.Date),
+    dayTimeRange: types.string,
   })
   .actions(self => ({
     setTimezone(timezone: number) {
       self.timezone = timezone;
     },
-    setDate(date: string, type: 'dateStart' | 'dateEnd') {
+    setDate(date: Date, type: 'dateStart' | 'dateEnd') {
       self[type] = date;
     },
   }));
