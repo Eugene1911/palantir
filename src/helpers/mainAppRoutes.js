@@ -7,6 +7,7 @@ import AdvancedCustomStatistics from 'apps/AdvancedCustomStatistics/app';
 import CampaignEdit from 'apps/CampaignEdit/app';
 import AppList from 'apps/AppList';
 import CampaignAudienceAndPricing from 'apps/CampaignAudienceAndPricing/app';
+import NewCampaignSettings from 'apps/NewCampaignSettings/app';
 
 const mainAppRoutes = [
   {
@@ -46,6 +47,11 @@ const mainAppRoutes = [
   {
     component: CampaignAudienceAndPricing,
     path: '/CampaignAudienceAndPricing',
+    exact: true,
+  },
+  {
+    component: NewCampaignSettings,
+    path: '/NewCampaignSettings',
     exact: true,
   },
 ];
