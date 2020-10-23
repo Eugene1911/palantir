@@ -2,6 +2,7 @@ import React from 'react';
 import { ITab } from 'sharedComponents/Accordion';
 import CampaignFormLabel from 'sharedComponents/CampaignFormLabel';
 import StartEndDate from '../widgets/StartEndDate';
+import DayTimeRange from '../widgets/DayTimeRange';
 
 export const tabs: ITab[] = [
   {
@@ -21,6 +22,6 @@ export const tabs: ITab[] = [
         }
       />
     ),
-    rightSide: <div>rightSide</div>,
+    rightSide: <DayTimeRange />,
   },
 ];
