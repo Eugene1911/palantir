@@ -5,6 +5,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const customPaths = require('./paths');
 const { routes } = require('./config');
 
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components')
+  .default;
+
+const styledComponentsTransformer = createStyledComponentsTransformer();
+
+const tsLoader = {
+  test: /\.tsx?$/,
+  loader: 'ts-loader',
+  options: {
+    transpileOnly: true,
+    getCustomTransformers: () => ({
+      before: [styledComponentsTransformer],
+    }),
+  },
+};
+
 /**
  * Plugin @string-replace-loader
  */
@@ -43,7 +59,7 @@ const productionPlugins = [...pluginRoutes];
  * Module rules
  */
 
-const moduleRules = [stringReplaceLoader];
+const moduleRules = [stringReplaceLoader, tsLoader];
 /**
  * Common plugins
  */

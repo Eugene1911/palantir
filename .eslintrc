@@ -37,6 +37,13 @@
         "prefixWithI": "always"
       }
     ],
+    "@typescript-eslint/no-unused-expressions": ["error", {
+      "allowShortCircuit": true, "allowTernary": true
+    }],
+    "@typescript-eslint/no-unused-vars": 1,
+    "@typescript-eslint/no-use-before-define": 0,
+    "no-unused-expressions": "off",
+    "no-unused-vars": "off",
     "import/extensions": [1, "never"],
     "prettier/prettier": "error",
     "react/button-has-type": "error",
@@ -45,12 +52,13 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/forbid-component-props": "error",
     "react/jsx-closing-tag-location": "error",
-    "react/destructuring-assignment": "error",
+    "react/destructuring-assignment": "warn",
     "react/jsx-boolean-value": ["error", "never"],
     "react/jsx-closing-bracket-location": "error",
     "react/jsx-curly-spacing": ["error", "never"],
     "react/jsx-equals-spacing": "error",
     "react/no-deprecated": "error",
+    "react/require-default-props": 0,
     "react/no-did-mount-set-state": "error",
     "react/no-did-update-set-state": "error",
     "react/no-string-refs": "error",
@@ -71,6 +79,7 @@
     "no-underscore-dangle": 1,
     "import/imports-first": ["error", "absolute-first"],
     "import/newline-after-import": "error",
+    "import/prefer-default-export": 0,
     "react/jsx-props-no-spreading": 1,
     "no-param-reassign": ["error", { "props": false }]
   },
