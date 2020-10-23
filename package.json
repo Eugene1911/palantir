@@ -52,6 +52,7 @@
     "react-scripts": "3.1.2",
     "react-svg": "^11.0.44",
     "react-transition-group": "^4.4.1",
+    "react-uuid": "^1.0.2",
     "recharts": "^1.8.5",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",

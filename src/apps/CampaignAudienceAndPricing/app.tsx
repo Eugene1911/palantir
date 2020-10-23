@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import SuspenseFallbackMain from 'sharedComponents/SuspenseFallbackMain';
-import Audience from './Audience/Audience';
+import Audience from './Audience';
 
 function CampaignAudienceAndPricing(): JSX.Element {
   return (

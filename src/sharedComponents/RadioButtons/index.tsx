@@ -1,8 +1,7 @@
 import React from 'react';
 import Radio from '@material-ui/core/Radio';
 import { Typography } from '@material-ui/core';
-import { AnyFunction } from 'sharedTypes';
-import * as S from './styled';
+import * as S from './styles';
 
 export interface IRadioButton {
   title: string;
@@ -13,7 +12,7 @@ export interface IRadioButton {
 export interface IRadioButtonsProps {
   buttons: IRadioButton[];
   selected: number; // начиная с 0
-  onChange: AnyFunction;
+  onChange: (index: number) => void;
 }
 
 function RadioButtons(props: IRadioButtonsProps): JSX.Element {
