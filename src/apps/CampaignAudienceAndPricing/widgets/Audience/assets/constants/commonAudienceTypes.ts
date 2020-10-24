@@ -18,3 +18,8 @@ export const trafficTypes = {
     text: 'White list of spots with advanced traffic.',
   },
 };
+
+export enum EListType {
+  WHITE,
+  BLACK,
+}

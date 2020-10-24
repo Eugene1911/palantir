@@ -6,7 +6,7 @@ import RadioButtons, {
 import {
   ETrafficType,
   trafficTypes,
-} from '../../assets/constants/trafficTypes';
+} from '../../assets/constants/commonAudienceTypes';
 
 interface ITrafficSelectionButtonsProps {
   selected: number;

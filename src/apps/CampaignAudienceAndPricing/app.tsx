@@ -1,12 +1,21 @@
-import React, { Suspense } from 'react';
-import SuspenseFallbackMain from 'sharedComponents/SuspenseFallbackMain';
-import Audience from './Audience';
+import React from 'react';
+import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
+import Audience from './widgets/Audience';
+import CampaignAudienceAndPricingStore, {
+  InitialCampaignAudienceAndPricingStore,
+} from './stores/CampaignAudienceAndPricingStore';
 
 function CampaignAudienceAndPricing(): JSX.Element {
+  const store = {
+    CampaignAudienceAndPricingStore: CampaignAudienceAndPricingStore.create(
+      InitialCampaignAudienceAndPricingStore,
+    ),
+  };
+
   return (
-    <Suspense fallback={<SuspenseFallbackMain />}>
+    <WrapperStartAppComponent store={store}>
       <Audience />
-    </Suspense>
+    </WrapperStartAppComponent>
   );
 }
 
