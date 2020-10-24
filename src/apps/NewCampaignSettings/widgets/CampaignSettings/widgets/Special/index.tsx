@@ -1,23 +1,18 @@
-import React, { useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-// import { getSnapshot } from 'mobx-state-tree';
+import React from 'react';
 
-import { TSpecialModel } from './stores/SpecialStore';
+import AccordionPanel from 'sharedComponents/Accordion';
+import HowToReg from '@material-ui/icons/HowToReg';
+import { tabs } from './constants/tabs';
 
-interface ISpecialProps {
-  special?: TSpecialModel;
-}
-
-const Special = ({ special }: ISpecialProps): JSX.Element => {
-  // console.log('Special', getSnapshot(special));
-
-  useEffect(() => {
-    special.setSpecial('new SPECIAL');
-  }, []);
-
-  return <div>Special</div>;
+const Special = (): JSX.Element => {
+  return (
+    <AccordionPanel
+      Icon={HowToReg}
+      title="Special"
+      isSelected={false}
+      tabs={tabs}
+    />
+  );
 };
 
-export default inject(({ newCampaignSettings }) => ({
-  special: newCampaignSettings.special,
-}))(observer(Special));
+export default Special;

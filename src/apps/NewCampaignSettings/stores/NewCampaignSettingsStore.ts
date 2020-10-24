@@ -5,13 +5,15 @@ import SchedulingModel, {
   InitialSchedulingModel,
 } from '../widgets/CampaignSettings/widgets/Scheduling/stores/SchedulingStore';
 import TargetingModel from '../widgets/CampaignSettings/widgets/Targeting/stores/TargetingStore';
-import SpecialModel from '../widgets/CampaignSettings/widgets/Special/stores/SpecialStore';
+import SpecialModel, {
+  InitialSpecialModel,
+} from '../widgets/CampaignSettings/widgets/Special/stores/SpecialStore';
 
 export const InitialNewCampaignSettingsStore = {
   settings: {},
   scheduling: InitialSchedulingModel,
   targeting: {},
-  special: {},
+  special: InitialSpecialModel,
 };
 
 const NewCampaignSettingsStore = types.model({
