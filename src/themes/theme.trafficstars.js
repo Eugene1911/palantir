@@ -16,8 +16,15 @@ export default createMuiTheme({
     secondary: {
       main: SECONDARY_COLOR,
     },
+    error: {
+      main: '#ff103e',
+    },
     text: {
       primary: '#2a2837',
+    },
+    background: {
+      blue: '#e8e9f7',
+      red: '#ffd0d9',
     },
     statuses,
   },

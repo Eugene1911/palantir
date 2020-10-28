@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { useTheme } from '@material-ui/core/styles';
 
 interface IButtonProps {
   checked: boolean;
@@ -17,9 +18,14 @@ export const Button = styled.div<IButtonProps>`
   padding: 12px;
   border-radius: 12px;
   border: solid 1px
-    ${props => (props.checked ? '#030969' : '#cccccc')};
-  background-color: ${props =>
-    props.checked ? '#e8e9f7' : '#ffffff'};
+    ${({ checked }) => {
+      const { palette } = useTheme();
+      return checked ? palette.primary.main : palette.statuses.grey;
+    }};
+  background-color: ${({ checked }) => {
+    const { palette } = useTheme();
+    return checked ? palette.background.blue : 'transparent';
+  }};
 `;
 
 export const TitleWrap = styled.div`

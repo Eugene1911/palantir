@@ -23,3 +23,8 @@ export enum EListType {
   WHITE,
   BLACK,
 }
+
+export enum ETagStatus {
+  DISABLED = 'disabled',
+  ACTIVE = 'active',
+}

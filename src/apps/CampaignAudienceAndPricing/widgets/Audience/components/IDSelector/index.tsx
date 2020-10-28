@@ -1,20 +1,30 @@
 import React, { useState } from 'react';
+import isArray from 'lodash/isArray';
 import Radio from '@material-ui/core/Radio';
 import TextField from '@material-ui/core/TextField';
-import isArray from 'lodash/isArray';
+import CancelIcon from '@material-ui/icons/Cancel';
 import union from 'lodash/union';
 import { KEY_ENTER_CODE } from 'config/constants';
 import textToArrayWithCheck from 'helpers/textToArrayWithCheck';
-
-import { radioTitles } from '../../assets/constants/radioTitles';
+import { Typography } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+import { ETagStatus } from '../../assets/constants/commonAudienceTypes';
+import {
+  disabledTagToolTip,
+  radioTitles,
+} from '../../assets/constants/rightSidesConst';
 import * as S from './styles';
+import useStyles from './useStyles';
 
 export interface IDSelectorProps {
   radioSelected: number;
   onRadioChange: (index: number) => void;
   onInputEnter: (value: string[]) => void;
-  placeholder: string;
   inputValue: string[];
+  tags: any[];
+  closeTag: (tag: any) => void;
+  placeholder: string;
 }
 
 function IDSelector(props?: IDSelectorProps): JSX.Element {
@@ -24,8 +34,9 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
     onRadioChange,
     onInputEnter,
     inputValue,
+    tags,
   } = props;
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState(inputValue.join(', '));
 
   const onInputChange = ({
     target,
@@ -50,24 +61,55 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
     }
   };
 
+  const isWhiteListChecked = radioSelected === 0;
+  const classes = useStyles();
+  const { palette } = useTheme();
+
   return (
     <>
-      <S.RadioWrap>
-        <Radio
-          checked={radioSelected === 0}
-          onChange={() => onRadioChange(0)}
-        />
-        <S.RadioTitle>{radioTitles.whitelist}</S.RadioTitle>
-        <S.RadioLabel />
-      </S.RadioWrap>
-      <S.RadioWrap>
-        <Radio
-          checked={radioSelected === 1}
-          onChange={() => onRadioChange(1)}
-        />
-        <S.RadioTitle>{radioTitles.blacklist}</S.RadioTitle>
-        <S.RadioLabel />
-      </S.RadioWrap>
+      <S.RadioGroup>
+        <S.RadioWrap>
+          <Radio
+            checked={isWhiteListChecked}
+            onChange={() => onRadioChange(0)}
+          />
+          <S.RadioTitle>
+            <Typography
+              color={
+                isWhiteListChecked ? 'primary' : palette.statuses.grey
+              }
+            >
+              {radioTitles.whitelist}
+            </Typography>
+          </S.RadioTitle>
+          <S.RadioLabel checked={isWhiteListChecked} isWhiteList>
+            <Typography color="primary">{tags.length}</Typography>
+          </S.RadioLabel>
+        </S.RadioWrap>
+        <S.RadioWrap>
+          <Radio
+            checked={!isWhiteListChecked}
+            onChange={() => onRadioChange(1)}
+          />
+          <S.RadioTitle>
+            <Typography
+              color={
+                !isWhiteListChecked
+                  ? 'primary'
+                  : palette.statuses.grey
+              }
+            >
+              {radioTitles.blacklist}
+            </Typography>
+          </S.RadioTitle>
+          <S.RadioLabel
+            checked={!isWhiteListChecked}
+            isWhiteList={false}
+          >
+            <Typography color="error">{tags.length}</Typography>
+          </S.RadioLabel>
+        </S.RadioWrap>
+      </S.RadioGroup>
       <TextField
         placeholder={`Type ${placeholder}`}
         multiline
@@ -77,6 +119,32 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
         value={inputText}
         onChange={onInputChange}
       />
+      <S.TagsWrap>
+        {tags.map(({ id, status, tooltip }) => {
+          const isDisabled = status === ETagStatus.DISABLED;
+          return (
+            <Tooltip
+              key={id}
+              classes={{ tooltip: classes.tooltip }}
+              title={isDisabled ? disabledTagToolTip : tooltip}
+              placement="bottom"
+              arrow
+            >
+              <S.Tag
+                isWhiteList={isWhiteListChecked}
+                isDisabled={isDisabled}
+              >
+                <Typography>{id}</Typography>
+                <S.TagClose>
+                  <CancelIcon
+                    color={isWhiteListChecked ? 'primary' : 'error'}
+                  />
+                </S.TagClose>
+              </S.Tag>
+            </Tooltip>
+          );
+        })}
+      </S.TagsWrap>
     </>
   );
 }

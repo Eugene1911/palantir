@@ -2,59 +2,72 @@ import { Instance, types } from 'mobx-state-tree';
 import {
   EListType,
   ETrafficType,
+  ETagStatus,
 } from '../assets/constants/commonAudienceTypes';
 
 const mockSiteTags = [
   {
     id: 1,
-    status: 'active',
+    status: ETagStatus.ACTIVE,
+    tooltip: 'pornhub',
   },
   {
     id: 25,
-    status: 'active',
+    status: ETagStatus.ACTIVE,
+    tooltip: 'pornhub',
   },
   {
     id: 345,
-    status: 'active',
+    status: ETagStatus.DISABLED,
   },
 ];
 
 export const InitialAudienceModel = {
   trafficType: ETrafficType.RON,
-  siteId: {
+  siteID: {
     listType: EListType.WHITE,
-    sitesSelected: [{ id: 1 }],
+    tagsSelected: [],
     tags: mockSiteTags,
   },
 };
 
-const ID = types.model({
-  id: types.number,
-});
+// const ID = types.model({
+//   id: types.number,
+// });
 
 const Tag = types.model({
   id: types.number,
-  status: types.optional(types.string, ''),
+  status: types.optional(
+    types.enumeration<ETagStatus>(Object.values(ETagStatus)),
+    ETagStatus.ACTIVE,
+  ),
+  tooltip: types.optional(types.string, ''),
 });
 
 const AudienceModel = types
   .model({
     trafficType: types.number,
-    siteId: types.model('SiteId', {
+    siteID: types.model('siteID', {
       listType: types.number,
-      sitesSelected: types.array(ID),
       tags: types.array(Tag),
+      tagsSelected: types.array(Tag),
     }),
   })
   .actions(self => ({
     setTrafficType(trafficType: ETrafficType) {
       self.trafficType = trafficType;
     },
-    setSiteListType(listType: EListType) {
-      self.siteId.listType = listType;
+    setListType(listType: EListType, model: string) {
+      self[model].listType = listType;
     },
-    setSitesSelected(sitesSelected) {
-      self.siteId.sitesSelected = sitesSelected;
+    setTagsSelected(tagsSelected, model: string) {
+      self[model].tagsSelected = tagsSelected;
+    },
+    closeTag(tag, model: string) {
+      self[model].tags = self.siteID.tags.splice(
+        self.siteID.tags.indexOf(tag),
+        1,
+      );
     },
   }));
 

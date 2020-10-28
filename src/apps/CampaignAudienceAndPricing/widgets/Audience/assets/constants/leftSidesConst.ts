@@ -13,18 +13,26 @@ export const leftSidesConst = {
   },
   siteID: {
     title: 'Site ID',
-    tooltip: '',
+    tooltip:
+      'To target specific site IDs, you can paste them separated by a comma. Or you can type the ID and press "Enter" to add it to the targeting.',
   },
   spotId: {
     title: 'Spot Id',
-    tooltip: '',
+    tooltip:
+      'To target specific ad spot IDs, you can paste them separated by a comma. Or you can type the ID and press "Enter" to add it to the targeting. \n' +
+      '\n' +
+      'Warning: whitelisting of ad spots always has priority over blacklisting.',
   },
   SubID: {
     title: 'Sub ID',
-    tooltip: '',
+    tooltip:
+      'To target specific subIDs, you can paste them separated by a comma. Or you can type the ID and press "Enter" to add it to the targeting.\n' +
+      '\n' +
+      'Warning: whitelisting of subIDs always has priority over blacklisting.',
   },
   trafficSource: {
     title: 'Traffic Source',
-    tooltip: '',
+    tooltip:
+      'The option allows targeting only Partner Networks, Direct Inventory, or both.',
   },
 };

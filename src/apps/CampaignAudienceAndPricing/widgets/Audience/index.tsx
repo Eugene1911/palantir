@@ -1,23 +1,10 @@
 import React from 'react';
 import Accordion, { ITab } from 'sharedComponents/Accordion';
 import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle';
-import { inject, observer } from 'mobx-react';
-import { getSnapshot } from 'mobx-state-tree';
 import createTabs from './services/createTabs';
-import { TAudienceModel } from './stores/AudienceStore';
 
-interface IAudienceProps {
-  audience?: TAudienceModel;
-}
-
-function Audience({ audience }: IAudienceProps): JSX.Element {
-  const tabs: ITab[] = createTabs({
-    trafficType: audience.trafficType,
-    onTrafficTypeChange: audience.setTrafficType,
-  });
-
-  console.log('audience', audience);
-  console.log('audience snap', getSnapshot(audience));
+function Audience(): JSX.Element {
+  const tabs: ITab[] = createTabs();
 
   return (
     <Accordion
@@ -32,6 +19,4 @@ function Audience({ audience }: IAudienceProps): JSX.Element {
   );
 }
 
-export default inject(({ CampaignAudienceAndPricingStore }) => ({
-  audience: CampaignAudienceAndPricingStore.audience,
-}))(observer(Audience));
+export default Audience;

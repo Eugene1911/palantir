@@ -2,17 +2,10 @@ import React from 'react';
 import { ITab } from 'sharedComponents/Accordion';
 import CampaignFormLabel from 'sharedComponents/CampaignFormLabel';
 import { leftSidesConst } from '../assets/constants/leftSidesConst';
-import TrafficSelectionButtons from '../components/trafficSelectionButtons';
-import { ETrafficType } from '../assets/constants/commonAudienceTypes';
-// import IDSelector from '../components/IDSelector';
+import TrafficSelectionButtons from '../widgets/trafficSelectionButtons';
+import IDSelector from '../widgets/IDSelector';
 
-export interface ICreateTabsParams {
-  trafficType: ETrafficType;
-  onTrafficTypeChange: (index: number) => void;
-}
-
-function createTabs(params: ICreateTabsParams): ITab[] {
-  const { trafficType, onTrafficTypeChange } = params;
+function createTabs(): ITab[] {
   return [
     {
       leftSide: (
@@ -21,10 +14,7 @@ function createTabs(params: ICreateTabsParams): ITab[] {
           tooltipText={leftSidesConst.trafficSelection.tooltip}
         />
       ),
-      rightSide: TrafficSelectionButtons({
-        selected: trafficType,
-        onChange: onTrafficTypeChange,
-      }),
+      rightSide: <TrafficSelectionButtons />,
     },
     {
       leftSide: (
@@ -33,7 +23,7 @@ function createTabs(params: ICreateTabsParams): ITab[] {
           tooltipText={leftSidesConst.siteID.tooltip}
         />
       ),
-      rightSide: <></>, // IDSelector(),
+      rightSide: <IDSelector model="siteID" />,
     },
   ];
 }

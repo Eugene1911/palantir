@@ -1,27 +1,27 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 import RadioButtons, {
   IRadioButton,
 } from 'sharedComponents/RadioButtons';
-
 import {
   ETrafficType,
   trafficTypes,
 } from '../../assets/constants/commonAudienceTypes';
 
 interface ITrafficSelectionButtonsProps {
-  selected: number;
-  onChange: (index: number) => void;
+  selected?: number;
+  onChange?: (index: number) => void;
 }
 
-function TrafficSelectionButtons(
-  props: ITrafficSelectionButtonsProps,
-): JSX.Element {
+function TrafficSelectionButtons({
+  selected,
+  onChange,
+}: ITrafficSelectionButtonsProps): JSX.Element {
   const buttons: IRadioButton[] = [
     trafficTypes[ETrafficType.RON],
     trafficTypes[ETrafficType.PRIME],
     trafficTypes[ETrafficType.MEMBERS_AREA],
   ];
-  const { selected, onChange } = props;
 
   return (
     <RadioButtons
@@ -32,4 +32,7 @@ function TrafficSelectionButtons(
   );
 }
 
-export default TrafficSelectionButtons;
+export default inject(({ CampaignAudienceAndPricingStore }) => ({
+  selected: CampaignAudienceAndPricingStore.audience.trafficType,
+  onChange: CampaignAudienceAndPricingStore.audience.setTrafficType,
+}))(observer(TrafficSelectionButtons));
