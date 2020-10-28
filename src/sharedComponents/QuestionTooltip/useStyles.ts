@@ -12,6 +12,7 @@ const useStyles = makeStyles<Theme, TQuestionTooltipClasses>({
   },
   tooltip: {
     fontSize: '12px',
+    whiteSpace: 'pre-wrap',
   },
 });
 
