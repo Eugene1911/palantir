@@ -17,7 +17,7 @@ import ChooseRulesStore from './widgets/ChooseRules/store/ChooseRulesStore';
 import StoreProvider from './StoreProvider';
 
 function OptimizersApp(): JSX.Element {
-  const { path } = useRouteMatch();
+  const { path = '/' } = useRouteMatch();
   const routerModel = RouterModel.create();
   const history = syncHistoryWithStore(
     createBrowserHistory(),
@@ -38,6 +38,8 @@ function OptimizersApp(): JSX.Element {
       }),
     }),
   };
+
+  console.log('path ->', path);
 
   useGlobalStyles({});
 
