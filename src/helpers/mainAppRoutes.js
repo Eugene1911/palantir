@@ -6,6 +6,7 @@ import BackofficeTools from 'apps/BackofficeTools/app';
 import AdvancedCustomStatistics from 'apps/AdvancedCustomStatistics/app';
 import CampaignEdit from 'apps/CampaignEdit/app';
 import AppList from 'apps/AppList';
+import OptimizersApp from 'apps/Optimizers/app';
 
 const mainAppRoutes = [
   {
@@ -41,6 +42,10 @@ const mainAppRoutes = [
     component: CampaignEdit,
     path: '/CampaignEdit',
     exact: true,
+  },
+  {
+    component: OptimizersApp,
+    path: '/Optimizers',
   },
 ];
 
