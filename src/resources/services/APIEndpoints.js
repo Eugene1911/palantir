@@ -26,3 +26,6 @@ export const OPTIMIZER_VARIABLES = `${API_VERSION_1_1}optimizer/variables`;
 
 // Stats
 export const PUBLISHER_CUSTOM_REPORT = `${API_VERSION_1_1}publisher/custom/report/by-`;
+
+// Access Control
+export const RBAC_CHECK_ACCESS = `${API_VERSION_1_1}rbac/check_access`;
