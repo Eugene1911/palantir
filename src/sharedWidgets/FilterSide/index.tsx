@@ -1,5 +1,5 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
@@ -61,6 +61,4 @@ function FilterSide({
   );
 }
 
-export default inject(({ filterSideStore }) => ({
-  filterSideStore,
-}))(observer(FilterSide));
+export default observer(FilterSide);
