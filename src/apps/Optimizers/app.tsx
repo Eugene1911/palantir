@@ -17,7 +17,7 @@ import ChooseRulesStore from './widgets/ChooseRules/store/ChooseRulesStore';
 import StoreProvider from './StoreProvider';
 
 function OptimizersApp(): JSX.Element {
-  const { url: path } = useRouteMatch();
+  const { path } = useRouteMatch();
   const routerModel = RouterModel.create();
   const history = syncHistoryWithStore(
     createBrowserHistory(),

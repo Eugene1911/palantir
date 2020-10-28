@@ -7,7 +7,7 @@ import OptimizersApp from './app';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <Router>
+    <Router basename="/advertisers/optimizers/">
       <OptimizersApp />
     </Router>
   </ThemeProvider>,
