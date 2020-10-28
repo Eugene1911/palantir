@@ -211,6 +211,20 @@ export const getOptimizer = (id, params) =>
   API.get(`${OPTIMIZER_STRATEGIES}/${id}`, { params });
 
 /**
+ * POST Optimizers
+ * @param {Object} params
+ */
+export const postOptimizer = params =>
+  API.post(`${OPTIMIZER_STRATEGIES}`, { ...params });
+
+/**
+ * PUT Optimizers
+ * @param {Object} params
+ */
+export const putOptimizer = (id, params) =>
+  API.put(`${OPTIMIZER_STRATEGIES}/${id}`, { ...params });
+
+/**
  * Get Optimizers variables
  * @param {Object} params
  */
