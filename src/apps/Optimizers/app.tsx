@@ -1,3 +1,5 @@
+import 'typeface-roboto';
+import 'config/i18n';
 import React, { Suspense } from 'react';
 import { Route, useRouteMatch, Switch } from 'react-router-dom';
 import Notifier from 'sharedWidgets/Notifier';
@@ -38,8 +40,6 @@ function OptimizersApp(): JSX.Element {
       }),
     }),
   };
-
-  console.log('path ->', path);
 
   useGlobalStyles({});
 
