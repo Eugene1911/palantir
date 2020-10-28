@@ -1,7 +1,6 @@
 import React from 'react';
 import Radio from '@material-ui/core/Radio';
 import { Typography } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
 import * as S from './styles';
 
 export interface IRadioButton {
@@ -18,7 +17,6 @@ export interface IRadioButtonsProps {
 
 function RadioButtons(props: IRadioButtonsProps): JSX.Element {
   const { buttons, onChange, selected } = props;
-  const { palette } = useTheme();
 
   const handleChange = (index: number): void => {
     onChange(index);
@@ -42,9 +40,8 @@ function RadioButtons(props: IRadioButtonsProps): JSX.Element {
               <S.TitleWrap>
                 <S.Title>
                   <Typography
-                    color={
-                      checked ? 'primary' : palette.statuses.grey
-                    }
+                    variant="subtitle1"
+                    color={checked ? 'primary' : 'textSecondary'}
                   >
                     {title}
                   </Typography>
@@ -53,7 +50,7 @@ function RadioButtons(props: IRadioButtonsProps): JSX.Element {
               </S.TitleWrap>
               <S.Text>
                 <Typography
-                  color={checked ? 'primary' : palette.statuses.grey}
+                  color={checked ? 'primary' : 'textSecondary'}
                 >
                   {text || ''}
                 </Typography>

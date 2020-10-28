@@ -4,39 +4,29 @@ import {
   ETrafficType,
   ETagStatus,
 } from '../assets/constants/commonAudienceTypes';
-
-const mockSiteTags = [
-  {
-    id: 1,
-    status: ETagStatus.ACTIVE,
-    tooltip: 'pornhub',
-  },
-  {
-    id: 25,
-    status: ETagStatus.ACTIVE,
-    tooltip: 'pornhub',
-  },
-  {
-    id: 345,
-    status: ETagStatus.DISABLED,
-  },
-];
+import { mockSiteTags, mockSpotTags, mockSubTags } from './mocks';
 
 export const InitialAudienceModel = {
   trafficType: ETrafficType.RON,
   siteID: {
     listType: EListType.WHITE,
-    tagsSelected: [],
     tags: mockSiteTags,
+    tagsSelected: mockSiteTags.map(tag => tag.id),
+  },
+  spotID: {
+    listType: EListType.WHITE,
+    tags: mockSpotTags,
+    tagsSelected: mockSpotTags.map(tag => tag.id),
+  },
+  subID: {
+    listType: EListType.WHITE,
+    tags: mockSubTags,
+    tagsSelected: mockSubTags.map(tag => tag.id),
   },
 };
 
-// const ID = types.model({
-//   id: types.number,
-// });
-
 const Tag = types.model({
-  id: types.number,
+  id: types.identifier,
   status: types.optional(
     types.enumeration<ETagStatus>(Object.values(ETagStatus)),
     ETagStatus.ACTIVE,
@@ -50,7 +40,17 @@ const AudienceModel = types
     siteID: types.model('siteID', {
       listType: types.number,
       tags: types.array(Tag),
-      tagsSelected: types.array(Tag),
+      tagsSelected: types.array(types.reference(Tag)),
+    }),
+    spotID: types.model('spotID', {
+      listType: types.number,
+      tags: types.array(Tag),
+      tagsSelected: types.array(types.reference(Tag)),
+    }),
+    subID: types.model('subID', {
+      listType: types.number,
+      tags: types.array(Tag),
+      tagsSelected: types.array(types.reference(Tag)),
     }),
   })
   .actions(self => ({
@@ -60,14 +60,16 @@ const AudienceModel = types
     setListType(listType: EListType, model: string) {
       self[model].listType = listType;
     },
-    setTagsSelected(tagsSelected, model: string) {
-      self[model].tagsSelected = tagsSelected;
+    setTagsSelected(tagsIDSelected, model: string) {
+      self[model].tagsSelected = tagsIDSelected;
     },
-    closeTag(tag, model: string) {
-      self[model].tags = self.siteID.tags.splice(
-        self.siteID.tags.indexOf(tag),
-        1,
+    closeTag(tagID, model: string) {
+      self[model].tagsSelected = self[model].tagsSelected.filter(
+        ({ id }) => id !== tagID,
       );
+    },
+    clearTags(model: string) {
+      self[model].tagsSelected = self[model].tags.map(({ id }) => id);
     },
   }));
 

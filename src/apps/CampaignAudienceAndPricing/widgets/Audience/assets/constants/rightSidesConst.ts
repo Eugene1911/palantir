@@ -7,4 +7,4 @@ export const radioTitles = {
 };
 
 export const disabledTagToolTip =
-  'We do not have such a spot ID \n It will not have traffic.';
+  'We do not have such a spot ID \nIt will not have traffic.';

@@ -14,10 +14,11 @@ function IDSelectorController(
   const IDSelectorParams = {
     onInputEnter: tags => audience.setTagsSelected(tags, model),
     onRadioChange: listType => audience.setListType(listType, model),
-    closeTag: tag => audience.closeTag(tag, model),
+    closeTag: tagID => audience.closeTag(tagID, model),
+    clearTags: () => audience.clearTags(model),
     radioSelected: audience[model].listType,
     tags: audience[model].tags,
-    inputValue: audience[model].tagsSelected,
+    tagsSelected: audience[model].tagsSelected,
     placeholder: model,
   };
 

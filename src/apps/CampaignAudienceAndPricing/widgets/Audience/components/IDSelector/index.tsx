@@ -3,9 +3,9 @@ import isArray from 'lodash/isArray';
 import Radio from '@material-ui/core/Radio';
 import TextField from '@material-ui/core/TextField';
 import CancelIcon from '@material-ui/icons/Cancel';
-import union from 'lodash/union';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import { KEY_ENTER_CODE } from 'config/constants';
-import textToArrayWithCheck from 'helpers/textToArrayWithCheck';
 import { Typography } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -14,6 +14,7 @@ import {
   disabledTagToolTip,
   radioTitles,
 } from '../../assets/constants/rightSidesConst';
+import textToTagsID from './services/textToTagsWithCheck';
 import * as S from './styles';
 import useStyles from './useStyles';
 
@@ -21,9 +22,10 @@ export interface IDSelectorProps {
   radioSelected: number;
   onRadioChange: (index: number) => void;
   onInputEnter: (value: string[]) => void;
-  inputValue: string[];
   tags: any[];
-  closeTag: (tag: any) => void;
+  tagsSelected: any[];
+  closeTag: (id: string) => void;
+  clearTags: () => void;
   placeholder: string;
 }
 
@@ -33,10 +35,12 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
     radioSelected,
     onRadioChange,
     onInputEnter,
-    inputValue,
     tags,
+    tagsSelected,
+    closeTag,
+    clearTags,
   } = props;
-  const [inputText, setInputText] = useState(inputValue.join(', '));
+  const [inputText, setInputText] = useState('');
 
   const onInputChange = ({
     target,
@@ -49,16 +53,30 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
     const { key } = event;
 
     if (key === KEY_ENTER_CODE) {
-      const words = textToArrayWithCheck(inputText, inputValue);
+      const tagsID = textToTagsID(inputText, tags);
 
       event.preventDefault();
 
-      if (isArray(words)) {
-        onInputEnter(union(inputValue, words));
+      if (isArray(tagsID)) {
+        onInputEnter(tagsID);
       }
 
       setInputText('');
     }
+  };
+
+  const onCloseTagHandler = tag => {
+    closeTag(tag.id);
+  };
+
+  const onClearTagsHandler = () => {
+    setInputText('');
+    clearTags();
+  };
+
+  const onCopyHandler = () => {
+    const text = tagsSelected.map(({ id }) => id).join(', ');
+    navigator.clipboard.writeText(text);
   };
 
   const isWhiteListChecked = radioSelected === 0;
@@ -110,17 +128,32 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
           </S.RadioLabel>
         </S.RadioWrap>
       </S.RadioGroup>
-      <TextField
-        placeholder={`Type ${placeholder}`}
-        multiline
-        rowsMax="4"
-        fullWidth
-        onKeyPress={onKeyPressHandler}
-        value={inputText}
-        onChange={onInputChange}
-      />
+      <Grid container>
+        <Grid item xs={5}>
+          <TextField
+            placeholder={`Type ${placeholder}`}
+            multiline
+            rowsMax="4"
+            fullWidth
+            onKeyPress={onKeyPressHandler}
+            value={inputText}
+            onChange={onInputChange}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <Button color="primary" onClick={onClearTagsHandler}>
+            CLEAR ALL
+          </Button>
+        </Grid>
+        <Grid item xs={1}>
+          <Button color="primary" onClick={onCopyHandler}>
+            COPY ALL
+          </Button>
+        </Grid>
+      </Grid>
       <S.TagsWrap>
-        {tags.map(({ id, status, tooltip }) => {
+        {tagsSelected.map(tag => {
+          const { id, status, tooltip } = tag;
           const isDisabled = status === ETagStatus.DISABLED;
           return (
             <Tooltip
@@ -135,9 +168,13 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
                 isDisabled={isDisabled}
               >
                 <Typography>{id}</Typography>
-                <S.TagClose>
+                <S.TagClose onClick={() => onCloseTagHandler(tag)}>
                   <CancelIcon
-                    color={isWhiteListChecked ? 'primary' : 'error'}
+                    color={
+                      isWhiteListChecked || isDisabled
+                        ? 'primary'
+                        : 'error'
+                    }
                   />
                 </S.TagClose>
               </S.Tag>

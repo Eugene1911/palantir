@@ -43,7 +43,6 @@ export const RadioLabel = styled.div<IRadioLabelProps>`
 export const Tag = styled.div<ITagProps>`
   display: flex;
   align-items: center;
-  margin-right: 4px;
   padding: 0 8px 0 12px;
   height: 32px;
   border-radius: 16px;
@@ -73,5 +72,8 @@ export const TagClose = styled.div`
 
 export const TagsWrap = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin-top: 24px;
+  row-gap: 8px;
+  column-gap: 4px;
 `;

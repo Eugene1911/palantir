@@ -25,6 +25,24 @@ function createTabs(): ITab[] {
       ),
       rightSide: <IDSelector model="siteID" />,
     },
+    {
+      leftSide: (
+        <CampaignFormLabel
+          text={leftSidesConst.spotID.title}
+          tooltipText={leftSidesConst.spotID.tooltip}
+        />
+      ),
+      rightSide: <IDSelector model="spotID" />,
+    },
+    {
+      leftSide: (
+        <CampaignFormLabel
+          text={leftSidesConst.subID.title}
+          tooltipText={leftSidesConst.subID.tooltip}
+        />
+      ),
+      rightSide: <IDSelector model="subID" />,
+    },
   ];
 }
 

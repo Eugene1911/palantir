@@ -16,14 +16,14 @@ export const leftSidesConst = {
     tooltip:
       'To target specific site IDs, you can paste them separated by a comma. Or you can type the ID and press "Enter" to add it to the targeting.',
   },
-  spotId: {
-    title: 'Spot Id',
+  spotID: {
+    title: 'Spot ID',
     tooltip:
       'To target specific ad spot IDs, you can paste them separated by a comma. Or you can type the ID and press "Enter" to add it to the targeting. \n' +
       '\n' +
       'Warning: whitelisting of ad spots always has priority over blacklisting.',
   },
-  SubID: {
+  subID: {
     title: 'Sub ID',
     tooltip:
       'To target specific subIDs, you can paste them separated by a comma. Or you can type the ID and press "Enter" to add it to the targeting.\n' +
