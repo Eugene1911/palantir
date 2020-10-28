@@ -2,16 +2,9 @@ import React from 'react';
 import Accordion, { ITab } from 'sharedComponents/Accordion';
 import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle';
 import createTabs from './services/createTabs';
-import { ETrafficType } from './assets/constants/trafficTypes';
 
 function Audience(): JSX.Element {
-  const [trafficType, setTrafficType] = React.useState(
-    ETrafficType.RON,
-  );
-  const tabs: ITab[] = createTabs({
-    scheme: trafficType,
-    onTrafficTypeChange: setTrafficType,
-  });
+  const tabs: ITab[] = createTabs();
 
   return (
     <Accordion
@@ -25,4 +18,5 @@ function Audience(): JSX.Element {
     />
   );
 }
+
 export default Audience;
