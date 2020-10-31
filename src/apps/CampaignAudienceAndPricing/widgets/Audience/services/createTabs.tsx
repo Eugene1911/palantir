@@ -4,6 +4,7 @@ import CampaignFormLabel from 'sharedComponents/CampaignFormLabel';
 import { leftSidesConst } from '../assets/constants/leftSidesConst';
 import TrafficSelectionButtons from '../widgets/trafficSelectionButtons';
 import IDSelector from '../widgets/IDSelector';
+import { EIDModel } from '../assets/constants/commonAudienceTypes';
 
 function createTabs(): ITab[] {
   return [
@@ -23,7 +24,7 @@ function createTabs(): ITab[] {
           tooltipText={leftSidesConst.siteID.tooltip}
         />
       ),
-      rightSide: <IDSelector model="siteID" />,
+      rightSide: <IDSelector model={EIDModel.SITE_ID} />,
     },
     {
       leftSide: (
@@ -32,7 +33,7 @@ function createTabs(): ITab[] {
           tooltipText={leftSidesConst.spotID.tooltip}
         />
       ),
-      rightSide: <IDSelector model="spotID" />,
+      rightSide: <IDSelector model={EIDModel.SPOT_ID} />,
     },
     {
       leftSide: (
@@ -41,7 +42,7 @@ function createTabs(): ITab[] {
           tooltipText={leftSidesConst.subID.tooltip}
         />
       ),
-      rightSide: <IDSelector model="subID" />,
+      rightSide: <IDSelector model={EIDModel.SUB_ID} />,
     },
   ];
 }

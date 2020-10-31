@@ -3,6 +3,7 @@ import isArray from 'lodash/isArray';
 import Radio from '@material-ui/core/Radio';
 import TextField from '@material-ui/core/TextField';
 import CancelIcon from '@material-ui/icons/Cancel';
+import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { KEY_ENTER_CODE } from 'config/constants';
@@ -22,6 +23,7 @@ export interface IDSelectorProps {
   radioSelected: number;
   onRadioChange: (index: number) => void;
   onInputEnter: (value: string[]) => void;
+  onEditClick: () => void;
   tags: any[];
   tagsSelected: any[];
   closeTag: (id: string) => void;
@@ -35,6 +37,7 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
     radioSelected,
     onRadioChange,
     onInputEnter,
+    onEditClick,
     tags,
     tagsSelected,
     closeTag,
@@ -128,26 +131,36 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
           </S.RadioLabel>
         </S.RadioWrap>
       </S.RadioGroup>
-      <Grid container>
-        <Grid item xs={5}>
-          <TextField
-            placeholder={`Type ${placeholder}`}
-            multiline
-            rowsMax="4"
-            fullWidth
-            onKeyPress={onKeyPressHandler}
-            value={inputText}
-            onChange={onInputChange}
-          />
+      <Grid container justify="space-between">
+        <Grid container item xs={8}>
+          <Grid item xs={8}>
+            <TextField
+              placeholder={`Type ${placeholder}`}
+              multiline
+              rowsMax="4"
+              fullWidth
+              onKeyPress={onKeyPressHandler}
+              value={inputText}
+              onChange={onInputChange}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Button color="primary" onClick={onClearTagsHandler}>
+              CLEAR ALL
+            </Button>
+          </Grid>
+          <Grid item xs={2}>
+            <Button color="primary" onClick={onCopyHandler}>
+              COPY ALL
+            </Button>
+          </Grid>
         </Grid>
         <Grid item xs={1}>
-          <Button color="primary" onClick={onClearTagsHandler}>
-            CLEAR ALL
-          </Button>
-        </Grid>
-        <Grid item xs={1}>
-          <Button color="primary" onClick={onCopyHandler}>
-            COPY ALL
+          <Button color="primary" onClick={onEditClick}>
+            <S.EditButtonInner>
+              <EditIcon color="primary" />
+              EDIT
+            </S.EditButtonInner>
           </Button>
         </Grid>
       </Grid>

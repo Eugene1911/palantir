@@ -3,7 +3,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { DrawerProps } from '@material-ui/core/Drawer';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useStyles, { TFilterSideStyleClasses } from '../styles';
-import { IFilterSideStore } from '../store/FilterSideStore';
+import { TFilterSideStore } from '../store/FilterSideStore';
 
 export type TUseFilterSide = {
   classes: Record<TFilterSideStyleClasses, string>;
@@ -11,7 +11,7 @@ export type TUseFilterSide = {
 };
 
 function useFilterSide(
-  filterSideStore: IFilterSideStore,
+  filterSideStore: TFilterSideStore,
   width: number,
 ): TUseFilterSide {
   const { breakpoints } = useTheme();

@@ -7,11 +7,11 @@ import IconButton from '@material-ui/core/IconButton';
 import useFilterSide, {
   TUseFilterSide,
 } from './services/useFilterSide';
-import { IFilterSideStore } from './store/FilterSideStore';
+import { TFilterSideStore } from './store/FilterSideStore';
 
 type TFilterSideProps = {
   children: JSX.Element;
-  filterSideStore: IFilterSideStore;
+  filterSideStore?: TFilterSideStore;
   title: string;
   width: number;
 };

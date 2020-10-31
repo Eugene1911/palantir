@@ -28,3 +28,9 @@ export enum ETagStatus {
   DISABLED = 'disabled',
   ACTIVE = 'active',
 }
+
+export enum EIDModel {
+  SITE_ID = 'siteID',
+  SPOT_ID = 'spotID',
+  SUB_ID = 'subID',
+}
