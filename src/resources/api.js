@@ -1,6 +1,7 @@
 import transformRequestOptions from 'helpers/transformRequestOptions';
 import requestParamsSerializer from 'helpers/requestParamsSerializer';
 import {
+  GROUPS,
   FORMATS,
   DEVICES,
   OS,
@@ -24,13 +25,20 @@ import {
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
 } from './services/APIEndpoints';
-import API from './services/APIService';
+import API, { APIServiceDjango } from './services/APIService';
 
 /**
  * Get Ad Formats
  * @param {Object} params
  */
 export const getFormats = params => API.get(FORMATS, { params });
+
+/**
+ * Get Campaigns groups
+ * @param {Object} params
+ */
+export const getGroups = params =>
+  APIServiceDjango.get(GROUPS, { params });
 
 /**
  * Get Ad Devices

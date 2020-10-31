@@ -1,11 +1,11 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles<Theme, TDayTimeRangeClasses>(() => ({
+const useStyles = makeStyles<Theme, TAllCustomClasses>(() => ({
   radio: {
     marginRight: '40px',
   },
 }));
 
-export type TDayTimeRangeClasses = 'radio';
+export type TAllCustomClasses = 'radio';
 
 export default useStyles;

@@ -1,3 +1,5 @@
+import { AllCustomStatus } from 'sharedTypes';
+
 export const ALL_HOURS: string = '1'.repeat(24);
 const EMPTY_HOURS: string = '0'.repeat(24);
 const WORKING_HOURS: string =
@@ -13,14 +15,9 @@ export const WORKING =
 export const DAY = DAY_HOURS.repeat(7);
 export const NIGHT = NIGHT_HOURS.repeat(7);
 
-export enum DayTimeRangeStatuses {
-  ALL = 'all',
-  CUSTOM = 'custom',
-}
-
 export const dayTimeRangesByStatus = {
-  [DayTimeRangeStatuses.ALL]: FULL,
-  [DayTimeRangeStatuses.CUSTOM]: WORKING,
+  [AllCustomStatus.ALL]: FULL,
+  [AllCustomStatus.CUSTOM]: WORKING,
 };
 
 export const DaysOfTheWeek: string[] = [

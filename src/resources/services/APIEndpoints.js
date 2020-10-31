@@ -1,4 +1,6 @@
 export const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+export const API_DJANGO_DOMAIN =
+  process.env.REACT_APP_DJANGO_API_DOMAIN;
 export const API_VERSION_1 = '/v1/';
 export const API_VERSION_1_1 = '/v1.1/';
 
@@ -9,6 +11,7 @@ export const CAMPAIGNS_SAVE_AS = `${API_VERSION_1_1}campaigns/{id}/save_as`;
 export const CAMPAIGNS_ARCHIVE = `${API_VERSION_1_1}campaigns/archive`;
 export const CAMPAIGNS_REJECT_REASONS = `${API_VERSION_1_1}campaigns/reject_reasons`;
 export const CAMPAIGNS_DISAPPROVE = `${API_VERSION_1_1}campaigns/{id}/disapprove`;
+export const GROUPS = `/advertisers/campaigns/groups/`;
 export const FORMATS = `${API_VERSION_1_1}formats`;
 export const DEVICES = `${API_VERSION_1_1}devices`;
 export const OS = `${API_VERSION_1_1}os`;

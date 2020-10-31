@@ -1,10 +1,7 @@
 import { Instance, types } from 'mobx-state-tree';
+import { AllCustomStatus } from 'sharedTypes';
 import { timezones } from '../constants/timezones';
-import {
-  ALL_HOURS,
-  DayTimeRangeStatuses,
-  FULL,
-} from '../constants/dayTimeRanges';
+import { ALL_HOURS, FULL } from '../constants/dayTimeRanges';
 
 const TimezoneModel = types.model({
   value: types.number,
@@ -16,7 +13,7 @@ export const InitialSchedulingModel = {
   timezones,
   timezone: timezones.filter(tz => tz.isDefault)?.[0]?.value,
   dayTimeRange: FULL,
-  dayTimeRangeStatus: DayTimeRangeStatuses.ALL,
+  dayTimeRangeStatus: AllCustomStatus.ALL,
 };
 
 const SchedulingModel = types
@@ -26,7 +23,9 @@ const SchedulingModel = types
     dateStart: types.maybe(types.Date),
     dateEnd: types.maybe(types.Date),
     dayTimeRange: types.string,
-    dayTimeRangeStatus: types.string,
+    dayTimeRangeStatus: types.enumeration<AllCustomStatus>(
+      Object.values(AllCustomStatus),
+    ),
   })
   .actions(self => ({
     setTimezone(timezone: number): void {
@@ -36,10 +35,7 @@ const SchedulingModel = types
       self[type] = date;
     },
     // установка сразу всех часов в неделе одной строкой
-    setDayTimeRange(
-      newRange: string,
-      status: DayTimeRangeStatuses,
-    ): void {
+    setDayTimeRange(newRange: string, status: AllCustomStatus): void {
       self.dayTimeRange = newRange;
       self.dayTimeRangeStatus = status;
     },
