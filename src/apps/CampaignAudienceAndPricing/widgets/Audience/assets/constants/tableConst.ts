@@ -1,9 +1,9 @@
 import { EIDModel } from './commonAudienceTypes';
 
 export const titles = {
-  [EIDModel.SITE_ID]: 'Choosen Sites',
-  [EIDModel.SPOT_ID]: 'Choosen Spots',
-  [EIDModel.SUB_ID]: 'Choosen Subs IDs',
+  [EIDModel.SITE_ID]: 'Chosen Sites',
+  [EIDModel.SPOT_ID]: 'Chosen Spots',
+  [EIDModel.SUB_ID]: 'Chosen Subs IDs',
 };
 
 export const columns = {
@@ -14,3 +14,5 @@ export const columns = {
   avg: 'Avg Impressions',
   bid: 'Bid',
 };
+
+export const chosen = 'Chosen';

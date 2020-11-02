@@ -34,7 +34,7 @@ function RadioButtons(props: IRadioButtonsProps): JSX.Element {
             onClick={() => handleChange(index)}
           >
             <S.RadioWrap>
-              <Radio checked={checked} />
+              <Radio color="primary" checked={checked} />
             </S.RadioWrap>
             <S.ContentWrap>
               <S.TitleWrap>

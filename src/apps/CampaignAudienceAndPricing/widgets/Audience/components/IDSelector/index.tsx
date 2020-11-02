@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import isArray from 'lodash/isArray';
+import union from 'lodash/union';
 import Radio from '@material-ui/core/Radio';
 import TextField from '@material-ui/core/TextField';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -8,18 +9,15 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { KEY_ENTER_CODE } from 'config/constants';
 import { Typography } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import { ETagStatus } from '../../assets/constants/commonAudienceTypes';
-import {
-  disabledTagToolTip,
-  radioTitles,
-} from '../../assets/constants/rightSidesConst';
+import { radioTitles } from '../../assets/constants/rightSidesConst';
+import { buttonsConst } from '../../assets/constants/buttonsConst';
 import textToTagsID from './services/textToTagsWithCheck';
 import * as S from './styles';
 import useStyles from './useStyles';
 
-export interface IDSelectorProps {
+export interface IIDSelectorProps {
   radioSelected: number;
   onRadioChange: (index: number) => void;
   onInputEnter: (value: string[]) => void;
@@ -29,9 +27,10 @@ export interface IDSelectorProps {
   closeTag: (id: string) => void;
   clearTags: () => void;
   placeholder: string;
+  disabledTagToolTip: string;
 }
 
-function IDSelector(props?: IDSelectorProps): JSX.Element {
+function IDSelector(props?: IIDSelectorProps): JSX.Element {
   const {
     placeholder,
     radioSelected,
@@ -42,6 +41,7 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
     tagsSelected,
     closeTag,
     clearTags,
+    disabledTagToolTip,
   } = props;
   const [inputText, setInputText] = useState('');
 
@@ -61,7 +61,7 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
       event.preventDefault();
 
       if (isArray(tagsID)) {
-        onInputEnter(tagsID);
+        onInputEnter(union(tagsID, tagsSelected));
       }
 
       setInputText('');
@@ -84,7 +84,6 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
 
   const isWhiteListChecked = radioSelected === 0;
   const classes = useStyles();
-  const { palette } = useTheme();
 
   return (
     <>
@@ -92,13 +91,12 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
         <S.RadioWrap>
           <Radio
             checked={isWhiteListChecked}
+            color="primary"
             onChange={() => onRadioChange(0)}
           />
           <S.RadioTitle>
             <Typography
-              color={
-                isWhiteListChecked ? 'primary' : palette.statuses.grey
-              }
+              color={isWhiteListChecked ? 'primary' : 'textSecondary'}
             >
               {radioTitles.whitelist}
             </Typography>
@@ -110,14 +108,13 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
         <S.RadioWrap>
           <Radio
             checked={!isWhiteListChecked}
+            color="primary"
             onChange={() => onRadioChange(1)}
           />
           <S.RadioTitle>
             <Typography
               color={
-                !isWhiteListChecked
-                  ? 'primary'
-                  : palette.statuses.grey
+                !isWhiteListChecked ? 'primary' : 'textSecondary'
               }
             >
               {radioTitles.blacklist}
@@ -146,12 +143,12 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
           </Grid>
           <Grid item xs={2}>
             <Button color="primary" onClick={onClearTagsHandler}>
-              CLEAR ALL
+              {buttonsConst.clear}
             </Button>
           </Grid>
           <Grid item xs={2}>
             <Button color="primary" onClick={onCopyHandler}>
-              COPY ALL
+              {buttonsConst.copy}
             </Button>
           </Grid>
         </Grid>
@@ -159,7 +156,7 @@ function IDSelector(props?: IDSelectorProps): JSX.Element {
           <Button color="primary" onClick={onEditClick}>
             <S.EditButtonInner>
               <EditIcon color="primary" />
-              EDIT
+              {buttonsConst.edit}
             </S.EditButtonInner>
           </Button>
         </Grid>

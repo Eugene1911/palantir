@@ -5,6 +5,7 @@ import { leftSidesConst } from '../assets/constants/leftSidesConst';
 import TrafficSelectionButtons from '../widgets/trafficSelectionButtons';
 import IDSelector from '../widgets/IDSelector';
 import { EIDModel } from '../assets/constants/commonAudienceTypes';
+import TrafficSourceSelector from '../widgets/trafficSourceSelector';
 
 function createTabs(): ITab[] {
   return [
@@ -43,6 +44,15 @@ function createTabs(): ITab[] {
         />
       ),
       rightSide: <IDSelector model={EIDModel.SUB_ID} />,
+    },
+    {
+      leftSide: (
+        <CampaignFormLabel
+          text={leftSidesConst.trafficSource.title}
+          tooltipText={leftSidesConst.trafficSource.tooltip}
+        />
+      ),
+      rightSide: <TrafficSourceSelector />,
     },
   ];
 }

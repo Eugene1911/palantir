@@ -1,3 +1,5 @@
 import styled from 'styled-components/macro';
 
-export const RadioTitle = styled.div``;
+export const Section = styled.div`
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+`;

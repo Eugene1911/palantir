@@ -34,3 +34,9 @@ export enum EIDModel {
   SPOT_ID = 'spotID',
   SUB_ID = 'subID',
 }
+
+export enum ETrafficSource {
+  ALL = 'all',
+  DIRECT_INVENTORY = 'direct inventory',
+  PARTNER_NETWORKS = 'partner networks',
+}

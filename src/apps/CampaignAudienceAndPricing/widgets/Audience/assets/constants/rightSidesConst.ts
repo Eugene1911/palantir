@@ -4,7 +4,13 @@ export const radioTitles = {
   all: 'ALL',
   partnerNetworks: 'PARTNER NETWORKS',
   directInventory: 'DIRECT INVENTORY',
+  yes: 'YES',
+  no: 'NO',
 };
 
-export const disabledTagToolTip =
-  'We do not have such a spot ID \nIt will not have traffic.';
+export const advanced = 'Advanced';
+
+export const disabledTagToolTip = (isSpot: boolean) =>
+  `We do not have such a ${
+    isSpot ? 'spot' : 'site'
+  } ID \nIt will not have traffic.`;

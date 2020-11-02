@@ -3,6 +3,7 @@ import { TFilterSideStore } from 'sharedWidgets/FilterSide/store/FilterSideStore
 import IDSelector from '../../components/IDSelector';
 import { TAudienceModel } from '../../stores/AudienceStore';
 import { EIDModel } from '../../assets/constants/commonAudienceTypes';
+import { disabledTagToolTip } from '../../assets/constants/rightSidesConst';
 
 interface IDSelectorControllerProps {
   model: EIDModel;
@@ -28,6 +29,9 @@ function IDSelectorController(
     tags: audience[model].tags,
     tagsSelected: audience[model].tagsSelected,
     placeholder: model,
+    disabledTagToolTip: disabledTagToolTip(
+      model === EIDModel.SPOT_ID,
+    ),
   };
 
   return IDSelector(IDSelectorParams);

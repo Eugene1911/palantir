@@ -1,23 +1,92 @@
 import React from 'react';
+import uuid from 'react-uuid';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableContainer from '@material-ui/core/TableContainer';
+import useStyles from './useStyles';
 
-export interface IRawItem {
+export interface IRowItem {
   item: string | JSX.Element;
   isDisabled: boolean;
 }
 
-interface IDTableProps {
+interface IIDTableProps {
   leftColumns: string[];
-  // rightColumns: string[];
-  // rawsSections: IRawItem[][][];
-  // withCloseButton?: boolean;
+  rightColumns: Array<string | JSX.Element>;
+  rowsSections: IRowItem[][][];
   // withCheckbox?: boolean;
-  // withAddButtonText?: boolean;
 }
 
-function IDTable(props?: IDTableProps): JSX.Element {
-  console.log('IDTable props', props.leftColumns);
+function IDTable(props?: IIDTableProps): JSX.Element {
+  const { leftColumns, rightColumns, rowsSections } = props;
+  const classes = useStyles();
 
-  return <></>;
+  return (
+    <TableContainer>
+      <Table stickyHeader>
+        <TableHead>
+          <TableRow>
+            <>
+              {leftColumns.map(title => {
+                return (
+                  <TableCell key={title} align="left">
+                    {title}
+                  </TableCell>
+                );
+              })}
+              {rightColumns.map(title => {
+                return (
+                  <TableCell key={uuid()} align="right">
+                    {title}
+                  </TableCell>
+                );
+              })}
+            </>
+          </TableRow>
+        </TableHead>
+
+        <TableBody>
+          {rowsSections.map(section => {
+            return (
+              <React.Fragment key={uuid()}>
+                {section.map((row, rowIndex) => {
+                  return (
+                    <TableRow key={uuid()}>
+                      {row.map(({ item, isDisabled }, itemIndex) => {
+                        return (
+                          <TableCell
+                            key={uuid()}
+                            color={isDisabled ? 'textSecondary' : ''}
+                            className={`${
+                              rowIndex < section.length - 1
+                                ? classes.noBorderCell
+                                : ''
+                            } ${
+                              isDisabled ? classes.disabledCell : ''
+                            }`}
+                            align={
+                              itemIndex >= leftColumns.length
+                                ? 'right'
+                                : 'left'
+                            }
+                          >
+                            {item}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+              </React.Fragment>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }
 
 export default IDTable;
