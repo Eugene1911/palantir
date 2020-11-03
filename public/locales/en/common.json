@@ -8,7 +8,9 @@
     "date_range": "Date range",
     "selected_applications": "Selected applications",
     "applications": "Applications",
-    "search": "Search"
+    "search": "Search",
+    "cancel": "Cancel",
+    "save": "Save"
   },
   "title": {
     "Filter": "Filter"
@@ -18,5 +20,11 @@
   },
   "error": {
     "something_went_wrong": "Something went wrong"
+  },
+  "leave_page_dialog": {
+    "title": "Unsaved changes",
+    "text": "You have unsaved changes that will be lost. Are you sure you wnat to discard changes?",
+    "disagree": "Cancel",
+    "agree": "Discard changes"
   }
 }

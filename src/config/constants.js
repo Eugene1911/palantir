@@ -51,6 +51,7 @@ export const LOAD_STATES = {
 // Date
 export const DATE_MAIN_FORMAT = 'dd.MM.yyyy';
 export const DATE_REQUEST_FORMAT = 'yyyy-MM-dd';
+export const DATE_DETAIL_FORMAT = 'MMM dd, Y, kk:mm';
 
 // Users
 export const USERS_ROLES = {

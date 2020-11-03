@@ -8,6 +8,7 @@ import CampaignEdit from 'apps/CampaignEdit/app';
 import AppList from 'apps/AppList';
 import CampaignAudienceAndPricing from 'apps/CampaignAudienceAndPricing/app';
 import NewCampaignSettings from 'apps/NewCampaignSettings/app';
+import OptimizersApp from 'apps/Optimizers/app';
 
 const mainAppRoutes = [
   {
@@ -53,6 +54,10 @@ const mainAppRoutes = [
     component: NewCampaignSettings,
     path: '/NewCampaignSettings',
     exact: true,
+  },
+  {
+    component: OptimizersApp,
+    path: '/Optimizers',
   },
 ];
 

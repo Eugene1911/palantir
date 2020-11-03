@@ -9,6 +9,7 @@ const entries = {
   campaignsList: [`${paths.appSrc}/apps/CampaignList/index.js`],
   clientListing: [`${paths.appSrc}/apps/ClientListing/index.tsx`],
   backofficeTools: [`${paths.appSrc}/apps/BackofficeTools/index.tsx`],
+  optimizers: [`${paths.appSrc}/apps/Optimizers/index.tsx`],
 };
 
 /**
@@ -37,6 +38,12 @@ const routes = [
     filedirSrc: `${paths.rootTemplateSrc}/backoffice`,
     filedirDest: `${paths.rootTemplateDest}/backoffice`,
     chunks: ['backofficeTools'],
+  },
+  {
+    name: 'optimizers',
+    filedirSrc: `${paths.rootTemplateSrc}/advertisers`,
+    filedirDest: `${paths.rootTemplateDest}/advertisers`,
+    chunks: ['optimizers'],
   },
 ];
 

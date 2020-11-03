@@ -1,0 +1,43 @@
+{
+  "list": {
+    "title": "Optimizers",
+    "search_by_optimizer_name_or_rule": "Search by Optimizer Name or Rule",
+    "new_optimizer": "New optimizer"
+  },
+  "create": {
+    "title": "New Optimizer",
+    "optimazer_name": "Optimazer Name",
+    "name_and_period": "Name and Period",
+    "sourse_blocking": "Sourse blocking",
+    "sites": "SITES",
+    "spots": "SPOTS",
+    "rules": "Rules",
+    "value": "Value",
+    "add_rule": "ADD Rule",
+    "add_group": "Add Group",
+    "group_name": "Group Name",
+    "delete_group": "Delete group",
+    "new": "New",
+    "period": "Period",
+    "group": "Group",
+    "updated": "Updated",
+    "created": "Created",
+    "choose_from_existing": "Choose from existing",
+    "period_tooltip": "The time interval by which the optimizer rules work"
+  },
+  "table": {
+    "name": "Name",
+    "period": "Period",
+    "sourse_blocking": "Source blocking",
+    "rules": "Rules",
+    "updated": "Updated",
+    "last_use": "Last use",
+    "campaigns": "Campaigns"
+  },
+  "select": {
+    "choose_existing_rules": "Choose existing rules",
+    "search_by_name_or_rule": "Search by Name or Rule",
+    "uncheck_all": "Uncheck all",
+    "rule": "rule"
+  }
+}
