@@ -1,23 +1,27 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { inject, observer } from 'mobx-react';
-// import { getSnapshot } from 'mobx-state-tree';
 
-import { TTargetingModel } from './stores/TargetingStore';
+import GpsFixed from '@material-ui/icons/GpsFixed';
+import AccordionPanel from 'sharedComponents/Accordion';
+import { tabs } from './constants/tabs';
 
 interface ITargetingProps {
-  targeting?: TTargetingModel;
+  isAdvancedOpen?: boolean;
 }
 
-const Targeting = ({ targeting }: ITargetingProps): JSX.Element => {
-  // console.log('Targeting', getSnapshot(targeting));
-
-  useEffect(() => {
-    targeting.setTargeting('new TARGETING');
-  }, []);
-
-  return <div>Targeting</div>;
+const Targeting = ({
+  isAdvancedOpen,
+}: ITargetingProps): JSX.Element => {
+  return (
+    <AccordionPanel
+      Icon={GpsFixed}
+      title="Targeting"
+      isSelected={false}
+      tabs={tabs(isAdvancedOpen)}
+    />
+  );
 };
 
 export default inject(({ newCampaignSettings }) => ({
-  targeting: newCampaignSettings.targeting,
+  isAdvancedOpen: newCampaignSettings.targeting.isAdvancedOpen,
 }))(observer(Targeting));

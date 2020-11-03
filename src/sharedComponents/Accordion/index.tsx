@@ -56,7 +56,7 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
       );
     }
     return (
-      <Grid key={String(tab)} item xs={12} className={classes.tab}>
+      <Grid key={uuid()} item xs={12} className={classes.tab}>
         {tab}
       </Grid>
     );
