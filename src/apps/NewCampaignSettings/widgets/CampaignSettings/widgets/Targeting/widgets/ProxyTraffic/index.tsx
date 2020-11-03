@@ -34,7 +34,7 @@ const ProxyTraffic = ({
           <Grid item>
             <FormControlLabel
               value={ProxyTrafficTypes.ALL}
-              control={<Radio />}
+              control={<Radio color="primary" />}
               label="ALL"
               className={classes.radio}
             />
@@ -42,7 +42,7 @@ const ProxyTraffic = ({
           <Grid item>
             <FormControlLabel
               value={ProxyTrafficTypes.NON_PROXY}
-              control={<Radio />}
+              control={<Radio color="primary" />}
               label="NON-PROXY TRAFFIC ONLY"
               className={classes.radio}
             />
@@ -50,7 +50,7 @@ const ProxyTraffic = ({
           <Grid item>
             <FormControlLabel
               value={ProxyTrafficTypes.PROXY}
-              control={<Radio />}
+              control={<Radio color="primary" />}
               label="PROXY TRAFFIC ONLY"
             />
           </Grid>

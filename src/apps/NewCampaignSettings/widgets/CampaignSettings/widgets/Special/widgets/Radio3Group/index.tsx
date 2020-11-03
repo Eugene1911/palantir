@@ -46,7 +46,7 @@ const Radio3Group = ({
             <Grid key={radio.label} item>
               <FormControlLabel
                 value={radio.value}
-                control={<Radio />}
+                control={<Radio color="primary" />}
                 label={radio.label}
                 className={classes.radio}
               />

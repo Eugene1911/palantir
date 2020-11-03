@@ -37,6 +37,7 @@ const Devices = ({ devices }: IDevicesProps): JSX.Element => {
                 <FormControlLabel
                   control={
                     <Checkbox
+                      color="primary"
                       checked={!!devices.devicesTypes[index]}
                       onChange={(evt): void =>
                         devices.toggleDeviceType(

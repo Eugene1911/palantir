@@ -5,8 +5,8 @@ import useStyles from './useStyles';
 
 interface IInputDeleteIconProps {
   onClick: () => void;
-  value: number | null | undefined;
-  visible: boolean;
+  value: number | string | null | undefined;
+  visible?: boolean;
 }
 
 const InputDeleteIcon = ({
