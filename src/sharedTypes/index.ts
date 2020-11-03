@@ -87,4 +87,21 @@ export type TTableSortResponse = {
   order: string;
 };
 
+export enum LoadingStatus {
+  INITIAL = 'initial',
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+
+export enum AllCustomStatus {
+  ALL = 'all',
+  CUSTOM = 'custom',
+}
+
+export interface INotification {
+  message: string;
+  variant: string;
+}
+
 export type AnyFunction = (...args: any[]) => any;

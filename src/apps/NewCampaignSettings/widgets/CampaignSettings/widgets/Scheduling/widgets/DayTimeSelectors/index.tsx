@@ -3,10 +3,10 @@ import { inject, observer } from 'mobx-react';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import { AllCustomStatus } from 'sharedTypes';
 import { TSchedulingModel } from '../../stores/SchedulingStore';
 import {
   DAY,
-  DayTimeRangeStatuses,
   FULL,
   NIGHT,
   WORKING,
@@ -26,7 +26,7 @@ const DayTimeSelectors = ({
 
   const handleClickButton = (
     hours: string,
-    status: DayTimeRangeStatuses,
+    status: AllCustomStatus,
   ): void => {
     scheduling.setDayTimeRange(hours, status);
   };
@@ -36,7 +36,7 @@ const DayTimeSelectors = ({
       <Grid container className={classes.container}>
         <Button
           onClick={(): void =>
-            handleClickButton(FULL, DayTimeRangeStatuses.ALL)
+            handleClickButton(FULL, AllCustomStatus.ALL)
           }
           className={classes.button}
           color="primary"
@@ -45,7 +45,7 @@ const DayTimeSelectors = ({
         </Button>
         <Button
           onClick={(): void =>
-            handleClickButton(WORKING, DayTimeRangeStatuses.CUSTOM)
+            handleClickButton(WORKING, AllCustomStatus.CUSTOM)
           }
           className={classes.button}
           color="primary"
@@ -54,7 +54,7 @@ const DayTimeSelectors = ({
         </Button>
         <Button
           onClick={(): void =>
-            handleClickButton(DAY, DayTimeRangeStatuses.CUSTOM)
+            handleClickButton(DAY, AllCustomStatus.CUSTOM)
           }
           className={classes.button}
           color="primary"
@@ -63,7 +63,7 @@ const DayTimeSelectors = ({
         </Button>
         <Button
           onClick={(): void =>
-            handleClickButton(NIGHT, DayTimeRangeStatuses.CUSTOM)
+            handleClickButton(NIGHT, AllCustomStatus.CUSTOM)
           }
           className={classes.button}
           color="primary"

@@ -1,5 +1,7 @@
 import React from 'react';
 import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
+import { SnackbarProvider } from 'notistack';
+import { MAX_COUNT_SNACK } from 'config/constants';
 import CampaignSettings from './widgets/CampaignSettings';
 import NewCampaignSettingsStore, {
   InitialNewCampaignSettingsStore,
@@ -13,9 +15,11 @@ const NewCampaignSettings = (): JSX.Element => {
   };
 
   return (
-    <WrapperStartAppComponent store={store}>
-      <CampaignSettings />
-    </WrapperStartAppComponent>
+    <SnackbarProvider maxSnack={MAX_COUNT_SNACK}>
+      <WrapperStartAppComponent store={store}>
+        <CampaignSettings />
+      </WrapperStartAppComponent>
+    </SnackbarProvider>
   );
 };
 

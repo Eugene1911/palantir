@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { AllCustomStatus } from 'sharedTypes';
 import useStyles from '../useStyles';
-import {
-  DayTimeRangeStatuses,
-  FULL,
-} from '../../../constants/dayTimeRanges';
+import { FULL } from '../../../constants/dayTimeRanges';
 
 export const useMarkTableCells = (
   saveNewCells,
@@ -40,7 +38,7 @@ export const useMarkTableCells = (
         );
         // если выделили ВСЕ ячейки, то сразу проставляем статус ALL и ничего не расчитываем
         if (activeCells.length === FULL.length) {
-          saveNewCells(FULL, DayTimeRangeStatuses.ALL);
+          saveNewCells(FULL, AllCustomStatus.ALL);
           setIsPressed(false);
           setIsMoving(false);
           return;
@@ -58,7 +56,7 @@ export const useMarkTableCells = (
               resultString += '0';
             }
           });
-          saveNewCells(resultString, DayTimeRangeStatuses.CUSTOM);
+          saveNewCells(resultString, AllCustomStatus.CUSTOM);
         } else {
           // если был клик на ячейку, то выставляем только 1 час по его координатам
           const currentX = +event.target.getAttribute('data-x');
