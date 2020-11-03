@@ -250,7 +250,11 @@ function IDTableController(
   }
 
   return (
-    <FilterSide title={titles[model]} width={900}>
+    <FilterSide
+      title={titles[model]}
+      width={900}
+      filterSideStore={filterSide}
+    >
       <>
         <Grid container justify="space-between">
           <Grid item xs={6}>
