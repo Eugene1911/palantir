@@ -10,6 +10,12 @@ const entries = {
   clientListing: [`${paths.appSrc}/apps/ClientListing/index.tsx`],
   backofficeTools: [`${paths.appSrc}/apps/BackofficeTools/index.tsx`],
   optimizers: [`${paths.appSrc}/apps/Optimizers/index.tsx`],
+  newCampaignSettings: [
+    `${paths.appSrc}/apps/NewCampaignSettings/index.tsx`,
+  ],
+  campaignAudienceAndPricing: [
+    `${paths.appSrc}/apps/CampaignAudienceAndPricing/index.tsx`,
+  ],
 };
 
 /**
@@ -44,6 +50,18 @@ const routes = [
     filedirSrc: `${paths.rootTemplateSrc}/advertisers`,
     filedirDest: `${paths.rootTemplateDest}/advertisers`,
     chunks: ['optimizers'],
+  },
+  {
+    name: 'new_create_campaign_settings',
+    filedirSrc: `${paths.rootTemplateSrc}/advertisers`,
+    filedirDest: `${paths.rootTemplateDest}/advertisers`,
+    chunks: ['newCampaignSettings'],
+  },
+  {
+    name: 'new_create_campaign_audience_pricing',
+    filedirSrc: `${paths.rootTemplateSrc}/advertisers`,
+    filedirDest: `${paths.rootTemplateDest}/advertisers`,
+    chunks: ['campaignAudienceAndPricing'],
   },
 ];
 
