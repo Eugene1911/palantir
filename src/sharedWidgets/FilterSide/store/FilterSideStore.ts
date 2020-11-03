@@ -13,5 +13,5 @@ const FilterSideStore = types
     },
   }));
 
-export type IFilterSideStore = Instance<typeof FilterSideStore>;
+export type TFilterSideStore = Instance<typeof FilterSideStore>;
 export default FilterSideStore;

@@ -77,3 +77,9 @@ export const TagsWrap = styled.div`
   row-gap: 8px;
   column-gap: 4px;
 `;
+
+export const EditButtonInner = styled.div`
+  display: flex;
+  justify-content: space-between;
+  min-width: 55px;
+`;
