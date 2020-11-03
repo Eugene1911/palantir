@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { types, Instance } from 'mobx-state-tree';
-// import getNumberId from 'helpers/getNumberId';
 import RuleGroupModel, {
   TRuleGroupModel,
   ruleGroupDefault,

@@ -32,7 +32,6 @@ const RuleGroupModel = types
       target,
     }: React.ChangeEvent<{ name?: string; value: unknown }>): void {
       const { value } = target;
-      console.log('value ->', value);
       self.variable = value;
     },
     onChangeValue({

@@ -16,8 +16,6 @@ function OptimizerGroupWrapper({
 }: TOptimizerGroupWrapperProps): JSX.Element {
   const isLastGroup: boolean = groups.length === 1;
 
-  console.log('--- OptimizerGroupWrapper---');
-
   return (
     <>
       {groups.map((group, index: number) => (

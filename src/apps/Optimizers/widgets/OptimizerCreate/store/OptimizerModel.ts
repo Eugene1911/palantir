@@ -2,13 +2,10 @@
 import { types, flow, Instance, getParent } from 'mobx-state-tree';
 import { postOptimizer, putOptimizer } from 'resources/api';
 import { notiferActionOk } from 'sharedComponents/NotiferActionOk';
-// import { createBrowserHistory } from 'history';
 import { NOTIFIER_DEFAULT_OPTIONS } from 'config/constants';
 import OptimizerGroupModel, {
   defaultOptimizerGroup,
 } from '../widgets/OptimizerGroup/store/OptimizerGroupModel';
-
-// const history = createBrowserHistory();
 
 const OptimizerModel = types
   .model('OptimizerModel', {
@@ -36,7 +33,6 @@ const OptimizerModel = types
   .actions((self: any) => ({
     saveOptimazer: flow(function* saveOptimazerResources() {
       self.isLoading = true;
-      console.log('saveOptimazer -0-<>');
       try {
         const { data } = yield postOptimizer(self);
         const { response } = data;
@@ -82,18 +78,10 @@ const OptimizerModel = types
     },
     backPage(): void {
       const parent: any = getParent(self);
-      console.log('XAXA');
       parent.router.goBack();
-
-      // console.log('QQQWWQ');
-      // history.push('/Optimizers');
-
-      // setTimeout(() => history.goBack(), 500);
     },
     showNotifier(message: string, variant: string): void {
       const parent: any = getParent(self);
-
-      console.log('showNotifier');
 
       if (parent.notifier) {
         parent.notifier.pushSnackbar({

@@ -27,9 +27,6 @@ const OptimizerCreateStore = types
     isShowLeaveDialog: types.optional(types.boolean, false),
   })
   .actions((self: any) => ({
-    afterCreate(): void {
-      // self.loadOptimizerVariables();
-    },
     loadResources: flow(function* loadResourcesPages(id) {
       self.isLoading = true;
       try {
