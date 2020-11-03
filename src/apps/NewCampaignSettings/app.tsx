@@ -1,11 +1,15 @@
 import React from 'react';
 import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
 import CampaignSettings from './widgets/CampaignSettings';
-import NewCampaignSettingsStore from './stores/NewCampaignSettingsStore';
+import NewCampaignSettingsStore, {
+  InitialNewCampaignSettingsStore,
+} from './stores/NewCampaignSettingsStore';
 
 const NewCampaignSettings = (): JSX.Element => {
   const store = {
-    newCampaignSettings: NewCampaignSettingsStore.create(),
+    newCampaignSettings: NewCampaignSettingsStore.create(
+      InitialNewCampaignSettingsStore,
+    ),
   };
 
   return (

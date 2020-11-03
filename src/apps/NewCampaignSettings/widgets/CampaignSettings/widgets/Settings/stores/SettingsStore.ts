@@ -10,6 +10,6 @@ const SettingsModel = types
     },
   }));
 
-export type ISettingsModel = Instance<typeof SettingsModel>;
+export type TSettingsModel = Instance<typeof SettingsModel>;
 
 export default SettingsModel;

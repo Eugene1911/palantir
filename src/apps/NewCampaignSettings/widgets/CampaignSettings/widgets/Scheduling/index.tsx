@@ -1,25 +1,19 @@
-import React, { useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-import { getSnapshot } from 'mobx-state-tree';
+import React from 'react';
 
-import { ISchedulingModel } from './stores/SchedulingStore';
+import Event from '@material-ui/icons/Event';
+import AccordionPanel from 'sharedComponents/Accordion';
 
-interface ISchedulingProps {
-  scheduling?: ISchedulingModel;
-}
+import { tabs } from './constants/tabs';
 
-const Scheduling = ({
-  scheduling,
-}: ISchedulingProps): JSX.Element => {
-  console.log('Scheduling', getSnapshot(scheduling));
-
-  useEffect(() => {
-    scheduling.setScheduling('new SCHEDULING');
-  }, []);
-
-  return <div>Scheduling</div>;
+const Scheduling = (): JSX.Element => {
+  return (
+    <AccordionPanel
+      Icon={Event}
+      title="Scheduling"
+      isSelected={false}
+      tabs={tabs}
+    />
+  );
 };
 
-export default inject(({ newCampaignSettings }) => ({
-  scheduling: newCampaignSettings.scheduling,
-}))(observer(Scheduling));
+export default Scheduling;

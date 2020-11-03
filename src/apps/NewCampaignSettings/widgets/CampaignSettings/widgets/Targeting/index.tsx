@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import { getSnapshot } from 'mobx-state-tree';
+// import { getSnapshot } from 'mobx-state-tree';
 
-import { ITargetingModel } from './stores/TargetingStore';
+import { TTargetingModel } from './stores/TargetingStore';
 
 interface ITargetingProps {
-  targeting?: ITargetingModel;
+  targeting?: TTargetingModel;
 }
 
 const Targeting = ({ targeting }: ITargetingProps): JSX.Element => {
-  console.log('Targeting', getSnapshot(targeting));
+  // console.log('Targeting', getSnapshot(targeting));
 
   useEffect(() => {
     targeting.setTargeting('new TARGETING');
