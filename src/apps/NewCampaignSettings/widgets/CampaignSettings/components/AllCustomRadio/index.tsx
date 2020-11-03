@@ -37,7 +37,7 @@ const AllCustomRadio = ({
           <Grid item>
             <FormControlLabel
               value={AllCustomStatus.ALL}
-              control={<Radio />}
+              control={<Radio color="primary" />}
               label="ALL"
               className={classes.radio}
             />
@@ -45,7 +45,7 @@ const AllCustomRadio = ({
           <Grid item>
             <FormControlLabel
               value={AllCustomStatus.CUSTOM}
-              control={<Radio />}
+              control={<Radio color="primary" />}
               label="CUSTOM"
             />
           </Grid>

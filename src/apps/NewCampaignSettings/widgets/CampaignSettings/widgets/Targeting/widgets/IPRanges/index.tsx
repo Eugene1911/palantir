@@ -32,7 +32,7 @@ const IPRanges = ({ ipRanges }: IIPRangesProps): JSX.Element => {
             <Grid item>
               <FormControlLabel
                 value={AllIncludeExclude.ALL}
-                control={<Radio />}
+                control={<Radio color="primary" />}
                 label="ALL"
                 className={classes.radio}
               />
@@ -40,7 +40,7 @@ const IPRanges = ({ ipRanges }: IIPRangesProps): JSX.Element => {
             <Grid item>
               <FormControlLabel
                 value={AllIncludeExclude.INCLUDE}
-                control={<Radio />}
+                control={<Radio color="primary" />}
                 label="INCLUDE"
                 className={classes.radio}
               />
@@ -48,7 +48,7 @@ const IPRanges = ({ ipRanges }: IIPRangesProps): JSX.Element => {
             <Grid item>
               <FormControlLabel
                 value={AllIncludeExclude.EXCLUDE}
-                control={<Radio />}
+                control={<Radio color="primary" />}
                 label="EXCLUDE"
               />
             </Grid>
