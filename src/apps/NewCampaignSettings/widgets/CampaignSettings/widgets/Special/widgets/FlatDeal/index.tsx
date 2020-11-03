@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { TSpecialModel } from '../../stores/SpecialStore';
 import Radio3Group from '../Radio3Group';
-import InputDeleteIcon from './InputDeleteIcon';
+import InputDeleteIcon from '../../../../components/InputDeleteIcon';
 import {
   flatDealRadios,
   FlatDealValues,

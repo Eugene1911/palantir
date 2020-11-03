@@ -27,7 +27,7 @@ const CategoriesList = ({
     if (settings.categoriesListStatus === LoadingStatus.INITIAL) {
       settings.getCategoriesList(infoNotification);
     }
-  });
+  }, []);
 
   return (
     <>

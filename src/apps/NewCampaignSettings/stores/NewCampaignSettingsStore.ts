@@ -6,7 +6,9 @@ import SettingsModel, {
 import SchedulingModel, {
   InitialSchedulingModel,
 } from '../widgets/CampaignSettings/widgets/Scheduling/stores/SchedulingStore';
-import TargetingModel from '../widgets/CampaignSettings/widgets/Targeting/stores/TargetingStore';
+import TargetingModel, {
+  InitialTargetingModel,
+} from '../widgets/CampaignSettings/widgets/Targeting/stores/TargetingStore';
 import SpecialModel, {
   InitialSpecialModel,
 } from '../widgets/CampaignSettings/widgets/Special/stores/SpecialStore';
@@ -14,7 +16,7 @@ import SpecialModel, {
 export const InitialNewCampaignSettingsStore = {
   settings: InitialSettingsModel,
   scheduling: InitialSchedulingModel,
-  targeting: {},
+  targeting: InitialTargetingModel,
   special: InitialSpecialModel,
 };
 

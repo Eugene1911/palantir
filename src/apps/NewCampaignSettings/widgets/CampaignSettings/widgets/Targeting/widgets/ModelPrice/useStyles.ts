@@ -1,9 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles<Theme, TFlatDealClasses>(() => ({
-  container: {
-    marginTop: '30px',
-  },
+const useStyles = makeStyles<Theme, TModelPriceClasses>(() => ({
   textField: {
     marginRight: '24px',
   },
@@ -16,6 +13,6 @@ const useStyles = makeStyles<Theme, TFlatDealClasses>(() => ({
   },
 }));
 
-export type TFlatDealClasses = 'container' | 'textField' | 'input';
+export type TModelPriceClasses = 'textField' | 'input';
 
 export default useStyles;

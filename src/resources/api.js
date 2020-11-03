@@ -4,8 +4,11 @@ import {
   GROUPS,
   FORMATS,
   DEVICES,
+  DEVICE_BRANDS,
+  DEVICE_MODELS,
   OS,
   BROWSERS,
+  CARRIERS,
   USERS,
   CATEGORIES,
   LANGUAGES,
@@ -47,6 +50,20 @@ export const getGroups = params =>
 export const getDevices = params => API.get(DEVICES, { params });
 
 /**
+ * Get Devices Brands
+ * @param {Object} params
+ */
+export const getDevicesBrands = params =>
+  API.get(DEVICE_BRANDS, { params });
+
+/**
+ * Get Devices Models
+ * @param {Object} params
+ */
+export const getDevicesModels = params =>
+  API.get(DEVICE_MODELS, { params });
+
+/**
  * Get OSes
  * @param {Object} params
  */
@@ -63,6 +80,12 @@ export const getLanguages = params => API.get(LANGUAGES, { params });
  * @param {Object} params
  */
 export const getBrowsers = params => API.get(BROWSERS, { params });
+
+/**
+ * Get Browsers
+ * @param {Object} params
+ */
+export const getCarriers = params => API.get(CARRIERS, { params });
 
 /**
  * Get Spots
