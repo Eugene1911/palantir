@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import isArray from 'lodash/isArray';
 import union from 'lodash/union';
 import Radio from '@material-ui/core/Radio';
-import TextField from '@material-ui/core/TextField';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
@@ -10,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import { KEY_ENTER_CODE } from 'config/constants';
 import { Typography } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
+import SearchInput, { useSearchInput } from '../SearchInput';
 import { ETagStatus } from '../../assets/constants/commonAudienceTypes';
 import { radioTitles } from '../../assets/constants/rightSidesConst';
 import { buttonsConst } from '../../assets/constants/buttonsConst';
@@ -43,12 +43,7 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
     clearTags,
     disabledTagToolTip,
   } = props;
-  const [inputText, setInputText] = useState('');
-
-  const onInputChange = ({
-    target,
-  }: React.ChangeEvent<HTMLInputElement>): void =>
-    setInputText(target.value);
+  const { inputText, setInputText, onInputChange } = useSearchInput();
 
   const onKeyPressHandler = (
     event: React.KeyboardEvent<HTMLInputElement>,
@@ -131,14 +126,11 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
       <Grid container justify="space-between">
         <Grid container item xs={8}>
           <Grid item xs={8}>
-            <TextField
+            <SearchInput
               placeholder={`Type ${placeholder}`}
-              multiline
-              rowsMax="4"
-              fullWidth
-              onKeyPress={onKeyPressHandler}
-              value={inputText}
-              onChange={onInputChange}
+              onKeyPressHandler={onKeyPressHandler}
+              inputText={inputText}
+              onInputChange={onInputChange}
             />
           </Grid>
           <Grid item xs={2}>

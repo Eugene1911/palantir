@@ -3,3 +3,5 @@ export enum EFetchStatus {
   SUCCESS = 'success',
   ERROR = 'error',
 }
+
+export const enterText = 'Enter';

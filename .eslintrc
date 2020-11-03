@@ -49,7 +49,7 @@
     "react/button-has-type": "error",
     "react/forbid-prop-types": [2, { "forbid": ["any"] }],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "error",
     "react/forbid-component-props": "error",
     "react/jsx-closing-tag-location": "error",
     "react/destructuring-assignment": "warn",
