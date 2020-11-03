@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 
 import Chip from '@material-ui/core/Chip';
 
@@ -12,10 +13,12 @@ export enum ChipType {
 
 interface ICustomChipProps {
   onClick?: () => void;
+  onDelete?: () => void;
   isActive?: boolean;
   isError?: boolean;
   isSmall?: boolean;
   label: string | number;
+  className?: string;
 }
 
 const CustomChip = ({
@@ -24,6 +27,8 @@ const CustomChip = ({
   isError,
   label,
   isSmall,
+  onDelete,
+  className,
 }: ICustomChipProps): JSX.Element => {
   const classes = useStyles();
   // eslint-disable-next-line no-nested-ternary
@@ -36,8 +41,9 @@ const CustomChip = ({
   return (
     <Chip
       label={label}
-      className={classes[type]}
+      className={cn(classes[type], { [className]: !!className })}
       onClick={onClick}
+      onDelete={onDelete}
       variant="outlined"
       size={isSmall ? 'small' : undefined}
     />

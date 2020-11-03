@@ -22,7 +22,7 @@ const AdFormat = ({ settings }: IAdFormatProps): JSX.Element => {
     if (settings.adFormatListStatus === LoadingStatus.INITIAL) {
       settings.getAdFormatList(infoNotification);
     }
-  });
+  }, []);
 
   return (
     <Grid alignItems="flex-start" container>
