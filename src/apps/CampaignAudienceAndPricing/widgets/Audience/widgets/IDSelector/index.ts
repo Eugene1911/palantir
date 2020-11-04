@@ -29,6 +29,7 @@ function IDSelectorController(
     tags: audience[model].tags,
     tagsSelected: audience[model].tagsSelected,
     placeholder: model,
+    isNewTagAllowed: model === EIDModel.SUB_ID,
     disabledTagToolTip: disabledTagToolTip(
       model === EIDModel.SPOT_ID,
     ),

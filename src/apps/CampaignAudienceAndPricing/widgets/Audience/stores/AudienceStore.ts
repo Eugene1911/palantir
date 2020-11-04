@@ -8,7 +8,6 @@ import {
   EIDModel,
   ETrafficSource,
 } from '../assets/constants/commonAudienceTypes';
-import { mockSubTags } from './mocks';
 
 export const InitialAudienceModel = {
   trafficType: ETrafficType.RON,
@@ -16,19 +15,15 @@ export const InitialAudienceModel = {
   [EIDModel.SITE_ID]: {
     listType: EListType.WHITE,
     fetchStatus: EFetchStatus.PENDING,
-    // tags: mockSiteTags,
-    // tagsSelected: mockSiteTags.map(tag => tag.id),
   },
   [EIDModel.SPOT_ID]: {
     listType: EListType.WHITE,
     fetchStatus: EFetchStatus.PENDING,
-    // tags: mockSpotTags,
-    // tagsSelected: mockSpotTags.map(tag => tag.id),
   },
   [EIDModel.SUB_ID]: {
     listType: EListType.WHITE,
-    tags: mockSubTags,
-    tagsSelected: mockSubTags.map(tag => tag.id),
+    tags: [],
+    tagsSelected: [],
   },
   filterSideModel: EIDModel.SITE_ID,
 };
@@ -48,10 +43,6 @@ const Spot = types.model({
   bid: types.optional(types.number, 0),
   isPrime: types.boolean,
   tooltip: types.string,
-});
-
-const Sub = types.model({
-  id: types.identifier,
 });
 
 const Tag = types.model({
@@ -93,11 +84,7 @@ const AudienceModel = types
     [EIDModel.SUB_ID]: types.model(EIDModel.SUB_ID, {
       listType: types.number,
       tags: types.optional(types.array(Tag), []),
-      tagsSelected: types.optional(
-        types.array(types.reference(Tag)),
-        [],
-      ),
-      subs: types.optional(types.array(Sub), []),
+      tagsSelected: types.optional(types.array(Tag), []),
     }),
     trafficSource: types.enumeration<ETrafficSource>(
       Object.values(ETrafficSource),
@@ -234,6 +221,7 @@ const AudienceModel = types
         );
       } catch (error) {
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.ERROR;
+        // tslint:disable-next-line:no-console
         console.log('error', error);
       }
     }),

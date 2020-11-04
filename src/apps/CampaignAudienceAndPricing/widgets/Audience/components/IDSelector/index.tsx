@@ -13,7 +13,7 @@ import SearchInput, { useSearchInput } from '../SearchInput';
 import { ETagStatus } from '../../assets/constants/commonAudienceTypes';
 import { radioTitles } from '../../assets/constants/rightSidesConst';
 import { buttonsConst } from '../../assets/constants/buttonsConst';
-import textToTagsID from './services/textToTagsWithCheck';
+import textToTagsWithCheck from '../../services/textToTagsWithCheck';
 import * as S from './styles';
 import useStyles from './useStyles';
 
@@ -28,6 +28,7 @@ export interface IIDSelectorProps {
   clearTags: () => void;
   placeholder: string;
   disabledTagToolTip: string;
+  isNewTagAllowed: boolean;
 }
 
 function IDSelector(props?: IIDSelectorProps): JSX.Element {
@@ -42,21 +43,26 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
     closeTag,
     clearTags,
     disabledTagToolTip,
+    isNewTagAllowed,
   } = props;
   const { inputText, setInputText, onInputChange } = useSearchInput();
 
   const onKeyPressHandler = (
-    event: React.KeyboardEvent<HTMLInputElement>,
+    event?: React.KeyboardEvent<HTMLInputElement>,
   ): void => {
-    const { key } = event;
+    if (!event || event.key === KEY_ENTER_CODE) {
+      event?.preventDefault();
 
-    if (key === KEY_ENTER_CODE) {
-      const tagsID = textToTagsID(inputText, tags);
-
-      event.preventDefault();
+      const tagsID = textToTagsWithCheck(
+        inputText,
+        isNewTagAllowed ? tagsSelected : tags,
+        isNewTagAllowed,
+      );
 
       if (isArray(tagsID)) {
-        onInputEnter(union(tagsID, tagsSelected));
+        onInputEnter(
+          isNewTagAllowed ? tagsID : union(tagsID, tagsSelected),
+        );
       }
 
       setInputText('');

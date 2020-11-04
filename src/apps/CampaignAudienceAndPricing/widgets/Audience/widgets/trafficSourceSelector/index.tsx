@@ -24,6 +24,7 @@ function TrafficSourceSelector(
         <S.RadioWrap>
           <Radio
             checked={selected === ETrafficSource.ALL}
+            color="primary"
             onChange={() => onRadioChange(ETrafficSource.ALL)}
           />
           <Typography
@@ -39,6 +40,7 @@ function TrafficSourceSelector(
         <S.RadioWrap>
           <Radio
             checked={selected === ETrafficSource.DIRECT_INVENTORY}
+            color="primary"
             onChange={() =>
               onRadioChange(ETrafficSource.DIRECT_INVENTORY)
             }

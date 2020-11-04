@@ -5,7 +5,10 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { TFilterSideStore } from 'sharedWidgets/FilterSide/store/FilterSideStore';
 import FilterSide from 'sharedWidgets/FilterSide';
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import { KEY_ENTER_CODE } from 'config/constants';
 import IDTable, { IRowItem } from '../../components/IDTable';
 import AddSpotsButton from '../AddSpotsButton';
@@ -20,10 +23,12 @@ import {
 } from '../../stores/AudienceStore';
 import { EIDModel } from '../../assets/constants/commonAudienceTypes';
 import { EFetchStatus } from '../../../../assets/commonTypes';
+import textToTagsWithCheck from '../../services/textToTagsWithCheck';
 import {
   titles,
   columns,
   searchPlaceholder,
+  subIdInputLabel,
 } from '../../assets/constants/tableConst';
 import { StyledArrowDownwardIcon } from './styles';
 
@@ -82,12 +87,10 @@ function IDTableController(
   };
 
   const onKeyPressHandler = (
-    event: React.KeyboardEvent<HTMLInputElement>,
+    event?: React.KeyboardEvent<HTMLInputElement>,
   ): void => {
-    const { key } = event;
-
-    if (key === KEY_ENTER_CODE) {
-      event.preventDefault();
+    if (!event || event.key === KEY_ENTER_CODE) {
+      event?.preventDefault();
 
       if (!inputText) {
         setSelectedSites(audience.selectedSites);
@@ -229,21 +232,51 @@ function IDTableController(
     });
   };
 
+  const subIDSelectedTags = audience[EIDModel.SUB_ID].tagsSelected;
+  const subIDDefaultText = subIDSelectedTags
+    .map(({ id }) => id)
+    .join(', ');
+
+  const [subIDInputText, setSubIDInputText] = React.useState<string>(
+    String(subIDDefaultText),
+  );
+  React.useEffect(() => {
+    setSubIDInputText(subIDDefaultText);
+  }, [subIDDefaultText]);
+
+  const onSubIDInputChange = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>): void => {
+    setSubIDInputText(target.value);
+  };
+
+  const setNewSubIDSelectedTags = () => {
+    audience.setTagsSelected(
+      textToTagsWithCheck(
+        subIDInputText,
+        subIDSelectedTags,
+        true,
+        true,
+      ),
+      model,
+    );
+  };
+
   const IDTableParams = {
     leftColumns: getLeftColumns(),
     rightColumns: getRightColumns(),
     rowsSections: getRowsSections(),
   };
 
-  const sideTableFooterParams = React.useMemo(
-    () => ({
-      chosenAmount: audience[model].tagsSelected.length,
-      onClear: () => audience.clearTags(model),
-      onDone: filterSide.onToggleFilterHandler,
-      onCancel: filterSide.onToggleFilterHandler,
-    }),
-    [audience, filterSide.onToggleFilterHandler, model],
-  );
+  const sideTableFooterParams = {
+    chosenAmount: audience[model].tagsSelected.length,
+    onClear: () => audience.clearTags(model),
+    onDone: () => {
+      model === EIDModel.SUB_ID && setNewSubIDSelectedTags();
+      filterSide.onToggleFilterHandler();
+    },
+    onCancel: filterSide.onToggleFilterHandler,
+  };
 
   if (model !== EIDModel.SUB_ID && !isFetchSuccess) {
     return <></>;
@@ -256,24 +289,41 @@ function IDTableController(
       filterSideStore={filterSide}
     >
       <>
-        <Grid container justify="space-between">
-          <Grid item xs={6}>
-            <SearchInput
-              placeholder={searchPlaceholder[model]}
-              onKeyPressHandler={onKeyPressHandler}
-              inputText={inputText}
-              onInputChange={onInputChange}
+        {model === EIDModel.SUB_ID ? (
+          <FormControl>
+            <InputLabel htmlFor="subIDInput">
+              {subIdInputLabel}
+            </InputLabel>
+            <Input
+              id="subIDInput"
+              multiline
+              // defaultValue={subIDDefaultText}
+              value={subIDInputText}
+              onChange={onSubIDInputChange}
             />
-          </Grid>
-          {model === EIDModel.SPOT_ID && (
-            <Grid container item justify="flex-end" xs={3}>
-              <Grid item>
-                <AddSpotsButton />
+          </FormControl>
+        ) : (
+          <>
+            <Grid container justify="space-between">
+              <Grid item xs={6}>
+                <SearchInput
+                  placeholder={searchPlaceholder[model]}
+                  onKeyPressHandler={onKeyPressHandler}
+                  inputText={inputText}
+                  onInputChange={onInputChange}
+                />
               </Grid>
+              {model === EIDModel.SPOT_ID && (
+                <Grid container item justify="flex-end" xs={3}>
+                  <Grid item>
+                    <AddSpotsButton />
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
-          )}
-        </Grid>
-        <IDTable {...IDTableParams} />
+            <IDTable {...IDTableParams} />
+          </>
+        )}
         <SideTableFooter {...sideTableFooterParams} />
       </>
     </FilterSide>
