@@ -8,7 +8,7 @@ export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  position: relative;
   bottom: 0;
 `;
 

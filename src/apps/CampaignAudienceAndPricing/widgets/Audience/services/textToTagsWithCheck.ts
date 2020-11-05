@@ -9,6 +9,10 @@ function textToTagsWithCheck(
   needReplaceOldTags?: boolean,
 ): TTag[] {
   let textArray = !!text && text.split(',');
+  if (!textArray) {
+    return [];
+  }
+
   textArray = textArray
     .map(word => word.trim())
     .filter(word => !!word);

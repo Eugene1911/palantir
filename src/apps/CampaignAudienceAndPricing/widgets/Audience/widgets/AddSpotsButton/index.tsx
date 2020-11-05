@@ -11,10 +11,11 @@ import * as S from './styles';
 
 interface IAddSpotsButton {
   audience?: TAudienceModel;
+  customAdd?: (prime: boolean) => void;
 }
 
 function AddSpotsButton(props: IAddSpotsButton): JSX.Element {
-  const { audience } = props;
+  const { audience, customAdd } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(
     null,
   );
@@ -27,7 +28,7 @@ function AddSpotsButton(props: IAddSpotsButton): JSX.Element {
 
   const handleClose = (prime: boolean) => {
     setAnchorEl(null);
-    audience.addAllSpots(prime);
+    customAdd ? customAdd(prime) : audience.addAllSpots(prime);
   };
 
   return (

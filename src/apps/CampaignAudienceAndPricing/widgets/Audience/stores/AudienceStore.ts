@@ -1,4 +1,5 @@
 import { Instance, types, flow } from 'mobx-state-tree';
+import union from 'lodash/union';
 import { getApplications, getSpots } from 'resources/api';
 import { EFetchStatus } from '../../../assets/commonTypes';
 import {
@@ -127,11 +128,7 @@ const AudienceModel = types
       self.filterSideModel = model;
     },
     setTags(sourceArr, model: EIDModel) {
-      self[model].tags = sourceArr.map(({ id, tooltip, status }) => ({
-        id,
-        tooltip,
-        status,
-      }));
+      self[model].tags = getTags(sourceArr);
     },
     setTagsSelected(tagsIDSelected, model: EIDModel) {
       self[model].tagsSelected = tagsIDSelected;
@@ -145,16 +142,20 @@ const AudienceModel = types
       self[model].tagsSelected = [];
     },
     addAllSpots(prime: boolean) {
-      const spotsToAdd = self[EIDModel.SPOT_ID].spots
+      const spotIDs = self[EIDModel.SPOT_ID].spots
         .filter(({ isPrime }) => isPrime === prime)
         .map(spot => spot.id);
 
+      const tagsToAdd = self[EIDModel.SPOT_ID].tags.filter(({ id }) =>
+        spotIDs.includes(id),
+      );
+
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
-      self[EIDModel.SPOT_ID].tagsSelected = [
-        ...self[EIDModel.SPOT_ID].tagsSelected,
-        ...spotsToAdd,
-      ];
+      self[EIDModel.SPOT_ID].tagsSelected = union(
+        self[EIDModel.SPOT_ID].tagsSelected,
+        tagsToAdd,
+      );
     },
     // запросы
     getSpotsData: flow(function* getSpotsData() {
@@ -193,6 +194,7 @@ const AudienceModel = types
         );
       } catch (error) {
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.ERROR;
+        // tslint:disable-next-line:no-console
         console.log('error', error);
       }
     }),

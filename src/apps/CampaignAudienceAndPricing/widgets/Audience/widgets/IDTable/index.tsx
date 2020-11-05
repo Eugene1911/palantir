@@ -10,6 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { KEY_ENTER_CODE } from 'config/constants';
+import union from 'lodash/union';
 import IDTable, { IRowItem } from '../../components/IDTable';
 import AddSpotsButton from '../AddSpotsButton';
 import SideTableFooter from '../../components/SideTableFooter';
@@ -66,11 +67,48 @@ function IDTableController(
       setSelectedSites(audience.selectedSites);
       setSelectedSpots(audience.selectedSpots);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFetchSuccess]);
+  }, [
+    audience.selectedSites,
+    audience.selectedSpots,
+    isFetchSuccess,
+  ]);
+
+  const deleteRow = (rowId: string): void => {
+    if (model === EIDModel.SITE_ID) {
+      setSelectedSites(
+        selectedSites.filter(({ id }) => id !== rowId),
+      );
+    } else {
+      setSelectedSpots(
+        selectedSpots.filter(({ id }) => id !== rowId),
+      );
+    }
+  };
+
+  const addAllSpots = (prime: boolean): void => {
+    const spotsToAdd = audience[EIDModel.SPOT_ID].spots.filter(
+      ({ isPrime }) => isPrime === prime,
+    );
+
+    setSelectedSpots(union(selectedSpots, spotsToAdd));
+  };
+
+  const saveLocalState = () => {
+    if (model === EIDModel.SITE_ID) {
+      audience.setTagsSelected(
+        selectedSites.map(({ id }) => id),
+        model,
+      );
+    } else {
+      audience.setTagsSelected(
+        selectedSpots.map(({ id }) => id),
+        model,
+      );
+    }
+  };
 
   const filterSites = (textArray: string[]): TSite[] => {
-    return audience.selectedSites.filter(
+    return selectedSites.filter(
       site =>
         textArray.includes(String(site.id)) ||
         textArray.includes(String(site.domain)),
@@ -78,7 +116,7 @@ function IDTableController(
   };
 
   const filterSpots = (textArray: string[]): TSpot[] => {
-    return audience.selectedSpots.filter(
+    return selectedSpots.filter(
       spot =>
         textArray.includes(String(spot.id)) ||
         textArray.includes(String(spot.domain)) ||
@@ -155,12 +193,7 @@ function IDTableController(
       },
       {
         item: (
-          <IconButton
-            onClick={() =>
-              audience.closeTag(site.id, EIDModel.SITE_ID)
-            }
-            size="small"
-          >
+          <IconButton onClick={() => deleteRow(site.id)} size="small">
             <CloseIcon color="secondary" fontSize="small" />
           </IconButton>
         ),
@@ -202,12 +235,7 @@ function IDTableController(
       },
       {
         item: (
-          <IconButton
-            onClick={() =>
-              audience.closeTag(spot.id, EIDModel.SPOT_ID)
-            }
-            size="small"
-          >
+          <IconButton onClick={() => deleteRow(spot.id)} size="small">
             <CloseIcon color="secondary" fontSize="small" />
           </IconButton>
         ),
@@ -262,6 +290,45 @@ function IDTableController(
     );
   };
 
+  const cancelLocalState = () => {
+    setSelectedSites(audience.selectedSites);
+    setSelectedSpots(audience.selectedSpots);
+    setSubIDInputText(subIDDefaultText);
+  };
+
+  const clearAll = (): void => {
+    switch (model) {
+      case EIDModel.SITE_ID:
+        setSelectedSites([]);
+        break;
+      case EIDModel.SPOT_ID:
+        setSelectedSpots([]);
+        break;
+      case EIDModel.SUB_ID:
+        setSubIDInputText('');
+        break;
+      default:
+    }
+  };
+
+  const getChosenAmount = (): number => {
+    switch (model) {
+      case EIDModel.SITE_ID:
+        return selectedSites.length;
+      case EIDModel.SPOT_ID:
+        return selectedSpots.length;
+      case EIDModel.SUB_ID:
+        return textToTagsWithCheck(
+          subIDInputText,
+          subIDSelectedTags,
+          true,
+          true,
+        ).length;
+      default:
+        return 0;
+    }
+  };
+
   const IDTableParams = {
     leftColumns: getLeftColumns(),
     rightColumns: getRightColumns(),
@@ -269,13 +336,20 @@ function IDTableController(
   };
 
   const sideTableFooterParams = {
-    chosenAmount: audience[model].tagsSelected.length,
-    onClear: () => audience.clearTags(model),
+    chosenAmount: getChosenAmount(),
+    onClear: clearAll,
     onDone: () => {
-      model === EIDModel.SUB_ID && setNewSubIDSelectedTags();
+      if (model === EIDModel.SUB_ID) {
+        setNewSubIDSelectedTags();
+      } else {
+        saveLocalState();
+      }
       filterSide.onToggleFilterHandler();
     },
-    onCancel: filterSide.onToggleFilterHandler,
+    onCancel: () => {
+      filterSide.onToggleFilterHandler();
+      cancelLocalState();
+    },
   };
 
   if (model !== EIDModel.SUB_ID && !isFetchSuccess) {
@@ -287,6 +361,7 @@ function IDTableController(
       title={titles[model]}
       width={900}
       filterSideStore={filterSide}
+      onClose={cancelLocalState}
     >
       <>
         {model === EIDModel.SUB_ID ? (
@@ -316,7 +391,7 @@ function IDTableController(
               {model === EIDModel.SPOT_ID && (
                 <Grid container item justify="flex-end" xs={3}>
                   <Grid item>
-                    <AddSpotsButton />
+                    <AddSpotsButton customAdd={addAllSpots} />
                   </Grid>
                 </Grid>
               )}
