@@ -10,6 +10,7 @@ import { KEY_ENTER_CODE } from 'config/constants';
 import { Typography } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
 import SearchInput, { useSearchInput } from '../SearchInput';
+import AddSpotsButton from '../../widgets/AddSpotsButton';
 import { ETagStatus } from '../../assets/constants/commonAudienceTypes';
 import { radioTitles } from '../../assets/constants/rightSidesConst';
 import { buttonsConst } from '../../assets/constants/buttonsConst';
@@ -21,7 +22,7 @@ export interface IIDSelectorProps {
   radioSelected: number;
   onRadioChange: (index: number) => void;
   onInputEnter: (value: string[]) => void;
-  onEditClick: () => void;
+  onFilterSideOpen: () => void;
   tags: any[];
   tagsSelected: any[];
   closeTag: (id: string) => void;
@@ -29,6 +30,7 @@ export interface IIDSelectorProps {
   placeholder: string;
   disabledTagToolTip: string;
   isNewTagAllowed: boolean;
+  addSpotsButton: boolean;
 }
 
 function IDSelector(props?: IIDSelectorProps): JSX.Element {
@@ -37,13 +39,14 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
     radioSelected,
     onRadioChange,
     onInputEnter,
-    onEditClick,
+    onFilterSideOpen,
     tags,
     tagsSelected,
     closeTag,
     clearTags,
     disabledTagToolTip,
     isNewTagAllowed,
+    addSpotsButton,
   } = props;
   const { inputText, setInputText, onInputChange } = useSearchInput();
 
@@ -73,15 +76,32 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
     closeTag(tag.id);
   };
 
-  const onClearTagsHandler = () => {
+  const onClearTagsHandler = React.useCallback(() => {
     setInputText('');
     clearTags();
-  };
+  }, [clearTags, setInputText]);
 
-  const onCopyHandler = () => {
+  const onCopyHandler = React.useCallback(() => {
     const text = tagsSelected.map(({ id }) => id).join(', ');
     navigator.clipboard.writeText(text);
-  };
+  }, [tagsSelected]);
+
+  const renderClearAndCopyButtons = React.useCallback(() => {
+    return (
+      <>
+        <Grid item xs={2}>
+          <Button color="primary" onClick={onClearTagsHandler}>
+            {buttonsConst.clear}
+          </Button>
+        </Grid>
+        <Grid item xs={2}>
+          <Button color="primary" onClick={onCopyHandler}>
+            {buttonsConst.copy}
+          </Button>
+        </Grid>
+      </>
+    );
+  }, [onClearTagsHandler, onCopyHandler]);
 
   const isWhiteListChecked = radioSelected === 0;
   const classes = useStyles();
@@ -139,24 +159,20 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
               onInputChange={onInputChange}
             />
           </Grid>
-          <Grid item xs={2}>
-            <Button color="primary" onClick={onClearTagsHandler}>
-              {buttonsConst.clear}
-            </Button>
-          </Grid>
-          <Grid item xs={2}>
-            <Button color="primary" onClick={onCopyHandler}>
-              {buttonsConst.copy}
-            </Button>
-          </Grid>
+          {Boolean(tagsSelected.length) &&
+            renderClearAndCopyButtons()}
         </Grid>
-        <Grid item xs={1}>
-          <Button color="primary" onClick={onEditClick}>
-            <S.EditButtonInner>
-              <EditIcon color="primary" />
-              {buttonsConst.edit}
-            </S.EditButtonInner>
-          </Button>
+        <Grid item xs={2} container justify="flex-end">
+          {tagsSelected.length ? (
+            <Button color="primary" onClick={onFilterSideOpen}>
+              <S.EditButtonInner>
+                <EditIcon color="primary" />
+                {buttonsConst.edit}
+              </S.EditButtonInner>
+            </Button>
+          ) : (
+            addSpotsButton && <AddSpotsButton />
+          )}
         </Grid>
       </Grid>
       <S.TagsWrap>
@@ -190,6 +206,13 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
           );
         })}
       </S.TagsWrap>
+      {Boolean(tagsSelected.length) && (
+        <Grid container justify="flex-end">
+          <Button color="primary" onClick={onFilterSideOpen}>
+            {buttonsConst.show}
+          </Button>
+        </Grid>
+      )}
     </>
   );
 }

@@ -1,4 +1,5 @@
 import isArray from 'lodash/isArray';
+import union from 'lodash/union';
 import { TTag } from '../stores/AudienceStore';
 import { ETagStatus } from '../assets/constants/commonAudienceTypes';
 
@@ -13,9 +14,10 @@ function textToTagsWithCheck(
     return [];
   }
 
-  textArray = textArray
-    .map(word => word.trim())
-    .filter(word => !!word);
+  textArray = union(
+    textArray.map(word => word.trim()).filter(word => !!word),
+    [],
+  );
 
   if (isArray(textArray)) {
     if (isNewTagAllowed) {

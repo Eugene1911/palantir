@@ -53,7 +53,15 @@ function IDTableController(
     [siteFetchStatus, spotFetchStatus],
   );
 
-  const { inputText, setInputText, onInputChange } = useSearchInput();
+  const { inputText, onInputChange } = useSearchInput();
+
+  const getFilterTextArray = (): string[] => {
+    const textArray = !!inputText && inputText.split(',');
+    return union(
+      textArray.map(word => word.trim()),
+      [],
+    );
+  };
 
   const [selectedSites, setSelectedSites] = useState<TSite[]>(
     audience.selectedSites,
@@ -62,16 +70,60 @@ function IDTableController(
     audience.selectedSpots,
   );
 
+  const [filteredSites, setFilteredSites] = useState<TSite[]>(
+    selectedSites,
+  );
+  const [filteredSpots, setFilteredSpots] = useState<TSpot[]>(
+    selectedSpots,
+  );
+
+  const filterSites = (textArray: string[]): void => {
+    setFilteredSites(
+      selectedSites.filter(
+        site =>
+          textArray.includes(String(site.id)) ||
+          textArray.includes(String(site.domain)),
+      ),
+    );
+  };
+
+  const filterSpots = (textArray: string[]): void => {
+    setFilteredSpots(
+      selectedSpots.filter(
+        spot =>
+          textArray.includes(String(spot.id)) ||
+          textArray.includes(String(spot.domain)) ||
+          textArray.includes(String(spot.siteID)),
+      ),
+    );
+  };
+
   React.useEffect(() => {
     if (isFetchSuccess) {
       setSelectedSites(audience.selectedSites);
       setSelectedSpots(audience.selectedSpots);
+      setFilteredSites(audience.selectedSites);
+      setFilteredSpots(audience.selectedSpots);
     }
   }, [
     audience.selectedSites,
     audience.selectedSpots,
     isFetchSuccess,
   ]);
+
+  React.useEffect(() => {
+    if (model === EIDModel.SITE_ID) {
+      inputText.length
+        ? filterSites(getFilterTextArray())
+        : setFilteredSites(selectedSites);
+    }
+    if (model === EIDModel.SPOT_ID) {
+      inputText.length
+        ? filterSpots(getFilterTextArray())
+        : setFilteredSpots(selectedSpots);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [model, selectedSites, selectedSpots]);
 
   const deleteRow = (rowId: string): void => {
     if (model === EIDModel.SITE_ID) {
@@ -107,23 +159,6 @@ function IDTableController(
     }
   };
 
-  const filterSites = (textArray: string[]): TSite[] => {
-    return selectedSites.filter(
-      site =>
-        textArray.includes(String(site.id)) ||
-        textArray.includes(String(site.domain)),
-    );
-  };
-
-  const filterSpots = (textArray: string[]): TSpot[] => {
-    return selectedSpots.filter(
-      spot =>
-        textArray.includes(String(spot.id)) ||
-        textArray.includes(String(spot.domain)) ||
-        textArray.includes(String(spot.siteID)),
-    );
-  };
-
   const onKeyPressHandler = (
     event?: React.KeyboardEvent<HTMLInputElement>,
   ): void => {
@@ -131,20 +166,19 @@ function IDTableController(
       event?.preventDefault();
 
       if (!inputText) {
-        setSelectedSites(audience.selectedSites);
-        setSelectedSpots(audience.selectedSpots);
+        setFilteredSites(selectedSites);
+        setFilteredSpots(selectedSpots);
       } else {
-        let textArray = !!inputText && inputText.split(',');
-        textArray = textArray.map(word => word.trim());
+        const textArray = getFilterTextArray();
 
         if (model === EIDModel.SITE_ID) {
-          setSelectedSites(filterSites(textArray));
+          filterSites(textArray);
         } else {
-          setSelectedSpots(filterSpots(textArray));
+          filterSpots(textArray);
         }
       }
 
-      setInputText('');
+      // setInputText('');
     }
   };
 
@@ -246,13 +280,13 @@ function IDTableController(
 
   const getRowsSections = (): IRowItem[][][] => {
     if (model === EIDModel.SITE_ID) {
-      return selectedSites.map(site => {
+      return filteredSites.map(site => {
         return [getSiteRow(site)];
       });
     }
 
     return selectedSites.map(({ id }) => {
-      return selectedSpots
+      return filteredSpots
         .filter(spot => spot.siteID === id)
         .map((spot, index) => {
           return getSpotRow(spot, index === 0);

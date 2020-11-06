@@ -76,6 +76,8 @@ export const TagsWrap = styled.div`
   margin-top: 24px;
   row-gap: 8px;
   column-gap: 4px;
+  max-height: 158px;
+  overflow: hidden;
 `;
 
 export const EditButtonInner = styled.div`
