@@ -11,5 +11,6 @@ export const HeaderWrap = styled.div`
 `;
 
 export const PaddingWrap = styled.div`
-  padding: 0 24px;
+  padding: 15px 24px;
+  display: grid;
 `;

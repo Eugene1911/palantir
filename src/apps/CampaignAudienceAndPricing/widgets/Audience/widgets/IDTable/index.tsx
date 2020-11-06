@@ -327,6 +327,8 @@ function IDTableController(
   const cancelLocalState = () => {
     setSelectedSites(audience.selectedSites);
     setSelectedSpots(audience.selectedSpots);
+    setFilteredSites(audience.selectedSites);
+    setFilteredSpots(audience.selectedSpots);
     setSubIDInputText(subIDDefaultText);
   };
 
@@ -399,18 +401,20 @@ function IDTableController(
     >
       <>
         {model === EIDModel.SUB_ID ? (
-          <FormControl>
-            <InputLabel htmlFor="subIDInput">
-              {subIdInputLabel}
-            </InputLabel>
-            <Input
-              id="subIDInput"
-              multiline
-              // defaultValue={subIDDefaultText}
-              value={subIDInputText}
-              onChange={onSubIDInputChange}
-            />
-          </FormControl>
+          <S.PaddingWrap>
+            <FormControl>
+              <InputLabel htmlFor="subIDInput">
+                {subIdInputLabel}
+              </InputLabel>
+              <Input
+                id="subIDInput"
+                multiline
+                // defaultValue={subIDDefaultText}
+                value={subIDInputText}
+                onChange={onSubIDInputChange}
+              />
+            </FormControl>
+          </S.PaddingWrap>
         ) : (
           <>
             <S.HeaderWrap>

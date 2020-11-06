@@ -41,7 +41,6 @@ function FilterSide({
         variant={drawerVariant}
         open={filterSideStore.isFilterSideOpen}
         anchor="right"
-        onClose={onCloseHandler}
         ModalProps={{
           keepMounted: true,
         }}
@@ -51,9 +50,7 @@ function FilterSide({
       >
         <div className={classes.header}>
           <IconButton
-            onClick={(): void =>
-              filterSideStore.onToggleFilterHandler()
-            }
+            onClick={onCloseHandler}
             className={classes.closeButton}
             aria-label="close button"
           >
