@@ -3,10 +3,8 @@ import { inject, observer } from 'mobx-react';
 import RadioButtons, {
   IRadioButton,
 } from 'sharedComponents/RadioButtons';
-import {
-  ETrafficType,
-  trafficTypes,
-} from '../../assets/constants/commonAudienceTypes';
+import { ETrafficType } from '../../assets/constants/commonAudienceTypes';
+import { radioTitles } from '../../assets/constants/rightSidesConst';
 
 interface ITrafficSelectionButtonsProps {
   selected?: number;
@@ -18,9 +16,9 @@ function TrafficSelectionButtons({
   onChange,
 }: ITrafficSelectionButtonsProps): JSX.Element {
   const buttons: IRadioButton[] = [
-    trafficTypes[ETrafficType.RON],
-    trafficTypes[ETrafficType.PRIME],
-    trafficTypes[ETrafficType.MEMBERS_AREA],
+    radioTitles[ETrafficType.RON],
+    radioTitles[ETrafficType.PRIME],
+    radioTitles[ETrafficType.MEMBERS_AREA],
   ];
 
   return (

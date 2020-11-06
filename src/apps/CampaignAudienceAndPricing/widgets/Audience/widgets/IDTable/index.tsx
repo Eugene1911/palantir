@@ -31,7 +31,7 @@ import {
   searchPlaceholder,
   subIdInputLabel,
 } from '../../assets/constants/tableConst';
-import { StyledArrowDownwardIcon } from './styles';
+import * as S from './styles';
 
 interface IDTableControllerProps {
   audience?: TAudienceModel;
@@ -200,7 +200,7 @@ function IDTableController(
   const getRightColumns = React.useCallback(() => {
     return [
       <>
-        <StyledArrowDownwardIcon />
+        <S.StyledArrowDownwardIcon />
         {columns.avg}
       </>,
       '',
@@ -285,7 +285,7 @@ function IDTableController(
       });
     }
 
-    return selectedSites.map(({ id }) => {
+    return audience[EIDModel.SITE_ID].sites.map(({ id }) => {
       return filteredSpots
         .filter(spot => spot.siteID === id)
         .map((spot, index) => {
@@ -413,23 +413,25 @@ function IDTableController(
           </FormControl>
         ) : (
           <>
-            <Grid container justify="space-between">
-              <Grid item xs={6}>
-                <SearchInput
-                  placeholder={searchPlaceholder[model]}
-                  onKeyPressHandler={onKeyPressHandler}
-                  inputText={inputText}
-                  onInputChange={onInputChange}
-                />
-              </Grid>
-              {model === EIDModel.SPOT_ID && (
-                <Grid container item justify="flex-end" xs={3}>
-                  <Grid item>
-                    <AddSpotsButton customAdd={addAllSpots} />
-                  </Grid>
+            <S.HeaderWrap>
+              <Grid container justify="space-between">
+                <Grid item xs={6}>
+                  <SearchInput
+                    placeholder={searchPlaceholder[model]}
+                    onKeyPressHandler={onKeyPressHandler}
+                    inputText={inputText}
+                    onInputChange={onInputChange}
+                  />
                 </Grid>
-              )}
-            </Grid>
+                {model === EIDModel.SPOT_ID && (
+                  <Grid container item justify="flex-end" xs={3}>
+                    <Grid item>
+                      <AddSpotsButton customAdd={addAllSpots} />
+                    </Grid>
+                  </Grid>
+                )}
+              </Grid>
+            </S.HeaderWrap>
             <IDTable {...IDTableParams} />
           </>
         )}

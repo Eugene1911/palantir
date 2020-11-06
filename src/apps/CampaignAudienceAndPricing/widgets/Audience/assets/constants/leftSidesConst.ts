@@ -35,4 +35,7 @@ export const leftSidesConst = {
     tooltip:
       'The option allows targeting only Partner Networks, Direct Inventory, or both.',
   },
+  rtb: {
+    title: 'RTB inventory',
+  },
 };

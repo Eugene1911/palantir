@@ -7,8 +7,18 @@ const useStyles = makeStyles<Theme, TIDTableClasses>({
   disabledCell: {
     opacity: 0.12,
   },
+  headerCell: {
+    backgroundColor: 'white',
+  },
+  padding: {
+    padding: '0 24px',
+  },
 });
 
-export type TIDTableClasses = 'disabledCell' | 'noBorderCell';
+export type TIDTableClasses =
+  | 'disabledCell'
+  | 'noBorderCell'
+  | 'headerCell'
+  | 'padding';
 
 export default useStyles;

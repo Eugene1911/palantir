@@ -34,7 +34,7 @@ function TrafficSourceSelector(
                 : 'textSecondary'
             }
           >
-            {radioTitles.all}
+            {radioTitles[ETrafficSource.ALL]}
           </Typography>
         </S.RadioWrap>
         <S.RadioWrap>
@@ -52,12 +52,13 @@ function TrafficSourceSelector(
                 : 'textSecondary'
             }
           >
-            {radioTitles.directInventory}
+            {radioTitles[ETrafficSource.DIRECT_INVENTORY]}
           </Typography>
         </S.RadioWrap>
         <S.RadioWrap>
           <Radio
             checked={selected === ETrafficSource.PARTNER_NETWORKS}
+            color="primary"
             onChange={() =>
               onRadioChange(ETrafficSource.PARTNER_NETWORKS)
             }
@@ -69,7 +70,7 @@ function TrafficSourceSelector(
                 : 'textSecondary'
             }
           >
-            {radioTitles.partnerNetworks}
+            {radioTitles[ETrafficSource.PARTNER_NETWORKS]}
           </Typography>
         </S.RadioWrap>
       </S.RadioGroup>

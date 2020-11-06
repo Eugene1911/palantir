@@ -1,31 +1,47 @@
 import React from 'react';
-import { inject } from 'mobx-react';
-import { getSnapshot } from 'mobx-state-tree';
-import Accordion, { ITab } from 'sharedComponents/Accordion';
+import { inject, observer } from 'mobx-react';
+import Accordion from 'sharedComponents/Accordion';
 import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle';
 import createTabs from './services/createTabs';
-import { TAudienceModel } from './stores/AudienceStore';
 import IDTableController from './widgets/IDTable';
+import {
+  ETrafficSource,
+  ETrafficType,
+  trafficTypes,
+  trafficSources,
+} from './assets/constants/commonAudienceTypes';
 
 interface IAudience {
-  audience?: TAudienceModel;
+  getSpotsData?: () => void;
+  getSitesData?: () => void;
+  toggleIsAdvancedOpen?: () => void;
+  isAdvancedOpen?: boolean;
+  trafficType?: ETrafficType;
+  trafficSource?: ETrafficSource;
 }
 
 function Audience(props?: IAudience): JSX.Element {
-  const tabs: ITab[] = createTabs();
+  const {
+    getSpotsData,
+    getSitesData,
+    isAdvancedOpen,
+    toggleIsAdvancedOpen,
+    trafficType,
+    trafficSource,
+  } = props;
+  const tabs = createTabs({ isAdvancedOpen, toggleIsAdvancedOpen });
 
-  props.audience.getSpotsData();
-  props.audience.getSitesData();
-  console.log('store', getSnapshot(props.audience));
+  getSpotsData();
+  getSitesData();
   return (
     <>
       <Accordion
         title="Audience"
         Icon={SupervisedUserCircle}
         isSelected
-        subInfo1="column 1"
-        subInfo2="column 2"
-        subInfo3="column 3"
+        subInfo1={trafficTypes[trafficType]}
+        subInfo2={trafficSources[trafficSource]}
+        subInfo3=""
         tabs={tabs}
       />
       <IDTableController />
@@ -34,5 +50,13 @@ function Audience(props?: IAudience): JSX.Element {
 }
 
 export default inject(({ CampaignAudienceAndPricingStore }) => ({
-  audience: CampaignAudienceAndPricingStore.audience,
-}))(Audience);
+  getSpotsData: CampaignAudienceAndPricingStore.audience.getSpotsData,
+  getSitesData: CampaignAudienceAndPricingStore.audience.getSitesData,
+  isAdvancedOpen:
+    CampaignAudienceAndPricingStore.audience.isAdvancedOpen,
+  toggleIsAdvancedOpen:
+    CampaignAudienceAndPricingStore.audience.toggleIsAdvancedOpen,
+  trafficType: CampaignAudienceAndPricingStore.audience.trafficType,
+  trafficSource:
+    CampaignAudienceAndPricingStore.audience.trafficSource,
+}))(observer(Audience));

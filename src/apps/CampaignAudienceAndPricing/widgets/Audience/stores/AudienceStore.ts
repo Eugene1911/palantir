@@ -13,13 +13,18 @@ import {
 export const InitialAudienceModel = {
   trafficType: ETrafficType.RON,
   trafficSource: ETrafficSource.ALL,
+  rtb: true,
   [EIDModel.SITE_ID]: {
     listType: EListType.WHITE,
     fetchStatus: EFetchStatus.PENDING,
+    tags: [],
+    tagsSelected: [],
   },
   [EIDModel.SPOT_ID]: {
     listType: EListType.WHITE,
     fetchStatus: EFetchStatus.PENDING,
+    tags: [],
+    tagsSelected: [],
   },
   [EIDModel.SUB_ID]: {
     listType: EListType.WHITE,
@@ -27,6 +32,7 @@ export const InitialAudienceModel = {
     tagsSelected: [],
   },
   filterSideModel: EIDModel.SITE_ID,
+  isAdvancedOpen: false,
 };
 
 const Site = types.model({
@@ -90,9 +96,11 @@ const AudienceModel = types
     trafficSource: types.enumeration<ETrafficSource>(
       Object.values(ETrafficSource),
     ),
+    rtb: types.boolean,
     filterSideModel: types.enumeration<EIDModel>(
       Object.values(EIDModel),
     ),
+    isAdvancedOpen: types.boolean,
   })
   .views(self => ({
     get selectedSites() {
@@ -121,11 +129,17 @@ const AudienceModel = types
     setTrafficSource(trafficSource: ETrafficSource) {
       self.trafficSource = trafficSource;
     },
+    setRtb(rtb: boolean) {
+      self.rtb = rtb;
+    },
     setListType(listType: EListType, model: EIDModel) {
       self[model].listType = listType;
     },
     setFilterSideModel(model: EIDModel) {
       self.filterSideModel = model;
+    },
+    toggleIsAdvancedOpen() {
+      self.isAdvancedOpen = !self.isAdvancedOpen;
     },
     setTags(sourceArr, model: EIDModel) {
       self[model].tags = getTags(sourceArr);
@@ -189,9 +203,9 @@ const AudienceModel = types
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.SUCCESS;
 
         // убрать
-        self[EIDModel.SPOT_ID].tagsSelected = spots.map(
-          tag => tag.id,
-        );
+        // self[EIDModel.SPOT_ID].tagsSelected = spots.map(
+        //   tag => tag.id,
+        // );
       } catch (error) {
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.ERROR;
         // tslint:disable-next-line:no-console
@@ -218,9 +232,9 @@ const AudienceModel = types
         self[EIDModel.SITE_ID].fetchStatus = EFetchStatus.SUCCESS;
 
         // убрать
-        self[EIDModel.SITE_ID].tagsSelected = sites.map(
-          tag => tag.id,
-        );
+        // self[EIDModel.SITE_ID].tagsSelected = sites.map(
+        //   tag => tag.id,
+        // );
       } catch (error) {
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.ERROR;
         // tslint:disable-next-line:no-console

@@ -33,6 +33,8 @@ export interface IIDSelectorProps {
   addSpotsButton: boolean;
 }
 
+const TAGS_WRAP_MAX_HEIGHT = 158;
+
 function IDSelector(props?: IIDSelectorProps): JSX.Element {
   const {
     placeholder,
@@ -49,6 +51,22 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
     addSpotsButton,
   } = props;
   const { inputText, setInputText, onInputChange } = useSearchInput();
+
+  const [needShowAll, setNeedShowAll] = React.useState<boolean>(
+    false,
+  );
+  const tagsWrapRef = React.useRef(null);
+
+  // console.log('wrap', tagsWrapRef);
+  // console.log('wrap current', tagsWrapRef.current);
+  // tagsWrapRef.current && console.log('wrap height', tagsWrapRef.current.clientHeight);
+  // tagsWrapRef.current && console.log('wrap height', tagsWrapRef.current.getBoundingClientRect().height);
+
+  React.useEffect(() => {
+    setNeedShowAll(
+      tagsWrapRef.current.clientHeight > TAGS_WRAP_MAX_HEIGHT,
+    );
+  }, [tagsSelected.length]);
 
   const onKeyPressHandler = (
     event?: React.KeyboardEvent<HTMLInputElement>,
@@ -123,7 +141,9 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
             </Typography>
           </S.RadioTitle>
           <S.RadioLabel checked={isWhiteListChecked} isWhiteList>
-            <Typography color="primary">{tags.length}</Typography>
+            <Typography color="primary">
+              {tagsSelected.length}
+            </Typography>
           </S.RadioLabel>
         </S.RadioWrap>
         <S.RadioWrap>
@@ -145,7 +165,9 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
             checked={!isWhiteListChecked}
             isWhiteList={false}
           >
-            <Typography color="error">{tags.length}</Typography>
+            <Typography color="error">
+              {tagsSelected.length}
+            </Typography>
           </S.RadioLabel>
         </S.RadioWrap>
       </S.RadioGroup>
@@ -175,38 +197,40 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
           )}
         </Grid>
       </Grid>
-      <S.TagsWrap>
-        {tagsSelected.map(tag => {
-          const { id, status, tooltip } = tag;
-          const isDisabled = status === ETagStatus.DISABLED;
-          return (
-            <Tooltip
-              key={id}
-              classes={{ tooltip: classes.tooltip }}
-              title={isDisabled ? disabledTagToolTip : tooltip}
-              placement="bottom"
-              arrow
-            >
-              <S.Tag
-                isWhiteList={isWhiteListChecked}
-                isDisabled={isDisabled}
+      <S.OverflowWrap maxHeight={TAGS_WRAP_MAX_HEIGHT}>
+        <S.TagsWrap ref={tagsWrapRef}>
+          {tagsSelected.map(tag => {
+            const { id, status, tooltip } = tag;
+            const isDisabled = status === ETagStatus.DISABLED;
+            return (
+              <Tooltip
+                key={id}
+                classes={{ tooltip: classes.tooltip }}
+                title={isDisabled ? disabledTagToolTip : tooltip}
+                placement="bottom"
+                arrow
               >
-                <Typography>{id}</Typography>
-                <S.TagClose onClick={() => onCloseTagHandler(tag)}>
-                  <CancelIcon
-                    color={
-                      isWhiteListChecked || isDisabled
-                        ? 'primary'
-                        : 'error'
-                    }
-                  />
-                </S.TagClose>
-              </S.Tag>
-            </Tooltip>
-          );
-        })}
-      </S.TagsWrap>
-      {Boolean(tagsSelected.length) && (
+                <S.Tag
+                  isWhiteList={isWhiteListChecked}
+                  isDisabled={isDisabled}
+                >
+                  <Typography>{id}</Typography>
+                  <S.TagClose onClick={() => onCloseTagHandler(tag)}>
+                    <CancelIcon
+                      color={
+                        isWhiteListChecked || isDisabled
+                          ? 'primary'
+                          : 'error'
+                      }
+                    />
+                  </S.TagClose>
+                </S.Tag>
+              </Tooltip>
+            );
+          })}
+        </S.TagsWrap>
+      </S.OverflowWrap>
+      {needShowAll && (
         <Grid container justify="flex-end">
           <Button color="primary" onClick={onFilterSideOpen}>
             {buttonsConst.show}

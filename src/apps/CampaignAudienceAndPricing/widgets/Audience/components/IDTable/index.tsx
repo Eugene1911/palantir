@@ -27,20 +27,28 @@ function IDTable(props?: IIDTableProps): JSX.Element {
 
   return (
     <TableContainer>
-      <Table stickyHeader>
+      <Table stickyHeader className={classes.padding}>
         <TableHead>
           <TableRow>
             <>
               {leftColumns.map(title => {
                 return (
-                  <TableCell key={title} align="left">
+                  <TableCell
+                    key={title}
+                    align="left"
+                    className={classes.headerCell}
+                  >
                     {title}
                   </TableCell>
                 );
               })}
               {rightColumns.map(title => {
                 return (
-                  <TableCell key={uuid()} align="right">
+                  <TableCell
+                    key={uuid()}
+                    align="right"
+                    className={classes.headerCell}
+                  >
                     {title}
                   </TableCell>
                 );
