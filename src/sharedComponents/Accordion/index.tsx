@@ -45,7 +45,12 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
   const renderTab = (tab: ITab | JSX.Element): JSX.Element => {
     if ('leftSide' in tab) {
       return (
-        <Grid key={uuid()} alignItems="flex-start" container>
+        <Grid
+          key={uuid()}
+          alignItems="flex-start"
+          container
+          className={classes.bottomBorder}
+        >
           <Grid item xs={2} className={classes.tab}>
             {tab.leftSide}
           </Grid>
@@ -56,7 +61,12 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
       );
     }
     return (
-      <Grid key={String(tab)} item xs={12} className={classes.tab}>
+      <Grid
+        key={String(tab)}
+        item
+        xs={12}
+        className={`${classes.tab} ${classes.bottomBorder}`}
+      >
         {tab}
       </Grid>
     );
