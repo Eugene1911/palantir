@@ -40,6 +40,9 @@ const useStyles = makeStyles<
     textAlign: 'left',
     padding: '30px 0',
   },
+  bottomBorder: {
+    borderBottom: 'solid 1px #f2f2f2',
+  },
   subTitle: {
     fontSize: '16px',
     color: 'rgba(42, 42, 52, 0.7)',
@@ -53,6 +56,7 @@ export type TCampaignEditPanelSummaryClasses =
   | 'wrap'
   | 'icon'
   | 'info'
-  | 'subTitle';
+  | 'subTitle'
+  | 'bottomBorder';
 
 export default useStyles;
