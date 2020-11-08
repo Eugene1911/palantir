@@ -12,6 +12,7 @@ import useStyles from './useStyles';
 export interface IRowItem {
   item: string | JSX.Element;
   isDisabled: boolean;
+  isBordered?: boolean;
 }
 
 interface IIDTableProps {

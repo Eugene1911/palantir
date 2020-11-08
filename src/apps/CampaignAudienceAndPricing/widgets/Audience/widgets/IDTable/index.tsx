@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { inject, observer } from 'mobx-react';
+import union from 'lodash/union';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -10,7 +11,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { KEY_ENTER_CODE } from 'config/constants';
-import union from 'lodash/union';
 import IDTable, { IRowItem } from '../../components/IDTable';
 import AddSpotsButton from '../AddSpotsButton';
 import SideTableFooter from '../../components/SideTableFooter';
@@ -25,6 +25,7 @@ import {
 import { EIDModel } from '../../assets/constants/commonAudienceTypes';
 import { EFetchStatus } from '../../../../assets/commonTypes';
 import textToTagsWithCheck from '../../services/textToTagsWithCheck';
+import { useTable } from '../../services/useTable';
 import {
   titles,
   columns,
@@ -33,13 +34,13 @@ import {
 } from '../../assets/constants/tableConst';
 import * as S from './styles';
 
-interface IDTableControllerProps {
+interface IIDTableControllerProps {
   audience?: TAudienceModel;
   filterSide?: TFilterSideStore;
 }
 
 function IDTableController(
-  props?: IDTableControllerProps,
+  props?: IIDTableControllerProps,
 ): JSX.Element {
   const { audience, filterSide } = props;
   const model = audience.filterSideModel;
@@ -53,50 +54,22 @@ function IDTableController(
     [siteFetchStatus, spotFetchStatus],
   );
 
-  const { inputText, onInputChange } = useSearchInput();
-
-  const getFilterTextArray = (): string[] => {
-    const textArray = !!inputText && inputText.split(',');
-    return union(
-      textArray.map(word => word.trim()),
-      [],
-    );
-  };
-
-  const [selectedSites, setSelectedSites] = useState<TSite[]>(
-    audience.selectedSites,
-  );
-  const [selectedSpots, setSelectedSpots] = useState<TSpot[]>(
-    audience.selectedSpots,
-  );
-
-  const [filteredSites, setFilteredSites] = useState<TSite[]>(
+  const {
     selectedSites,
-  );
-  const [filteredSpots, setFilteredSpots] = useState<TSpot[]>(
+    setSelectedSites,
     selectedSpots,
-  );
+    setSelectedSpots,
+    filteredSites,
+    setFilteredSites,
+    filteredSpots,
+    setFilteredSpots,
+    filterSites,
+    filterSpots,
+    getFilterTextArray,
+    preventDefault,
+  } = useTable({ audience });
 
-  const filterSites = (textArray: string[]): void => {
-    setFilteredSites(
-      selectedSites.filter(
-        site =>
-          textArray.includes(String(site.id)) ||
-          textArray.includes(String(site.domain)),
-      ),
-    );
-  };
-
-  const filterSpots = (textArray: string[]): void => {
-    setFilteredSpots(
-      selectedSpots.filter(
-        spot =>
-          textArray.includes(String(spot.id)) ||
-          textArray.includes(String(spot.domain)) ||
-          textArray.includes(String(spot.siteID)),
-      ),
-    );
-  };
+  const { inputText, onInputChange } = useSearchInput();
 
   React.useEffect(() => {
     if (isFetchSuccess) {
@@ -109,17 +82,21 @@ function IDTableController(
     audience.selectedSites,
     audience.selectedSpots,
     isFetchSuccess,
+    setFilteredSites,
+    setFilteredSpots,
+    setSelectedSites,
+    setSelectedSpots,
   ]);
 
   React.useEffect(() => {
     if (model === EIDModel.SITE_ID) {
       inputText.length
-        ? filterSites(getFilterTextArray())
+        ? filterSites(getFilterTextArray(inputText))
         : setFilteredSites(selectedSites);
     }
     if (model === EIDModel.SPOT_ID) {
       inputText.length
-        ? filterSpots(getFilterTextArray())
+        ? filterSpots(getFilterTextArray(inputText))
         : setFilteredSpots(selectedSpots);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,7 +146,7 @@ function IDTableController(
         setFilteredSites(selectedSites);
         setFilteredSpots(selectedSpots);
       } else {
-        const textArray = getFilterTextArray();
+        const textArray = getFilterTextArray(inputText);
 
         if (model === EIDModel.SITE_ID) {
           filterSites(textArray);
@@ -181,9 +158,6 @@ function IDTableController(
       // setInputText('');
     }
   };
-
-  const preventDefault = (event: React.SyntheticEvent) =>
-    event.preventDefault();
 
   const getLeftColumns = React.useCallback(() => {
     if (model === EIDModel.SITE_ID) {

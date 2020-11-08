@@ -1,13 +1,13 @@
-import { Instance, types, flow } from 'mobx-state-tree';
+import { flow, Instance, types } from 'mobx-state-tree';
 import union from 'lodash/union';
 import { getApplications, getSpots } from 'resources/api';
 import { EFetchStatus } from '../../../assets/commonTypes';
 import {
-  EListType,
-  ETrafficType,
-  ETagStatus,
   EIDModel,
+  EListType,
+  ETagStatus,
   ETrafficSource,
+  ETrafficType,
 } from '../assets/constants/commonAudienceTypes';
 
 export const InitialAudienceModel = {
@@ -16,13 +16,13 @@ export const InitialAudienceModel = {
   rtb: true,
   [EIDModel.SITE_ID]: {
     listType: EListType.WHITE,
-    fetchStatus: EFetchStatus.PENDING,
+    fetchStatus: EFetchStatus.NOT_FETCHED,
     tags: [],
     tagsSelected: [],
   },
   [EIDModel.SPOT_ID]: {
     listType: EListType.WHITE,
-    fetchStatus: EFetchStatus.PENDING,
+    fetchStatus: EFetchStatus.NOT_FETCHED,
     tags: [],
     tagsSelected: [],
   },
@@ -47,7 +47,8 @@ const Spot = types.model({
   domain: types.string,
   avg: types.string,
   adZone: types.string,
-  bid: types.optional(types.number, 0),
+  isMultiformat: types.boolean,
+  bid: types.optional(types.string, ''),
   isPrime: types.boolean,
   tooltip: types.string,
 });
@@ -125,6 +126,20 @@ const AudienceModel = types
   .actions(self => ({
     setTrafficType(trafficType: ETrafficType) {
       self.trafficType = trafficType;
+      if (trafficType === ETrafficType.RON) {
+        // @ts-ignore
+        self[EIDModel.SPOT_ID].tagsSelected = [];
+      } else {
+        // @ts-ignore
+        self[EIDModel.SPOT_ID].tagsSelected = self[
+          EIDModel.SPOT_ID
+        ].spots
+          .filter(
+            ({ isPrime }) =>
+              (trafficType === ETrafficType.PRIME) === isPrime,
+          )
+          .map(({ id }) => id);
+      }
     },
     setTrafficSource(trafficSource: ETrafficSource) {
       self.trafficSource = trafficSource;
@@ -143,6 +158,11 @@ const AudienceModel = types
     },
     setTags(sourceArr, model: EIDModel) {
       self[model].tags = getTags(sourceArr);
+    },
+    setSpotBid(bid: string, spotID: string) {
+      const { spots } = self[EIDModel.SPOT_ID];
+      spots.find(({ id }) => id === spotID).bid = bid;
+      self[EIDModel.SPOT_ID].spots = spots;
     },
     setTagsSelected(tagsIDSelected, model: EIDModel) {
       self[model].tagsSelected = tagsIDSelected;
@@ -164,7 +184,6 @@ const AudienceModel = types
         spotIDs.includes(id),
       );
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       self[EIDModel.SPOT_ID].tagsSelected = union(
         self[EIDModel.SPOT_ID].tagsSelected,
@@ -174,6 +193,7 @@ const AudienceModel = types
     // запросы
     getSpotsData: flow(function* getSpotsData() {
       try {
+        self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.PENDING;
         const { data } = yield getSpots({});
         console.log('spots', data.response);
         const spots = data.response.map(spot => {
@@ -185,6 +205,7 @@ const AudienceModel = types
             codename,
             prime,
             name,
+            multiple,
           } = spot;
 
           return {
@@ -195,6 +216,8 @@ const AudienceModel = types
             adZone: codename,
             isPrime: prime,
             tooltip: name,
+            isMultiformat: multiple,
+            bid: '',
           };
         });
 
@@ -214,6 +237,7 @@ const AudienceModel = types
     }),
     getSitesData: flow(function* getAppData() {
       try {
+        self[EIDModel.SITE_ID].fetchStatus = EFetchStatus.PENDING;
         const { data } = yield getApplications({});
         console.log('sites', data.response);
         const sites = data.response.map(site => {

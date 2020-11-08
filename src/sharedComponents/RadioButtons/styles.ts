@@ -12,10 +12,10 @@ export const ButtonsWrap = styled.div`
 export const Button = styled.div<IButtonProps>`
   display: flex;
   cursor: pointer;
-  max-width: 200px;
+  max-width: 240px;
   margin-right: 24px;
   box-sizing: border-box;
-  padding: 12px;
+  padding: 12px 20px 15px 0px;
   border-radius: 12px;
   border: solid 1px
     ${({ checked }) => {
@@ -30,15 +30,27 @@ export const Button = styled.div<IButtonProps>`
 
 export const TitleWrap = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 
 export const Title = styled.div``;
 
-export const Label = styled.div``;
+export const Label = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 1px 10px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: rgba(19, 28, 170, 0.1);
+`;
 
-export const Text = styled.div``;
+export const Text = styled.div`
+  margin-top: 8px;
+`;
 
-export const RadioWrap = styled.div``;
+export const RadioWrap = styled.div`
+  margin-top: -7px;
+`;
 
 export const ContentWrap = styled.div`
   display: flex;
