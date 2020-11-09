@@ -1,4 +1,5 @@
 import { Instance, types, flow } from 'mobx-state-tree';
+import union from 'lodash/union';
 import { getApplications, getSpots } from 'resources/api';
 import { EFetchStatus } from '../../../assets/commonTypes';
 import {
@@ -8,29 +9,30 @@ import {
   EIDModel,
   ETrafficSource,
 } from '../assets/constants/commonAudienceTypes';
-import { mockSubTags } from './mocks';
 
 export const InitialAudienceModel = {
   trafficType: ETrafficType.RON,
   trafficSource: ETrafficSource.ALL,
+  rtb: true,
   [EIDModel.SITE_ID]: {
     listType: EListType.WHITE,
     fetchStatus: EFetchStatus.PENDING,
-    // tags: mockSiteTags,
-    // tagsSelected: mockSiteTags.map(tag => tag.id),
+    tags: [],
+    tagsSelected: [],
   },
   [EIDModel.SPOT_ID]: {
     listType: EListType.WHITE,
     fetchStatus: EFetchStatus.PENDING,
-    // tags: mockSpotTags,
-    // tagsSelected: mockSpotTags.map(tag => tag.id),
+    tags: [],
+    tagsSelected: [],
   },
   [EIDModel.SUB_ID]: {
     listType: EListType.WHITE,
-    tags: mockSubTags,
-    tagsSelected: mockSubTags.map(tag => tag.id),
+    tags: [],
+    tagsSelected: [],
   },
   filterSideModel: EIDModel.SITE_ID,
+  isAdvancedOpen: false,
 };
 
 const Site = types.model({
@@ -48,10 +50,6 @@ const Spot = types.model({
   bid: types.optional(types.number, 0),
   isPrime: types.boolean,
   tooltip: types.string,
-});
-
-const Sub = types.model({
-  id: types.identifier,
 });
 
 const Tag = types.model({
@@ -93,18 +91,16 @@ const AudienceModel = types
     [EIDModel.SUB_ID]: types.model(EIDModel.SUB_ID, {
       listType: types.number,
       tags: types.optional(types.array(Tag), []),
-      tagsSelected: types.optional(
-        types.array(types.reference(Tag)),
-        [],
-      ),
-      subs: types.optional(types.array(Sub), []),
+      tagsSelected: types.optional(types.array(Tag), []),
     }),
     trafficSource: types.enumeration<ETrafficSource>(
       Object.values(ETrafficSource),
     ),
+    rtb: types.boolean,
     filterSideModel: types.enumeration<EIDModel>(
       Object.values(EIDModel),
     ),
+    isAdvancedOpen: types.boolean,
   })
   .views(self => ({
     get selectedSites() {
@@ -133,18 +129,20 @@ const AudienceModel = types
     setTrafficSource(trafficSource: ETrafficSource) {
       self.trafficSource = trafficSource;
     },
+    setRtb(rtb: boolean) {
+      self.rtb = rtb;
+    },
     setListType(listType: EListType, model: EIDModel) {
       self[model].listType = listType;
     },
     setFilterSideModel(model: EIDModel) {
       self.filterSideModel = model;
     },
+    toggleIsAdvancedOpen() {
+      self.isAdvancedOpen = !self.isAdvancedOpen;
+    },
     setTags(sourceArr, model: EIDModel) {
-      self[model].tags = sourceArr.map(({ id, tooltip, status }) => ({
-        id,
-        tooltip,
-        status,
-      }));
+      self[model].tags = getTags(sourceArr);
     },
     setTagsSelected(tagsIDSelected, model: EIDModel) {
       self[model].tagsSelected = tagsIDSelected;
@@ -158,16 +156,20 @@ const AudienceModel = types
       self[model].tagsSelected = [];
     },
     addAllSpots(prime: boolean) {
-      const spotsToAdd = self[EIDModel.SPOT_ID].spots
+      const spotIDs = self[EIDModel.SPOT_ID].spots
         .filter(({ isPrime }) => isPrime === prime)
         .map(spot => spot.id);
 
+      const tagsToAdd = self[EIDModel.SPOT_ID].tags.filter(({ id }) =>
+        spotIDs.includes(id),
+      );
+
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
-      self[EIDModel.SPOT_ID].tagsSelected = [
-        ...self[EIDModel.SPOT_ID].tagsSelected,
-        ...spotsToAdd,
-      ];
+      self[EIDModel.SPOT_ID].tagsSelected = union(
+        self[EIDModel.SPOT_ID].tagsSelected,
+        tagsToAdd,
+      );
     },
     // запросы
     getSpotsData: flow(function* getSpotsData() {
@@ -201,11 +203,12 @@ const AudienceModel = types
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.SUCCESS;
 
         // убрать
-        self[EIDModel.SPOT_ID].tagsSelected = spots.map(
-          tag => tag.id,
-        );
+        // self[EIDModel.SPOT_ID].tagsSelected = spots.map(
+        //   tag => tag.id,
+        // );
       } catch (error) {
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.ERROR;
+        // tslint:disable-next-line:no-console
         console.log('error', error);
       }
     }),
@@ -229,11 +232,12 @@ const AudienceModel = types
         self[EIDModel.SITE_ID].fetchStatus = EFetchStatus.SUCCESS;
 
         // убрать
-        self[EIDModel.SITE_ID].tagsSelected = sites.map(
-          tag => tag.id,
-        );
+        // self[EIDModel.SITE_ID].tagsSelected = sites.map(
+        //   tag => tag.id,
+        // );
       } catch (error) {
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.ERROR;
+        // tslint:disable-next-line:no-console
         console.log('error', error);
       }
     }),

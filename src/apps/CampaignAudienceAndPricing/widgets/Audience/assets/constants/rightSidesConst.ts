@@ -1,11 +1,25 @@
+import { ETrafficSource, ETrafficType } from './commonAudienceTypes';
+
 export const radioTitles = {
   whitelist: 'WHITELIST',
   blacklist: 'BLACKLIST',
-  all: 'ALL',
-  partnerNetworks: 'PARTNER NETWORKS',
-  directInventory: 'DIRECT INVENTORY',
+  [ETrafficSource.ALL]: 'ALL',
+  [ETrafficSource.PARTNER_NETWORKS]: 'PARTNER NETWORKS',
+  [ETrafficSource.DIRECT_INVENTORY]: 'DIRECT INVENTORY',
   yes: 'YES',
   no: 'NO',
+  [ETrafficType.RON]: {
+    title: 'RON',
+    text: 'Run all spots of network.',
+  },
+  [ETrafficType.PRIME]: {
+    title: 'PRIME',
+    text: 'White list of best spots from our direct inventory.',
+  },
+  [ETrafficType.MEMBERS_AREA]: {
+    title: 'MEMBERS AREA',
+    text: 'White list of spots with advanced traffic.',
+  },
 };
 
 export const advanced = 'Advanced';

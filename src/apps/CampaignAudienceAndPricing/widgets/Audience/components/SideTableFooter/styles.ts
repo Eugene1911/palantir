@@ -3,12 +3,12 @@ import Button from '@material-ui/core/Button';
 
 export const Footer = styled.div`
   background-color: #f2f2f2;
-  height: 80px;
+  min-height: 80px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  position: relative;
   bottom: 0;
 `;
 

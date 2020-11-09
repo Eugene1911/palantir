@@ -2,19 +2,22 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
+import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Typography } from '@material-ui/core';
 import { TAudienceModel } from '../../stores/AudienceStore';
 import { buttonsConst } from '../../assets/constants/buttonsConst';
-import * as S from './styles';
+import useStyles from './useStyles';
 
 interface IAddSpotsButton {
   audience?: TAudienceModel;
+  customAdd?: (prime: boolean) => void;
 }
 
 function AddSpotsButton(props: IAddSpotsButton): JSX.Element {
-  const { audience } = props;
+  const { audience, customAdd } = props;
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(
     null,
   );
@@ -27,17 +30,18 @@ function AddSpotsButton(props: IAddSpotsButton): JSX.Element {
 
   const handleClose = (prime: boolean) => {
     setAnchorEl(null);
-    audience.addAllSpots(prime);
+    customAdd ? customAdd(prime) : audience.addAllSpots(prime);
   };
 
   return (
-    <S.Wrapper>
+    <Grid container justify="flex-end">
       <Button color="primary" onClick={handleClick}>
         <AddIcon />
         <Typography>{buttonsConst.addSpots}</Typography>
       </Button>
       <Menu
         id="simple-menu"
+        classes={classes}
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
@@ -50,7 +54,7 @@ function AddSpotsButton(props: IAddSpotsButton): JSX.Element {
           {buttonsConst.addMembersArea}
         </MenuItem>
       </Menu>
-    </S.Wrapper>
+    </Grid>
   );
 }
 

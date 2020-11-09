@@ -1,14 +1,25 @@
 import React from 'react';
+import uuid from 'react-uuid';
 import { ITab } from 'sharedComponents/Accordion';
+import OpenAdvancedTabsButton from 'sharedComponents/OpenAdvancedTabsButton';
 import CampaignFormLabel from 'sharedComponents/CampaignFormLabel';
-import { leftSidesConst } from '../assets/constants/leftSidesConst';
 import TrafficSelectionButtons from '../widgets/trafficSelectionButtons';
 import IDSelector from '../widgets/IDSelector';
 import { EIDModel } from '../assets/constants/commonAudienceTypes';
 import TrafficSourceSelector from '../widgets/trafficSourceSelector';
+import RTBSelector from '../widgets/RTBSelector';
+import { leftSidesConst } from '../assets/constants/leftSidesConst';
 
-function createTabs(): ITab[] {
-  return [
+interface ICreateTabsProps {
+  toggleIsAdvancedOpen?: () => void;
+  isAdvancedOpen: boolean;
+}
+
+function createTabs(
+  props: ICreateTabsProps,
+): Array<ITab | JSX.Element> {
+  const { isAdvancedOpen, toggleIsAdvancedOpen } = props;
+  const tabs = [
     {
       leftSide: (
         <CampaignFormLabel
@@ -54,7 +65,21 @@ function createTabs(): ITab[] {
       ),
       rightSide: <TrafficSourceSelector />,
     },
+    <OpenAdvancedTabsButton
+      key={uuid()}
+      toggleIsAdvancedOpen={toggleIsAdvancedOpen}
+      isAdvancedOpen={isAdvancedOpen}
+    />,
   ];
+
+  if (isAdvancedOpen) {
+    tabs.push({
+      leftSide: <CampaignFormLabel text={leftSidesConst.rtb.title} />,
+      rightSide: <RTBSelector />,
+    });
+  }
+
+  return tabs;
 }
 
 export default createTabs;

@@ -17,6 +17,8 @@ export const columns = {
 
 export const chosen = 'Chosen';
 
+export const subIdInputLabel = 'Sub IDs';
+
 export const searchPlaceholder = {
   [EIDModel.SPOT_ID]: 'Search by site id, site domain and spot id',
   [EIDModel.SITE_ID]: 'Search by site id, site domain',

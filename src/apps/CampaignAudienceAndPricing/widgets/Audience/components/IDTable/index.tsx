@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableContainer from '@material-ui/core/TableContainer';
+import Box from '@material-ui/core/Box';
 import useStyles from './useStyles';
 
 export interface IRowItem {
@@ -26,20 +27,28 @@ function IDTable(props?: IIDTableProps): JSX.Element {
 
   return (
     <TableContainer>
-      <Table stickyHeader>
+      <Table stickyHeader className={classes.padding}>
         <TableHead>
           <TableRow>
             <>
               {leftColumns.map(title => {
                 return (
-                  <TableCell key={title} align="left">
+                  <TableCell
+                    key={title}
+                    align="left"
+                    className={classes.headerCell}
+                  >
                     {title}
                   </TableCell>
                 );
               })}
               {rightColumns.map(title => {
                 return (
-                  <TableCell key={uuid()} align="right">
+                  <TableCell
+                    key={uuid()}
+                    align="right"
+                    className={classes.headerCell}
+                  >
                     {title}
                   </TableCell>
                 );
@@ -60,20 +69,24 @@ function IDTable(props?: IIDTableProps): JSX.Element {
                           <TableCell
                             key={uuid()}
                             color={isDisabled ? 'textSecondary' : ''}
-                            className={`${
+                            className={
                               rowIndex < section.length - 1
                                 ? classes.noBorderCell
                                 : ''
-                            } ${
-                              isDisabled ? classes.disabledCell : ''
-                            }`}
+                            }
                             align={
                               itemIndex >= leftColumns.length
                                 ? 'right'
                                 : 'left'
                             }
                           >
-                            {item}
+                            <Box
+                              className={
+                                isDisabled ? classes.disabledCell : ''
+                              }
+                            >
+                              {item}
+                            </Box>
                           </TableCell>
                         );
                       })}

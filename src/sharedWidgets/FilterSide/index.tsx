@@ -8,12 +8,14 @@ import useFilterSide, {
   TUseFilterSide,
 } from './services/useFilterSide';
 import { TFilterSideStore } from './store/FilterSideStore';
+import { AnyFunction } from '../../sharedTypes';
 
 type TFilterSideProps = {
   children: JSX.Element;
   filterSideStore?: TFilterSideStore;
   title: string;
   width: number;
+  onClose?: AnyFunction;
 };
 
 function FilterSide({
@@ -21,11 +23,17 @@ function FilterSide({
   filterSideStore,
   title,
   width,
+  onClose,
 }: TFilterSideProps): JSX.Element {
   const { classes, drawerVariant }: TUseFilterSide = useFilterSide(
     filterSideStore,
     width,
   );
+
+  const onCloseHandler = () => {
+    onClose?.();
+    filterSideStore.onToggleFilterHandler();
+  };
 
   return (
     <div className={classes.drawer}>
@@ -33,7 +41,6 @@ function FilterSide({
         variant={drawerVariant}
         open={filterSideStore.isFilterSideOpen}
         anchor="right"
-        onClose={filterSideStore.onToggleFilterHandler}
         ModalProps={{
           keepMounted: true,
         }}
@@ -43,9 +50,7 @@ function FilterSide({
       >
         <div className={classes.header}>
           <IconButton
-            onClick={(): void =>
-              filterSideStore.onToggleFilterHandler()
-            }
+            onClick={onCloseHandler}
             className={classes.closeButton}
             aria-label="close button"
           >

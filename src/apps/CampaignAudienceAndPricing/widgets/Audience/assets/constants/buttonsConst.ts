@@ -2,6 +2,7 @@ export const buttonsConst = {
   clear: 'CLEAR ALL',
   copy: 'COPY ALL',
   edit: 'EDIT',
+  show: 'SHOW ALL',
   cancel: 'Cancel',
   done: 'Done',
   addSpots: 'ADD SPOTS',

@@ -7,7 +7,7 @@ import { enterText } from '../../../../assets/commonTypes';
 
 interface ISearchInputProps {
   onKeyPressHandler: (
-    event: React.KeyboardEvent<HTMLInputElement>,
+    event?: React.KeyboardEvent<HTMLInputElement>,
   ) => void;
   placeholder: string;
   inputText: string;
@@ -42,7 +42,11 @@ function SearchInput(props?: ISearchInputProps): JSX.Element {
         endAdornment: (
           <InputAdornment position="end">
             {Boolean(inputText) && (
-              <Typography color="textSecondary" variant="caption">
+              <Typography
+                onClick={() => onKeyPressHandler()}
+                color="textSecondary"
+                variant="caption"
+              >
                 {enterText}
               </Typography>
             )}

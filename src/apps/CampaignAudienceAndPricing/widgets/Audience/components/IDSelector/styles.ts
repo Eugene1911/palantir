@@ -11,6 +11,10 @@ interface ITagProps {
   isDisabled: boolean;
 }
 
+interface IOverflowWrapProps {
+  maxHeight: number;
+}
+
 export const RadioGroup = styled.div`
   display: flex;
   margin-bottom: 34px;
@@ -73,9 +77,15 @@ export const TagClose = styled.div`
 export const TagsWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-top: 24px;
   row-gap: 8px;
   column-gap: 4px;
+  height: auto;
+`;
+
+export const OverflowWrap = styled.div<IOverflowWrapProps>`
+  margin-top: 24px;
+  overflow: hidden;
+  max-height: ${({ maxHeight }) => `${maxHeight}px`};
 `;
 
 export const EditButtonInner = styled.div`

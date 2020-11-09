@@ -5,18 +5,9 @@ export enum ETrafficType {
 }
 
 export const trafficTypes = {
-  [ETrafficType.RON]: {
-    title: 'RON',
-    text: 'Run all spots of network.',
-  },
-  [ETrafficType.PRIME]: {
-    title: 'PRIME',
-    text: 'White list of best spots from our direct inventory.',
-  },
-  [ETrafficType.MEMBERS_AREA]: {
-    title: 'MEMBERS AREA',
-    text: 'White list of spots with advanced traffic.',
-  },
+  [ETrafficType.RON]: 'RON',
+  [ETrafficType.PRIME]: 'Prime',
+  [ETrafficType.MEMBERS_AREA]: 'Members area',
 };
 
 export enum EListType {
@@ -40,3 +31,9 @@ export enum ETrafficSource {
   DIRECT_INVENTORY = 'direct inventory',
   PARTNER_NETWORKS = 'partner networks',
 }
+
+export const trafficSources = {
+  [ETrafficSource.ALL]: 'All traffic',
+  [ETrafficSource.DIRECT_INVENTORY]: 'Direct inventory',
+  [ETrafficSource.PARTNER_NETWORKS]: 'Partner networks',
+};

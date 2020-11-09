@@ -21,7 +21,7 @@ function IDSelectorController(
     onRadioChange: listType => audience.setListType(listType, model),
     closeTag: tagID => audience.closeTag(tagID, model),
     clearTags: () => audience.clearTags(model),
-    onEditClick: () => {
+    onFilterSideOpen: () => {
       audience.setFilterSideModel(model);
       filterSide.onToggleFilterHandler();
     },
@@ -29,9 +29,11 @@ function IDSelectorController(
     tags: audience[model].tags,
     tagsSelected: audience[model].tagsSelected,
     placeholder: model,
+    isNewTagAllowed: model === EIDModel.SUB_ID,
     disabledTagToolTip: disabledTagToolTip(
       model === EIDModel.SPOT_ID,
     ),
+    addSpotsButton: model === EIDModel.SPOT_ID,
   };
 
   return IDSelector(IDSelectorParams);
