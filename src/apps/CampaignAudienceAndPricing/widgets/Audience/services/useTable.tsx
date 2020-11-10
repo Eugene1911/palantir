@@ -5,6 +5,10 @@ import {
   TSite,
   TSpot,
 } from '../stores/AudienceStore';
+import {
+  EIDModel,
+  ETrafficType,
+} from '../assets/constants/commonAudienceTypes';
 
 interface IUseTableProps {
   audience: TAudienceModel;
@@ -20,11 +24,16 @@ export const useTable = (props: IUseTableProps) => {
     audience.selectedSpots,
   );
 
+  const baseSpots =
+    audience.trafficType === ETrafficType.RON
+      ? selectedSpots
+      : audience[EIDModel.SPOT_ID].spots;
+
   const [filteredSites, setFilteredSites] = React.useState<TSite[]>(
     selectedSites,
   );
   const [filteredSpots, setFilteredSpots] = React.useState<TSpot[]>(
-    selectedSpots,
+    baseSpots,
   );
 
   const getFilterTextArray = (inputText: string): string[] => {
@@ -47,7 +56,7 @@ export const useTable = (props: IUseTableProps) => {
 
   const filterSpots = (textArray: string[]): void => {
     setFilteredSpots(
-      selectedSpots.filter(
+      baseSpots.filter(
         spot =>
           textArray.includes(String(spot.id)) ||
           textArray.includes(String(spot.domain)) ||
@@ -56,10 +65,11 @@ export const useTable = (props: IUseTableProps) => {
     );
   };
 
-  const preventDefault = (event: React.SyntheticEvent) =>
+  const preventDefault = (event: React.SyntheticEvent): void =>
     event.preventDefault();
 
   return {
+    baseSpots,
     selectedSites,
     setSelectedSites,
     selectedSpots,

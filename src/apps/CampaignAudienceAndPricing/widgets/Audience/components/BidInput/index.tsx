@@ -1,6 +1,6 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import { KEY_ENTER_CODE } from '../../../../../../config/constants';
+import { KEY_ENTER_CODE } from 'config/constants';
+import * as S from './styles';
 
 interface IBidInputProps {
   setBid: (value: string) => void;
@@ -26,7 +26,7 @@ function BidInput(props: IBidInputProps): JSX.Element {
   };
 
   return (
-    <TextField
+    <S.StyledTextField
       value={inputText}
       onKeyPress={onKeyPressHandler}
       onChange={onChangeHandler}

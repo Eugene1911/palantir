@@ -32,9 +32,9 @@ import { IRowItem } from '../../components/IDTable';
 import BidInput from '../../components/BidInput';
 import { EFetchStatus } from '../../../../assets/commonTypes';
 import { buttonsConst } from '../../assets/constants/buttonsConst';
+import { tagsConst } from './assets/tableConst';
 import useStyles from './useStyles';
 import * as S from './styles';
-import { tagsConst } from './assets/tableConst';
 
 interface IPrimeTableProps {
   audience?: TAudienceModel;
@@ -117,11 +117,14 @@ function PrimeTable(props: IPrimeTableProps): JSX.Element {
 
   const deleteRow = React.useCallback(
     (rowId: string): void => {
-      setSelectedSpots(
-        selectedSpots.filter(({ id }) => id !== rowId),
-      );
+      const newSelected = selectedSpots
+        .filter(({ id }) => id !== rowId)
+        .map(({ id }) => id);
+
+      audience.setTagsSelected(newSelected, EIDModel.SPOT_ID);
     },
-    [selectedSpots, setSelectedSpots],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedSpots],
   );
 
   const leftColumns = React.useMemo(() => {

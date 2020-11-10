@@ -13,12 +13,16 @@ const useStyles = makeStyles<Theme, TIDTableClasses>({
   padding: {
     padding: '0 24px',
   },
+  box: {
+    width: 'fit-content',
+  },
 });
 
 export type TIDTableClasses =
   | 'disabledCell'
   | 'noBorderCell'
   | 'headerCell'
-  | 'padding';
+  | 'padding'
+  | 'box';
 
 export default useStyles;

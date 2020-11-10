@@ -14,3 +14,9 @@ export const PaddingWrap = styled.div`
   padding: 15px 24px;
   display: grid;
 `;
+
+export const BidWrap = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  //max-width: 75px;
+`;

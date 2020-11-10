@@ -194,7 +194,13 @@ const AudienceModel = types
     getSpotsData: flow(function* getSpotsData() {
       try {
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.PENDING;
-        const { data } = yield getSpots({});
+        const { data } = yield getSpots({
+          // // eslint-disable-next-line @typescript-eslint/camelcase
+          // ad_format_id: 2,
+          // // eslint-disable-next-line @typescript-eslint/camelcase
+          // traffic_type: 'prime',
+          // size: 190,
+        });
         console.log('spots', data.response);
         const spots = data.response.map(spot => {
           const {
