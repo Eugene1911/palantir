@@ -12,7 +12,7 @@ export const columns = {
   spotID: 'Spot id',
   adZone: 'Ad Zone',
   avg: 'Avg Impressions',
-  bid: 'Bid',
+  bid: 'Bid, $',
 };
 
 export const chosen = 'Chosen';

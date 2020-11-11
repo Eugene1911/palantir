@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { inject, observer } from 'mobx-react';
+import union from 'lodash/union';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { TFilterSideStore } from 'sharedWidgets/FilterSide/store/FilterSideStore';
-import FilterSide from 'sharedWidgets/FilterSide';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import { KEY_ENTER_CODE } from 'config/constants';
-import union from 'lodash/union';
+import FilterSide from 'sharedWidgets/FilterSide';
+import { TFilterSideStore } from 'sharedWidgets/FilterSide/store/FilterSideStore';
 import IDTable, { IRowItem } from '../../components/IDTable';
 import AddSpotsButton from '../AddSpotsButton';
 import SideTableFooter from '../../components/SideTableFooter';
@@ -22,9 +24,14 @@ import {
   TAudienceModel,
   TSpot,
 } from '../../stores/AudienceStore';
-import { EIDModel } from '../../assets/constants/commonAudienceTypes';
+import {
+  EIDModel,
+  ETrafficType,
+} from '../../assets/constants/commonAudienceTypes';
+import { buttonsConst } from '../../assets/constants/buttonsConst';
 import { EFetchStatus } from '../../../../assets/commonTypes';
 import textToTagsWithCheck from '../../services/textToTagsWithCheck';
+import { useTable } from '../../services/useTable';
 import {
   titles,
   columns,
@@ -32,17 +39,19 @@ import {
   subIdInputLabel,
 } from '../../assets/constants/tableConst';
 import * as S from './styles';
+import BidInput from '../../components/BidInput';
 
-interface IDTableControllerProps {
+interface IIDTableControllerProps {
   audience?: TAudienceModel;
   filterSide?: TFilterSideStore;
 }
 
 function IDTableController(
-  props?: IDTableControllerProps,
+  props?: IIDTableControllerProps,
 ): JSX.Element {
   const { audience, filterSide } = props;
   const model = audience.filterSideModel;
+  const isRON = audience.trafficType === ETrafficType.RON;
 
   const siteFetchStatus = audience[EIDModel.SITE_ID].fetchStatus;
   const spotFetchStatus = audience[EIDModel.SPOT_ID].fetchStatus;
@@ -53,50 +62,23 @@ function IDTableController(
     [siteFetchStatus, spotFetchStatus],
   );
 
-  const { inputText, onInputChange } = useSearchInput();
-
-  const getFilterTextArray = (): string[] => {
-    const textArray = !!inputText && inputText.split(',');
-    return union(
-      textArray.map(word => word.trim()),
-      [],
-    );
-  };
-
-  const [selectedSites, setSelectedSites] = useState<TSite[]>(
-    audience.selectedSites,
-  );
-  const [selectedSpots, setSelectedSpots] = useState<TSpot[]>(
-    audience.selectedSpots,
-  );
-
-  const [filteredSites, setFilteredSites] = useState<TSite[]>(
+  const {
+    baseSpots,
     selectedSites,
-  );
-  const [filteredSpots, setFilteredSpots] = useState<TSpot[]>(
+    setSelectedSites,
     selectedSpots,
-  );
+    setSelectedSpots,
+    filteredSites,
+    setFilteredSites,
+    filteredSpots,
+    setFilteredSpots,
+    filterSites,
+    filterSpots,
+    getFilterTextArray,
+    preventDefault,
+  } = useTable({ audience });
 
-  const filterSites = (textArray: string[]): void => {
-    setFilteredSites(
-      selectedSites.filter(
-        site =>
-          textArray.includes(String(site.id)) ||
-          textArray.includes(String(site.domain)),
-      ),
-    );
-  };
-
-  const filterSpots = (textArray: string[]): void => {
-    setFilteredSpots(
-      selectedSpots.filter(
-        spot =>
-          textArray.includes(String(spot.id)) ||
-          textArray.includes(String(spot.domain)) ||
-          textArray.includes(String(spot.siteID)),
-      ),
-    );
-  };
+  const { inputText, onInputChange } = useSearchInput();
 
   React.useEffect(() => {
     if (isFetchSuccess) {
@@ -109,21 +91,25 @@ function IDTableController(
     audience.selectedSites,
     audience.selectedSpots,
     isFetchSuccess,
+    setFilteredSites,
+    setFilteredSpots,
+    setSelectedSites,
+    setSelectedSpots,
   ]);
 
   React.useEffect(() => {
     if (model === EIDModel.SITE_ID) {
       inputText.length
-        ? filterSites(getFilterTextArray())
+        ? filterSites(getFilterTextArray(inputText))
         : setFilteredSites(selectedSites);
     }
     if (model === EIDModel.SPOT_ID) {
       inputText.length
-        ? filterSpots(getFilterTextArray())
-        : setFilteredSpots(selectedSpots);
+        ? filterSpots(getFilterTextArray(inputText))
+        : setFilteredSpots(baseSpots);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [model, selectedSites, selectedSpots]);
+  }, [baseSpots, model, selectedSites, selectedSpots]);
 
   const deleteRow = (rowId: string): void => {
     if (model === EIDModel.SITE_ID) {
@@ -136,6 +122,34 @@ function IDTableController(
       );
     }
   };
+
+  const selectSpot = React.useCallback(
+    (spot: TSpot) => {
+      setSelectedSpots([...selectedSpots, spot]);
+    },
+    [setSelectedSpots, selectedSpots],
+  );
+
+  const deselectAll = React.useCallback(() => {
+    setSelectedSpots([]);
+  }, [setSelectedSpots]);
+
+  const selectAll = React.useCallback(() => {
+    setSelectedSpots(baseSpots);
+  }, [baseSpots, setSelectedSpots]);
+
+  const isSelected = React.useCallback(
+    (spot: TSpot) => selectedSpots.includes(spot),
+    [selectedSpots],
+  );
+
+  const setBid = React.useCallback(
+    (value: string, spotID: string): void => {
+      audience.setSpotBid(value, spotID);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   const addAllSpots = (prime: boolean): void => {
     const spotsToAdd = audience[EIDModel.SPOT_ID].spots.filter(
@@ -167,9 +181,9 @@ function IDTableController(
 
       if (!inputText) {
         setFilteredSites(selectedSites);
-        setFilteredSpots(selectedSpots);
+        setFilteredSpots(baseSpots);
       } else {
-        const textArray = getFilterTextArray();
+        const textArray = getFilterTextArray(inputText);
 
         if (model === EIDModel.SITE_ID) {
           filterSites(textArray);
@@ -182,20 +196,41 @@ function IDTableController(
     }
   };
 
-  const preventDefault = (event: React.SyntheticEvent) =>
-    event.preventDefault();
-
   const getLeftColumns = React.useCallback(() => {
     if (model === EIDModel.SITE_ID) {
       return [columns.siteID, columns.domain];
     }
-    return [
+
+    const leftColumns = [];
+
+    if (!isRON) {
+      const isChecked = selectedSpots.length === baseSpots.length;
+
+      leftColumns.push(
+        <Checkbox
+          color="primary"
+          checked={selectedSpots.length === baseSpots.length}
+          onChange={isChecked ? deselectAll : selectAll}
+        />,
+      );
+    }
+
+    leftColumns.push(
       columns.siteID,
       columns.domain,
       columns.spotID,
       columns.adZone,
-    ];
-  }, [model]);
+    );
+
+    return leftColumns;
+  }, [
+    baseSpots.length,
+    deselectAll,
+    isRON,
+    model,
+    selectAll,
+    selectedSpots.length,
+  ]);
 
   const getRightColumns = React.useCallback(() => {
     return [
@@ -203,9 +238,9 @@ function IDTableController(
         <S.StyledArrowDownwardIcon />
         {columns.avg}
       </>,
-      '',
+      isRON ? '' : columns.bid,
     ];
-  }, []);
+  }, [isRON]);
 
   const getSiteRow = (site: TSite): IRowItem[] => {
     return [
@@ -240,7 +275,27 @@ function IDTableController(
     spot: TSpot,
     isFirstInSection: boolean,
   ): IRowItem[] => {
-    return [
+    const row = [];
+    const isSpotSelected = isSelected(spot);
+
+    if (!isRON) {
+      row.push({
+        item: (
+          <Checkbox
+            color="primary"
+            checked={isSpotSelected}
+            onChange={
+              isSpotSelected
+                ? () => deleteRow(spot.id)
+                : () => selectSpot(spot)
+            }
+          />
+        ),
+        isDisabled: false,
+      });
+    }
+
+    row.push(
       {
         item: spot.siteID,
         isDisabled: !isFirstInSection,
@@ -267,15 +322,32 @@ function IDTableController(
         item: spot.avg,
         isDisabled: false,
       },
-      {
+    );
+
+    if (isRON) {
+      row.push({
         item: (
           <IconButton onClick={() => deleteRow(spot.id)} size="small">
             <CloseIcon color="secondary" fontSize="small" />
           </IconButton>
         ),
         isDisabled: false,
-      },
-    ];
+      });
+    } else {
+      row.push({
+        item: (
+          <S.BidWrap>
+            <BidInput
+              initValue={spot.bid}
+              setBid={value => setBid(value, spot.id)}
+            />
+          </S.BidWrap>
+        ),
+        isDisabled: false,
+      });
+    }
+
+    return row;
   };
 
   const getRowsSections = (): IRowItem[][][] => {
@@ -328,7 +400,7 @@ function IDTableController(
     setSelectedSites(audience.selectedSites);
     setSelectedSpots(audience.selectedSpots);
     setFilteredSites(audience.selectedSites);
-    setFilteredSpots(audience.selectedSpots);
+    setFilteredSpots(baseSpots);
     setSubIDInputText(subIDDefaultText);
   };
 
@@ -373,7 +445,7 @@ function IDTableController(
 
   const sideTableFooterParams = {
     chosenAmount: getChosenAmount(),
-    onClear: clearAll,
+    onClear: isRON ? clearAll : undefined,
     onDone: () => {
       if (model === EIDModel.SUB_ID) {
         setNewSubIDSelectedTags();
@@ -430,7 +502,13 @@ function IDTableController(
                 {model === EIDModel.SPOT_ID && (
                   <Grid container item justify="flex-end" xs={3}>
                     <Grid item>
-                      <AddSpotsButton customAdd={addAllSpots} />
+                      {isRON ? (
+                        <AddSpotsButton customAdd={addAllSpots} />
+                      ) : (
+                        <Button color="primary" onClick={deselectAll}>
+                          {buttonsConst.deselect}
+                        </Button>
+                      )}
                     </Grid>
                   </Grid>
                 )}

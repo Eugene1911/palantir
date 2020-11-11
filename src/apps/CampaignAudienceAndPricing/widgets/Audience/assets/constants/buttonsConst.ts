@@ -3,6 +3,7 @@ export const buttonsConst = {
   copy: 'COPY ALL',
   edit: 'EDIT',
   show: 'SHOW ALL',
+  deselect: 'DESELECT ALL',
   cancel: 'Cancel',
   done: 'Done',
   addSpots: 'ADD SPOTS',

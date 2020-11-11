@@ -46,11 +46,15 @@ function RadioButtons(props: IRadioButtonsProps): JSX.Element {
                     {title}
                   </Typography>
                 </S.Title>
-                {label && <S.Label>{label}</S.Label>}
+                {label && (
+                  <S.Label>
+                    <Typography color="primary">{label}</Typography>
+                  </S.Label>
+                )}
               </S.TitleWrap>
               <S.Text>
                 <Typography
-                  color={checked ? 'primary' : 'textSecondary'}
+                  color={checked ? 'initial' : 'textSecondary'}
                 >
                   {text || ''}
                 </Typography>

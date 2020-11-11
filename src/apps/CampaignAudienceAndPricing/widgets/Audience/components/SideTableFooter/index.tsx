@@ -6,7 +6,7 @@ import { chosen } from '../../assets/constants/tableConst';
 import * as S from './styles';
 
 interface ISideTableProps {
-  onClear: () => void;
+  onClear?: () => void;
   onDone: () => void;
   onCancel: () => void;
   chosenAmount: number;
@@ -21,9 +21,11 @@ function SideTableFooter(props: ISideTableProps): JSX.Element {
         <S.ChosenLabel>
           <Typography color="primary">{`${chosenAmount} ${chosen}`}</Typography>
         </S.ChosenLabel>
-        <Button color="primary" onClick={onClear}>
-          {buttonsConst.clear}
-        </Button>
+        {onClear && (
+          <Button color="primary" onClick={onClear}>
+            {buttonsConst.clear}
+          </Button>
+        )}
       </S.Wrapper>
       <S.Wrapper>
         <S.StyledButton color="primary" onClick={onCancel}>
