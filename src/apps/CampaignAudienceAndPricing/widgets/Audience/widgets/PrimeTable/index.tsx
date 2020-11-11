@@ -30,9 +30,9 @@ import SearchInput, {
 import { TAudienceModel, TSpot } from '../../stores/AudienceStore';
 import { IRowItem } from '../../components/IDTable';
 import BidInput from '../../components/BidInput';
-import { EFetchStatus } from '../../../../assets/commonTypes';
 import { buttonsConst } from '../../assets/constants/buttonsConst';
 import { tagsConst } from './assets/tableConst';
+import { usePrimeTable } from './usePrimeTable';
 import useStyles from './useStyles';
 import * as S from './styles';
 
@@ -57,33 +57,18 @@ function PrimeTable(props: IPrimeTableProps): JSX.Element {
 
   const { inputText, onInputChange } = useSearchInput();
 
-  const siteFetchStatus = audience[EIDModel.SITE_ID].fetchStatus;
-  const spotFetchStatus = audience[EIDModel.SPOT_ID].fetchStatus;
-  const isFetchSuccess = React.useMemo(
-    () =>
-      siteFetchStatus === EFetchStatus.SUCCESS &&
-      spotFetchStatus === EFetchStatus.SUCCESS,
-    [siteFetchStatus, spotFetchStatus],
-  );
-
-  React.useEffect(() => {
-    if (isFetchSuccess) {
-      setSelectedSpots(audience.selectedSpots);
-      setFilteredSpots(audience.selectedSpots);
-    }
-  }, [
-    audience.selectedSpots,
-    isFetchSuccess,
+  const { updateSelected, updateFiltered } = usePrimeTable({
+    audience,
+    selectedSpots,
     setFilteredSpots,
     setSelectedSpots,
-  ]);
+    getFilterTextArray,
+    filterSpots,
+  });
 
-  React.useEffect(() => {
-    inputText.length
-      ? filterSpots(getFilterTextArray(inputText))
-      : setFilteredSpots(selectedSpots);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedSpots]);
+  React.useEffect(updateSelected, [updateSelected]);
+
+  React.useEffect(() => updateFiltered(inputText), [updateFiltered]);
 
   const onKeyPressHandler = (
     event?: React.KeyboardEvent<HTMLInputElement>,
