@@ -1,40 +1,38 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Radio from '@material-ui/core/Radio';
-import { Typography } from '@material-ui/core';
-import { TAudienceModel } from '../../stores/AudienceStore';
+import Typography from '@material-ui/core/Typography';
 import { radioTitles } from '../../assets/constants/rightSidesConst';
 import * as S from './styles';
 
 interface IRTBSelectorProps {
-  audience?: TAudienceModel;
+  rtb?: boolean;
+  setRtb?: (rtb: boolean) => void;
 }
 
 function RTBSelector(props: IRTBSelectorProps): JSX.Element {
-  const { audience } = props;
-  const selected = audience.rtb;
-  const onRadioChange = audience.setRtb;
+  const { rtb, setRtb } = props;
 
   return (
     <>
       <S.RadioGroup>
         <S.RadioWrap>
           <Radio
-            checked={selected}
+            checked={rtb}
             color="primary"
-            onChange={() => onRadioChange(true)}
+            onChange={() => setRtb(true)}
           />
-          <Typography color={selected ? 'primary' : 'textSecondary'}>
+          <Typography color={rtb ? 'primary' : 'textSecondary'}>
             {radioTitles.yes}
           </Typography>
         </S.RadioWrap>
         <S.RadioWrap>
           <Radio
-            checked={!selected}
+            checked={!rtb}
             color="primary"
-            onChange={() => onRadioChange(false)}
+            onChange={() => setRtb(false)}
           />
-          <Typography color={!selected ? 'primary' : 'textSecondary'}>
+          <Typography color={!rtb ? 'primary' : 'textSecondary'}>
             {radioTitles.no}
           </Typography>
         </S.RadioWrap>
@@ -44,5 +42,6 @@ function RTBSelector(props: IRTBSelectorProps): JSX.Element {
 }
 
 export default inject(({ CampaignAudienceAndPricingStore }) => ({
-  audience: CampaignAudienceAndPricingStore.audience,
+  rtb: CampaignAudienceAndPricingStore.audience.rtb,
+  setRtb: CampaignAudienceAndPricingStore.audience.setRtb,
 }))(observer(RTBSelector));

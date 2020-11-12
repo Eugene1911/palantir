@@ -13,6 +13,7 @@ export const Button = styled.div<IButtonProps>`
   display: flex;
   cursor: pointer;
   max-width: 240px;
+  min-width: 240px;
   margin-right: 24px;
   box-sizing: border-box;
   padding: 12px 20px 15px 0px;

@@ -37,3 +37,5 @@ export const trafficSources = {
   [ETrafficSource.DIRECT_INVENTORY]: 'Direct inventory',
   [ETrafficSource.PARTNER_NETWORKS]: 'Partner networks',
 };
+
+export const accordionTitle = 'Audience';
