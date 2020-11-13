@@ -6,6 +6,7 @@ import AdModelButtons from '../widgets/AdModelButtons';
 import DistributionSelector from '../widgets/DistributionSelector';
 import RTBSelector from '../widgets/RTBPriceSelector';
 import BudgetSelector from '../widgets/BudgetSelector';
+import PriceSelector from '../widgets/Price';
 
 interface ICreateTabsProps {
   showRtb: boolean;
@@ -25,6 +26,15 @@ function createTabs(
         />
       ),
       rightSide: <AdModelButtons />,
+    },
+    {
+      leftSide: (
+        <CampaignFormLabel
+          text={leftSidesConst.price.title}
+          tooltipText={leftSidesConst.price.tooltip}
+        />
+      ),
+      rightSide: <PriceSelector />,
     },
   ];
 

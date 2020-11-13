@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Radio from '@material-ui/core/Radio';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import { radioTitles } from '../../assets/constants/rightSidesConst';
 import { EDistribution } from '../../assets/constants/commonPricingTypes';
 import * as S from './styles';

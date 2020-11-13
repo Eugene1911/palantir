@@ -1,7 +1,9 @@
 import { Instance, types } from 'mobx-state-tree';
 import {
   EAdModel,
+  EBidType,
   EDistribution,
+  EPriceType,
 } from '../assets/constants/commonPricingTypes';
 
 export const InitialPricingModel = {
@@ -13,6 +15,10 @@ export const InitialPricingModel = {
   budget: {
     daily: '100',
     withTotal: false,
+  },
+  price: {
+    priceType: EPriceType.STANDARD,
+    bidType: EBidType.RECOMMENDED,
   },
 };
 
@@ -30,6 +36,16 @@ const PricingModel = types
       daily: types.string,
       withTotal: types.boolean,
       total: types.optional(types.string, ''),
+    }),
+    price: types.model({
+      priceType: types.enumeration<EPriceType>(
+        Object.values(EPriceType),
+      ),
+      bid: types.optional(types.string, ''),
+      bidType: types.enumeration<EBidType>(Object.values(EBidType)),
+      [EBidType.MINIMUM]: types.optional(types.string, ''),
+      [EBidType.TARGET]: types.optional(types.string, ''),
+      [EBidType.RECOMMENDED]: types.optional(types.string, ''),
     }),
   })
   .actions(self => ({
@@ -52,6 +68,15 @@ const PricingModel = types
     },
     toggleBudgetWithTotal() {
       self.budget.withTotal = !self.budget.withTotal;
+    },
+    setPriceType(type: EPriceType) {
+      self.price.priceType = type;
+    },
+    setBidType(type: EBidType) {
+      self.price.bidType = type;
+    },
+    setBid(bid: string) {
+      self.price.bid = bid;
     },
   }));
 

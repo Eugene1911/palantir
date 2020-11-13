@@ -15,4 +15,15 @@ export enum EDistribution {
   EVEN = 'even',
 }
 
+export enum EPriceType {
+  STANDARD = 'standard',
+  DYNAMIC = 'dynamic',
+}
+
+export enum EBidType {
+  MINIMUM = 'minimum',
+  TARGET = 'target',
+  RECOMMENDED = 'recommended',
+}
+
 export const accordionTitle = 'Pricing';

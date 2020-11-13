@@ -5,7 +5,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
-// import Box from '@material-ui/core/Box';
 import { KEY_ENTER_CODE } from 'config/constants';
 import QuestionTooltip from 'sharedComponents/QuestionTooltip';
 import { Grid } from '@material-ui/core';
@@ -76,7 +75,7 @@ function BudgetSelector(props: IBudgetSelectorProps): JSX.Element {
   };
 
   return (
-    <Grid container xs={12} justify="flex-start">
+    <Grid container justify="flex-start">
       <Grid container item xs={3} alignItems="center">
         <Grid item>
           <FormControl>
