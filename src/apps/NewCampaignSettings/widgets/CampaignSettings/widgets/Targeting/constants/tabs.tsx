@@ -1,7 +1,7 @@
 import React from 'react';
 import { ITab } from 'sharedComponents/Accordion';
 import CampaignFormLabel from 'sharedComponents/CampaignFormLabel';
-import OpenAdvancedTabsButton from '../widgets/OpenAdvancedTabsButton';
+import OpenAdvancedTabsButton from 'sharedComponents/OpenAdvancedTabsButton';
 import Countries from '../widgets/Countries';
 import Carriers from '../widgets/Carriers';
 import Browsers from '../widgets/Browsers';
@@ -46,6 +46,7 @@ const advancedTabs: ITab[] = [
 
 export const tabs = (
   isAdvancedOpen: boolean,
+  toggleIsAdvancedOpen: () => void,
 ): Array<ITab | JSX.Element> => [
   {
     leftSide: <CampaignFormLabel text="Countries and region" />,
@@ -88,6 +89,10 @@ export const tabs = (
     leftSide: <CampaignFormLabel text="Carriers" />,
     rightSide: <Carriers />,
   },
-  <OpenAdvancedTabsButton key="openAdvancedTabsButton" />,
+  <OpenAdvancedTabsButton
+    isAdvancedOpen={isAdvancedOpen}
+    toggleIsAdvancedOpen={toggleIsAdvancedOpen}
+    key="openAdvancedTabsButton"
+  />,
   ...(isAdvancedOpen ? advancedTabs : []),
 ];

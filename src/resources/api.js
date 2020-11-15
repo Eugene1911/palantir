@@ -13,6 +13,7 @@ import {
   CATEGORIES,
   LANGUAGES,
   COUNTRIES,
+  REGION,
   CAMPAIGNS,
   APPLICATIONS,
   CAMPAIGNS_CLONE,
@@ -125,6 +126,12 @@ export const getApplications = params =>
  * @param {Object} params
  */
 export const getCountries = params => API.get(COUNTRIES, { params });
+
+/**
+ * Get Region by country code
+ * @param {string} code
+ */
+export const getRegionByCountryCode = code => API.get(REGION(code));
 
 /**
  * Publisher custom report
