@@ -8,23 +8,23 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import { TSettingsModel } from '../../../../stores/SettingsStore';
 import useStyles from './useStyles';
 import { AddMode } from '../../../../constants/addMode';
+import { TCategoriesModel } from '../../../../stores/models/Categories';
 
 interface ICategoriesFilterProps {
-  settings?: TSettingsModel;
+  categories?: TCategoriesModel;
 }
 
 const CategoriesFilter = ({
-  settings,
+  categories,
 }: ICategoriesFilterProps): JSX.Element => {
   const classes = useStyles();
 
   const toggleActiveCategory = (
     event: ChangeEvent<HTMLInputElement>,
   ): void => {
-    settings.toggleActiveCategory(event.target.name);
+    categories.toggleActiveCategory(event.target.name);
   };
 
   return (
@@ -36,31 +36,33 @@ const CategoriesFilter = ({
     >
       <Grid className={classes.switchWrapper} item container>
         <FormGroup row>
-          {Array.from(settings.categoriesList.values()).map(value => (
-            <FormControlLabel
-              key={value.id}
-              control={
-                <Switch
-                  checked={value.active}
-                  onChange={toggleActiveCategory}
-                  name={value.id.toString()}
-                  color="primary"
-                />
-              }
-              label={value.name}
-              labelPlacement="start"
-              className={classes.switch}
-            />
-          ))}
+          {Array.from(categories.categoriesList.values()).map(
+            value => (
+              <FormControlLabel
+                key={value.id}
+                control={
+                  <Switch
+                    checked={value.active}
+                    onChange={toggleActiveCategory}
+                    name={value.id.toString()}
+                    color="primary"
+                  />
+                }
+                label={value.name}
+                labelPlacement="start"
+                className={classes.switch}
+              />
+            ),
+          )}
         </FormGroup>
       </Grid>
       <Grid item>
         <Button
           className={cn(classes.blackList, {
             [classes.activeBlackListButton]:
-              settings.addMode === AddMode.BLACKLIST,
+              categories.addMode === AddMode.BLACKLIST,
           })}
-          onClick={(): void => settings.toggleAddMode()}
+          onClick={(): void => categories.toggleAddMode()}
         >
           <AddIcon className={classes.addIcon} />
           ADD Tags to blacklist
@@ -71,5 +73,5 @@ const CategoriesFilter = ({
 };
 
 export default inject(({ newCampaignSettings }) => ({
-  settings: newCampaignSettings.settings,
+  categories: newCampaignSettings.settings.categories,
 }))(observer(CategoriesFilter));
