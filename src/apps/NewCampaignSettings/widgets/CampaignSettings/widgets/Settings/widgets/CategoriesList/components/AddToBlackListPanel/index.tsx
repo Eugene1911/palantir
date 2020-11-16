@@ -5,15 +5,15 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { TSettingsModel } from '../../../../stores/SettingsStore';
 import useStyles from './useStyles';
+import { TCategoriesModel } from '../../../../stores/models/Categories';
 
 interface IAddToBlackListPanelProps {
-  settings?: TSettingsModel;
+  categories?: TCategoriesModel;
 }
 
 const AddToBlackListPanel = ({
-  settings,
+  categories,
 }: IAddToBlackListPanelProps): JSX.Element => {
   const classes = useStyles();
 
@@ -33,18 +33,18 @@ const AddToBlackListPanel = ({
           </Typography>
           <Typography component="span">
             {' '}
-            {settings.tempBlackListTags.length} selected
+            {categories.tempBlackListTags.length} selected
           </Typography>
         </Grid>
         <Grid item container className={classes.buttons}>
           <Button
-            onClick={(): void => settings.toggleAddMode()}
+            onClick={(): void => categories.toggleAddMode()}
             className={classes.cancel}
           >
             Cancel
           </Button>
           <Button
-            onClick={(): void => settings.toggleAddMode(true)}
+            onClick={(): void => categories.toggleAddMode(true)}
             variant="contained"
             color="primary"
           >
@@ -58,5 +58,5 @@ const AddToBlackListPanel = ({
 };
 
 export default inject(({ newCampaignSettings }) => ({
-  settings: newCampaignSettings.settings,
+  categories: newCampaignSettings.settings.categories,
 }))(observer(AddToBlackListPanel));

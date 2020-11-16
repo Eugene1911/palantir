@@ -6,6 +6,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { AllCustomStatus } from 'sharedTypes';
+import CustomChip from '../CustomChip';
 
 import useStyles from './useStyles';
 
@@ -13,12 +14,14 @@ interface IAllCustomRadioProps {
   onChange: (status: AllCustomStatus) => void;
   value: AllCustomStatus;
   name: string;
+  counter?: string;
 }
 
 const AllCustomRadio = ({
   onChange,
   value,
   name,
+  counter,
 }: IAllCustomRadioProps): JSX.Element => {
   const classes = useStyles();
 
@@ -49,6 +52,7 @@ const AllCustomRadio = ({
               label="CUSTOM"
             />
           </Grid>
+          {counter && <CustomChip isSmall label={counter} isActive />}
         </Grid>
       </RadioGroup>
     </FormControl>

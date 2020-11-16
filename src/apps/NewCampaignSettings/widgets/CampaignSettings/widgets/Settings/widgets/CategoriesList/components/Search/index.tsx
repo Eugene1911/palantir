@@ -7,17 +7,17 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
-import {
-  TCategoryModel,
-  TSettingsModel,
-} from '../../../../stores/SettingsStore';
 import useStyles from './useStyles';
+import {
+  TCategoriesModel,
+  TCategoryModel,
+} from '../../../../stores/models/Categories';
 
 interface ISearchProps {
-  settings?: TSettingsModel;
+  categories?: TCategoriesModel;
 }
 
-const Search = ({ settings }: ISearchProps): JSX.Element => {
+const Search = ({ categories }: ISearchProps): JSX.Element => {
   const classes = useStyles();
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [inputText, setInputText] = useState<string>('');
@@ -28,7 +28,7 @@ const Search = ({ settings }: ISearchProps): JSX.Element => {
     value: string | TCategoryModel,
   ): void => {
     if (typeof value === 'object' && value) {
-      settings.toggleSelectedTag(value.id, value.parent_id);
+      categories.toggleSelectedTag(value.id, value.parent_id);
       setInputText('');
     }
   };
@@ -41,7 +41,7 @@ const Search = ({ settings }: ISearchProps): JSX.Element => {
     const { key } = event;
 
     if (key === 'Enter') {
-      settings.selectTagsBySearch(inputText);
+      categories.selectTagsBySearch(inputText);
 
       setInputText('');
     }
@@ -60,7 +60,7 @@ const Search = ({ settings }: ISearchProps): JSX.Element => {
         item
       >
         <Autocomplete
-          options={settings.getAllAvailableTags}
+          options={categories.getAllAvailableTags}
           getOptionLabel={(option: TCategoryModel): string =>
             option.name
           }
@@ -120,11 +120,11 @@ const Search = ({ settings }: ISearchProps): JSX.Element => {
       {!isFocused && (
         <Grid item>
           <Button
-            onClick={settings.selectAllTags}
+            onClick={categories.selectAllTags}
             className={classes.select}
             color="primary"
           >
-            {settings.isAllTagsSelected
+            {categories.isAllTagsSelected
               ? 'DeSelect all tags'
               : 'Select all Tags'}
           </Button>
@@ -135,5 +135,5 @@ const Search = ({ settings }: ISearchProps): JSX.Element => {
 };
 
 export default inject(({ newCampaignSettings }) => ({
-  settings: newCampaignSettings.settings,
+  categories: newCampaignSettings.settings.categories,
 }))(observer(Search));

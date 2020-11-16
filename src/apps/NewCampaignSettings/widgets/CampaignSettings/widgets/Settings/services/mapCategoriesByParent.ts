@@ -3,7 +3,7 @@ import { cast } from 'mobx-state-tree';
 import {
   TCategoriesGroupByParentIdModel,
   TCategoryModel,
-} from '../stores/SettingsStore';
+} from '../stores/models/Categories';
 
 export const mapCategoriesByParent = (
   data: TCategoryModel[],
