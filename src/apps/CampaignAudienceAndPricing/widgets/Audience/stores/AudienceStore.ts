@@ -1,6 +1,11 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import union from 'lodash/union';
-import { getApplications, getSpots } from 'resources/api';
+import {
+  getApplications,
+  getFormats,
+  // getSpots,
+  getSpotsByApp,
+} from 'resources/api';
 import { EFetchStatus } from '../../../assets/commonTypes';
 import {
   EIDModel,
@@ -33,6 +38,11 @@ export const InitialAudienceModel = {
   },
   filterSideModel: EIDModel.SITE_ID,
   isAdvancedOpen: false,
+  formats: {
+    fetchStatus: EFetchStatus.NOT_FETCHED,
+    allFormats: [],
+    currentFormat: 1,
+  },
 };
 
 const Site = types.model({
@@ -50,7 +60,14 @@ const Spot = types.model({
   isMultiformat: types.boolean,
   bid: types.optional(types.string, ''),
   isPrime: types.boolean,
+  isMemberArea: types.boolean,
   tooltip: types.string,
+});
+
+const SiteWithSpots = types.model({
+  id: types.identifier,
+  domain: types.string,
+  spots: types.array(Spot),
 });
 
 const Tag = types.model({
@@ -60,6 +77,12 @@ const Tag = types.model({
     ETagStatus.ACTIVE,
   ),
   tooltip: types.optional(types.string, ''),
+});
+
+const Format = types.model({
+  id: types.number,
+  name: types.string,
+  type: types.string,
 });
 
 const AudienceModel = types
@@ -85,6 +108,14 @@ const AudienceModel = types
         [],
       ),
       spots: types.optional(types.array(Spot), []),
+      primeSpotsBySites: types.optional(
+        types.array(SiteWithSpots),
+        [],
+      ),
+      membersAreaSpotsBySites: types.optional(
+        types.array(SiteWithSpots),
+        [],
+      ),
       fetchStatus: types.enumeration<EFetchStatus>(
         Object.values(EFetchStatus),
       ),
@@ -102,6 +133,13 @@ const AudienceModel = types
       Object.values(EIDModel),
     ),
     isAdvancedOpen: types.boolean,
+    formats: types.model('formats', {
+      fetchStatus: types.enumeration<EFetchStatus>(
+        Object.values(EFetchStatus),
+      ),
+      currentFormat: types.optional(types.number, 1),
+      allFormats: types.array(Format),
+    }),
   })
   .views(self => ({
     get selectedSites() {
@@ -194,41 +232,65 @@ const AudienceModel = types
     getSpotsData: flow(function* getSpotsData() {
       try {
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.PENDING;
-        const { data } = yield getSpots({
-          // // eslint-disable-next-line @typescript-eslint/camelcase
-          // ad_format_id: 2,
-          // // eslint-disable-next-line @typescript-eslint/camelcase
-          // traffic_type: 'prime',
-          // size: 190,
-        });
-        console.log('spots', data.response);
-        const spots = data.response.map(spot => {
-          const {
-            id,
+        const [prime, membersArea] = yield Promise.all([
+          getSpotsByApp({
             // eslint-disable-next-line @typescript-eslint/camelcase
-            app_id,
-            application,
-            codename,
-            prime,
-            name,
-            multiple,
-          } = spot;
+            ad_format_id: 1,
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            traffic_type: 'prime',
+            size: 1900,
+          }),
+          getSpotsByApp({
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            ad_format_id: 1,
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            traffic_type: 'members_area',
+            size: 1900,
+          }),
+        ]);
+        const dataPrime = prime.data.response;
+        const dataMembersArea = membersArea.data.response;
+        console.log('spots', dataPrime, dataMembersArea);
 
-          return {
-            id: String(id),
-            domain: application?.url || '',
-            avg: 'n/a',
-            siteID: String(app_id),
-            adZone: codename,
-            isPrime: prime,
-            tooltip: name,
-            isMultiformat: multiple,
-            bid: '',
-          };
-        });
+        // @ts-ignore
+        self[
+          EIDModel.SPOT_ID
+        ].primeSpotsBySites = setPrimeSpotsBySites(dataPrime, true);
+        // @ts-ignore
+        self[
+          EIDModel.SPOT_ID
+        ].membersAreaSpotsBySites = setPrimeSpotsBySites(
+          dataMembersArea,
+          false,
+        );
 
-        self[EIDModel.SPOT_ID].spots = spots;
-        self[EIDModel.SPOT_ID].tags = getTags(spots);
+        // const spots = data.response.map(spot => {
+        //   const {
+        //     id,
+        //     // eslint-disable-next-line @typescript-eslint/camelcase
+        //     app_id,
+        //     application,
+        //     codename,
+        //     prime,
+        //     name,
+        //     multiple,
+        //   } = spot;
+        //
+        //   return {
+        //     id: String(id),
+        //     domain: application?.url || '',
+        //     avg: 'n/a',
+        //     siteID: String(app_id),
+        //     adZone: codename,
+        //     isPrime: prime,
+        //     tooltip: name,
+        //     isMultiformat: multiple,
+        //     bid: '',
+        //   };
+        // });
+
+        // self[EIDModel.SPOT_ID].spots = spots;
+        // self[EIDModel.SPOT_ID].tags = getTags(spots);
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.SUCCESS;
 
         // убрать
@@ -271,6 +333,27 @@ const AudienceModel = types
         console.log('error', error);
       }
     }),
+    getFormats: flow(function* getFormat() {
+      try {
+        self.formats.fetchStatus = EFetchStatus.PENDING;
+        const { data } = yield getFormats({});
+        const formats = data.map(({ id, name, type }) => ({
+          id,
+          name,
+          type,
+        }));
+
+        self.formats.allFormats = formats;
+        self.formats.currentFormat = formats[0].id;
+        console.log('formats', formats);
+
+        self.formats.fetchStatus = EFetchStatus.SUCCESS;
+      } catch (error) {
+        self.formats.fetchStatus = EFetchStatus.ERROR;
+        // tslint:disable-next-line:no-console
+        console.log('error', error);
+      }
+    }),
   }));
 
 function getTags(sourceArr) {
@@ -281,8 +364,32 @@ function getTags(sourceArr) {
   }));
 }
 
+function setPrimeSpotsBySites(data, isPrime): TSiteWithSpots[] {
+  return data.map(site => {
+    return {
+      id: String(site.app_id),
+      domain: site.app_url,
+      spots: site.spots.map(spot => {
+        return {
+          id: String(spot.id),
+          domain: site.app_url || '',
+          avg: 'n/a',
+          siteID: String(site.app_id),
+          adZone: spot.codename || 'ad Zone',
+          isPrime,
+          isMemberArea: !isPrime,
+          tooltip: spot.name,
+          isMultiformat: spot.is_multiformat,
+          bid: '',
+        };
+      }),
+    };
+  });
+}
+
 export type TSite = Instance<typeof Site>;
 export type TSpot = Instance<typeof Spot>;
+export type TSiteWithSpots = Instance<typeof SiteWithSpots>;
 export type TTag = Instance<typeof Tag>;
 export type TAudienceModel = Instance<typeof AudienceModel>;
 

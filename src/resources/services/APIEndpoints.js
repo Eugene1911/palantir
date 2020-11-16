@@ -25,6 +25,7 @@ export const TOOLS_CURRENCY_EXCHANGE = `${API_VERSION_1_1}tools/currency_exchang
 export const TOOLS_URL_UNPACK = `${API_VERSION_1_1}tools/url-unpack`;
 export const COUNTRIES = `${API_VERSION_1_1}countries`;
 export const SPOTS = `${API_VERSION_1_1}spots`;
+export const SPOTS_BY_APP = `${API_VERSION_1_1}spots/by-app`;
 export const CATEGORIES = `${API_VERSION_1_1}categories`;
 export const LANGUAGES = `${API_VERSION_1_1}languages`;
 export const OPTIMIZER_STRATEGIES = `${API_VERSION_1_1}optimizer/strategies`;

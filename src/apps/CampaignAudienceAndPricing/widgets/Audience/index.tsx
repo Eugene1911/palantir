@@ -16,6 +16,8 @@ import { EFetchStatus } from '../../assets/commonTypes';
 interface IAudience {
   getSpotsData?: () => void;
   getSitesData?: () => void;
+  getFormats?: () => void;
+  formatFetchStatus?: EFetchStatus;
   spotsFetchStatus?: EFetchStatus;
   sitesFetchStatus?: EFetchStatus;
   toggleIsAdvancedOpen?: () => void;
@@ -28,6 +30,8 @@ function Audience(props?: IAudience): JSX.Element {
   const {
     getSpotsData,
     getSitesData,
+    getFormats,
+    formatFetchStatus,
     spotsFetchStatus,
     sitesFetchStatus,
     isAdvancedOpen,
@@ -41,6 +45,7 @@ function Audience(props?: IAudience): JSX.Element {
     trafficType,
   });
 
+  formatFetchStatus === EFetchStatus.NOT_FETCHED && getFormats();
   spotsFetchStatus === EFetchStatus.NOT_FETCHED && getSpotsData();
   sitesFetchStatus === EFetchStatus.NOT_FETCHED && getSitesData();
 
@@ -60,20 +65,19 @@ function Audience(props?: IAudience): JSX.Element {
   );
 }
 
-export default inject(({ CampaignAudienceAndPricingStore }) => ({
-  getSpotsData: CampaignAudienceAndPricingStore.audience.getSpotsData,
-  getSitesData: CampaignAudienceAndPricingStore.audience.getSitesData,
-  spotsFetchStatus:
-    CampaignAudienceAndPricingStore.audience[EIDModel.SPOT_ID]
-      .fetchStatus,
-  sitesFetchStatus:
-    CampaignAudienceAndPricingStore.audience[EIDModel.SITE_ID]
-      .fetchStatus,
-  isAdvancedOpen:
-    CampaignAudienceAndPricingStore.audience.isAdvancedOpen,
-  toggleIsAdvancedOpen:
-    CampaignAudienceAndPricingStore.audience.toggleIsAdvancedOpen,
-  trafficType: CampaignAudienceAndPricingStore.audience.trafficType,
-  trafficSource:
-    CampaignAudienceAndPricingStore.audience.trafficSource,
-}))(observer(Audience));
+export default inject(({ CampaignAudienceAndPricingStore }) => {
+  const { audience } = CampaignAudienceAndPricingStore;
+
+  return {
+    getSpotsData: audience.getSpotsData,
+    getSitesData: audience.getSitesData,
+    getFormats: audience.getFormats,
+    formatFetchStatus: audience.formats.fetchStatus,
+    spotsFetchStatus: audience[EIDModel.SPOT_ID].fetchStatus,
+    sitesFetchStatus: audience[EIDModel.SITE_ID].fetchStatus,
+    isAdvancedOpen: audience.isAdvancedOpen,
+    toggleIsAdvancedOpen: audience.toggleIsAdvancedOpen,
+    trafficType: audience.trafficType,
+    trafficSource: audience.trafficSource,
+  };
+})(observer(Audience));

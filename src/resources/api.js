@@ -24,6 +24,7 @@ import {
   TOOLS_URL_UNPACK,
   PUBLISHER_CUSTOM_REPORT,
   SPOTS,
+  SPOTS_BY_APP,
   OPTIMIZER_STRATEGIES,
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
@@ -93,6 +94,16 @@ export const getCarriers = params => API.get(CARRIERS, { params });
  */
 export const getSpots = params =>
   API.get(SPOTS, {
+    params,
+    paramsSerializer: requestParamsSerializer,
+  });
+
+/**
+ * Get Spots
+ * @param {Object} params
+ */
+export const getSpotsByApp = params =>
+  API.get(SPOTS_BY_APP, {
     params,
     paramsSerializer: requestParamsSerializer,
   });
