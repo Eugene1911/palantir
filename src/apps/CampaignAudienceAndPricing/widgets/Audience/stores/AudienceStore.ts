@@ -195,11 +195,11 @@ const AudienceModel = types
       try {
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.PENDING;
         const { data } = yield getSpots({
-          // // eslint-disable-next-line @typescript-eslint/camelcase
-          // ad_format_id: 2,
-          // // eslint-disable-next-line @typescript-eslint/camelcase
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          // ad_format_id: 62,
+          // eslint-disable-next-line @typescript-eslint/camelcase
           // traffic_type: 'prime',
-          // size: 190,
+          // size: 15000,
         });
         console.log('spots', data.response);
         const spots = data.response.map(spot => {
@@ -244,7 +244,10 @@ const AudienceModel = types
     getSitesData: flow(function* getAppData() {
       try {
         self[EIDModel.SITE_ID].fetchStatus = EFetchStatus.PENDING;
-        const { data } = yield getApplications({});
+        const { data } = yield getApplications({
+          // page: 1,
+          // size: 15000,
+        });
         console.log('sites', data.response);
         const sites = data.response.map(site => {
           const { id, url, name } = site;
