@@ -24,7 +24,10 @@ const useStyles = makeStyles<Theme, TCampaignActionsClasses>(() => ({
     paddingRight: '23px',
   },
   container: {
-    marginTop: '24px',
+    marginTop: '26px',
+  },
+  loadingContainer: {
+    marginTop: 0,
   },
 }));
 
@@ -34,6 +37,7 @@ export type TCampaignActionsClasses =
   | 'nextButton'
   | 'icon'
   | 'previousButton'
+  | 'loadingContainer'
   | 'container'
   | 'nextIcon';
 
