@@ -28,6 +28,7 @@ import {
   OPTIMIZER_STRATEGIES,
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
+  CAMPAIGN_DRAFT,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -268,6 +269,13 @@ export const putOptimizer = (id, params) =>
  */
 export const getOptimizerVariables = params =>
   API.get(`${OPTIMIZER_VARIABLES}`, { params });
+
+/**
+ * Save campaign as draft
+ * @param {Object} params
+ */
+export const saveCampaignAsDraft = params =>
+  API.post(CAMPAIGN_DRAFT, params);
 
 /**
  * Get campaign statuses

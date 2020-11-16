@@ -35,3 +35,6 @@ export const PUBLISHER_CUSTOM_REPORT = `${API_VERSION_1_1}publisher/custom/repor
 
 // Access Control
 export const RBAC_CHECK_ACCESS = `${API_VERSION_1_1}rbac/check_access`;
+
+// Save campaigns as draft
+export const CAMPAIGN_DRAFT = `${API_VERSION_1_1}campaigns/draft`;
