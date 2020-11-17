@@ -18,6 +18,7 @@ export const DEVICE_BRANDS = `${API_VERSION_1_1}device_brands`;
 export const DEVICE_MODELS = `${API_VERSION_1_1}device_models`;
 export const OS = `${API_VERSION_1_1}os`;
 export const BROWSERS = `${API_VERSION_1_1}browsers`;
+export const MINIMAL_BIDS = `${API_VERSION_1_1}minimal-bids/price`;
 export const CARRIERS = `${API_VERSION_1_1}carriers`;
 export const USERS = `${API_VERSION_1_1}users`;
 export const APPLICATIONS = `${API_VERSION_1_1}applications`;

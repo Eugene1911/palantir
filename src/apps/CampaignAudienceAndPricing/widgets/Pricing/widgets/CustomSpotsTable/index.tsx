@@ -28,8 +28,8 @@ import IDTable, {
 import { useTable } from '../../../Audience/services/useTable';
 import BidInput from '../../../Audience/components/BidInput';
 import MassUpdateButton from '../../components/MassUpdate';
-import * as S from './styles';
 import { useCustomSpotTable } from './useCustomSpotTable';
+import * as S from './styles';
 
 interface ICustomSpotsTableProps {
   audience?: TAudienceModel;

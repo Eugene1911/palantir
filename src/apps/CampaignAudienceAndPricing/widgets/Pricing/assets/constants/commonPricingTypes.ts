@@ -26,4 +26,11 @@ export enum EBidType {
   RECOMMENDED = 'recommended',
 }
 
+export enum EBidStatus {
+  OPTIMAL = 1,
+  COVERED,
+  LOW,
+  ERROR,
+}
+
 export const accordionTitle = 'Pricing';
