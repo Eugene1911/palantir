@@ -6,6 +6,7 @@ import CategoriesModel, {
   InitialCategoriesModel,
 } from './models/Categories';
 import GroupsModel, { InitialGroupsModel } from './models/Groups';
+import { ISettingsResultData } from '../../../../../types/resultTypes';
 
 export const InitialSettingsModel = {
   name: '',
@@ -24,6 +25,11 @@ const SettingsModel = types
   .actions(self => ({
     setName(name: string): void {
       self.name = name;
+    },
+    getSettingsResultData(): ISettingsResultData {
+      return {
+        name: self.name,
+      };
     },
   }));
 
