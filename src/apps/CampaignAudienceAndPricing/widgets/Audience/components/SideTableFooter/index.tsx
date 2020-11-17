@@ -10,10 +10,17 @@ interface ISideTableProps {
   onDone: () => void;
   onCancel: () => void;
   chosenAmount: number;
+  massUpdate?: JSX.Element;
 }
 
 function SideTableFooter(props: ISideTableProps): JSX.Element {
-  const { onClear, chosenAmount, onDone, onCancel } = props;
+  const {
+    onClear,
+    chosenAmount,
+    onDone,
+    onCancel,
+    massUpdate,
+  } = props;
 
   return (
     <S.Footer>
@@ -26,6 +33,7 @@ function SideTableFooter(props: ISideTableProps): JSX.Element {
             {buttonsConst.clear}
           </Button>
         )}
+        {massUpdate}
       </S.Wrapper>
       <S.Wrapper>
         <S.StyledButton color="primary" onClick={onCancel}>

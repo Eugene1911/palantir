@@ -1,6 +1,7 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import union from 'lodash/union';
 import { getApplications, getSpots } from 'resources/api';
+import FilterSideStore from 'sharedWidgets/FilterSide/store/FilterSideStore';
 import { EFetchStatus } from '../../../assets/commonTypes';
 import {
   EIDModel,
@@ -31,8 +32,9 @@ export const InitialAudienceModel = {
     tags: [],
     tagsSelected: [],
   },
-  filterSideModel: EIDModel.SITE_ID,
   isAdvancedOpen: false,
+  filterSideModel: EIDModel.SITE_ID,
+  filterSideStore: FilterSideStore.create({}),
 };
 
 const Site = types.model({
@@ -98,10 +100,11 @@ const AudienceModel = types
       Object.values(ETrafficSource),
     ),
     rtb: types.boolean,
+    isAdvancedOpen: types.boolean,
     filterSideModel: types.enumeration<EIDModel>(
       Object.values(EIDModel),
     ),
-    isAdvancedOpen: types.boolean,
+    filterSideStore: FilterSideStore,
   })
   .views(self => ({
     get selectedSites() {

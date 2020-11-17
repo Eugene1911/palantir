@@ -7,6 +7,7 @@ import {
   adModels,
   accordionTitle,
 } from './assets/constants/commonPricingTypes';
+import CustomSpotsTable from './widgets/CustomSpotsTable';
 import createTabs from './services/createTabs';
 
 interface IPricingProps {
@@ -29,6 +30,7 @@ function Pricing(props: IPricingProps): JSX.Element {
         subInfo3=""
         tabs={tabs}
       />
+      <CustomSpotsTable />
     </>
   );
 }

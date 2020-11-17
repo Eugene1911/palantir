@@ -16,6 +16,7 @@ import { TFilterSideStore } from 'sharedWidgets/FilterSide/store/FilterSideStore
 import IDTable, { IRowItem } from '../../components/IDTable';
 import AddSpotsButton from '../AddSpotsButton';
 import SideTableFooter from '../../components/SideTableFooter';
+import BidInput from '../../components/BidInput';
 import SearchInput, {
   useSearchInput,
 } from '../../components/SearchInput';
@@ -39,7 +40,6 @@ import {
   subIdInputLabel,
 } from '../../assets/constants/tableConst';
 import * as S from './styles';
-import BidInput from '../../components/BidInput';
 
 interface IIDTableControllerProps {
   audience?: TAudienceModel;
@@ -72,13 +72,18 @@ function IDTableController(
     setFilteredSites,
     filteredSpots,
     setFilteredSpots,
+    deselectAll,
+    selectAll,
+    selectSpot,
+    isSelected,
+    setBid,
     filterSites,
     filterSpots,
     getFilterTextArray,
     preventDefault,
   } = useTable({ audience });
 
-  const { inputText, onInputChange } = useSearchInput();
+  const { inputText, setInputText, onInputChange } = useSearchInput();
 
   React.useEffect(() => {
     if (isFetchSuccess) {
@@ -122,34 +127,6 @@ function IDTableController(
       );
     }
   };
-
-  const selectSpot = React.useCallback(
-    (spot: TSpot) => {
-      setSelectedSpots([...selectedSpots, spot]);
-    },
-    [setSelectedSpots, selectedSpots],
-  );
-
-  const deselectAll = React.useCallback(() => {
-    setSelectedSpots([]);
-  }, [setSelectedSpots]);
-
-  const selectAll = React.useCallback(() => {
-    setSelectedSpots(baseSpots);
-  }, [baseSpots, setSelectedSpots]);
-
-  const isSelected = React.useCallback(
-    (spot: TSpot) => selectedSpots.includes(spot),
-    [selectedSpots],
-  );
-
-  const setBid = React.useCallback(
-    (value: string, spotID: string): void => {
-      audience.setSpotBid(value, spotID);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
 
   const addAllSpots = (prime: boolean): void => {
     const spotsToAdd = audience[EIDModel.SPOT_ID].spots.filter(
@@ -402,6 +379,7 @@ function IDTableController(
     setFilteredSites(audience.selectedSites);
     setFilteredSpots(baseSpots);
     setSubIDInputText(subIDDefaultText);
+    setInputText('');
   };
 
   const clearAll = (): void => {
@@ -523,9 +501,8 @@ function IDTableController(
   );
 }
 
-export default inject(
-  ({ CampaignAudienceAndPricingStore, filterSideStore }) => ({
-    audience: CampaignAudienceAndPricingStore.audience,
-    filterSide: filterSideStore,
-  }),
-)(observer(IDTableController));
+export default inject(({ CampaignAudienceAndPricingStore }) => ({
+  audience: CampaignAudienceAndPricingStore.audience,
+  filterSide:
+    CampaignAudienceAndPricingStore.audience.filterSideStore,
+}))(observer(IDTableController));

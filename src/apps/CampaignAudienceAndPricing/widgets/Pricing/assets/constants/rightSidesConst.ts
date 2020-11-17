@@ -42,3 +42,8 @@ export const tooltips = {
     'Please note that depending on your targeting options, \n' +
     'this limitation might not be respected.',
 };
+
+export const unavailableCustomSpots =
+  'When the campaign will run, you will be able to add custom prices for spots which will have any traffic';
+
+export const addCustom = 'ADD CUSTOM';

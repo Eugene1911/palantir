@@ -1,4 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
+import FilterSideStore from 'sharedWidgets/FilterSide/store/FilterSideStore';
 import {
   EAdModel,
   EBidType,
@@ -20,6 +21,7 @@ export const InitialPricingModel = {
     priceType: EPriceType.STANDARD,
     bidType: EBidType.RECOMMENDED,
   },
+  filterSideStore: FilterSideStore.create({}),
 };
 
 const PricingModel = types
@@ -47,6 +49,7 @@ const PricingModel = types
       [EBidType.TARGET]: types.optional(types.string, ''),
       [EBidType.RECOMMENDED]: types.optional(types.string, ''),
     }),
+    filterSideStore: FilterSideStore,
   })
   .actions(self => ({
     setAdModel(adModel: EAdModel) {
