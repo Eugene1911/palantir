@@ -12,20 +12,33 @@ import TargetingModel, {
 import SpecialModel, {
   InitialSpecialModel,
 } from '../widgets/CampaignSettings/widgets/Special/stores/SpecialStore';
+import { INewCampaignSettingsResultData } from '../types/resultTypes';
+import SaveStepActionModel, {
+  InitialSaveStepActionModel,
+} from '../widgets/CampaignSettings/widgets/SaveStepActions/stores/SaveStepActionsStore';
 
 export const InitialNewCampaignSettingsStore = {
+  saveActions: InitialSaveStepActionModel,
   settings: InitialSettingsModel,
   scheduling: InitialSchedulingModel,
   targeting: InitialTargetingModel,
   special: InitialSpecialModel,
 };
 
-const NewCampaignSettingsStore = types.model({
-  settings: SettingsModel,
-  scheduling: SchedulingModel,
-  targeting: TargetingModel,
-  special: SpecialModel,
-});
+const NewCampaignSettingsStore = types
+  .model({
+    saveActions: SaveStepActionModel,
+    settings: SettingsModel,
+    scheduling: SchedulingModel,
+    targeting: TargetingModel,
+    special: SpecialModel,
+  })
+  .actions(self => ({
+    getNewCampaignSettingsResultData(): INewCampaignSettingsResultData {
+      const settingsData = self.settings.getSettingsResultData();
+      return { ...settingsData };
+    },
+  }));
 
 export type TNewCampaignSettingsStore = Instance<
   typeof NewCampaignSettingsStore
