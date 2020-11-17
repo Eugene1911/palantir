@@ -7,6 +7,7 @@ import DistributionSelector from '../widgets/DistributionSelector';
 import RTBSelector from '../widgets/RTBPriceSelector';
 import BudgetSelector from '../widgets/BudgetSelector';
 import PriceSelector from '../widgets/Price';
+import CustomSpotPrices from '../widgets/CustomSpotPrices';
 
 interface ICreateTabsProps {
   showRtb: boolean;
@@ -59,6 +60,15 @@ function createTabs(
         />
       ),
       rightSide: <DistributionSelector />,
+    },
+    {
+      leftSide: (
+        <CampaignFormLabel
+          text={leftSidesConst.customSpot.title}
+          tooltipText={leftSidesConst.customSpot.tooltip}
+        />
+      ),
+      rightSide: <CustomSpotPrices />,
     },
   );
 

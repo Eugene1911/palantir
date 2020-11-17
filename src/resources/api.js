@@ -28,6 +28,7 @@ import {
   OPTIMIZER_STRATEGIES,
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
+  MINIMAL_BIDS,
   CAMPAIGN_DRAFT,
 } from './services/APIEndpoints';
 import API from './services/APIService';
@@ -81,6 +82,13 @@ export const getLanguages = params => API.get(LANGUAGES, { params });
  * @param {Object} params
  */
 export const getBrowsers = params => API.get(BROWSERS, { params });
+
+/**
+ * Get MinimalBids
+ * @param {Object} params
+ */
+export const getMinimalBids = params =>
+  API.post(MINIMAL_BIDS, params);
 
 /**
  * Get Browsers

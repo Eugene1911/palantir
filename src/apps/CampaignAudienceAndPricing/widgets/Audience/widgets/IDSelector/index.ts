@@ -39,9 +39,8 @@ function IDSelectorController(
   return IDSelector(IDSelectorParams);
 }
 
-export default inject(
-  ({ CampaignAudienceAndPricingStore, filterSideStore }) => ({
-    audience: CampaignAudienceAndPricingStore.audience,
-    filterSide: filterSideStore,
-  }),
-)(observer(IDSelectorController));
+export default inject(({ CampaignAudienceAndPricingStore }) => ({
+  audience: CampaignAudienceAndPricingStore.audience,
+  filterSide:
+    CampaignAudienceAndPricingStore.audience.filterSideStore,
+}))(observer(IDSelectorController));

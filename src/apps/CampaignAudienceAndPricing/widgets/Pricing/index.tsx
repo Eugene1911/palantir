@@ -7,16 +7,22 @@ import {
   adModels,
   accordionTitle,
 } from './assets/constants/commonPricingTypes';
+import { EFetchStatus } from '../../assets/commonTypes';
+import CustomSpotsTable from './widgets/CustomSpotsTable';
 import createTabs from './services/createTabs';
 
 interface IPricingProps {
   adModel?: EAdModel;
   showRtb?: boolean;
+  priceFetchStatus?: EFetchStatus;
+  getBidsPrice?: () => void;
 }
 
 function Pricing(props: IPricingProps): JSX.Element {
-  const { adModel, showRtb } = props;
+  const { adModel, showRtb, getBidsPrice, priceFetchStatus } = props;
   const tabs = createTabs({ showRtb });
+
+  priceFetchStatus === EFetchStatus.NOT_FETCHED && getBidsPrice();
 
   return (
     <>
@@ -29,6 +35,7 @@ function Pricing(props: IPricingProps): JSX.Element {
         subInfo3=""
         tabs={tabs}
       />
+      <CustomSpotsTable />
     </>
   );
 }
@@ -37,6 +44,8 @@ export default inject(({ CampaignAudienceAndPricingStore }) => {
   const { pricing, audience } = CampaignAudienceAndPricingStore;
   return {
     adModel: pricing.adModel,
+    getBidsPrice: pricing.getBidsPrice,
+    priceFetchStatus: pricing.price.fetchStatus,
     showRtb: audience.rtb,
   };
 })(observer(Pricing));
