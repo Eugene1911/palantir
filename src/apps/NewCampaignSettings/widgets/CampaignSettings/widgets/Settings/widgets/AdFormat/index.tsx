@@ -9,43 +9,44 @@ import Select from '@material-ui/core/Select';
 import FilterLoader from 'sharedComponents/loaders/FilterLoader';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import { LoadingStatus } from 'sharedTypes';
-import { TSettingsModel } from '../../stores/SettingsStore';
+import { TAdFormatModel } from '../../stores/models/AdFormat';
 
 interface IAdFormatProps {
-  settings?: TSettingsModel;
+  adFormat?: TAdFormatModel;
 }
 
-const AdFormat = ({ settings }: IAdFormatProps): JSX.Element => {
+const AdFormat = ({ adFormat }: IAdFormatProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
 
   useEffect(() => {
-    if (settings.adFormatListStatus === LoadingStatus.INITIAL) {
-      settings.getAdFormatList(infoNotification);
+    if (adFormat.adFormatListStatus === LoadingStatus.INITIAL) {
+      adFormat.getAdFormatList(infoNotification);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Grid alignItems="flex-start" container>
       <Grid xs={3} item>
-        {settings.adFormatListStatus === LoadingStatus.LOADING ? (
+        {adFormat.adFormatListStatus === LoadingStatus.LOADING ? (
           <FilterLoader />
         ) : (
           <FormControl
             fullWidth
             error={
-              settings.adFormatListStatus === LoadingStatus.ERROR
+              adFormat.adFormatListStatus === LoadingStatus.ERROR
             }
           >
             <InputLabel>Ad Format</InputLabel>
             <Select
-              value={settings.adFormat || ''}
+              value={adFormat.adFormat || ''}
               onChange={(event): void =>
-                settings.setAdFormat(event.target.value as number)
+                adFormat.setAdFormat(event.target.value as number)
               }
             >
-              {settings.adFormatList.map(adFormat => (
-                <MenuItem key={adFormat.id} value={adFormat.id}>
-                  {adFormat.name}
+              {adFormat.adFormatList.map(item => (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.name}
                 </MenuItem>
               ))}
             </Select>
@@ -57,5 +58,5 @@ const AdFormat = ({ settings }: IAdFormatProps): JSX.Element => {
 };
 
 export default inject(({ newCampaignSettings }) => ({
-  settings: newCampaignSettings.settings,
+  adFormat: newCampaignSettings.settings.adFormat,
 }))(observer(AdFormat));

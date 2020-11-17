@@ -2,35 +2,37 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import { AllCustomStatus } from 'sharedTypes';
-import { TSettingsModel } from '../../stores/SettingsStore';
 import AllCustomRadio from '../../../../components/AllCustomRadio';
 import CategoriesList from '../CategoriesList';
 import CustomChip from '../../../../components/CustomChip';
+import { TCategoriesModel } from '../../stores/models/Categories';
 
 interface ICategoriesProps {
-  settings?: TSettingsModel;
+  categories?: TCategoriesModel;
 }
 
-const Categories = ({ settings }: ICategoriesProps): JSX.Element => {
+const Categories = ({
+  categories,
+}: ICategoriesProps): JSX.Element => {
   return (
     <>
       <AllCustomRadio
-        onChange={settings.setCategoriesRadio}
-        value={settings.categoriesRadio}
+        onChange={categories.setCategoriesRadio}
+        value={categories.categoriesRadio}
         name="categories"
       />
 
-      {settings.categoriesRadio === AllCustomStatus.CUSTOM && (
+      {categories.categoriesRadio === AllCustomStatus.CUSTOM && (
         <>
           <CustomChip
-            label={settings.selectedTags.length}
+            label={categories.selectedTags.length}
             isActive
             isSmall
           />
           <CustomChip
             label={
-              settings.blackListTags.length +
-              settings.tempBlackListTags.length
+              categories.blackListTags.length +
+              categories.tempBlackListTags.length
             }
             isError
             isSmall
@@ -38,7 +40,7 @@ const Categories = ({ settings }: ICategoriesProps): JSX.Element => {
         </>
       )}
 
-      {settings.categoriesRadio === AllCustomStatus.CUSTOM && (
+      {categories.categoriesRadio === AllCustomStatus.CUSTOM && (
         <CategoriesList />
       )}
     </>
@@ -46,5 +48,5 @@ const Categories = ({ settings }: ICategoriesProps): JSX.Element => {
 };
 
 export default inject(({ newCampaignSettings }) => ({
-  settings: newCampaignSettings.settings,
+  categories: newCampaignSettings.settings.categories,
 }))(observer(Categories));

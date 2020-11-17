@@ -13,6 +13,7 @@ import {
   CATEGORIES,
   LANGUAGES,
   COUNTRIES,
+  REGION,
   CAMPAIGNS,
   APPLICATIONS,
   CAMPAIGNS_CLONE,
@@ -28,8 +29,9 @@ import {
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
   MINIMAL_BIDS,
+  CAMPAIGN_DRAFT,
 } from './services/APIEndpoints';
-import API, { APIServiceDjango } from './services/APIService';
+import API from './services/APIService';
 
 /**
  * Get Ad Formats
@@ -41,8 +43,7 @@ export const getFormats = params => API.get(FORMATS, { params });
  * Get Campaigns groups
  * @param {Object} params
  */
-export const getGroups = params =>
-  APIServiceDjango.get(GROUPS, { params });
+export const getGroups = params => API.get(GROUPS, { params });
 
 /**
  * Get Ad Devices
@@ -133,6 +134,12 @@ export const getApplications = params =>
  * @param {Object} params
  */
 export const getCountries = params => API.get(COUNTRIES, { params });
+
+/**
+ * Get Region by country code
+ * @param {string} code
+ */
+export const getRegionByCountryCode = code => API.get(REGION(code));
 
 /**
  * Publisher custom report
@@ -270,6 +277,13 @@ export const putOptimizer = (id, params) =>
  */
 export const getOptimizerVariables = params =>
   API.get(`${OPTIMIZER_VARIABLES}`, { params });
+
+/**
+ * Save campaign as draft
+ * @param {Object} params
+ */
+export const saveCampaignAsDraft = params =>
+  API.post(CAMPAIGN_DRAFT, params);
 
 /**
  * Get campaign statuses

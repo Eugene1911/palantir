@@ -1,7 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles<Theme, TNameAndGroupClasses>(() => ({
-  container: {},
   select: {
     marginLeft: '24px',
   },
@@ -10,6 +9,6 @@ const useStyles = makeStyles<Theme, TNameAndGroupClasses>(() => ({
   },
 }));
 
-export type TNameAndGroupClasses = 'container' | 'select' | 'manage';
+export type TNameAndGroupClasses = 'select' | 'manage';
 
 export default useStyles;

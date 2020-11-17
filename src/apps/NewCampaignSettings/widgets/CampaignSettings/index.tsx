@@ -5,6 +5,7 @@ import Settings from './widgets/Settings';
 import Scheduling from './widgets/Scheduling';
 import Targeting from './widgets/Targeting';
 import Special from './widgets/Special';
+import SaveStepAction from './widgets/SaveStepActions';
 
 const CampaignSettings = (): JSX.Element => {
   return (
@@ -15,6 +16,7 @@ const CampaignSettings = (): JSX.Element => {
       <Scheduling />
       <Targeting />
       <Special />
+      <SaveStepAction />
     </>
   );
 };

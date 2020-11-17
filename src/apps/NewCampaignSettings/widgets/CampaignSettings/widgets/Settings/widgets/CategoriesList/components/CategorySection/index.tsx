@@ -3,20 +3,20 @@ import { inject, observer } from 'mobx-react';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import {
-  TCategoriesGroupByParentIdModel,
-  TSettingsModel,
-} from '../../../../stores/SettingsStore';
 import CustomChip from '../../../../../../components/CustomChip';
 import useStyles from './useStyles';
+import {
+  TCategoriesModel,
+  TCategoriesGroupByParentIdModel,
+} from '../../../../stores/models/Categories';
 
 interface ICategorySectionProps {
-  settings?: TSettingsModel;
+  categories?: TCategoriesModel;
   section: TCategoriesGroupByParentIdModel;
 }
 
 const CategorySection = ({
-  settings,
+  categories,
   section,
 }: ICategorySectionProps): JSX.Element => {
   const classes = useStyles();
@@ -25,7 +25,7 @@ const CategorySection = ({
     tagId: number,
     categoryId: number,
   ): void => {
-    settings.toggleSelectedTag(tagId, categoryId);
+    categories.toggleSelectedTag(tagId, categoryId);
   };
 
   return (
@@ -51,5 +51,5 @@ const CategorySection = ({
 };
 
 export default inject(({ newCampaignSettings }) => ({
-  settings: newCampaignSettings.settings,
+  categories: newCampaignSettings.settings.categories,
 }))(observer(CategorySection));
