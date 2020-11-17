@@ -29,6 +29,7 @@ import { useTable } from '../../../Audience/services/useTable';
 import BidInput from '../../../Audience/components/BidInput';
 import MassUpdateButton from '../../components/MassUpdate';
 import * as S from './styles';
+import { useCustomSpotTable } from './useCustomSpotTable';
 
 interface ICustomSpotsTableProps {
   audience?: TAudienceModel;
@@ -60,13 +61,7 @@ function CustomSpotsTable(
     isCustomSpot: true,
   });
 
-  const [localBids, setLocalBids] = React.useState<{
-    [id: string]: string;
-  }>({});
-
-  const setBid = (bid: string, id: string): void => {
-    setLocalBids(prev => ({ ...prev, [id]: bid }));
-  };
+  const { setBid, localBids, setLocalBids } = useCustomSpotTable();
 
   const massUpdateBids = (bid: string): void => {
     const newBids = {};
@@ -97,6 +92,7 @@ function CustomSpotsTable(
 
   const saveLocalState = () => {
     saveLocalBids();
+    cancelLocalState();
   };
 
   const onKeyPressHandler = (
