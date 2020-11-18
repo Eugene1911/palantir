@@ -1,7 +1,12 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import indigo from '@material-ui/core/colors/indigo';
 import grey from '@material-ui/core/colors/grey';
-import { statuses, typography, overrides } from './theme.common';
+import {
+  statuses,
+  typography,
+  overrides,
+  bidStatuses,
+} from './theme.common';
 
 const PRIMARY_COLOR = indigo[900]; // '#04084A';
 const SECONDARY_COLOR = grey[400]; // '#bdbdbd';
@@ -28,6 +33,7 @@ export default createMuiTheme({
       red: '#ffd0d9',
     },
     statuses,
+    bidStatuses,
   },
   typography,
   overrides,

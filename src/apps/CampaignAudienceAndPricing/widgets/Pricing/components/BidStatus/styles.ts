@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import useTheme from '@material-ui/core/styles/useTheme';
 import { EBidStatus } from '../../assets/constants/commonPricingTypes';
 
 interface IWrapperProps {
@@ -11,33 +12,35 @@ export const Wrapper = styled.div<IWrapperProps>`
   padding: 6px 0;
   border-radius: 4px;
   color: ${({ status }) => {
-    // const { palette } = useTheme();
+    const { palette } = useTheme();
+    const { bidStatuses } = palette;
 
     switch (status) {
       case EBidStatus.OPTIMAL:
-        return '#84d900';
+        return bidStatuses.green.text;
       case EBidStatus.COVERED:
-        return '#030969';
+        return bidStatuses.blue.text;
       case EBidStatus.LOW:
-        return '#eab20f';
+        return bidStatuses.orange.text;
       case EBidStatus.ERROR:
-        return '#ff103e';
+        return bidStatuses.red.text;
       default:
         return 'inherit';
     }
   }};
   background-color: ${({ status }) => {
-    // const { palette } = useTheme();
+    const { palette } = useTheme();
+    const { bidStatuses } = palette;
 
     switch (status) {
       case EBidStatus.OPTIMAL:
-        return '#f4fde6';
+        return bidStatuses.green.background;
       case EBidStatus.COVERED:
-        return '#e8e9f7';
+        return bidStatuses.blue.background;
       case EBidStatus.LOW:
-        return '#fef8ef';
+        return bidStatuses.orange.background;
       case EBidStatus.ERROR:
-        return '#ffe8ec';
+        return bidStatuses.red.background;
       default:
         return 'inherit';
     }
