@@ -21,10 +21,10 @@ const SaveStepActionModel = types
     ) {
       self.savingStatus = LoadingStatus.LOADING;
       try {
-        const response = yield saveCampaignAsDraft(resultData);
-        console.log('resultData', resultData, 'response', response);
+        // TODO потом получать тут id для редиректа и выполнять successCallback
+        yield saveCampaignAsDraft(resultData);
 
-        successCallback();
+        // successCallback();
         self.savingStatus = LoadingStatus.SUCCESS;
 
         infoNotification({

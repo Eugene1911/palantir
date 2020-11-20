@@ -33,10 +33,27 @@ const NewCampaignSettingsStore = types
     targeting: TargetingModel,
     special: SpecialModel,
   })
+  .views(self => ({
+    get isAllRequiredFieldsFilled(): boolean {
+      return self.settings.isAllRequiredFieldsFilled;
+    },
+  }))
   .actions(self => ({
     getNewCampaignSettingsResultData(): INewCampaignSettingsResultData {
-      const settingsData = self.settings.getSettingsResultData();
-      return { ...settingsData };
+      const settingsData = self.settings.getResultData();
+      const schedulingData = self.scheduling.getResultData();
+      const targetingData = self.targeting.getResultData();
+      const specialData = self.special.getResultData();
+      return {
+        ...settingsData,
+        ...schedulingData,
+        ...targetingData,
+        ...specialData,
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        pricing_model: 'cpm', // TODO временно, для второго шага, потом убрать
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        max_daily: 15, // TODO временно, для второго шага, потом убрать
+      };
     },
   }));
 

@@ -1,4 +1,4 @@
-import { cast, flow, Instance, types } from 'mobx-state-tree';
+import { cast, flow, types } from 'mobx-state-tree';
 import {
   AllCustomStatus,
   INotification,
@@ -17,8 +17,6 @@ const BaseItemModel = types.model({
   tempSelected: types.boolean,
 });
 
-export type TBaseItemModel = Instance<typeof BaseItemModel>;
-
 const BaseTagsAndFilterModel = types
   .model({
     radio: types.enumeration<AllCustomStatus>(
@@ -32,9 +30,7 @@ const BaseTagsAndFilterModel = types
   })
   .views(self => ({
     get selectedCount(): number {
-      return self.list.filter(
-        item => item.selected || item.tempSelected,
-      ).length;
+      return self.list.filter(item => item.tempSelected).length;
     },
   }))
   .actions(self => ({
@@ -51,21 +47,17 @@ const BaseTagsAndFilterModel = types
       const itemIndex = self.list.findIndex(item => item.id === id);
       if (itemIndex !== -1) {
         self.list[itemIndex].selected = false;
+        self.list[itemIndex].tempSelected = false;
       }
     },
     saveSelected(): void {
       self.list.forEach(item => {
-        if (item.tempSelected) {
-          item.tempSelected = false;
-          item.selected = true;
-        }
+        item.selected = item.tempSelected;
       });
     },
     cancelSelected(): void {
       self.list.forEach(item => {
-        if (item.tempSelected) {
-          item.tempSelected = false;
-        }
+        item.tempSelected = item.selected;
       });
     },
     getList: flow(function* getList(
@@ -92,10 +84,14 @@ const BaseTagsAndFilterModel = types
         });
       }
     }),
+    getResultData(): number[] {
+      if (self.radio === AllCustomStatus.ALL) {
+        return [];
+      }
+      return self.list
+        .filter(item => item.selected)
+        .map(item => item.id);
+    },
   }));
-
-export type TBaseTagsAndFilterModel = Instance<
-  typeof BaseTagsAndFilterModel
->;
 
 export default BaseTagsAndFilterModel;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
-import { getBrowsers } from 'resources/api';
+import { getBrowsers, getBrowsersVersions } from 'resources/api';
 import { AllCustomStatus } from 'sharedTypes';
 import { TBrowsersModel } from '../../stores/models/Browsers';
 import AllCustomRadio from '../../../../components/AllCustomRadio';
@@ -23,16 +23,22 @@ const Browsers = ({ browsers }: IBrowsersProps): JSX.Element => {
       {browsers.radio === AllCustomStatus.CUSTOM && (
         <ChipsWithFilter
           list={browsers.list}
+          categoriesList={browsers.categoriesList}
           onSelect={browsers.setSelected}
           filterTitle="Choose browsers"
           loadingStatus={browsers.listStatus}
           getList={(notification): Promise<void> =>
-            browsers.getList(notification, getBrowsers)
+            browsers.getList(
+              notification,
+              getBrowsers,
+              getBrowsersVersions,
+            )
           }
           selectedCount={browsers.selectedCount}
           onSave={browsers.saveSelected}
           onCancel={browsers.cancelSelected}
           onDelete={browsers.deleteSelected}
+          selectAllCategory={browsers.selectAllCategory}
         />
       )}
     </>

@@ -1,7 +1,10 @@
 import { Instance, types } from 'mobx-state-tree';
 import { AllCustomStatus } from 'sharedTypes';
+import { format } from 'date-fns';
 import { timezones } from '../constants/timezones';
 import { ALL_HOURS, FULL } from '../constants/dayTimeRanges';
+import { ISchedulingResultData } from '../../../../../types/resultTypes';
+import { formatDateString } from '../constants/formatDateString';
 
 const TimezoneModel = types.model({
   value: types.number,
@@ -32,7 +35,7 @@ const SchedulingModel = types
       self.timezone = timezone;
     },
     setDate(date: Date, type: 'dateStart' | 'dateEnd'): void {
-      self[type] = date;
+      self[type] = date || undefined;
     },
     // установка сразу всех часов в неделе одной строкой
     setDayTimeRange(newRange: string, status: AllCustomStatus): void {
@@ -54,6 +57,23 @@ const SchedulingModel = types
         self.dayTimeRange.substring(0, hourIndex) +
         newHour +
         self.dayTimeRange.substring(hourIndex + 1);
+    },
+    getResultData(): ISchedulingResultData {
+      /* eslint-disable @typescript-eslint/camelcase */
+      return {
+        hours_targeting: self.dayTimeRange,
+        schedule_timezone: self.timezone,
+        ...(self.dateStart && {
+          schedule_start_time: format(
+            self.dateStart,
+            formatDateString,
+          ),
+        }),
+        ...(self.dateEnd && {
+          schedule_end_time: format(self.dateEnd, formatDateString),
+        }),
+      };
+      /* eslint-enable @typescript-eslint/camelcase */
     },
   }));
 

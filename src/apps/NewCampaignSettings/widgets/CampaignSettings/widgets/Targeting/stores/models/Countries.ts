@@ -15,6 +15,7 @@ const ItemModel = types.model({
   tempSelected: types.boolean,
   asLabel: types.maybe(types.boolean),
   isDefaultStyle: types.maybe(types.boolean),
+  code: types.maybe(types.string),
 });
 
 const CategoryModel = types.model({
@@ -54,12 +55,8 @@ const CountriesModel = types
   })
   .views(self => ({
     get selectedCount(): number {
-      let count = 0;
-      self.categoriesList.forEach(category => {
-        count += +(category.selected || category.tempSelected);
-        category.list.map(item => item);
-      });
-      return count;
+      return self.categoriesList.filter(item => item.tempSelected)
+        .length;
     },
     get getAllCount(): string {
       let countryCount = 0;
@@ -100,12 +97,11 @@ const CountriesModel = types
         );
         if (itemIndex !== -1) {
           parent.list[itemIndex].tempSelected = value;
-          parent.list[itemIndex].selected = false;
-          if (value) {
-            parent.selectedCount += 1;
-          } else {
-            parent.selectedCount -= 1;
-          }
+          parent.selectedCount = parent.list.filter(
+            item => item.tempSelected,
+          ).length;
+          parent.tempSelected =
+            parent.selectedCount === parent.list.length;
         }
       }
     },
@@ -118,12 +114,13 @@ const CountriesModel = types
       }
     },
     deleteSelected(id: number, parentId: number): void {
-      if (!parentId) {
+      if (!parentId && parentId !== 0) {
         const itemIndex = self.categoriesList.findIndex(
           item => item.id === id,
         );
         if (itemIndex !== -1) {
           self.categoriesList[itemIndex].selected = false;
+          self.categoriesList[itemIndex].tempSelected = false;
         }
         const itemListIndex = self.list.findIndex(
           item => item.id === id,
@@ -141,6 +138,7 @@ const CountriesModel = types
           );
           if (itemIndex !== -1) {
             parent.list[itemIndex].selected = false;
+            parent.list[itemIndex].tempSelected = false;
             parent.selectedCount -= 1;
           }
           const itemListIndex = self.list.findIndex(
@@ -156,7 +154,7 @@ const CountriesModel = types
                 self.list.splice(parentListIndex, 1);
               }
             }
-            // чисто лайфхак, чтобы компонент ChipsWithFilter обновлялся
+            // лайфхак, чтобы компонент ChipsWithFilter обновлялся
             self.listStatus = LoadingStatus.ERROR;
             self.listStatus = LoadingStatus.SUCCESS;
           }
@@ -166,27 +164,22 @@ const CountriesModel = types
     saveSelected(): void {
       self.list = cast([]);
       self.categoriesList.forEach(category => {
-        if (category.tempSelected) {
-          category.tempSelected = false;
-          category.selected = true;
-        }
-        if (category.tempSelected || category.selected) {
+        category.selected = category.tempSelected;
+        if (category.selected) {
           self.list.push({
             id: category.id,
             name: category.name,
             parentId: undefined,
             selected: category.selected,
             tempSelected: category.tempSelected,
+            code: category.code,
           });
         } else {
           const tempList = [];
-          category.list.forEach(model => {
-            if (model.tempSelected) {
-              model.tempSelected = false;
-              model.selected = true;
-            }
-            if (model.tempSelected || model.selected) {
-              tempList.push({ ...model, isDefaultStyle: true });
+          category.list.forEach(item => {
+            item.selected = item.tempSelected;
+            if (item.selected) {
+              tempList.push({ ...item, isDefaultStyle: true });
             }
           });
           if (tempList.length) {
@@ -197,6 +190,7 @@ const CountriesModel = types
               selected: category.selected,
               tempSelected: category.tempSelected,
               asLabel: true,
+              code: category.code,
             });
             self.list.push(...tempList);
           }
@@ -205,15 +199,13 @@ const CountriesModel = types
     },
     cancelSelected(): void {
       self.categoriesList.forEach(category => {
-        if (category.tempSelected) {
-          category.tempSelected = false;
-        }
-        category.list.forEach(model => {
-          if (model.tempSelected) {
-            model.tempSelected = false;
-            category.selectedCount -= 1;
-          }
+        category.tempSelected = category.selected;
+        category.list.forEach(item => {
+          item.tempSelected = item.selected;
         });
+        category.selectedCount = category.list.filter(
+          item => item.selected,
+        ).length;
       });
     },
     cancelSelectedRegion(parentId: number): void {
@@ -221,12 +213,12 @@ const CountriesModel = types
         category => category.id === parentId,
       );
       if (parent) {
-        parent.list.forEach(model => {
-          if (model.tempSelected) {
-            model.tempSelected = false;
-            parent.selectedCount -= 1;
-          }
+        parent.list.forEach(item => {
+          item.tempSelected = item.selected;
         });
+        parent.selectedCount = parent.list.filter(
+          item => item.selected,
+        ).length;
       }
     },
     getList: flow(function* getList(
@@ -290,6 +282,34 @@ const CountriesModel = types
         });
       }
     }),
+    getCategoriesResult(): string[] {
+      if (self.radio === AllCustomStatus.ALL) {
+        return [];
+      }
+      return self.list
+        .filter(
+          category =>
+            category.selected &&
+            !category.parentId &&
+            !category.asLabel,
+        )
+        .map(category => category.code);
+    },
+    getItemsResult(): string[] {
+      if (self.radio === AllCustomStatus.ALL) {
+        return [];
+      }
+      const items = [];
+      let activeCategory = '';
+      self.list.forEach(item => {
+        if (item.asLabel) {
+          activeCategory = item.code;
+        } else if (item.parentId) {
+          items.push(`${activeCategory}.${item.id}`);
+        }
+      });
+      return items;
+    },
   }));
 
 export type TCountriesModel = Instance<typeof CountriesModel>;

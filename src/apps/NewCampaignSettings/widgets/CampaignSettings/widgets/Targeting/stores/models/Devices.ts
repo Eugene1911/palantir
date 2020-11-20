@@ -29,6 +29,17 @@ const DevicesModel = types
     toggleDeviceType(index: number, value: boolean): void {
       self.devicesTypes[index] = +value;
     },
+    getResultData(): number[] {
+      const devices = [];
+      self.devicesTypes.forEach((item, i) => {
+        if (self.devicesRadio === AllCustomStatus.ALL) {
+          devices.push(i);
+        } else if (item) {
+          devices.push(i);
+        }
+      });
+      return devices;
+    },
   }));
 
 export type TDevicesModel = Instance<typeof DevicesModel>;

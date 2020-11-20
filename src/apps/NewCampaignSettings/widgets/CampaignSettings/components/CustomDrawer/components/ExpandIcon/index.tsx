@@ -34,6 +34,10 @@ const ExpandIcon = ({
     );
   }
 
+  if (!category.list.length) {
+    return null;
+  }
+
   return (
     <ExpandMoreIcon
       className={

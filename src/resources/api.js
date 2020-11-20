@@ -28,8 +28,10 @@ import {
   OPTIMIZER_STRATEGIES,
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
-  MINIMAL_BIDS,
   CAMPAIGN_DRAFT,
+  BROWSERS_VERSIONS,
+  OS_VERSIONS,
+  MINIMAL_BIDS,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -72,6 +74,13 @@ export const getDevicesModels = params =>
 export const getOSes = params => API.get(OS, { params });
 
 /**
+ * Get OSes versions
+ * @param {Object} params
+ */
+export const getOSesVersions = params =>
+  API.get(OS_VERSIONS, { params });
+
+/**
  * Get Languages
  * @param {Object} params
  */
@@ -82,6 +91,13 @@ export const getLanguages = params => API.get(LANGUAGES, { params });
  * @param {Object} params
  */
 export const getBrowsers = params => API.get(BROWSERS, { params });
+
+/**
+ * Get Browsers versions
+ * @param {Object} params
+ */
+export const getBrowsersVersions = params =>
+  API.get(BROWSERS_VERSIONS, { params });
 
 /**
  * Get MinimalBids

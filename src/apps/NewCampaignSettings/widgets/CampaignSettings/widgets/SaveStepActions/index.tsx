@@ -11,11 +11,13 @@ import { TSaveStepActionModel } from './stores/SaveStepActionsStore';
 interface ISaveStepActionProps {
   getNewCampaignSettingsResultData?: () => INewCampaignSettingsResultData;
   saveActions?: TSaveStepActionModel;
+  isAllRequiredFieldsFilled?: boolean;
 }
 
 const SaveStepAction = ({
   getNewCampaignSettingsResultData,
   saveActions,
+  isAllRequiredFieldsFilled,
 }: ISaveStepActionProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   // const history = useHistory();
@@ -41,6 +43,7 @@ const SaveStepAction = ({
       }
       onSaveAsDraft={(): void => handleSaveAsDraft('/AppList')}
       isLoading={saveActions.savingStatus === LoadingStatus.LOADING}
+      isSaveDisabled={!isAllRequiredFieldsFilled}
     />
   );
 };
@@ -49,4 +52,6 @@ export default inject(({ newCampaignSettings }) => ({
   getNewCampaignSettingsResultData:
     newCampaignSettings.getNewCampaignSettingsResultData,
   saveActions: newCampaignSettings.saveActions,
+  isAllRequiredFieldsFilled:
+    newCampaignSettings.isAllRequiredFieldsFilled,
 }))(observer(SaveStepAction));
