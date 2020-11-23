@@ -18,8 +18,8 @@ export interface IFilterCategoryItem {
   code?: string;
   list: IFilterListItem[];
   selectedCount: number;
-  selected?: boolean;
-  tempSelected?: boolean;
+  selected: boolean;
+  tempSelected: boolean;
   groups?: string[];
 }
 
@@ -63,11 +63,7 @@ const ListCategory = ({
   }
 
   // фильтр по правилу "Только выбранные"
-  if (
-    isSelectedFilterActive &&
-    !category.selected &&
-    !category.tempSelected
-  ) {
+  if (isSelectedFilterActive && !category.tempSelected) {
     return null;
   }
 
@@ -113,11 +109,7 @@ const ListCategory = ({
           }
           onClick={(event): void => event.stopPropagation()}
           onFocus={(event): void => event.stopPropagation()}
-          checked={
-            isAsyncLoadingList
-              ? category.selected || category.tempSelected
-              : category.selectedCount === category.list.length
-          }
+          checked={category.tempSelected}
           color="primary"
         />
         <ListItemName name={category.name} inputText={inputText} />

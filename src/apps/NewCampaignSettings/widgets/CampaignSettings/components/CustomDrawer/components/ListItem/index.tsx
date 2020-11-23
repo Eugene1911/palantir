@@ -48,7 +48,7 @@ const ListItem = ({
           onChange={(evt): void =>
             onSelect(item.id, evt.target.checked, item.parentId)
           }
-          checked={item.selected || item.tempSelected}
+          checked={item.tempSelected}
           color="primary"
         />
       </Grid>

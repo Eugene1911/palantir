@@ -58,7 +58,7 @@ const StartEndDate = ({
           <KeyboardDatePicker
             label="Start date"
             format="MM/dd/yyyy"
-            value={scheduling.dateStart}
+            value={scheduling.dateStart || null}
             onChange={(date): void =>
               scheduling.setDate(date, 'dateStart')
             }
@@ -68,7 +68,7 @@ const StartEndDate = ({
           <KeyboardDatePicker
             label="Start end"
             format="MM/dd/yyyy"
-            value={scheduling.dateEnd}
+            value={scheduling.dateEnd || null}
             onChange={(date): void =>
               scheduling.setDate(date, 'dateEnd')
             }

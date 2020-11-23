@@ -1,10 +1,10 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
-import { getOSes } from 'resources/api';
+import { getOSes, getOSesVersions } from 'resources/api';
+import { AllCustomStatus } from 'sharedTypes';
 import { TOperatingSystemsModel } from '../../stores/models/OperatingSystems';
 import AllCustomRadio from '../../../../components/AllCustomRadio';
-import { AllCustomStatus } from '../../../../../../../../sharedTypes';
 import ChipsWithFilter from '../../../../components/ChipsWithFilter';
 
 interface IOperatingSystemsProps {
@@ -25,16 +25,22 @@ const OperatingSystems = ({
       {operatingSystems.radio === AllCustomStatus.CUSTOM && (
         <ChipsWithFilter
           list={operatingSystems.list}
+          categoriesList={operatingSystems.categoriesList}
           onSelect={operatingSystems.setSelected}
           filterTitle="Choose operating systems"
           loadingStatus={operatingSystems.listStatus}
           getList={(notification): Promise<void> =>
-            operatingSystems.getList(notification, getOSes)
+            operatingSystems.getList(
+              notification,
+              getOSes,
+              getOSesVersions,
+            )
           }
           selectedCount={operatingSystems.selectedCount}
           onSave={operatingSystems.saveSelected}
           onCancel={operatingSystems.cancelSelected}
           onDelete={operatingSystems.deleteSelected}
+          selectAllCategory={operatingSystems.selectAllCategory}
         />
       )}
     </>

@@ -10,6 +10,7 @@ export interface IAccessToCampaignTargeting {
   canUseDeviceModelTargeting(): Promise<boolean>; // relevant for the possibilty to set up device model, brand, release date and price on the Targeting block
   canUseProxyTrafficType(): Promise<boolean>; // relevant for the presence of proxy traffic type options on the Advanced Targeting block
   canUseKeywords(): Promise<boolean>;
+  canUseSpecialSettings(): Promise<boolean>;
 }
 
 export class AccessControlDemo {

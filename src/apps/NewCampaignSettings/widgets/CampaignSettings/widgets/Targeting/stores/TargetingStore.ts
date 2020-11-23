@@ -1,4 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
+import isNil from 'lodash/isNil';
 import CountriesModel, {
   InitialCountriesModel,
 } from './models/Countries';
@@ -33,6 +34,7 @@ import KeywordsModel, {
 import IPRangesModel, {
   InitialIPRangesModel,
 } from './models/IPRanges';
+import { ITargetingResultData } from '../../../../../types/resultTypes';
 
 export const InitialTargetingModel = {
   isAdvancedOpen: false,
@@ -69,6 +71,35 @@ const TargetingModel = types
   .actions(self => ({
     toggleIsAdvancedOpen(): void {
       self.isAdvancedOpen = !self.isAdvancedOpen;
+    },
+    getResultData(): ITargetingResultData {
+      /* eslint-disable @typescript-eslint/camelcase */
+      return {
+        countries: self.countries.getCategoriesResult(),
+        geo_targets: self.countries.getItemsResult(),
+        languages: self.languages.getResultData(),
+        devices: self.devices.getResultData(),
+        device_brands: self.deviceBrands.getCategoriesResult(),
+        device_models: self.deviceBrands.getItemsResult(),
+        ...(self.deviceReleaseDate.date && {
+          device_release_date_offset: self.deviceReleaseDate.date,
+        }),
+        ...(!isNil(self.modelPrice.from) && {
+          device_price_on_release_from: self.modelPrice.from,
+        }),
+        ...(!isNil(self.modelPrice.to) && {
+          device_price_on_release_to: self.modelPrice.to,
+        }),
+        oses: self.operatingSystems.getCategoriesResult(),
+        os_versions: self.operatingSystems.getItemsResult(),
+        browsers: self.browsers.getCategoriesResult(),
+        browser_versions: self.browsers.getItemsResult(),
+        carriers: self.carriers.getResultData(),
+        network_traffic_type: self.proxyTraffic.proxyTrafficRadio,
+        ...self.ipRanges.getResultData(),
+        keywords: self.keywords.list.toJS(),
+      };
+      /* eslint-enable @typescript-eslint/camelcase */
     },
   }));
 

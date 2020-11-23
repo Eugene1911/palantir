@@ -22,14 +22,24 @@ const SettingsModel = types
     adFormat: AdFormatModel,
     categories: CategoriesModel,
   })
+  .views(self => ({
+    get isAllRequiredFieldsFilled(): boolean {
+      return !!self.name && !!self.adFormat.adFormat;
+    },
+  }))
   .actions(self => ({
     setName(name: string): void {
       self.name = name;
     },
-    getSettingsResultData(): ISettingsResultData {
+    getResultData(): ISettingsResultData {
+      /* eslint-disable @typescript-eslint/camelcase */
       return {
         name: self.name,
+        format_id: self.adFormat.adFormat,
+        ...(self.groups.group && { group_id: self.groups.group }),
+        categories: self.categories.getResultData(),
       };
+      /* eslint-enable @typescript-eslint/camelcase */
     },
   }));
 
