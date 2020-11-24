@@ -28,6 +28,7 @@ interface IChipsWithFilterProps {
   topFilterTitle?: string;
   filtersOptions?: Array<{ name: string; count: number } | null>;
   openAsyncFilter?: (category: IFilterCategoryItem) => void;
+  topFilterPermission?: boolean;
 }
 
 const ChipsWithFilter = ({
@@ -46,6 +47,7 @@ const ChipsWithFilter = ({
   topFilterTitle,
   filtersOptions,
   openAsyncFilter,
+  topFilterPermission,
 }: IChipsWithFilterProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const classes = useStyles();
@@ -115,6 +117,7 @@ const ChipsWithFilter = ({
             topFilterTitle={topFilterTitle}
             filtersOptions={filtersOptions}
             openAsyncFilter={openAsyncFilter}
+            topFilterPermission={topFilterPermission}
           />
         </>
       )}

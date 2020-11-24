@@ -7,7 +7,7 @@ class _AccessControl implements IAccessToCampaignTargeting {
     return this._getTruePromise();
   }
 
-  canUseBrowserVersionTargeting(): Promise<boolean> {
+  canUseDeviceModelTargeting(): Promise<boolean> {
     return this._getTruePromise();
   }
 
@@ -15,15 +15,27 @@ class _AccessControl implements IAccessToCampaignTargeting {
     return this._getTruePromise();
   }
 
-  canUseDeviceModelTargeting(): Promise<boolean> {
+  canUseBrowserVersionTargeting(): Promise<boolean> {
     return this._getTruePromise();
   }
 
-  canUseProxyTrafficType(): Promise<boolean> {
+  canUseProxyTrafficTypeTargeting(): Promise<boolean> {
     return this._getTruePromise();
   }
 
-  canUseKeywords(): Promise<boolean> {
+  canUseKeywordsTargeting(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canSetupAnyPriceSpecial(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  isAdvertiserAccountManager(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  isPerformanceManager(): Promise<boolean> {
     return this._getTruePromise();
   }
 

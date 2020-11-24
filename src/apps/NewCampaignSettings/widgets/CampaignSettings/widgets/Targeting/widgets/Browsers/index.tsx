@@ -9,9 +9,13 @@ import ChipsWithFilter from '../../../../components/ChipsWithFilter';
 
 interface IBrowsersProps {
   browsers?: TBrowsersModel;
+  canUseBrowserVersions?: boolean;
 }
 
-const Browsers = ({ browsers }: IBrowsersProps): JSX.Element => {
+const Browsers = ({
+  browsers,
+  canUseBrowserVersions,
+}: IBrowsersProps): JSX.Element => {
   return (
     <>
       <AllCustomRadio
@@ -32,6 +36,7 @@ const Browsers = ({ browsers }: IBrowsersProps): JSX.Element => {
               notification,
               getBrowsers,
               getBrowsersVersions,
+              canUseBrowserVersions,
             )
           }
           selectedCount={browsers.selectedCount}
@@ -47,4 +52,6 @@ const Browsers = ({ browsers }: IBrowsersProps): JSX.Element => {
 
 export default inject(({ newCampaignSettings }) => ({
   browsers: newCampaignSettings.targeting.browsers,
+  canUseBrowserVersions:
+    newCampaignSettings.permissions.canUseBrowserVersions,
 }))(observer(Browsers));

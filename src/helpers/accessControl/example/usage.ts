@@ -5,11 +5,14 @@
 // The interface always must be defined next to client method (here `printTagretingSkills` below)
 export interface IAccessToCampaignTargeting {
   canUseRegionTargeting(): Promise<boolean>; // relevant for the possibilty to set up regions in the country targeting on the Targeting block
-  canUseBrowserVersionTargeting(): Promise<boolean>; // relevant for the possibilty to set up browser versions in the browser custom targeting on the Targeting block
-  canUseOSVersionTargeting(): Promise<boolean>; // relevant for the possibilty to set up os versions in the os custom targeting on the Targeting block
   canUseDeviceModelTargeting(): Promise<boolean>; // relevant for the possibilty to set up device model, brand, release date and price on the Targeting block
-  canUseProxyTrafficType(): Promise<boolean>; // relevant for the presence of proxy traffic type options on the Advanced Targeting block
-  canUseKeywords(): Promise<boolean>;
+  canUseOSVersionTargeting(): Promise<boolean>; // relevant for the possibilty to set up os versions in the os custom targeting on the Targeting block
+  canUseBrowserVersionTargeting(): Promise<boolean>; // relevant for the possibilty to set up browser versions in the browser custom targeting on the Targeting block
+  canUseProxyTrafficTypeTargeting(): Promise<boolean>; // relevant for the presence of proxy traffic type options on the Advanced Targeting block
+  canUseKeywordsTargeting(): Promise<boolean>;
+  canSetupAnyPriceSpecial(): Promise<boolean>;
+  isAdvertiserAccountManager(): Promise<boolean>;
+  isPerformanceManager(): Promise<boolean>;
   canUseSpecialSettings(): Promise<boolean>;
 }
 
@@ -43,12 +46,12 @@ export class AccessControlDemo {
         this._printSkillInfo('use device model targeting', allow),
       );
     this.access
-      .canUseProxyTrafficType()
+      .canUseProxyTrafficTypeTargeting()
       .then(allow =>
         this._printSkillInfo('use proxy traffic type', allow),
       );
     this.access
-      .canUseKeywords()
+      .canUseKeywordsTargeting()
       .then(allow => this._printSkillInfo('use keywords', allow));
   }
 

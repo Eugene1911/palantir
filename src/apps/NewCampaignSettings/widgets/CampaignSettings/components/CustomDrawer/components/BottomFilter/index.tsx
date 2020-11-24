@@ -35,7 +35,7 @@ const BottomFilter = ({
 
   return (
     <>
-      <Box className={classes.topFilter}>
+      <Box className={classes.bottomFilter}>
         <Grid
           justify="space-between"
           alignItems="center"

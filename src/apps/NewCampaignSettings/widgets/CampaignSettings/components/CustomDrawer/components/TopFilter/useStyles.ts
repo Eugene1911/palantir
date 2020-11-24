@@ -12,6 +12,7 @@ const useStyles = makeStyles<Theme, TTopFilterClasses>(() => ({
   },
   topFilter: {
     padding: '16px 24px 8px',
+    marginBottom: '-16px',
   },
 }));
 
