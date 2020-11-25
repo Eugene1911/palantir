@@ -199,6 +199,12 @@ const CategoriesModel = types
         }
       }
     },
+    getResultData(): number[] {
+      if (self.categoriesRadio === AllCustomStatus.ALL) {
+        return [];
+      }
+      return self.selectedTags.map(tag => tag.id);
+    },
   }));
 
 export type TCategoriesModel = Instance<typeof CategoriesModel>;

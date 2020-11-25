@@ -3,7 +3,7 @@ import { checkRBACPermissions } from 'resources/api';
 /* TODO use here a real client code interfaces; remove this one */
 import { IAccessToCampaignTargeting } from 'helpers/accessControl/example/usage';
 
-// Alse the implementation which uses API RBAC endpoints to resolve the methods of the interface will be:
+// Also the implementation which uses API RBAC endpoints to resolve the methods of the interface will be:
 class _AccessControl implements IAccessToCampaignTargeting {
   private static _permCampUseRegionSetting =
     'campaign.use_region_settingg';
@@ -15,6 +15,8 @@ class _AccessControl implements IAccessToCampaignTargeting {
   private static _permCampUseNetworkTrafficType =
     'campaign.use_network_traffic_type';
   private static _permCampUseKeywords = 'campaign.use_keywords';
+  private static _permUseSpecialSettings =
+    'campaign.use_special_fields';
 
   canUseRegionTargeting(): Promise<boolean> {
     return this._checkPerm(_AccessControl._permCampUseRegionSetting);
@@ -42,6 +44,10 @@ class _AccessControl implements IAccessToCampaignTargeting {
 
   canUseKeywords(): Promise<boolean> {
     return this._checkPerm(_AccessControl._permCampUseKeywords);
+  }
+
+  canUseSpecialSettings(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permUseSpecialSettings);
   }
 
   private _checkPerm(perm: string): Promise<boolean> {

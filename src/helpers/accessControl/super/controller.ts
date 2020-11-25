@@ -27,6 +27,10 @@ class _AccessControl implements IAccessToCampaignTargeting {
     return this._getTruePromise();
   }
 
+  canUseSpecialSettings(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
   private _getTruePromise(): Promise<boolean> {
     return Promise.resolve(true);
   }
