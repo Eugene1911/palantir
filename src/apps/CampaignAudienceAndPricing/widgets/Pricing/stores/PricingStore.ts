@@ -1,13 +1,17 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import FilterSideStore from 'sharedWidgets/FilterSide/store/FilterSideStore';
+import { getMinimalBids } from 'resources/api';
 import {
   EAdModel,
   EBidType,
   EDistribution,
   EPriceType,
 } from '../assets/constants/commonPricingTypes';
-import { EFetchStatus } from '../../../assets/commonTypes';
-import { getMinimalBids } from '../../../../../resources/api';
+import {
+  EFetchStatus,
+  IPricingResultData,
+} from '../../../assets/commonTypes';
+import { resultPricingModel } from '../assets/constants/resultConst';
 
 export const InitialPricingModel = {
   adModel: EAdModel.CPM,
@@ -88,6 +92,23 @@ const PricingModel = types
     setBid(bid: string) {
       self.price.bid = bid;
     },
+    getPricingResultData(): IPricingResultData {
+      const result = {
+        /* eslint-disable @typescript-eslint/camelcase */
+        pricing_model: resultPricingModel[self.adModel],
+        price: Number(self.price.bid),
+        dynamic: self.price.priceType === EPriceType.DYNAMIC,
+        price_rtb:
+          self.rtb.price.length > 0 ? Number(self.rtb.price) : null,
+        max_daily: Number(self.budget.daily),
+        // max_total: self.budget.total
+        //   ? Number(self.budget.total)
+        //   : null,
+        /* eslint-enable @typescript-eslint/camelcase */
+      };
+
+      return result;
+    },
     // запросы
     getBidsPrice: flow(function* getBidsPrice() {
       try {
@@ -98,6 +119,7 @@ const PricingModel = types
           pricing_model: self.adModel,
           traffic_source_type: 'all',
           traffic_type: 'ron',
+          stretch_time: self.distribution === EDistribution.EVEN,
           /* eslint-enable @typescript-eslint/camelcase */
         });
         // console.log('bids', data);

@@ -1,8 +1,15 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import union from 'lodash/union';
-import { getApplications, getSpots } from 'resources/api';
+import {
+  getApplications,
+  getSpots,
+  saveSpotPrice,
+} from 'resources/api';
 import FilterSideStore from 'sharedWidgets/FilterSide/store/FilterSideStore';
-import { EFetchStatus } from '../../../assets/commonTypes';
+import {
+  EFetchStatus,
+  IAudienceResultData,
+} from '../../../assets/commonTypes';
 import {
   EIDModel,
   EListType,
@@ -10,6 +17,10 @@ import {
   ETrafficSource,
   ETrafficType,
 } from '../assets/constants/commonAudienceTypes';
+import {
+  resultTrafficType,
+  resultTrafficSourceType,
+} from '../assets/constants/resultConst';
 
 export const InitialAudienceModel = {
   trafficType: ETrafficType.RON,
@@ -192,6 +203,58 @@ const AudienceModel = types
         self[EIDModel.SPOT_ID].tagsSelected,
         tagsToAdd,
       );
+    },
+    saveBids() {
+      const selectedIds = self[EIDModel.SPOT_ID].tagsSelected.map(
+        ({ id }) => id,
+      );
+
+      const selectedSpots = self[
+        EIDModel.SPOT_ID
+      ].spots.filter(({ id }) => selectedIds.includes(id));
+
+      selectedSpots.forEach(
+        // Добавить Campaign id
+        ({ bid, id }) => bid && saveSpotPrice(1, id, {}),
+      );
+    },
+    getAudienceResultData(): IAudienceResultData {
+      const isSitesBlack =
+        self[EIDModel.SITE_ID].listType === EListType.BLACK;
+      const isSpotsBlack =
+        self[EIDModel.SPOT_ID].listType === EListType.BLACK;
+      const isSubsBlack =
+        self[EIDModel.SUB_ID].listType === EListType.BLACK;
+      const getIds = tags => tags.map(({ id }) => Number(id));
+
+      const result = {
+        /* eslint-disable @typescript-eslint/camelcase */
+        traffic_type: resultTrafficType[self.trafficType],
+        spots: isSpotsBlack
+          ? []
+          : getIds(self[EIDModel.SPOT_ID].tagsSelected),
+        exclude_spots: !isSpotsBlack
+          ? []
+          : getIds(self[EIDModel.SPOT_ID].tagsSelected),
+        enabled_applications: isSitesBlack
+          ? []
+          : getIds(self[EIDModel.SITE_ID].tagsSelected),
+        disabled_applications: !isSitesBlack
+          ? []
+          : getIds(self[EIDModel.SITE_ID].tagsSelected),
+        enabled_subids: isSubsBlack
+          ? []
+          : self[EIDModel.SUB_ID].tagsSelected.map(({ id }) => id),
+        disabled_subids: !isSubsBlack
+          ? []
+          : self[EIDModel.SUB_ID].tagsSelected.map(({ id }) => id),
+        traffic_source_type:
+          resultTrafficSourceType[self.trafficSource],
+        disable_rtb: !self.rtb,
+        /* eslint-enable @typescript-eslint/camelcase */
+      };
+
+      return result;
     },
     // запросы
     getSpotsData: flow(function* getSpotsData() {
