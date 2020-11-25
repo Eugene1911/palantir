@@ -23,7 +23,15 @@ const SaveStepAction = ({
   const history = useHistory();
 
   const handleSaveAsDraft = (link: string): void => {
-    const resultData = getResultData();
+    let resultData = getResultData();
+    resultData = {
+      name: 'not empty name',
+      /* eslint-disable @typescript-eslint/camelcase */
+      format_id: 62,
+      hours_targeting: 'not empty hours_targeting',
+      /* eslint-enable @typescript-eslint/camelcase */
+      ...resultData,
+    };
     const successCallback = (): void => history.push(link);
     saveActions.saveCampaign(
       infoNotification,

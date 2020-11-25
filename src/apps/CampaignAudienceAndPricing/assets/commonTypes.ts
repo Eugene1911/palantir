@@ -28,4 +28,8 @@ export interface IPricingResultData {
 
 export interface ICampaignAudienceAndPricingResultData
   extends IAudienceResultData,
-    IPricingResultData {}
+    IPricingResultData {
+  name?: string;
+  format_id?: number;
+  hours_targeting?: string;
+}
