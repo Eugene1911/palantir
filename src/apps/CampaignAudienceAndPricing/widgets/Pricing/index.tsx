@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Accordion from 'sharedComponents/Accordion';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import { inject, observer } from 'mobx-react';
+import AccessControl from 'helpers/accessControl/controller';
 import {
   EAdModel,
   adModels,
@@ -11,7 +12,9 @@ import {
 } from './assets/constants/commonPricingTypes';
 import { EFetchStatus } from '../../assets/commonTypes';
 import CustomSpotsTable from './widgets/CustomSpotsTable';
-import createTabs from './services/createTabs';
+import createTabs, {
+  IPricingPermissions,
+} from './services/createTabs';
 import { textFieldLabels } from './assets/constants/rightSidesConst';
 
 interface IPricingProps {
@@ -36,7 +39,31 @@ function Pricing(props: IPricingProps): JSX.Element {
     priceBid,
     priceType,
   } = props;
-  const tabs = createTabs({ showRtb });
+  const [permissions, setPermissions] = useState<IPricingPermissions>(
+    {
+      isCPAAvailable: false,
+      isRTBAvailable: false,
+    },
+  );
+
+  const getPricingPermissions = async () => {
+    const [isCPAAvailable, isRTBAvailable] = await Promise.all([
+      AccessControl.canUseAdModelCPA(),
+      AccessControl.canUseRtb(),
+    ]);
+
+    setPermissions({
+      isCPAAvailable,
+      isRTBAvailable,
+    });
+  };
+
+  useEffect(() => {
+    getPricingPermissions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const tabs = createTabs({ showRtb, permissions });
 
   priceFetchStatus === EFetchStatus.NOT_FETCHED && getBidsPrice();
 
