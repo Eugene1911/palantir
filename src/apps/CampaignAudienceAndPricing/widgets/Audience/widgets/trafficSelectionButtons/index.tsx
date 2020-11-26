@@ -11,12 +11,14 @@ interface ITrafficSelectionButtonsProps {
   selected?: number;
   selectedSpots?: TSpot[];
   onChange?: (index: number) => void;
+  isMembersAreaAvailable: boolean;
 }
 
 function TrafficSelectionButtons({
   selected,
   onChange,
   selectedSpots,
+  isMembersAreaAvailable,
 }: ITrafficSelectionButtonsProps): JSX.Element {
   const buttons: IRadioButton[] = [
     radioTitles[ETrafficType.RON],
@@ -27,14 +29,15 @@ function TrafficSelectionButtons({
           ? String(selectedSpots.length)
           : undefined,
     },
-    {
+  ];
+  isMembersAreaAvailable &&
+    buttons.push({
       ...radioTitles[ETrafficType.MEMBERS_AREA],
       label:
         selected === ETrafficType.MEMBERS_AREA
           ? String(selectedSpots.length)
           : undefined,
-    },
-  ];
+    });
 
   return (
     <RadioButtons

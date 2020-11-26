@@ -19,6 +19,11 @@ export interface IAccessToCampaignTargeting {
   isAdvertiserAccountManager(): Promise<boolean>;
   isPerformanceManager(): Promise<boolean>;
   canUseSpecialSettings(): Promise<boolean>;
+  canUseTrafficTypeMembersArea(): Promise<boolean>;
+  canUseSubID(): Promise<boolean>;
+  canUseTrafficSource(): Promise<boolean>;
+  canUseAdModelCPA(): Promise<boolean>;
+  canUseRtb(): Promise<boolean>;
 }
 
 export class AccessControlDemo {

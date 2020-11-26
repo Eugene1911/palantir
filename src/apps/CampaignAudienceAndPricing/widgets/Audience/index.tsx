@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import Accordion from 'sharedComponents/Accordion';
 import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle';
-import createTabs from './services/createTabs';
+import AccessControl from 'helpers/accessControl/controller';
+import createTabs, {
+  IAudiencePermissions,
+} from './services/createTabs';
 import IDTableController from './widgets/IDTable';
 import {
   accordionTitle,
@@ -36,10 +39,46 @@ function Audience(props: IAudienceProps): JSX.Element {
     trafficType,
     trafficSource,
   } = props;
+  const [permissions, setPermissions] = useState<
+    IAudiencePermissions
+  >({
+    isMembersAreaAvailable: false,
+    isSubIDAvailable: false,
+    isTrafficSourceAvailable: false,
+    isRTBAvailable: false,
+  });
+
+  const getAudiencePermissions = async () => {
+    const [
+      isMembersAreaAvailable,
+      isSubIDAvailable,
+      isTrafficSourceAvailable,
+      isRTBAvailable,
+    ] = await Promise.all([
+      AccessControl.canUseTrafficTypeMembersArea(),
+      AccessControl.canUseSubID(),
+      AccessControl.canUseTrafficSource(),
+      AccessControl.canUseRtb(),
+    ]);
+
+    setPermissions({
+      isMembersAreaAvailable,
+      isSubIDAvailable,
+      isTrafficSourceAvailable,
+      isRTBAvailable,
+    });
+  };
+
+  useEffect(() => {
+    getAudiencePermissions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const tabs = createTabs({
     isAdvancedOpen,
     toggleIsAdvancedOpen,
     trafficType,
+    permissions,
   });
 
   spotsFetchStatus === EFetchStatus.NOT_FETCHED && getSpotsData();

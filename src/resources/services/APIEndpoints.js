@@ -19,6 +19,7 @@ export const OS_VERSIONS = `${API_VERSION_1_1}os_versions`;
 export const BROWSERS = `${API_VERSION_1_1}browsers`;
 export const BROWSERS_VERSIONS = `${API_VERSION_1_1}browser_versions`;
 export const MINIMAL_BIDS = `${API_VERSION_1_1}minimal-bids/price`;
+export const SPOT_PRICE = `${API_VERSION_1_1}campaigns/{id}/spot/{spotId}/price`;
 export const CARRIERS = `${API_VERSION_1_1}carriers`;
 export const USERS = `${API_VERSION_1_1}users`;
 export const APPLICATIONS = `${API_VERSION_1_1}applications`;

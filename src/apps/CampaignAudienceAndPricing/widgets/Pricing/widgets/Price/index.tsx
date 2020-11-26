@@ -167,7 +167,7 @@ function PriceSelector(props?: IPriceSelectorProps): JSX.Element {
           </S.RadioGroup>
         </Grid>
       </Grid>
-      <Grid container direction="column" spacing={3} xs={8}>
+      <Grid container item direction="column" spacing={3} xs={8}>
         {status ? <BidStatus status={status} /> : <></>}
         <Grid container item justify="space-between">
           {bidTypeProps.map(buttonProps => {

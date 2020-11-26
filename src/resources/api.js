@@ -29,6 +29,7 @@ import {
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
   CAMPAIGN_DRAFT,
+  SPOT_PRICE,
   BROWSERS_VERSIONS,
   OS_VERSIONS,
   MINIMAL_BIDS,
@@ -300,6 +301,19 @@ export const getOptimizerVariables = params =>
  */
 export const saveCampaignAsDraft = params =>
   API.post(CAMPAIGN_DRAFT, params);
+
+/**
+ * Save spot bid
+ * @param {Object} params
+ */
+export const saveSpotPrice = (campaignId, spotId, params) =>
+  API.post(
+    SPOT_PRICE.replace('{id}', campaignId).replace(
+      '{spotId}',
+      spotId,
+    ),
+    params,
+  );
 
 /**
  * Get campaign statuses
