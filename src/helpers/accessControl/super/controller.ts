@@ -31,6 +31,26 @@ class _AccessControl implements IAccessToCampaignTargeting {
     return this._getTruePromise();
   }
 
+  canUseTrafficTypeMembersArea(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canUseSubID(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canUseTrafficSource(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canUseAdModelCPA(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canUseRtb(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
   private _getTruePromise(): Promise<boolean> {
     return Promise.resolve(true);
   }

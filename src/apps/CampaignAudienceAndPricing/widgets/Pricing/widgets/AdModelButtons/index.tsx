@@ -9,17 +9,19 @@ import { EAdModel } from '../../assets/constants/commonPricingTypes';
 interface IAdModelButtonsProps {
   selected?: number;
   onChange?: (index: number) => void;
+  isCPAAvailable: boolean;
 }
 
 function AdModelButtons({
   selected,
   onChange,
+  isCPAAvailable,
 }: IAdModelButtonsProps): JSX.Element {
   const buttons: IRadioButton[] = [
     radioTitles[EAdModel.CPM],
     radioTitles[EAdModel.CPC],
-    radioTitles[EAdModel.CPA],
   ];
+  isCPAAvailable && buttons.push(radioTitles[EAdModel.CPA]);
 
   return (
     <RadioButtons

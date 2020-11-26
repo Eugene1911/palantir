@@ -11,8 +11,8 @@ export const adModels = {
 };
 
 export enum EDistribution {
-  ASAP = 'asap',
-  EVEN = 'even',
+  ASAP = 'ASAP',
+  EVEN = 'EVEN',
 }
 
 export enum EPriceType {

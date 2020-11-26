@@ -9,14 +9,21 @@ import BudgetSelector from '../widgets/BudgetSelector';
 import PriceSelector from '../widgets/Price';
 import CustomSpotPrices from '../widgets/CustomSpotPrices';
 
+export interface IPricingPermissions {
+  isCPAAvailable: boolean;
+  isRTBAvailable: boolean;
+}
+
 interface ICreateTabsProps {
   showRtb: boolean;
+  permissions: IPricingPermissions;
 }
 
 function createTabs(
   props: ICreateTabsProps,
 ): Array<ITab | JSX.Element> {
-  const { showRtb } = props;
+  const { showRtb, permissions } = props;
+  const { isCPAAvailable, isRTBAvailable } = permissions;
 
   const tabs: Array<ITab | JSX.Element> = [
     {
@@ -26,7 +33,7 @@ function createTabs(
           tooltipText={leftSidesConst.adModel.tooltip}
         />
       ),
-      rightSide: <AdModelButtons />,
+      rightSide: <AdModelButtons isCPAAvailable={isCPAAvailable} />,
     },
     {
       leftSide: (
@@ -40,6 +47,7 @@ function createTabs(
   ];
 
   showRtb &&
+    isRTBAvailable &&
     tabs.push({
       leftSide: <CampaignFormLabel text={leftSidesConst.rtb.title} />,
       rightSide: <RTBSelector />,

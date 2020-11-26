@@ -1,6 +1,11 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import deepPurple from '@material-ui/core/colors/deepPurple';
-import { statuses, typography, overrides } from './theme.common';
+import {
+  statuses,
+  typography,
+  overrides,
+  bidStatuses,
+} from './theme.common';
 
 const PRIMARY_COLOR = deepPurple[600];
 const SECONDARY_COLOR = deepPurple[300];
@@ -15,6 +20,7 @@ export default createMuiTheme({
       main: SECONDARY_COLOR,
     },
     statuses,
+    bidStatuses,
   },
   typography,
   overrides,

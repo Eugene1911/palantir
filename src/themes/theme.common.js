@@ -10,6 +10,25 @@ export const statuses = {
   grey: grey[400],
 };
 
+export const bidStatuses = {
+  green: {
+    text: '#84d900',
+    background: '#f4fde6',
+  },
+  blue: {
+    text: '#030969',
+    background: '#e8e9f7',
+  },
+  orange: {
+    text: '#eab20f',
+    background: '#fef8ef',
+  },
+  red: {
+    text: '#ff103e',
+    background: '#ffe8ec',
+  },
+};
+
 export const typography = {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
   htmlFontSize: 18,
