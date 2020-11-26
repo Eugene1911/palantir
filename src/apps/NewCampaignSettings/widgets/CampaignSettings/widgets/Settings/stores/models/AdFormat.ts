@@ -1,6 +1,8 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import { INotification, LoadingStatus } from 'sharedTypes';
 import { getFormats } from 'resources/api';
+import { TPermissionsStore } from '../../../../stores/PermissionsStore';
+import { permissionsForAdFormats } from '../../constants/permissionsForAdFormats';
 
 const AdFormatModelType = types.model({
   id: types.number,
@@ -24,18 +26,34 @@ const AdFormatModel = types
       Object.values(LoadingStatus),
     ),
   })
+  .views(self => ({
+    getAdFormatName(adFormat: number): string | undefined {
+      return self.adFormatList.find(item => item.id === adFormat)
+        ?.name;
+    },
+  }))
   .actions(self => ({
-    setAdFormat(adFormat: number): void {
+    setAdFormat(
+      adFormat: number,
+      callback: (name: string) => void,
+    ): void {
       self.adFormat = adFormat;
+      callback(self.getAdFormatName(adFormat));
     },
     getAdFormatList: flow(function* getAdFormatList(
       infoNotification: (arg: INotification) => void,
+      permissions: TPermissionsStore,
     ) {
       self.adFormatListStatus = LoadingStatus.LOADING;
       try {
         const { data } = yield getFormats({});
         self.adFormatListStatus = LoadingStatus.SUCCESS;
-        self.adFormatList = data;
+        self.adFormatList = data.filter(
+          item =>
+            !item.hidden &&
+            (!permissionsForAdFormats[item.name] ||
+              permissions[permissionsForAdFormats[item.name]]),
+        );
       } catch (error) {
         self.adFormatListStatus = LoadingStatus.ERROR;
 

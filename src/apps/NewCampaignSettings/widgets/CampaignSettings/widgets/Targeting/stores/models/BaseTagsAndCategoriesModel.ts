@@ -163,6 +163,7 @@ const BaseTagsAndCategoriesModel = types
       infoNotification: (arg: INotification) => void,
       getCategoriesAction: (params: object) => Promise<AxiosResponse>,
       getItemsAction: (params: object) => Promise<AxiosResponse>,
+      withItems = true,
     ) {
       self.listStatus = LoadingStatus.LOADING;
       try {
@@ -183,20 +184,22 @@ const BaseTagsAndCategoriesModel = types
             tempSelected: false,
           }),
         );
-        itemsList.forEach(item => {
-          const itemCategory = categories.find(
-            category => category.id === item[self.parentField],
-          );
-          if (itemCategory) {
-            itemCategory.list.push({
-              id: item.id,
-              name: item.name || item.value,
-              parentId: item[self.parentField],
-              selected: false,
-              tempSelected: false,
-            });
-          }
-        });
+        if (withItems) {
+          itemsList.forEach(item => {
+            const itemCategory = categories.find(
+              category => category.id === item[self.parentField],
+            );
+            if (itemCategory) {
+              itemCategory.list.push({
+                id: item.id,
+                name: item.name || item.value,
+                parentId: item[self.parentField],
+                selected: false,
+                tempSelected: false,
+              });
+            }
+          });
+        }
         self.categoriesList = cast(categories);
         self.listStatus = LoadingStatus.SUCCESS;
       } catch (error) {
@@ -238,9 +241,5 @@ const BaseTagsAndCategoriesModel = types
         .map(item => item.id);
     },
   }));
-
-export type TBaseTagsAndCategoriesModel = Instance<
-  typeof BaseTagsAndCategoriesModel
->;
 
 export default BaseTagsAndCategoriesModel;

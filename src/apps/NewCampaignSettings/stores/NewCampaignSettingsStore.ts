@@ -16,9 +16,13 @@ import { INewCampaignSettingsResultData } from '../types/resultTypes';
 import SaveStepActionModel, {
   InitialSaveStepActionModel,
 } from '../widgets/CampaignSettings/widgets/SaveStepActions/stores/SaveStepActionsStore';
+import PermissionsStore, {
+  InitialPermissionsStore,
+} from '../widgets/CampaignSettings/stores/PermissionsStore';
 
 export const InitialNewCampaignSettingsStore = {
   saveActions: InitialSaveStepActionModel,
+  permissions: InitialPermissionsStore,
   settings: InitialSettingsModel,
   scheduling: InitialSchedulingModel,
   targeting: InitialTargetingModel,
@@ -28,6 +32,7 @@ export const InitialNewCampaignSettingsStore = {
 const NewCampaignSettingsStore = types
   .model({
     saveActions: SaveStepActionModel,
+    permissions: PermissionsStore,
     settings: SettingsModel,
     scheduling: SchedulingModel,
     targeting: TargetingModel,

@@ -1,23 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import AccessControl from 'helpers/accessControl/controller';
+import { LoadingStatus } from 'sharedTypes';
+import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import CampaignStepper from 'sharedComponents/CampaignStepper';
+import { inject, observer } from 'mobx-react';
 import Settings from './widgets/Settings';
 import Scheduling from './widgets/Scheduling';
 import Targeting from './widgets/Targeting';
 import Special from './widgets/Special';
 import SaveStepAction from './widgets/SaveStepActions';
+import { TPermissionsStore } from './stores/PermissionsStore';
 
-const CampaignSettings = (): JSX.Element => {
-  const [isSpecialTabVisible, setIsSpecialTabVisible] = useState<
-    boolean
-  >(false);
+interface ICampaignSettingsProps {
+  permissions?: TPermissionsStore;
+}
+
+const CampaignSettings = ({
+  permissions,
+}: ICampaignSettingsProps): JSX.Element => {
+  const infoNotification = useHookInfoNotification();
 
   useEffect(() => {
-    AccessControl.canUseSpecialSettings().then(response =>
-      setIsSpecialTabVisible(response),
-    );
-  }, []);
+    if (permissions.permissionsStatus === LoadingStatus.INITIAL) {
+      permissions.getPermissions(infoNotification);
+    }
+  }, [permissions, infoNotification]);
 
   return (
     <>
@@ -26,10 +33,12 @@ const CampaignSettings = (): JSX.Element => {
       <Settings />
       <Scheduling />
       <Targeting />
-      {isSpecialTabVisible && <Special />}
+      {permissions.canUseSpecialSettings && <Special />}
       <SaveStepAction />
     </>
   );
 };
 
-export default CampaignSettings;
+export default inject(({ newCampaignSettings }) => ({
+  permissions: newCampaignSettings.permissions,
+}))(observer(CampaignSettings));

@@ -9,10 +9,12 @@ import ChipsWithFilter from '../../../../components/ChipsWithFilter';
 
 interface IOperatingSystemsProps {
   operatingSystems?: TOperatingSystemsModel;
+  canUseOsVersions?: boolean;
 }
 
 const OperatingSystems = ({
   operatingSystems,
+  canUseOsVersions,
 }: IOperatingSystemsProps): JSX.Element => {
   return (
     <>
@@ -34,6 +36,7 @@ const OperatingSystems = ({
               notification,
               getOSes,
               getOSesVersions,
+              canUseOsVersions,
             )
           }
           selectedCount={operatingSystems.selectedCount}
@@ -49,4 +52,5 @@ const OperatingSystems = ({
 
 export default inject(({ newCampaignSettings }) => ({
   operatingSystems: newCampaignSettings.targeting.operatingSystems,
+  canUseOsVersions: newCampaignSettings.permissions.canUseOsVersions,
 }))(observer(OperatingSystems));

@@ -12,9 +12,13 @@ import { IFilterCategoryItem } from '../../../../components/CustomDrawer/compone
 
 interface ICountriesProps {
   countries?: TCountriesModel;
+  canUseRegionSetting?: boolean;
 }
 
-const Countries = ({ countries }: ICountriesProps): JSX.Element => {
+const Countries = ({
+  countries,
+  canUseRegionSetting,
+}: ICountriesProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const [isOpenRegionFilter, setIsOpenRegionFilter] = useState<
     boolean
@@ -70,6 +74,7 @@ const Countries = ({ countries }: ICountriesProps): JSX.Element => {
             categoriesList={countries.categoriesList}
             selectAllCategory={countries.selectAllCategory}
             topFilterTitle="SHOW REGION"
+            topFilterPermission={canUseRegionSetting}
             filtersOptions={countriesGroups}
             openAsyncFilter={openRegionFilter}
             isAsyncLoadingList
@@ -96,4 +101,6 @@ const Countries = ({ countries }: ICountriesProps): JSX.Element => {
 
 export default inject(({ newCampaignSettings }) => ({
   countries: newCampaignSettings.targeting.countries,
+  canUseRegionSetting:
+    newCampaignSettings.permissions.canUseRegionSetting,
 }))(observer(Countries));
