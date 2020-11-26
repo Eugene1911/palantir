@@ -111,53 +111,6 @@ const CategoriesModel = types
     },
   }))
   .actions(self => ({
-    setCategoriesRadio(categoriesRadio: AllCustomStatus): void {
-      self.categoriesRadio = categoriesRadio;
-    },
-    toggleActiveCategory(id: string): void {
-      self.categoriesList.get(id).active = !self.categoriesList.get(
-        id,
-      ).active;
-    },
-    toggleSelectedTag(tagId: number, categoryId: number): void {
-      const tagIndex = self.categoriesList
-        .get(categoryId.toString())
-        .categories.findIndex(tag => tag.id === tagId);
-      if (tagIndex !== -1) {
-        const tag = self.categoriesList.get(categoryId.toString())
-          .categories[tagIndex];
-        if (self.addMode === AddMode.NORMAL) {
-          tag.selected = !tag.selected;
-          tag.inBlackList = false;
-        } else {
-          tag.inTempBlackList = !tag.inTempBlackList;
-          tag.selected = false;
-        }
-      }
-    },
-    getCategoriesList: flow(function* getCategoriesList(
-      infoNotification: (arg: INotification) => void,
-      permissions: TPermissionsStore,
-    ) {
-      self.categoriesListStatus = LoadingStatus.LOADING;
-      try {
-        const { data } = yield getCategories({});
-        self.categoriesListStatus = LoadingStatus.SUCCESS;
-        const categoriesList = mapCategoriesByParent(
-          data,
-          permissions.canSetupHiddenCategories,
-        );
-        self.categoriesListGlobal = cast(categoriesList);
-        self.categoriesList = cast(categoriesList);
-      } catch (error) {
-        self.categoriesListStatus = LoadingStatus.ERROR;
-
-        infoNotification({
-          variant: 'error',
-          message: 'Categories loading error',
-        });
-      }
-    }),
     filterCategoriesByAdFormat(adFormatName: string): void {
       const result = {};
       Array.from(self.categoriesListGlobal.keys()).forEach(
@@ -185,6 +138,60 @@ const CategoriesModel = types
       );
       self.categoriesList = cast(result);
     },
+  }))
+  .actions(self => ({
+    setCategoriesRadio(categoriesRadio: AllCustomStatus): void {
+      self.categoriesRadio = categoriesRadio;
+    },
+    toggleActiveCategory(id: string): void {
+      self.categoriesList.get(id).active = !self.categoriesList.get(
+        id,
+      ).active;
+    },
+    toggleSelectedTag(tagId: number, categoryId: number): void {
+      const tagIndex = self.categoriesList
+        .get(categoryId.toString())
+        .categories.findIndex(tag => tag.id === tagId);
+      if (tagIndex !== -1) {
+        const tag = self.categoriesList.get(categoryId.toString())
+          .categories[tagIndex];
+        if (self.addMode === AddMode.NORMAL) {
+          tag.selected = !tag.selected;
+          tag.inBlackList = false;
+        } else {
+          tag.inTempBlackList = !tag.inTempBlackList;
+          tag.selected = false;
+        }
+      }
+    },
+    getCategoriesList: flow(function* getCategoriesList(
+      infoNotification: (arg: INotification) => void,
+      permissions: TPermissionsStore,
+      adFormat: string,
+    ) {
+      self.categoriesListStatus = LoadingStatus.LOADING;
+      try {
+        const { data } = yield getCategories({});
+        self.categoriesListStatus = LoadingStatus.SUCCESS;
+        const categoriesList = mapCategoriesByParent(
+          data,
+          permissions.canSetupHiddenCategories,
+        );
+        self.categoriesListGlobal = cast(categoriesList);
+        self.categoriesList = cast(categoriesList);
+
+        if (adFormat) {
+          self.filterCategoriesByAdFormat(adFormat);
+        }
+      } catch (error) {
+        self.categoriesListStatus = LoadingStatus.ERROR;
+
+        infoNotification({
+          variant: 'error',
+          message: 'Categories loading error',
+        });
+      }
+    }),
     toggleAddMode(save = false): void {
       if (self.addMode === AddMode.NORMAL) {
         self.addMode = AddMode.BLACKLIST;

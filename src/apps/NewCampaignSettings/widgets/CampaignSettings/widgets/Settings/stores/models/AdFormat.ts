@@ -26,16 +26,19 @@ const AdFormatModel = types
       Object.values(LoadingStatus),
     ),
   })
+  .views(self => ({
+    getAdFormatName(adFormat: number): string | undefined {
+      return self.adFormatList.find(item => item.id === adFormat)
+        ?.name;
+    },
+  }))
   .actions(self => ({
     setAdFormat(
       adFormat: number,
       callback: (name: string) => void,
     ): void {
       self.adFormat = adFormat;
-      const adFormatName = self.adFormatList.find(
-        item => item.id === adFormat,
-      )?.name;
-      callback(adFormatName);
+      callback(self.getAdFormatName(adFormat));
     },
     getAdFormatList: flow(function* getAdFormatList(
       infoNotification: (arg: INotification) => void,
