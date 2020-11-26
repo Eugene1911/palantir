@@ -4,6 +4,11 @@
 
 // The interface always must be defined next to client method (here `printTagretingSkills` below)
 export interface IAccessToCampaignTargeting {
+  canSetupHiddenCategories(): Promise<boolean>;
+  canUseTabsFormat(): Promise<boolean>;
+  canUseSpecialFormats(): Promise<boolean>;
+  canUseRiskyFormat(): Promise<boolean>;
+  canUseVideoFormat(): Promise<boolean>;
   canUseRegionTargeting(): Promise<boolean>; // relevant for the possibilty to set up regions in the country targeting on the Targeting block
   canUseDeviceModelTargeting(): Promise<boolean>; // relevant for the possibilty to set up device model, brand, release date and price on the Targeting block
   canUseOSVersionTargeting(): Promise<boolean>; // relevant for the possibilty to set up os versions in the os custom targeting on the Targeting block

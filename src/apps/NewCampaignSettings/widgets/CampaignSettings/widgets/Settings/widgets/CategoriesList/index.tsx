@@ -12,23 +12,29 @@ import { AddMode } from '../../constants/addMode';
 import AddToBlackListPanel from './components/AddToBlackListPanel';
 import Search from './components/Search';
 import { TCategoriesModel } from '../../stores/models/Categories';
+import { TPermissionsStore } from '../../../../stores/PermissionsStore';
 
 interface ICategoriesListProps {
   categories?: TCategoriesModel;
+  permissions?: TPermissionsStore;
 }
 
 const CategoriesList = ({
   categories,
+  permissions,
 }: ICategoriesListProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const classes = useStyles();
 
   useEffect(() => {
-    if (categories.categoriesListStatus === LoadingStatus.INITIAL) {
-      categories.getCategoriesList(infoNotification);
+    if (
+      categories.categoriesListStatus === LoadingStatus.INITIAL &&
+      permissions.permissionsStatus === LoadingStatus.SUCCESS
+    ) {
+      categories.getCategoriesList(infoNotification, permissions);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [permissions.permissionsStatus]);
 
   return (
     <>
@@ -66,4 +72,5 @@ const CategoriesList = ({
 
 export default inject(({ newCampaignSettings }) => ({
   categories: newCampaignSettings.settings.categories,
+  permissions: newCampaignSettings.permissions,
 }))(observer(CategoriesList));

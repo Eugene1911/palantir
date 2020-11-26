@@ -1,4 +1,5 @@
 import { cast, flow, Instance, types } from 'mobx-state-tree';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   AllCustomStatus,
   INotification,
@@ -13,6 +14,9 @@ import {
 } from '../../services/getAllTags';
 // eslint-disable-next-line import/no-cycle
 import { mapCategoriesByParent } from '../../services/mapCategoriesByParent';
+import { TPermissionsStore } from '../../../../stores/PermissionsStore';
+import { hiddenCategories } from '../../constants/hiddenCategories';
+import { noHiddenCategoriesAdFormats } from '../../constants/permissionsForAdFormats';
 
 const CategoryModel = types.model({
   name: types.string,
@@ -39,6 +43,7 @@ export type TCategoriesGroupByParentIdModel = Instance<
 
 export const InitialCategoriesModel = {
   categoriesList: {},
+  categoriesListGlobal: {},
   categoriesRadio: AllCustomStatus.ALL,
   categoriesListStatus: LoadingStatus.INITIAL,
   addMode: AddMode.NORMAL,
@@ -50,6 +55,7 @@ const CategoriesModel = types
       Object.values(AllCustomStatus),
     ),
     categoriesList: types.map(CategoriesGroupByParentIdModel),
+    categoriesListGlobal: types.map(CategoriesGroupByParentIdModel),
     categoriesListStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
     ),
@@ -131,12 +137,18 @@ const CategoriesModel = types
     },
     getCategoriesList: flow(function* getCategoriesList(
       infoNotification: (arg: INotification) => void,
+      permissions: TPermissionsStore,
     ) {
       self.categoriesListStatus = LoadingStatus.LOADING;
       try {
         const { data } = yield getCategories({});
         self.categoriesListStatus = LoadingStatus.SUCCESS;
-        self.categoriesList = cast(mapCategoriesByParent(data));
+        const categoriesList = mapCategoriesByParent(
+          data,
+          permissions.canSetupHiddenCategories,
+        );
+        self.categoriesListGlobal = cast(categoriesList);
+        self.categoriesList = cast(categoriesList);
       } catch (error) {
         self.categoriesListStatus = LoadingStatus.ERROR;
 
@@ -146,6 +158,33 @@ const CategoriesModel = types
         });
       }
     }),
+    filterCategoriesByAdFormat(adFormatName: string): void {
+      const result = {};
+      Array.from(self.categoriesListGlobal.keys()).forEach(
+        (key): void => {
+          if (
+            !adFormatName ||
+            !hiddenCategories.includes(
+              self.categoriesListGlobal.get(key).name,
+            ) ||
+            !noHiddenCategoriesAdFormats.includes(adFormatName)
+          ) {
+            if (self.categoriesList.get(key)) {
+              result[key] = cloneDeep({
+                ...self.categoriesListGlobal.get(key),
+                active: self.categoriesList.get(key).active,
+                categories: self.categoriesList.get(key).categories,
+              });
+            } else {
+              result[key] = cloneDeep(
+                self.categoriesListGlobal.get(key),
+              );
+            }
+          }
+        },
+      );
+      self.categoriesList = cast(result);
+    },
     toggleAddMode(save = false): void {
       if (self.addMode === AddMode.NORMAL) {
         self.addMode = AddMode.BLACKLIST;

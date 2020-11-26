@@ -4,6 +4,11 @@ import AccessControl from 'helpers/accessControl/controller';
 
 export const InitialPermissionsStore = {
   permissionsStatus: LoadingStatus.INITIAL,
+  canSetupHiddenCategories: false,
+  canUseTabsFormat: false,
+  canUseSpecialFormats: false,
+  canUseRiskyFormat: false,
+  canUseVideoFormat: false,
   canUseRegionSetting: false,
   canUseDeviceSetting: false,
   canUseOsVersions: false,
@@ -21,6 +26,11 @@ const PermissionsStore = types
     permissionsStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
     ),
+    canSetupHiddenCategories: types.boolean,
+    canUseTabsFormat: types.boolean,
+    canUseSpecialFormats: types.boolean,
+    canUseRiskyFormat: types.boolean,
+    canUseVideoFormat: types.boolean,
     canUseRegionSetting: types.boolean,
     canUseDeviceSetting: types.boolean,
     canUseOsVersions: types.boolean,
@@ -39,6 +49,11 @@ const PermissionsStore = types
       self.permissionsStatus = LoadingStatus.LOADING;
       try {
         const [
+          canSetupHiddenCategories,
+          canUseTabsFormat,
+          canUseSpecialFormats,
+          canUseRiskyFormat,
+          canUseVideoFormat,
           canUseRegionSetting,
           canUseDeviceSetting,
           canUseOsVersions,
@@ -50,6 +65,11 @@ const PermissionsStore = types
           isPerformanceManager,
           canUseSpecialSettings,
         ] = yield Promise.all([
+          AccessControl.canSetupHiddenCategories(),
+          AccessControl.canUseTabsFormat(),
+          AccessControl.canUseSpecialFormats(),
+          AccessControl.canUseRiskyFormat(),
+          AccessControl.canUseVideoFormat(),
           AccessControl.canUseRegionTargeting(),
           AccessControl.canUseDeviceModelTargeting(),
           AccessControl.canUseOSVersionTargeting(),
@@ -62,6 +82,11 @@ const PermissionsStore = types
           AccessControl.canUseSpecialSettings(),
         ]);
 
+        self.canSetupHiddenCategories = canSetupHiddenCategories;
+        self.canUseTabsFormat = canUseTabsFormat;
+        self.canUseSpecialFormats = canUseSpecialFormats;
+        self.canUseRiskyFormat = canUseRiskyFormat;
+        self.canUseVideoFormat = canUseVideoFormat;
         self.canUseRegionSetting = canUseRegionSetting;
         self.canUseDeviceSetting = canUseDeviceSetting;
         self.canUseOsVersions = canUseOsVersions;

@@ -5,6 +5,15 @@ import { IAccessToCampaignTargeting } from 'helpers/accessControl/example/usage'
 
 // Also the implementation which uses API RBAC endpoints to resolve the methods of the interface will be:
 class _AccessControl implements IAccessToCampaignTargeting {
+  private static _permCampSetupHiddenCategories =
+    'campaign.setup_hidden_categories';
+  private static _permCampUseTabsFormat = 'campaign.use_tabs_format';
+  private static _permCampUseSpecialFormats =
+    'campaign.use_special_formats';
+  private static _permCampUseRiskyFormat =
+    'campaign.use_risky_format';
+  private static _permCampUseVideoFormat =
+    'campaign.use_video_format';
   private static _permCampUseRegionSetting =
     'campaign.use_region_setting';
   private static _permCampUseBrowserVersions =
@@ -21,6 +30,28 @@ class _AccessControl implements IAccessToCampaignTargeting {
   private static _permIsAdvertiserAccountManager =
     'advertiser_account_manager';
   private static _permIsPerformanceManager = 'performance_manager';
+
+  canSetupHiddenCategories(): Promise<boolean> {
+    return this._checkPerm(
+      _AccessControl._permCampSetupHiddenCategories,
+    );
+  }
+
+  canUseTabsFormat(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampUseTabsFormat);
+  }
+
+  canUseSpecialFormats(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampUseSpecialFormats);
+  }
+
+  canUseRiskyFormat(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampUseRiskyFormat);
+  }
+
+  canUseVideoFormat(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampUseVideoFormat);
+  }
 
   canUseRegionTargeting(): Promise<boolean> {
     return this._checkPerm(_AccessControl._permCampUseRegionSetting);
