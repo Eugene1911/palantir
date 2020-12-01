@@ -32,3 +32,5 @@ export const RBAC_CHECK_ACCESS = `${API_VERSION_1_1}rbac/check_access`;
 
 // Save campaigns as draft
 export const CAMPAIGN_DRAFT = `${API_VERSION_1_1}campaigns/draft`;
+export const CAMPAIGN_EDIT_DRAFT = id =>
+  `${API_VERSION_1_1}campaigns/${id}/draft`;

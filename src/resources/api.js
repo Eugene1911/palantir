@@ -24,6 +24,7 @@ import {
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
   CAMPAIGN_DRAFT,
+  CAMPAIGN_EDIT_DRAFT,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -225,6 +226,13 @@ export const getOptimizerVariables = params =>
  */
 export const saveCampaignAsDraft = params =>
   API.post(CAMPAIGN_DRAFT, params);
+
+/**
+ * Edit campaign as draft
+ * @param {Object} params
+ */
+export const editCampaignAsDraft = (id, params) =>
+  API.patch(CAMPAIGN_EDIT_DRAFT(id), params);
 
 /**
  * Get campaign statuses
