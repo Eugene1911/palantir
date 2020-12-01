@@ -1,4 +1,4 @@
-import { ProxyTrafficTypes } from '../apps/NewCampaignSettings/widgets/CampaignSettings/widgets/Targeting/constants/proxyTrafficTypes';
+import { ProxyTrafficTypes } from './index';
 
 export interface IFullCampaignType {
   id: number;

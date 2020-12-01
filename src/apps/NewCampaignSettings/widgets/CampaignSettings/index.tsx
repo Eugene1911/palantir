@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
-import { INotification, LoadingStatus } from 'sharedTypes';
+import {
+  INotification,
+  LoadingStatus,
+  IUrlParamsType,
+} from 'sharedTypes';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import CampaignStepper from 'sharedComponents/CampaignStepper';
@@ -12,7 +16,6 @@ import Targeting from './widgets/Targeting';
 import Special from './widgets/Special';
 import SaveStepAction from './widgets/SaveStepActions';
 import { TPermissionsStore } from './stores/PermissionsStore';
-import { IUrlParamsType } from '../../types/urlParamsType';
 
 interface ICampaignSettingsProps {
   permissions?: TPermissionsStore;

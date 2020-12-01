@@ -1,6 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
-import { ProxyTrafficTypes } from '../../constants/proxyTrafficTypes';
+import { ProxyTrafficTypes } from 'sharedTypes';
 
 export const InitialProxyTrafficModel = {
   proxyTrafficRadio: ProxyTrafficTypes.ALL,

@@ -1,8 +1,11 @@
 import { flow, Instance, types } from 'mobx-state-tree';
-import { INotification, LoadingStatus } from 'sharedTypes';
+import {
+  INotification,
+  LoadingStatus,
+  IUrlParamsType,
+} from 'sharedTypes';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { getCampaignById } from 'resources/api';
-import { IUrlParamsType } from '../../../types/urlParamsType';
 
 export const InitialEditStore = {
   isEdit: false,
