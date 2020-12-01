@@ -1,5 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
 import isNil from 'lodash/isNil';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import CountriesModel, {
   InitialCountriesModel,
 } from './models/Countries';
@@ -100,6 +101,21 @@ const TargetingModel = types
         keywords: self.keywords.list.toJS(),
       };
       /* eslint-enable @typescript-eslint/camelcase */
+    },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      self.countries.setEditData(data);
+      self.languages.setEditData(data);
+      self.devices.setEditData(data);
+      self.deviceBrands.setEditData(data);
+      self.deviceReleaseDate.setEditData(data);
+      self.modelPrice.setEditData(data);
+      self.operatingSystems.setEditData(data);
+      self.browsers.setEditData(data);
+      self.carriers.setEditData(data);
+      self.proxyTraffic.setEditData(data);
+      self.keywords.setEditData(data);
     },
   }));
 

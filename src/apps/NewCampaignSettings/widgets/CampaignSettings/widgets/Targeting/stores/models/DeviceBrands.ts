@@ -1,14 +1,14 @@
 import { Instance } from 'mobx-state-tree';
-import { AllCustomStatus, LoadingStatus } from 'sharedTypes';
-import BaseTagsAndCategoriesModel from './BaseTagsAndCategoriesModel';
+import BaseTagsAndCategoriesModel, {
+  InitialBaseTagsAndCategoriesModel,
+} from './BaseTagsAndCategoriesModel';
 
 export const InitialDeviceBrandsModel = {
-  radio: AllCustomStatus.ALL,
-  list: [],
-  categoriesList: [],
-  listStatus: LoadingStatus.INITIAL,
+  ...InitialBaseTagsAndCategoriesModel,
   errorWord: 'Device brands and models',
   parentField: 'brand_id',
+  editSelectedCategoryField: 'device_brands',
+  editSelectedItemField: 'device_models',
 };
 
 const DeviceBrandsModel = BaseTagsAndCategoriesModel.named(

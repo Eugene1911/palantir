@@ -44,7 +44,7 @@ const CampaignActions = ({
               onClick={onSaveAsDraft}
               variant="outlined"
             >
-              Save as draft
+              Save
             </Button>
           </Grid>
           {!!onClickPrevious && (

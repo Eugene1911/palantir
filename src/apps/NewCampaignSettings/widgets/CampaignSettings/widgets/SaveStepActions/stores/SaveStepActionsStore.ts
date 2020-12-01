@@ -1,7 +1,12 @@
 import { flow, Instance, types } from 'mobx-state-tree';
+import { AxiosResponse } from 'axios';
 import { INotification, LoadingStatus } from 'sharedTypes';
-import { saveCampaignAsDraft } from 'resources/api';
+import {
+  saveCampaignAsDraft,
+  editCampaignAsDraft,
+} from 'resources/api';
 import { INewCampaignSettingsResultData } from '../../../../../types/resultTypes';
+import { TEditStore } from '../../../stores/EditStore';
 
 export const InitialSaveStepActionModel = {
   savingStatus: LoadingStatus.INITIAL,
@@ -18,11 +23,17 @@ const SaveStepActionModel = types
       infoNotification: (arg: INotification) => void,
       resultData: INewCampaignSettingsResultData,
       successCallback: () => void,
+      edit: TEditStore,
     ) {
       self.savingStatus = LoadingStatus.LOADING;
+      // TODO потом получать тут id для редиректа и выполнять successCallback
+      const saveAction = edit.isEdit
+        ? (): Promise<AxiosResponse> =>
+            editCampaignAsDraft(edit.campaignId, resultData)
+        : (): Promise<AxiosResponse> =>
+            saveCampaignAsDraft(resultData);
       try {
-        // TODO потом получать тут id для редиректа и выполнять successCallback
-        yield saveCampaignAsDraft(resultData);
+        yield saveAction();
 
         // successCallback();
         self.savingStatus = LoadingStatus.SUCCESS;

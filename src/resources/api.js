@@ -29,6 +29,7 @@ import {
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
   CAMPAIGN_DRAFT,
+  CAMPAIGN_EDIT_DRAFT,
   SPOT_PRICE,
   BROWSERS_VERSIONS,
   OS_VERSIONS,
@@ -214,7 +215,7 @@ export const putCampaignStatus = async (id, status) =>
 
 /**
  * Get compaign by ID
- * @param {Object} params
+ * @param {number} campaignId
  */
 export const getCampaignById = campaignId =>
   API.get(`${CAMPAIGNS}/${campaignId}`);
@@ -301,6 +302,13 @@ export const getOptimizerVariables = params =>
  */
 export const saveCampaignAsDraft = params =>
   API.post(CAMPAIGN_DRAFT, params);
+
+/**
+ * Edit campaign as draft
+ * @param {Object} params
+ */
+export const editCampaignAsDraft = (id, params) =>
+  API.patch(CAMPAIGN_EDIT_DRAFT(id), params);
 
 /**
  * Save spot bid

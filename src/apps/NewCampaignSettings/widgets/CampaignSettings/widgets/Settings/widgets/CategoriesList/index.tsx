@@ -19,12 +19,14 @@ interface ICategoriesListProps {
   categories?: TCategoriesModel;
   permissions?: TPermissionsStore;
   adFormat?: TAdFormatModel;
+  isEdit?: boolean;
 }
 
 const CategoriesList = ({
   categories,
   permissions,
   adFormat,
+  isEdit,
 }: ICategoriesListProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const classes = useStyles();
@@ -32,16 +34,21 @@ const CategoriesList = ({
   useEffect(() => {
     if (
       categories.categoriesListStatus === LoadingStatus.INITIAL &&
-      permissions.permissionsStatus === LoadingStatus.SUCCESS
+      permissions.permissionsStatus === LoadingStatus.SUCCESS &&
+      (!isEdit || (isEdit && adFormat.getAdFormatName))
     ) {
       categories.getCategoriesList(
         infoNotification,
         permissions,
-        adFormat.getAdFormatName(adFormat.adFormat),
+        adFormat.getAdFormatName,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [permissions.permissionsStatus]);
+  }, [
+    permissions.permissionsStatus,
+    isEdit,
+    adFormat.getAdFormatName,
+  ]);
 
   return (
     <>
@@ -81,4 +88,5 @@ export default inject(({ newCampaignSettings }) => ({
   categories: newCampaignSettings.settings.categories,
   adFormat: newCampaignSettings.settings.adFormat,
   permissions: newCampaignSettings.permissions,
+  isEdit: newCampaignSettings.edit.isEdit,
 }))(observer(CategoriesList));

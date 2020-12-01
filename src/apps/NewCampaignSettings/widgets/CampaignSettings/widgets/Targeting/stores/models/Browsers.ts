@@ -1,14 +1,14 @@
 import { Instance } from 'mobx-state-tree';
-import { AllCustomStatus, LoadingStatus } from 'sharedTypes';
-import BaseTagsAndCategoriesModel from './BaseTagsAndCategoriesModel';
+import BaseTagsAndCategoriesModel, {
+  InitialBaseTagsAndCategoriesModel,
+} from './BaseTagsAndCategoriesModel';
 
 export const InitialBrowsersModel = {
-  radio: AllCustomStatus.ALL,
-  list: [],
-  categoriesList: [],
-  listStatus: LoadingStatus.INITIAL,
+  ...InitialBaseTagsAndCategoriesModel,
   errorWord: 'Browsers',
   parentField: 'browser_id',
+  editSelectedCategoryField: 'browsers',
+  editSelectedItemField: 'browser_versions',
 };
 
 const BrowsersModel = BaseTagsAndCategoriesModel.named(

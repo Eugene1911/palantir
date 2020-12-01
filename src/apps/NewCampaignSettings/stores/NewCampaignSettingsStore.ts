@@ -1,5 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
 
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import SettingsModel, {
   InitialSettingsModel,
 } from '../widgets/CampaignSettings/widgets/Settings/stores/SettingsStore';
@@ -19,10 +20,14 @@ import SaveStepActionModel, {
 import PermissionsStore, {
   InitialPermissionsStore,
 } from '../widgets/CampaignSettings/stores/PermissionsStore';
+import EditStore, {
+  InitialEditStore,
+} from '../widgets/CampaignSettings/stores/EditStore';
 
 export const InitialNewCampaignSettingsStore = {
   saveActions: InitialSaveStepActionModel,
   permissions: InitialPermissionsStore,
+  edit: InitialEditStore,
   settings: InitialSettingsModel,
   scheduling: InitialSchedulingModel,
   targeting: InitialTargetingModel,
@@ -33,6 +38,7 @@ const NewCampaignSettingsStore = types
   .model({
     saveActions: SaveStepActionModel,
     permissions: PermissionsStore,
+    edit: EditStore,
     settings: SettingsModel,
     scheduling: SchedulingModel,
     targeting: TargetingModel,
@@ -59,6 +65,12 @@ const NewCampaignSettingsStore = types
         // eslint-disable-next-line @typescript-eslint/camelcase
         max_daily: 15, // TODO временно, для второго шага, потом убрать
       };
+    },
+    setNewCampaignSettingsEditData(data: IFullCampaignType): void {
+      self.settings.setEditData(data);
+      self.scheduling.setEditData(data);
+      self.targeting.setEditData(data);
+      self.special.setEditData(data);
     },
   }));
 

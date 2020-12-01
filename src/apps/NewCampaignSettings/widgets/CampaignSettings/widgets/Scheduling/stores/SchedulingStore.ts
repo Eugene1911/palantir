@@ -1,5 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
 import { AllCustomStatus } from 'sharedTypes';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { format } from 'date-fns';
 import { timezones } from '../constants/timezones';
 import { ALL_HOURS, FULL } from '../constants/dayTimeRanges';
@@ -63,17 +64,29 @@ const SchedulingModel = types
       return {
         hours_targeting: self.dayTimeRange,
         schedule_timezone: self.timezone,
-        ...(self.dateStart && {
-          schedule_start_time: format(
-            self.dateStart,
-            formatDateString,
-          ),
-        }),
-        ...(self.dateEnd && {
-          schedule_end_time: format(self.dateEnd, formatDateString),
-        }),
+        schedule_start_time: self.dateStart
+          ? format(self.dateStart, formatDateString)
+          : '',
+        schedule_end_time: self.dateEnd
+          ? format(self.dateEnd, formatDateString)
+          : '',
       };
       /* eslint-enable @typescript-eslint/camelcase */
+    },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      self.setTimezone(data.schedule_timezone);
+      self.setDayTimeRange(
+        data.hours_targeting,
+        AllCustomStatus.CUSTOM,
+      );
+      if (data.schedule_start_time) {
+        self.setDate(new Date(data.schedule_start_time), 'dateStart');
+      }
+      if (data.schedule_end_time) {
+        self.setDate(new Date(data.schedule_end_time), 'dateEnd');
+      }
     },
   }));
 
