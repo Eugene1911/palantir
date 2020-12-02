@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import { getOSes, getOSesVersions } from 'resources/api';
-import { AllCustomStatus } from 'sharedTypes';
+import { AllCustomStatus, LoadingStatus } from 'sharedTypes';
 import { TOperatingSystemsModel } from '../../stores/models/OperatingSystems';
 import AllCustomRadio from '../../../../components/AllCustomRadio';
 import ChipsWithFilter from '../../../../components/ChipsWithFilter';
@@ -10,11 +10,13 @@ import ChipsWithFilter from '../../../../components/ChipsWithFilter';
 interface IOperatingSystemsProps {
   operatingSystems?: TOperatingSystemsModel;
   canUseOsVersions?: boolean;
+  permissionsStatus?: LoadingStatus;
 }
 
 const OperatingSystems = ({
   operatingSystems,
   canUseOsVersions,
+  permissionsStatus,
 }: IOperatingSystemsProps): JSX.Element => {
   return (
     <>
@@ -44,6 +46,7 @@ const OperatingSystems = ({
           onCancel={operatingSystems.cancelSelected}
           onDelete={operatingSystems.deleteSelected}
           selectAllCategory={operatingSystems.selectAllCategory}
+          permissionsStatus={permissionsStatus}
         />
       )}
     </>
@@ -53,4 +56,6 @@ const OperatingSystems = ({
 export default inject(({ newCampaignSettings }) => ({
   operatingSystems: newCampaignSettings.targeting.operatingSystems,
   canUseOsVersions: newCampaignSettings.permissions.canUseOsVersions,
+  permissionsStatus:
+    newCampaignSettings.permissions.permissionsStatus,
 }))(observer(OperatingSystems));

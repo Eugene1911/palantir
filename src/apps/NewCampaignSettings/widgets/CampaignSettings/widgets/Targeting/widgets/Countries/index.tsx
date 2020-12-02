@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { inject, observer } from 'mobx-react';
 
-import { AllCustomStatus } from 'sharedTypes';
+import { AllCustomStatus, LoadingStatus } from 'sharedTypes';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import { TCountriesModel } from '../../stores/models/Countries';
 import AllCustomRadio from '../../../../components/AllCustomRadio';
@@ -13,11 +13,13 @@ import { IFilterCategoryItem } from '../../../../components/CustomDrawer/compone
 interface ICountriesProps {
   countries?: TCountriesModel;
   canUseRegionSetting?: boolean;
+  permissionsStatus?: LoadingStatus;
 }
 
 const Countries = ({
   countries,
   canUseRegionSetting,
+  permissionsStatus,
 }: ICountriesProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const [isOpenRegionFilter, setIsOpenRegionFilter] = useState<
@@ -77,6 +79,7 @@ const Countries = ({
             topFilterPermission={canUseRegionSetting}
             filtersOptions={countriesGroups}
             openAsyncFilter={openRegionFilter}
+            permissionsStatus={permissionsStatus}
             isAsyncLoadingList
           />
 
@@ -103,4 +106,6 @@ export default inject(({ newCampaignSettings }) => ({
   countries: newCampaignSettings.targeting.countries,
   canUseRegionSetting:
     newCampaignSettings.permissions.canUseRegionSetting,
+  permissionsStatus:
+    newCampaignSettings.permissions.permissionsStatus,
 }))(observer(Countries));

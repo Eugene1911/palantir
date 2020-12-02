@@ -77,10 +77,12 @@ const SchedulingModel = types
   .actions(self => ({
     setEditData(data: IFullCampaignType): void {
       self.setTimezone(data.schedule_timezone);
-      self.setDayTimeRange(
-        data.hours_targeting,
-        AllCustomStatus.CUSTOM,
-      );
+      if (data.hours_targeting !== FULL) {
+        self.setDayTimeRange(
+          data.hours_targeting,
+          AllCustomStatus.CUSTOM,
+        );
+      }
       if (data.schedule_start_time) {
         self.setDate(new Date(data.schedule_start_time), 'dateStart');
       }

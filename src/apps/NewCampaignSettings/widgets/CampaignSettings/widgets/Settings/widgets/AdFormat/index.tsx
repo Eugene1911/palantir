@@ -58,7 +58,6 @@ const AdFormat = ({
                   filterCategoriesByAdFormat,
                 )
               }
-              disabled={isEdit}
             >
               {adFormat.adFormatList.map(item => (
                 <MenuItem key={item.id} value={item.id}>

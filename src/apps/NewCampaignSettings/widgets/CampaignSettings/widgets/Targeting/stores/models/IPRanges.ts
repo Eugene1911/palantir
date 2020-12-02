@@ -1,4 +1,5 @@
 import { Instance } from 'mobx-state-tree';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { AllIncludeExclude } from '../../constants/allIncludeExclude';
 import BaseTagsAndEnterModel from './BaseTagsAndEnterModel';
 
@@ -16,18 +17,30 @@ const IPRangesModel = BaseTagsAndEnterModel.named(
     exclude_ip_range?: string;
   } {
     /* eslint-disable @typescript-eslint/camelcase */
+    const result = {
+      ip_range: '',
+      exclude_ip_range: '',
+    };
     if (self.radio === AllIncludeExclude.INCLUDE) {
-      return {
-        ip_range: self.list.join(),
-      };
+      result.ip_range = self.list.join();
     }
     if (self.radio === AllIncludeExclude.EXCLUDE) {
-      return {
-        exclude_ip_range: self.excludeList.join(),
-      };
+      result.exclude_ip_range = self.excludeList.join();
     }
-    return {};
+    return result;
     /* eslint-enable @typescript-eslint/camelcase */
+  },
+  setEditData(data: IFullCampaignType): void {
+    if (data.ip_range && data.ip_range !== '{}') {
+      const ipString = data.ip_range.replace(/["}{]/g, '');
+      self.setRadio(AllIncludeExclude.INCLUDE);
+      self.setTags(ipString);
+    }
+    if (data.exclude_ip_range && data.exclude_ip_range !== '{}') {
+      const ipString = data.exclude_ip_range.replace(/["}{]/g, '');
+      self.setRadio(AllIncludeExclude.EXCLUDE);
+      self.setTags(ipString);
+    }
   },
 }));
 

@@ -73,7 +73,7 @@ const BaseTagsAndFilterModel = types
           data.map(item => ({
             ...item,
             selected: self.editSelectedId.includes(item.id),
-            tempSelected: false,
+            tempSelected: self.editSelectedId.includes(item.id),
           })),
         );
       } catch (error) {
