@@ -47,9 +47,8 @@ const mainAppRoutes = [
   },
   {
     component: CampaignAudienceAndPricing,
-    appListPath: '/CampaignAudienceAndPricing',
-    path: '/CampaignAudienceAndPricing/:mode?/:id?',
-    exact: true,
+    appListPath: '/new_create_campaign_audience_pricing',
+    path: '/new_create_campaign_audience_pricing/:mode?/:id?',
   },
   {
     component: NewCampaignSettings,

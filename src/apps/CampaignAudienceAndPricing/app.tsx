@@ -3,7 +3,7 @@ import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent'
 import CampaignStepper from 'sharedComponents/CampaignStepper';
 import { SnackbarProvider } from 'notistack';
 import { MAX_COUNT_SNACK } from 'config/constants';
-import { useParams } from 'react-router-dom';
+import { useParams, Route } from 'react-router-dom';
 import Audience from './widgets/Audience';
 import Pricing from './widgets/Pricing';
 import SaveStepAction from './widgets/SaveStepActions';
@@ -41,14 +41,16 @@ function CampaignAudienceAndPricing(): JSX.Element {
   // console.log('campaign', campaign);
 
   return (
-    <SnackbarProvider maxSnack={MAX_COUNT_SNACK}>
-      <WrapperStartAppComponent store={store}>
-        <CampaignStepper activeStep={1} />
-        <Audience initialCampaignData={campaign} />
-        <Pricing initialCampaignData={campaign} />
-        <SaveStepAction id={Number(id)} />
-      </WrapperStartAppComponent>
-    </SnackbarProvider>
+    <Route path="/new_create_campaign_audience_pricing/:mode?/:id?">
+      <SnackbarProvider maxSnack={MAX_COUNT_SNACK}>
+        <WrapperStartAppComponent store={store}>
+          <CampaignStepper activeStep={1} />
+          <Audience initialCampaignData={campaign} />
+          <Pricing initialCampaignData={campaign} />
+          <SaveStepAction id={Number(id)} />
+        </WrapperStartAppComponent>
+      </SnackbarProvider>
+    </Route>
   );
 }
 
