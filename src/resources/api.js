@@ -29,11 +29,11 @@ import {
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
   CAMPAIGN_DRAFT,
-  CAMPAIGN_EDIT_DRAFT,
   SPOT_PRICE,
   BROWSERS_VERSIONS,
   OS_VERSIONS,
   MINIMAL_BIDS,
+  CAMPAIGN_EDIT_DRAFT,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -304,6 +304,7 @@ export const saveCampaignAsDraft = params =>
   API.post(CAMPAIGN_DRAFT, params);
 
 /**
+=======
  * Edit campaign as draft
  * @param {Object} params
  */
@@ -311,6 +312,7 @@ export const editCampaignAsDraft = (id, params) =>
   API.patch(CAMPAIGN_EDIT_DRAFT(id), params);
 
 /**
+>>>>>>> 5be27d9b26c871d7a8ff5648426664d5ad7b345f
  * Save spot bid
  * @param {Object} params
  */

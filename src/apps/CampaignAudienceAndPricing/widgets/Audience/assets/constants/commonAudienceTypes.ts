@@ -28,8 +28,8 @@ export enum EIDModel {
 
 export enum ETrafficSource {
   ALL = 'all',
-  DIRECT_INVENTORY = 'direct inventory',
-  PARTNER_NETWORKS = 'partner networks',
+  DIRECT_INVENTORY = 'direct',
+  PARTNER_NETWORKS = 'partner',
 }
 
 export const trafficSources = {

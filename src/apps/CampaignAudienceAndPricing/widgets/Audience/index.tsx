@@ -15,7 +15,10 @@ import {
   trafficSources,
   trafficTypes,
 } from './assets/constants/commonAudienceTypes';
-import { EFetchStatus } from '../../assets/commonTypes';
+import {
+  EFetchStatus,
+  IAudienceResultData,
+} from '../../assets/commonTypes';
 
 interface IAudienceProps {
   getSpotsData?: () => void;
@@ -26,6 +29,8 @@ interface IAudienceProps {
   isAdvancedOpen?: boolean;
   trafficType?: ETrafficType;
   trafficSource?: ETrafficSource;
+  initialCampaignData?: IAudienceResultData;
+  setAudienceData?: (data: IAudienceResultData) => void;
 }
 
 function Audience(props: IAudienceProps): JSX.Element {
@@ -38,6 +43,8 @@ function Audience(props: IAudienceProps): JSX.Element {
     toggleIsAdvancedOpen,
     trafficType,
     trafficSource,
+    initialCampaignData,
+    setAudienceData,
   } = props;
   const [permissions, setPermissions] = useState<
     IAudiencePermissions
@@ -73,6 +80,10 @@ function Audience(props: IAudienceProps): JSX.Element {
     getAudiencePermissions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    initialCampaignData && setAudienceData(initialCampaignData);
+  }, [initialCampaignData]);
 
   const tabs = createTabs({
     isAdvancedOpen,
@@ -111,5 +122,6 @@ export default inject(({ CampaignAudienceAndPricingStore }) => {
     toggleIsAdvancedOpen: audience.toggleIsAdvancedOpen,
     trafficType: audience.trafficType,
     trafficSource: audience.trafficSource,
+    setAudienceData: audience.setAudienceData,
   };
 })(observer(Audience));

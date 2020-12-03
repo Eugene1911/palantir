@@ -1,13 +1,11 @@
-import { ETrafficSource, ETrafficType } from './commonAudienceTypes';
+import { ETrafficType } from './commonAudienceTypes';
 
 export const resultTrafficType = {
   [ETrafficType.RON]: 'ron',
   [ETrafficType.PRIME]: 'prime',
   [ETrafficType.MEMBERS_AREA]: 'members_area',
-};
-
-export const resultTrafficSourceType = {
-  [ETrafficSource.ALL]: 'all',
-  [ETrafficSource.DIRECT_INVENTORY]: 'direct',
-  [ETrafficSource.PARTNER_NETWORKS]: 'partner',
+  ron: ETrafficType.RON,
+  prime: ETrafficType.PRIME,
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  members_area: ETrafficType.MEMBERS_AREA,
 };

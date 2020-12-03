@@ -10,7 +10,10 @@ import {
   EPriceType,
   EDistribution,
 } from './assets/constants/commonPricingTypes';
-import { EFetchStatus } from '../../assets/commonTypes';
+import {
+  EFetchStatus,
+  IPricingResultData,
+} from '../../assets/commonTypes';
 import CustomSpotsTable from './widgets/CustomSpotsTable';
 import createTabs, {
   IPricingPermissions,
@@ -26,6 +29,8 @@ interface IPricingProps {
   getBidsPrice?: () => void;
   distribution?: EDistribution;
   dailyBudget?: string;
+  initialCampaignData?: IPricingResultData;
+  setPricingData?: (data: IPricingResultData) => void;
 }
 
 function Pricing(props: IPricingProps): JSX.Element {
@@ -38,6 +43,8 @@ function Pricing(props: IPricingProps): JSX.Element {
     distribution,
     priceBid,
     priceType,
+    initialCampaignData,
+    setPricingData,
   } = props;
   const [permissions, setPermissions] = useState<IPricingPermissions>(
     {
@@ -62,6 +69,9 @@ function Pricing(props: IPricingProps): JSX.Element {
     getPricingPermissions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    initialCampaignData && setPricingData(initialCampaignData);
+  }, [initialCampaignData]);
 
   const tabs = createTabs({ showRtb, permissions });
 
@@ -104,5 +114,6 @@ export default inject(({ CampaignAudienceAndPricingStore }) => {
     priceType: pricing.price.priceType,
     dailyBudget: pricing.budget.daily,
     showRtb: audience.rtb,
+    setPricingData: pricing.setPricingData,
   };
 })(observer(Pricing));

@@ -13,11 +13,13 @@ import {
 interface ISaveStepActionProps {
   getResultData?: () => ICampaignAudienceAndPricingResultData;
   saveActions?: TSaveStepActionModel;
+  id?: number;
 }
 
 const SaveStepAction = ({
   getResultData,
   saveActions,
+  id,
 }: ISaveStepActionProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const history = useHistory();
@@ -34,6 +36,7 @@ const SaveStepAction = ({
     };
     const successCallback = (): void => history.push(link);
     saveActions.saveCampaign(
+      id,
       infoNotification,
       resultData,
       successCallback,
