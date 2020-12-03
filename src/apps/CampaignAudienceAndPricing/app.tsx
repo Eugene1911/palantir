@@ -30,7 +30,7 @@ function CampaignAudienceAndPricing(): JSX.Element {
   const { mode, id } = params;
 
   const getCampaign = async () => {
-    const { data } = await getCampaignById(id);
+    const { data } = await getCampaignById(Number(id));
     setCampaign(data);
   };
 
