@@ -53,8 +53,8 @@ const mainAppRoutes = [
   },
   {
     component: NewCampaignSettings,
-    appListPath: '/NewCampaignSettings',
-    path: '/NewCampaignSettings/:mode?/:id?',
+    appListPath: '/new_create_campaign_settings',
+    path: '/new_create_campaign_settings/:mode?/:id?',
   },
   {
     component: OptimizersApp,
