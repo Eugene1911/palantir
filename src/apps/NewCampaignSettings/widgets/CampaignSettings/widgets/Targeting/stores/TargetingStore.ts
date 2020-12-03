@@ -1,5 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
-import isNil from 'lodash/isNil';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import CountriesModel, {
   InitialCountriesModel,
 } from './models/Countries';
@@ -81,15 +81,15 @@ const TargetingModel = types
         devices: self.devices.getResultData(),
         device_brands: self.deviceBrands.getCategoriesResult(),
         device_models: self.deviceBrands.getItemsResult(),
-        ...(self.deviceReleaseDate.date && {
-          device_release_date_offset: self.deviceReleaseDate.date,
-        }),
-        ...(!isNil(self.modelPrice.from) && {
-          device_price_on_release_from: self.modelPrice.from,
-        }),
-        ...(!isNil(self.modelPrice.to) && {
-          device_price_on_release_to: self.modelPrice.to,
-        }),
+        device_release_date_offset: self.deviceReleaseDate.date,
+        device_price_on_release_from:
+          self.modelPrice.from || self.modelPrice.from === 0
+            ? self.modelPrice.from
+            : null,
+        device_price_on_release_to:
+          self.modelPrice.to || self.modelPrice.to === 0
+            ? self.modelPrice.to
+            : null,
         oses: self.operatingSystems.getCategoriesResult(),
         os_versions: self.operatingSystems.getItemsResult(),
         browsers: self.browsers.getCategoriesResult(),
@@ -100,6 +100,22 @@ const TargetingModel = types
         keywords: self.keywords.list.toJS(),
       };
       /* eslint-enable @typescript-eslint/camelcase */
+    },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      self.countries.setEditData(data);
+      self.languages.setEditData(data);
+      self.devices.setEditData(data);
+      self.deviceBrands.setEditData(data);
+      self.deviceReleaseDate.setEditData(data);
+      self.modelPrice.setEditData(data);
+      self.operatingSystems.setEditData(data);
+      self.browsers.setEditData(data);
+      self.carriers.setEditData(data);
+      self.proxyTraffic.setEditData(data);
+      self.ipRanges.setEditData(data);
+      self.keywords.setEditData(data);
     },
   }));
 

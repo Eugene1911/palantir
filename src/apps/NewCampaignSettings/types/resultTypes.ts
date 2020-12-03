@@ -1,4 +1,4 @@
-import { ProxyTrafficTypes } from '../widgets/CampaignSettings/widgets/Targeting/constants/proxyTrafficTypes';
+import { ProxyTrafficTypes } from 'sharedTypes';
 
 export interface ISettingsResultData {
   name: string;

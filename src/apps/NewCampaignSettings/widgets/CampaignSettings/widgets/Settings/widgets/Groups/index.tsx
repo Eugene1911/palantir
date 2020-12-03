@@ -26,7 +26,8 @@ const Groups = ({ groups }: IGroupsProps): JSX.Element => {
     if (groups.groupListStatus === LoadingStatus.INITIAL) {
       groups.getGroupList(infoNotification);
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groups.groupListStatus, groups.getGroupList, infoNotification]);
 
   return (
     <>

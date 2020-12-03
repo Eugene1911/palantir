@@ -7,17 +7,20 @@ import { LoadingStatus } from 'sharedTypes';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import { INewCampaignSettingsResultData } from '../../../../types/resultTypes';
 import { TSaveStepActionModel } from './stores/SaveStepActionsStore';
+import { TEditStore } from '../../stores/EditStore';
 
 interface ISaveStepActionProps {
   getNewCampaignSettingsResultData?: () => INewCampaignSettingsResultData;
   saveActions?: TSaveStepActionModel;
   isAllRequiredFieldsFilled?: boolean;
+  edit?: TEditStore;
 }
 
 const SaveStepAction = ({
   getNewCampaignSettingsResultData,
   saveActions,
   isAllRequiredFieldsFilled,
+  edit,
 }: ISaveStepActionProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   // const history = useHistory();
@@ -33,6 +36,7 @@ const SaveStepAction = ({
       infoNotification,
       resultData,
       successCallback,
+      edit,
     );
   };
 
@@ -54,4 +58,5 @@ export default inject(({ newCampaignSettings }) => ({
   saveActions: newCampaignSettings.saveActions,
   isAllRequiredFieldsFilled:
     newCampaignSettings.isAllRequiredFieldsFilled,
+  edit: newCampaignSettings.edit,
 }))(observer(SaveStepAction));

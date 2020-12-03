@@ -19,6 +19,7 @@ interface IChipsWithFilterProps {
   selectAllCategory?: (id: number, value: boolean) => void;
   filterTitle: string;
   loadingStatus: LoadingStatus;
+  permissionsStatus?: LoadingStatus;
   getList: (notification) => void;
   selectedCount?: number;
   onCancel: () => void;
@@ -28,6 +29,7 @@ interface IChipsWithFilterProps {
   topFilterTitle?: string;
   filtersOptions?: Array<{ name: string; count: number } | null>;
   openAsyncFilter?: (category: IFilterCategoryItem) => void;
+  topFilterPermission?: boolean;
 }
 
 const ChipsWithFilter = ({
@@ -46,6 +48,8 @@ const ChipsWithFilter = ({
   topFilterTitle,
   filtersOptions,
   openAsyncFilter,
+  topFilterPermission,
+  permissionsStatus = LoadingStatus.SUCCESS,
 }: IChipsWithFilterProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const classes = useStyles();
@@ -55,10 +59,13 @@ const ChipsWithFilter = ({
     setIsFilterOpen(prevOpen => !prevOpen);
 
   useEffect(() => {
-    if (loadingStatus === LoadingStatus.INITIAL) {
+    if (
+      loadingStatus === LoadingStatus.INITIAL &&
+      permissionsStatus === LoadingStatus.SUCCESS
+    ) {
       getList(infoNotification);
     }
-  }, [loadingStatus, getList, infoNotification]);
+  }, [loadingStatus, getList, infoNotification, permissionsStatus]);
 
   const handleCancel = (): void => {
     toggleFilterOpen();
@@ -115,6 +122,7 @@ const ChipsWithFilter = ({
             topFilterTitle={topFilterTitle}
             filtersOptions={filtersOptions}
             openAsyncFilter={openAsyncFilter}
+            topFilterPermission={topFilterPermission}
           />
         </>
       )}

@@ -3,15 +3,27 @@ import { IAccessToCampaignTargeting } from 'helpers/accessControl/example/usage'
 
 // Then the dummy implementation which always returns true for any method of the interface will be:
 class _AccessControl implements IAccessToCampaignTargeting {
+  canSetupHiddenCategories(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canUseTabsFormat(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canUseSpecialFormats(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canUseRiskyFormat(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canUseVideoFormat(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
   canUseRegionTargeting(): Promise<boolean> {
-    return this._getTruePromise();
-  }
-
-  canUseBrowserVersionTargeting(): Promise<boolean> {
-    return this._getTruePromise();
-  }
-
-  canUseOSVersionTargeting(): Promise<boolean> {
     return this._getTruePromise();
   }
 
@@ -19,11 +31,31 @@ class _AccessControl implements IAccessToCampaignTargeting {
     return this._getTruePromise();
   }
 
-  canUseProxyTrafficType(): Promise<boolean> {
+  canUseOSVersionTargeting(): Promise<boolean> {
     return this._getTruePromise();
   }
 
-  canUseKeywords(): Promise<boolean> {
+  canUseBrowserVersionTargeting(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canUseProxyTrafficTypeTargeting(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canUseKeywordsTargeting(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  canSetupAnyPriceSpecial(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  isAdvertiserAccountManager(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
+  isPerformanceManager(): Promise<boolean> {
     return this._getTruePromise();
   }
 

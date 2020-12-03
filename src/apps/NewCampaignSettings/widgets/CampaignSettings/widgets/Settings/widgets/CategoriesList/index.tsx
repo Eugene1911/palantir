@@ -12,23 +12,43 @@ import { AddMode } from '../../constants/addMode';
 import AddToBlackListPanel from './components/AddToBlackListPanel';
 import Search from './components/Search';
 import { TCategoriesModel } from '../../stores/models/Categories';
+import { TPermissionsStore } from '../../../../stores/PermissionsStore';
+import { TAdFormatModel } from '../../stores/models/AdFormat';
 
 interface ICategoriesListProps {
   categories?: TCategoriesModel;
+  permissions?: TPermissionsStore;
+  adFormat?: TAdFormatModel;
+  isEdit?: boolean;
 }
 
 const CategoriesList = ({
   categories,
+  permissions,
+  adFormat,
+  isEdit,
 }: ICategoriesListProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const classes = useStyles();
 
   useEffect(() => {
-    if (categories.categoriesListStatus === LoadingStatus.INITIAL) {
-      categories.getCategoriesList(infoNotification);
+    if (
+      categories.categoriesListStatus === LoadingStatus.INITIAL &&
+      permissions.permissionsStatus === LoadingStatus.SUCCESS &&
+      (!isEdit || (isEdit && adFormat.getAdFormatName))
+    ) {
+      categories.getCategoriesList(
+        infoNotification,
+        permissions,
+        adFormat.getAdFormatName,
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [
+    permissions.permissionsStatus,
+    isEdit,
+    adFormat.getAdFormatName,
+  ]);
 
   return (
     <>
@@ -66,4 +86,7 @@ const CategoriesList = ({
 
 export default inject(({ newCampaignSettings }) => ({
   categories: newCampaignSettings.settings.categories,
+  adFormat: newCampaignSettings.settings.adFormat,
+  permissions: newCampaignSettings.permissions,
+  isEdit: newCampaignSettings.edit.isEdit,
 }))(observer(CategoriesList));

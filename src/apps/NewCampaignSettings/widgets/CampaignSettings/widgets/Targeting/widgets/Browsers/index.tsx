@@ -2,16 +2,22 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import { getBrowsers, getBrowsersVersions } from 'resources/api';
-import { AllCustomStatus } from 'sharedTypes';
+import { AllCustomStatus, LoadingStatus } from 'sharedTypes';
 import { TBrowsersModel } from '../../stores/models/Browsers';
 import AllCustomRadio from '../../../../components/AllCustomRadio';
 import ChipsWithFilter from '../../../../components/ChipsWithFilter';
 
 interface IBrowsersProps {
   browsers?: TBrowsersModel;
+  canUseBrowserVersions?: boolean;
+  permissionsStatus?: LoadingStatus;
 }
 
-const Browsers = ({ browsers }: IBrowsersProps): JSX.Element => {
+const Browsers = ({
+  browsers,
+  canUseBrowserVersions,
+  permissionsStatus,
+}: IBrowsersProps): JSX.Element => {
   return (
     <>
       <AllCustomRadio
@@ -32,6 +38,7 @@ const Browsers = ({ browsers }: IBrowsersProps): JSX.Element => {
               notification,
               getBrowsers,
               getBrowsersVersions,
+              canUseBrowserVersions,
             )
           }
           selectedCount={browsers.selectedCount}
@@ -39,6 +46,7 @@ const Browsers = ({ browsers }: IBrowsersProps): JSX.Element => {
           onCancel={browsers.cancelSelected}
           onDelete={browsers.deleteSelected}
           selectAllCategory={browsers.selectAllCategory}
+          permissionsStatus={permissionsStatus}
         />
       )}
     </>
@@ -47,4 +55,8 @@ const Browsers = ({ browsers }: IBrowsersProps): JSX.Element => {
 
 export default inject(({ newCampaignSettings }) => ({
   browsers: newCampaignSettings.targeting.browsers,
+  canUseBrowserVersions:
+    newCampaignSettings.permissions.canUseBrowserVersions,
+  permissionsStatus:
+    newCampaignSettings.permissions.permissionsStatus,
 }))(observer(Browsers));

@@ -215,7 +215,7 @@ export const putCampaignStatus = async (id, status) =>
 
 /**
  * Get compaign by ID
- * @param {Object} params
+ * @param {number} campaignId
  */
 export const getCampaignById = campaignId =>
   API.get(`${CAMPAIGNS}/${campaignId}`);
@@ -304,6 +304,15 @@ export const saveCampaignAsDraft = params =>
   API.post(CAMPAIGN_DRAFT, params);
 
 /**
+=======
+ * Edit campaign as draft
+ * @param {Object} params
+ */
+export const editCampaignAsDraft = (id, params) =>
+  API.patch(CAMPAIGN_EDIT_DRAFT(id), params);
+
+/**
+>>>>>>> 5be27d9b26c871d7a8ff5648426664d5ad7b345f
  * Save spot bid
  * @param {Object} params
  */
@@ -315,13 +324,6 @@ export const saveSpotPrice = (campaignId, spotId, params) =>
     ),
     params,
   );
-
-/**
- * Edit campaign as draft
- * @param {Object} params
- */
-export const editCampaignAsDraft = (id, params) =>
-  API.patch(CAMPAIGN_EDIT_DRAFT(id), params);
 
 /**
  * Get campaign statuses

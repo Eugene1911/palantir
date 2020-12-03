@@ -5,6 +5,7 @@ import {
   LoadingStatus,
 } from 'sharedTypes';
 import { AxiosResponse } from 'axios';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 
 const ItemModel = types.model({
   id: types.number,
@@ -12,6 +13,11 @@ const ItemModel = types.model({
   parentId: types.maybe(types.number),
   selected: types.boolean,
   tempSelected: types.boolean,
+});
+
+const BaseItemModel = types.model({
+  id: types.number,
+  parentId: types.maybe(types.number),
 });
 
 const CategoryModel = types.model({
@@ -25,6 +31,16 @@ const CategoryModel = types.model({
 
 export type TCategoryModel = Instance<typeof CategoryModel>;
 
+export const InitialBaseTagsAndCategoriesModel = {
+  radio: AllCustomStatus.ALL,
+  list: [],
+  categoriesList: [],
+  fullItemsList: [],
+  listStatus: LoadingStatus.INITIAL,
+  editSelectedCategoriesId: [],
+  editSelectedItemsId: [],
+};
+
 const BaseTagsAndCategoriesModel = types
   .model({
     radio: types.enumeration<AllCustomStatus>(
@@ -32,11 +48,16 @@ const BaseTagsAndCategoriesModel = types
     ),
     list: types.array(ItemModel),
     categoriesList: types.array(CategoryModel),
+    fullItemsList: types.array(BaseItemModel),
     listStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
     ),
     errorWord: types.string,
     parentField: types.string,
+    editSelectedCategoriesId: types.array(types.number),
+    editSelectedItemsId: types.array(types.number),
+    editSelectedCategoryField: types.string,
+    editSelectedItemField: types.string,
   })
   .views(self => ({
     get selectedCount(): number {
@@ -54,9 +75,6 @@ const BaseTagsAndCategoriesModel = types
     },
   }))
   .actions(self => ({
-    setRadio(radio: AllCustomStatus): void {
-      self.radio = radio;
-    },
     setSelected(id: number, value: boolean, parentId: number): void {
       const parent = self.categoriesList.find(
         category => category.id === parentId,
@@ -88,6 +106,54 @@ const BaseTagsAndCategoriesModel = types
           item => item.tempSelected,
         ).length;
       }
+    },
+    saveSelected(): void {
+      self.list = cast([]);
+      self.categoriesList.forEach(category => {
+        category.selected = category.tempSelected;
+        if (category.selected && !category.list.length) {
+          self.list.push({ ...category });
+        }
+        category.list.forEach(item => {
+          item.selected = item.tempSelected;
+          if (item.selected) {
+            self.list.push({
+              ...item,
+              name: `${category.name} ${item.name}`,
+            });
+          }
+        });
+      });
+    },
+  }))
+  .actions(self => ({
+    selectDataByEditIds(): void {
+      if (self.editSelectedItemsId.length) {
+        self.editSelectedItemsId.forEach(itemId => {
+          const parentId = self.fullItemsList.find(
+            item => item.id === itemId,
+          )?.parentId;
+          if (parentId) {
+            self.setSelected(itemId, true, parentId);
+          }
+        });
+      }
+      if (self.editSelectedCategoriesId.length) {
+        self.editSelectedCategoriesId.forEach(categoryId => {
+          const category = self.categoriesList.find(
+            ctgr => ctgr.id === categoryId,
+          );
+          if (category && !category.list.length) {
+            self.selectAllCategory(categoryId, true);
+          }
+        });
+      }
+      self.saveSelected();
+    },
+  }))
+  .actions(self => ({
+    setRadio(radio: AllCustomStatus): void {
+      self.radio = radio;
     },
     deleteSelected(id: number, parentId: number): void {
       if (parentId || parentId === 0) {
@@ -130,24 +196,6 @@ const BaseTagsAndCategoriesModel = types
         }
       }
     },
-    saveSelected(): void {
-      self.list = cast([]);
-      self.categoriesList.forEach(category => {
-        category.selected = category.tempSelected;
-        if (category.selected && !category.list.length) {
-          self.list.push({ ...category });
-        }
-        category.list.forEach(item => {
-          item.selected = item.tempSelected;
-          if (item.selected) {
-            self.list.push({
-              ...item,
-              name: `${category.name} ${item.name}`,
-            });
-          }
-        });
-      });
-    },
     cancelSelected(): void {
       self.categoriesList.forEach(category => {
         category.tempSelected = category.selected;
@@ -163,6 +211,7 @@ const BaseTagsAndCategoriesModel = types
       infoNotification: (arg: INotification) => void,
       getCategoriesAction: (params: object) => Promise<AxiosResponse>,
       getItemsAction: (params: object) => Promise<AxiosResponse>,
+      withItems = true,
     ) {
       self.listStatus = LoadingStatus.LOADING;
       try {
@@ -172,6 +221,13 @@ const BaseTagsAndCategoriesModel = types
         ]);
         const categoriesList = categoriesData.data;
         const itemsList = itemsData.data;
+
+        self.fullItemsList = cast(
+          itemsList.map(item => ({
+            id: item.id,
+            parentId: item[self.parentField],
+          })),
+        );
 
         const categories: TCategoryModel[] = categoriesList.map(
           category => ({
@@ -183,21 +239,24 @@ const BaseTagsAndCategoriesModel = types
             tempSelected: false,
           }),
         );
-        itemsList.forEach(item => {
-          const itemCategory = categories.find(
-            category => category.id === item[self.parentField],
-          );
-          if (itemCategory) {
-            itemCategory.list.push({
-              id: item.id,
-              name: item.name || item.value,
-              parentId: item[self.parentField],
-              selected: false,
-              tempSelected: false,
-            });
-          }
-        });
+        if (withItems) {
+          itemsList.forEach(item => {
+            const itemCategory = categories.find(
+              category => category.id === item[self.parentField],
+            );
+            if (itemCategory) {
+              itemCategory.list.push({
+                id: item.id,
+                name: item.name || item.value,
+                parentId: item[self.parentField],
+                selected: false,
+                tempSelected: false,
+              });
+            }
+          });
+        }
         self.categoriesList = cast(categories);
+        self.selectDataByEditIds();
         self.listStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.listStatus = LoadingStatus.ERROR;
@@ -237,10 +296,19 @@ const BaseTagsAndCategoriesModel = types
         .filter(item => item.selected && item.parentId)
         .map(item => item.id);
     },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      if (
+        data[self.editSelectedCategoryField]?.length ||
+        data[self.editSelectedItemField]?.length
+      ) {
+        self.setRadio(AllCustomStatus.CUSTOM);
+        self.editSelectedCategoriesId =
+          data[self.editSelectedCategoryField];
+        self.editSelectedItemsId = data[self.editSelectedItemField];
+      }
+    },
   }));
-
-export type TBaseTagsAndCategoriesModel = Instance<
-  typeof BaseTagsAndCategoriesModel
->;
 
 export default BaseTagsAndCategoriesModel;

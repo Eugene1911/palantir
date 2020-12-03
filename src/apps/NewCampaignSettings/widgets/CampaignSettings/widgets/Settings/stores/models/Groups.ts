@@ -1,6 +1,7 @@
 import { cast, flow, Instance, types } from 'mobx-state-tree';
 import { INotification, LoadingStatus } from 'sharedTypes';
 import { getGroups } from 'resources/api';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 
 const GroupModel = types.model({
   id: types.number,
@@ -48,6 +49,13 @@ const GroupsModel = types
         });
       }
     }),
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      if (data.group_id) {
+        self.setGroup(data.group_id);
+      }
+    },
   }));
 
 export type TGroupsModel = Instance<typeof GroupsModel>;

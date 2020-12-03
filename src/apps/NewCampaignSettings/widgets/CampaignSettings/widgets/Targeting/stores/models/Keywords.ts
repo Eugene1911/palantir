@@ -1,4 +1,5 @@
 import { Instance } from 'mobx-state-tree';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { AllIncludeExclude } from '../../constants/allIncludeExclude';
 import BaseTagsAndEnterModel from './BaseTagsAndEnterModel';
 
@@ -8,7 +9,15 @@ export const InitialKeywordsModel = {
   excludeList: [],
 };
 
-const KeywordsModel = BaseTagsAndEnterModel.named('KeywordsModel');
+const KeywordsModel = BaseTagsAndEnterModel.named(
+  'KeywordsModel',
+).actions(self => ({
+  setEditData(data: IFullCampaignType): void {
+    if (data.keywords && data.keywords.length) {
+      self.setTags(data.keywords.join());
+    }
+  },
+}));
 
 export type TKeywordsModel = Instance<typeof KeywordsModel>;
 

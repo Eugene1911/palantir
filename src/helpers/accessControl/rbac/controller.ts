@@ -6,8 +6,22 @@ import { IAccessToCampaignTargeting } from 'helpers/accessControl/example/usage'
 // Also the implementation which uses API RBAC endpoints to resolve the methods of the interface will be:
 // eslint-disable-next-line @typescript-eslint/class-name-casing
 class _AccessControl implements IAccessToCampaignTargeting {
+  private static _permCampSetupHiddenCategories =
+    'campaign.setup_hidden_categories';
+
+  private static _permCampUseTabsFormat = 'campaign.use_tabs_format';
+
+  private static _permCampUseSpecialFormats =
+    'campaign.use_special_formats';
+
+  private static _permCampUseRiskyFormat =
+    'campaign.use_risky_format';
+
+  private static _permCampUseVideoFormat =
+    'campaign.use_video_format';
+
   private static _permCampUseRegionSetting =
-    'campaign.use_region_settingg';
+    'campaign.use_region_setting';
 
   private static _permCampUseBrowserVersions =
     'campaign.use_browser_versions';
@@ -17,13 +31,20 @@ class _AccessControl implements IAccessToCampaignTargeting {
   private static _permCampUseDeviceSetting =
     'campaign.use_device_setting';
 
-  private static _permCampUseNetworkTrafficType =
-    'campaign.use_network_traffic_type';
+  private static _permCampUseProxyTrafficType =
+    'campaign.use_traffic_source_type';
 
   private static _permCampUseKeywords = 'campaign.use_keywords';
 
+  private static _permCampSetupAnyPrice = 'campaign.setup_any_price';
+
   private static _permUseSpecialSettings =
     'campaign.use_special_fields';
+
+  private static _permIsAdvertiserAccountManager =
+    'advertiser_account_manager';
+
+  private static _permIsPerformanceManager = 'performance_manager';
 
   private static _permTrafficTypeMembersArea =
     'campaign.use_members_area';
@@ -37,8 +58,38 @@ class _AccessControl implements IAccessToCampaignTargeting {
 
   private static _permRtb = 'campaign.setup_rtb';
 
+  canSetupHiddenCategories(): Promise<boolean> {
+    return this._checkPerm(
+      _AccessControl._permCampSetupHiddenCategories,
+    );
+  }
+
+  canUseTabsFormat(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampUseTabsFormat);
+  }
+
+  canUseSpecialFormats(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampUseSpecialFormats);
+  }
+
+  canUseRiskyFormat(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampUseRiskyFormat);
+  }
+
+  canUseVideoFormat(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampUseVideoFormat);
+  }
+
   canUseRegionTargeting(): Promise<boolean> {
     return this._checkPerm(_AccessControl._permCampUseRegionSetting);
+  }
+
+  canUseDeviceModelTargeting(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampUseDeviceSetting);
+  }
+
+  canUseOSVersionTargeting(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampUseOSVersions);
   }
 
   canUseBrowserVersionTargeting(): Promise<boolean> {
@@ -47,22 +98,28 @@ class _AccessControl implements IAccessToCampaignTargeting {
     );
   }
 
-  canUseOSVersionTargeting(): Promise<boolean> {
-    return this._checkPerm(_AccessControl._permCampUseOSVersions);
-  }
-
-  canUseDeviceModelTargeting(): Promise<boolean> {
-    return this._checkPerm(_AccessControl._permCampUseDeviceSetting);
-  }
-
-  canUseProxyTrafficType(): Promise<boolean> {
+  canUseProxyTrafficTypeTargeting(): Promise<boolean> {
     return this._checkPerm(
-      _AccessControl._permCampUseNetworkTrafficType,
+      _AccessControl._permCampUseProxyTrafficType,
     );
   }
 
-  canUseKeywords(): Promise<boolean> {
+  canUseKeywordsTargeting(): Promise<boolean> {
     return this._checkPerm(_AccessControl._permCampUseKeywords);
+  }
+
+  canSetupAnyPriceSpecial(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permCampSetupAnyPrice);
+  }
+
+  isAdvertiserAccountManager(): Promise<boolean> {
+    return this._checkPerm(
+      _AccessControl._permIsAdvertiserAccountManager,
+    );
+  }
+
+  isPerformanceManager(): Promise<boolean> {
+    return this._checkPerm(_AccessControl._permIsPerformanceManager);
   }
 
   canUseSpecialSettings(): Promise<boolean> {

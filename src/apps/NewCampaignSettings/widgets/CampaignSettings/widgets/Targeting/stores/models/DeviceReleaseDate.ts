@@ -1,4 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { deviceReleaseDates } from '../../constants/deviceReleaseDates';
 
 const ReleaseDateModel = types.model({
@@ -20,6 +21,13 @@ const DeviceReleaseDateModel = types
   .actions(self => ({
     setDate(date: number): void {
       self.date = date;
+    },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      if (data.device_release_date_offset) {
+        self.setDate(data.device_release_date_offset);
+      }
     },
   }));
 

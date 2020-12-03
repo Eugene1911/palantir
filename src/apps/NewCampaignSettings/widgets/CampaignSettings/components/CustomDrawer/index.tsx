@@ -29,6 +29,7 @@ interface ICustomDrawerProps {
   openAsyncFilter?: (category: IFilterCategoryItem) => void;
   withBackButton?: boolean;
   withCloseButton?: boolean;
+  topFilterPermission?: boolean;
 }
 
 const CustomDrawer = ({
@@ -47,6 +48,7 @@ const CustomDrawer = ({
   openAsyncFilter,
   withCloseButton,
   withBackButton,
+  topFilterPermission,
 }: ICustomDrawerProps): JSX.Element => {
   const classes = useStyles();
   const [inputText, setInputText] = useState<string>('');
@@ -105,11 +107,13 @@ const CustomDrawer = ({
         />
         {isAsyncLoadingList && (
           <>
-            <TopFilter
-              isShowAsyncLoadButton={isShowAsyncLoadButton}
-              topFilterTitle={topFilterTitle}
-              setIsShowAsyncLoadButton={setIsShowAsyncLoadButton}
-            />
+            {topFilterPermission && (
+              <TopFilter
+                isShowAsyncLoadButton={isShowAsyncLoadButton}
+                topFilterTitle={topFilterTitle}
+                setIsShowAsyncLoadButton={setIsShowAsyncLoadButton}
+              />
+            )}
             <BottomFilter
               isSelectedFilterActive={isSelectedFilterActive}
               activeFilter={activeFilter}

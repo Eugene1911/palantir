@@ -21,8 +21,8 @@ const useStyles = makeStyles<Theme, TBottomFilterClasses>(() => ({
     marginRight: '12px',
     marginLeft: 'auto',
   },
-  topFilter: {
-    padding: '0 24px 8px',
+  bottomFilter: {
+    padding: '16px 24px 8px',
   },
 }));
 
@@ -32,6 +32,6 @@ export type TBottomFilterClasses =
   | 'filter'
   | 'filterText'
   | 'filterTitle'
-  | 'topFilter';
+  | 'bottomFilter';
 
 export default useStyles;

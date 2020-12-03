@@ -1,4 +1,6 @@
 import { cast, flow, Instance, types } from 'mobx-state-tree';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   AllCustomStatus,
   INotification,
@@ -13,6 +15,9 @@ import {
 } from '../../services/getAllTags';
 // eslint-disable-next-line import/no-cycle
 import { mapCategoriesByParent } from '../../services/mapCategoriesByParent';
+import { TPermissionsStore } from '../../../../stores/PermissionsStore';
+import { hiddenCategories } from '../../constants/hiddenCategories';
+import { noHiddenCategoriesAdFormats } from '../../constants/permissionsForAdFormats';
 
 const CategoryModel = types.model({
   name: types.string,
@@ -39,9 +44,11 @@ export type TCategoriesGroupByParentIdModel = Instance<
 
 export const InitialCategoriesModel = {
   categoriesList: {},
+  categoriesListGlobal: {},
   categoriesRadio: AllCustomStatus.ALL,
   categoriesListStatus: LoadingStatus.INITIAL,
   addMode: AddMode.NORMAL,
+  editSelectedId: [],
 };
 
 const CategoriesModel = types
@@ -50,9 +57,11 @@ const CategoriesModel = types
       Object.values(AllCustomStatus),
     ),
     categoriesList: types.map(CategoriesGroupByParentIdModel),
+    categoriesListGlobal: types.map(CategoriesGroupByParentIdModel),
     categoriesListStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
     ),
+    editSelectedId: types.array(types.number),
     addMode: types.enumeration<AddMode>(Object.values(AddMode)),
   })
   .views(self => ({
@@ -105,6 +114,35 @@ const CategoriesModel = types
     },
   }))
   .actions(self => ({
+    filterCategoriesByAdFormat(adFormatName: string): void {
+      const result = {};
+      Array.from(self.categoriesListGlobal.keys()).forEach(
+        (key): void => {
+          if (
+            !adFormatName ||
+            !hiddenCategories.includes(
+              self.categoriesListGlobal.get(key).name,
+            ) ||
+            !noHiddenCategoriesAdFormats.includes(adFormatName)
+          ) {
+            if (self.categoriesList.get(key)) {
+              result[key] = cloneDeep({
+                ...self.categoriesListGlobal.get(key),
+                active: self.categoriesList.get(key).active,
+                categories: self.categoriesList.get(key).categories,
+              });
+            } else {
+              result[key] = cloneDeep(
+                self.categoriesListGlobal.get(key),
+              );
+            }
+          }
+        },
+      );
+      self.categoriesList = cast(result);
+    },
+  }))
+  .actions(self => ({
     setCategoriesRadio(categoriesRadio: AllCustomStatus): void {
       self.categoriesRadio = categoriesRadio;
     },
@@ -131,12 +169,24 @@ const CategoriesModel = types
     },
     getCategoriesList: flow(function* getCategoriesList(
       infoNotification: (arg: INotification) => void,
+      permissions: TPermissionsStore,
+      adFormat: string,
     ) {
       self.categoriesListStatus = LoadingStatus.LOADING;
       try {
         const { data } = yield getCategories({});
         self.categoriesListStatus = LoadingStatus.SUCCESS;
-        self.categoriesList = cast(mapCategoriesByParent(data));
+        const categoriesList = mapCategoriesByParent(
+          data,
+          permissions.canSetupHiddenCategories,
+          self.editSelectedId,
+        );
+        self.categoriesListGlobal = cast(categoriesList);
+        self.categoriesList = cast(categoriesList);
+
+        if (adFormat) {
+          self.filterCategoriesByAdFormat(adFormat);
+        }
       } catch (error) {
         self.categoriesListStatus = LoadingStatus.ERROR;
 
@@ -204,6 +254,14 @@ const CategoriesModel = types
         return [];
       }
       return self.selectedTags.map(tag => tag.id);
+    },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      if (data.categories && data.categories.length) {
+        self.setCategoriesRadio(AllCustomStatus.CUSTOM);
+        self.editSelectedId = cast(data.categories);
+      }
     },
   }));
 
