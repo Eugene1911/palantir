@@ -9,6 +9,7 @@ import { hiddenCategories } from '../constants/hiddenCategories';
 export const mapCategoriesByParent = (
   data: TCategoryModel[],
   permission: boolean,
+  editSelectedId: number[],
 ): { [key: number]: TCategoriesGroupByParentIdModel } => {
   const categoriesByParent: {
     [key: number]: TCategoriesGroupByParentIdModel;
@@ -34,7 +35,7 @@ export const mapCategoriesByParent = (
     if (item.parent_id && categoriesByParent[item.parent_id]) {
       categoriesByParent[item.parent_id].categories.push({
         ...item,
-        selected: false,
+        selected: editSelectedId.includes(item.id),
         inBlackList: false,
         inTempBlackList: false,
       });

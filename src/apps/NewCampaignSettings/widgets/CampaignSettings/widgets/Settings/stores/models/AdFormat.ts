@@ -1,5 +1,6 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import { INotification, LoadingStatus } from 'sharedTypes';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { getFormats } from 'resources/api';
 import { TPermissionsStore } from '../../../../stores/PermissionsStore';
 import { permissionsForAdFormats } from '../../constants/permissionsForAdFormats';
@@ -27,18 +28,20 @@ const AdFormatModel = types
     ),
   })
   .views(self => ({
-    getAdFormatName(adFormat: number): string | undefined {
-      return self.adFormatList.find(item => item.id === adFormat)
+    get getAdFormatName(): string | undefined {
+      return self.adFormatList.find(item => item.id === self.adFormat)
         ?.name;
     },
   }))
   .actions(self => ({
     setAdFormat(
       adFormat: number,
-      callback: (name: string) => void,
+      callback?: (name: string) => void,
     ): void {
       self.adFormat = adFormat;
-      callback(self.getAdFormatName(adFormat));
+      if (callback) {
+        callback(self.getAdFormatName);
+      }
     },
     getAdFormatList: flow(function* getAdFormatList(
       infoNotification: (arg: INotification) => void,
@@ -63,6 +66,13 @@ const AdFormatModel = types
         });
       }
     }),
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      if (data.format_id) {
+        self.setAdFormat(data.format_id);
+      }
+    },
   }));
 
 export type TAdFormatModel = Instance<typeof AdFormatModel>;

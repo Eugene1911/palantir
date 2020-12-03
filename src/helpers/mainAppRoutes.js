@@ -52,8 +52,8 @@ const mainAppRoutes = [
   },
   {
     component: NewCampaignSettings,
-    path: '/NewCampaignSettings',
-    exact: true,
+    appListPath: '/NewCampaignSettings',
+    path: '/NewCampaignSettings/:mode?/:id?',
   },
   {
     component: OptimizersApp,

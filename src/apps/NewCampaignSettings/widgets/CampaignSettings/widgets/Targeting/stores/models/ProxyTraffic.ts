@@ -1,5 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
-import { ProxyTrafficTypes } from '../../constants/proxyTrafficTypes';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
+import { ProxyTrafficTypes } from 'sharedTypes';
 
 export const InitialProxyTrafficModel = {
   proxyTrafficRadio: ProxyTrafficTypes.ALL,
@@ -14,6 +15,13 @@ const ProxyTrafficModel = types
   .actions(self => ({
     setProxyTrafficRadio(proxyTrafficRadio: ProxyTrafficTypes): void {
       self.proxyTrafficRadio = proxyTrafficRadio;
+    },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      if (data.network_traffic_type) {
+        self.setProxyTrafficRadio(data.network_traffic_type);
+      }
     },
   }));
 

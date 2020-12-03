@@ -1,4 +1,5 @@
 import { cast, flow, Instance, types } from 'mobx-state-tree';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   AllCustomStatus,
@@ -47,6 +48,7 @@ export const InitialCategoriesModel = {
   categoriesRadio: AllCustomStatus.ALL,
   categoriesListStatus: LoadingStatus.INITIAL,
   addMode: AddMode.NORMAL,
+  editSelectedId: [],
 };
 
 const CategoriesModel = types
@@ -59,6 +61,7 @@ const CategoriesModel = types
     categoriesListStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
     ),
+    editSelectedId: types.array(types.number),
     addMode: types.enumeration<AddMode>(Object.values(AddMode)),
   })
   .views(self => ({
@@ -176,6 +179,7 @@ const CategoriesModel = types
         const categoriesList = mapCategoriesByParent(
           data,
           permissions.canSetupHiddenCategories,
+          self.editSelectedId,
         );
         self.categoriesListGlobal = cast(categoriesList);
         self.categoriesList = cast(categoriesList);
@@ -250,6 +254,14 @@ const CategoriesModel = types
         return [];
       }
       return self.selectedTags.map(tag => tag.id);
+    },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      if (data.categories && data.categories.length) {
+        self.setCategoriesRadio(AllCustomStatus.CUSTOM);
+        self.editSelectedId = cast(data.categories);
+      }
     },
   }));
 

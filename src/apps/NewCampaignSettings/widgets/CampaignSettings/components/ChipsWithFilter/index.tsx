@@ -19,6 +19,7 @@ interface IChipsWithFilterProps {
   selectAllCategory?: (id: number, value: boolean) => void;
   filterTitle: string;
   loadingStatus: LoadingStatus;
+  permissionsStatus?: LoadingStatus;
   getList: (notification) => void;
   selectedCount?: number;
   onCancel: () => void;
@@ -48,6 +49,7 @@ const ChipsWithFilter = ({
   filtersOptions,
   openAsyncFilter,
   topFilterPermission,
+  permissionsStatus = LoadingStatus.SUCCESS,
 }: IChipsWithFilterProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const classes = useStyles();
@@ -57,10 +59,13 @@ const ChipsWithFilter = ({
     setIsFilterOpen(prevOpen => !prevOpen);
 
   useEffect(() => {
-    if (loadingStatus === LoadingStatus.INITIAL) {
+    if (
+      loadingStatus === LoadingStatus.INITIAL &&
+      permissionsStatus === LoadingStatus.SUCCESS
+    ) {
       getList(infoNotification);
     }
-  }, [loadingStatus, getList, infoNotification]);
+  }, [loadingStatus, getList, infoNotification, permissionsStatus]);
 
   const handleCancel = (): void => {
     toggleFilterOpen();

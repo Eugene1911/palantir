@@ -25,7 +25,7 @@ const Weight = ({ special }: IWeightProps): JSX.Element => {
     event: ChangeEvent<{}>,
     newValue: number | number[],
   ): void => {
-    special.setWeight(newValue);
+    special.setWeight(newValue[0] || newValue);
   };
 
   const handleInputChange = (

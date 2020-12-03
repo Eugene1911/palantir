@@ -16,12 +16,14 @@ interface IAdFormatProps {
   adFormat?: TAdFormatModel;
   permissions?: TPermissionsStore;
   filterCategoriesByAdFormat?: (name: string) => void;
+  isEdit?: boolean;
 }
 
 const AdFormat = ({
   adFormat,
   permissions,
   filterCategoriesByAdFormat,
+  isEdit,
 }: IAdFormatProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
 
@@ -76,4 +78,5 @@ export default inject(({ newCampaignSettings }) => ({
     newCampaignSettings.settings.categories
       .filterCategoriesByAdFormat,
   permissions: newCampaignSettings.permissions,
+  isEdit: newCampaignSettings.edit.isEdit,
 }))(observer(AdFormat));

@@ -27,6 +27,7 @@ const BaseTagsAndFilterModel = types
       Object.values(LoadingStatus),
     ),
     errorWord: types.string,
+    editSelectedId: types.array(types.number),
   })
   .views(self => ({
     get selectedCount(): number {
@@ -71,8 +72,8 @@ const BaseTagsAndFilterModel = types
         self.list = cast(
           data.map(item => ({
             ...item,
-            selected: false,
-            tempSelected: false,
+            selected: self.editSelectedId.includes(item.id),
+            tempSelected: self.editSelectedId.includes(item.id),
           })),
         );
       } catch (error) {

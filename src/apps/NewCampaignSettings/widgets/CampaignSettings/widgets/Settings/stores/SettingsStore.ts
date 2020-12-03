@@ -1,4 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import AdFormatModel, {
   InitialAdFormatModel,
 } from './models/AdFormat';
@@ -40,6 +41,14 @@ const SettingsModel = types
         categories: self.categories.getResultData(),
       };
       /* eslint-enable @typescript-eslint/camelcase */
+    },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      self.setName(data.name);
+      self.groups.setEditData(data);
+      self.adFormat.setEditData(data);
+      self.categories.setEditData(data);
     },
   }));
 
