@@ -119,13 +119,13 @@ const PricingModel = types
         pricing_model,
       } = data;
 
-      console.log('pricing data', {
-        max_daily,
-        price_rtb,
-        dynamic,
-        price,
-        pricing_model,
-      });
+      // console.log('pricing data', {
+      //   max_daily,
+      //   price_rtb,
+      //   dynamic,
+      //   price,
+      //   pricing_model,
+      // });
 
       self.adModel = resultPricingModel[pricing_model];
       price && (self.price.bid = String(price));

@@ -266,17 +266,17 @@ const AudienceModel = types
         disable_rtb,
       } = data;
 
-      console.log('audience data', {
-        spots,
-        exclude_spots,
-        enabled_applications,
-        disabled_applications,
-        enabled_subids,
-        disabled_subids,
-        traffic_type,
-        traffic_source_type,
-        disable_rtb,
-      });
+      // console.log('audience data', {
+      //   spots,
+      //   exclude_spots,
+      //   enabled_applications,
+      //   disabled_applications,
+      //   enabled_subids,
+      //   disabled_subids,
+      //   traffic_type,
+      //   traffic_source_type,
+      //   disable_rtb,
+      // });
 
       self.trafficType = resultTrafficType[traffic_type];
       traffic_source_type

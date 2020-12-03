@@ -19,7 +19,6 @@ import {
   EFetchStatus,
   IAudienceResultData,
 } from '../../assets/commonTypes';
-import { getCampaigns } from '../../../../resources/api';
 
 interface IAudienceProps {
   getSpotsData?: () => void;
@@ -62,16 +61,13 @@ function Audience(props: IAudienceProps): JSX.Element {
       isSubIDAvailable,
       isTrafficSourceAvailable,
       isRTBAvailable,
-      campaigns,
     ] = await Promise.all([
       AccessControl.canUseTrafficTypeMembersArea(),
       AccessControl.canUseSubID(),
       AccessControl.canUseTrafficSource(),
       AccessControl.canUseRtb(),
-      getCampaigns({}),
     ]);
 
-    console.log('campaigns', campaigns.data.response);
     setPermissions({
       isMembersAreaAvailable,
       isSubIDAvailable,
