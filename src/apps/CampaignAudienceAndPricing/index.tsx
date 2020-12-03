@@ -2,11 +2,14 @@ import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import ReactDOM from 'react-dom';
 import theme from 'config/theme';
-import BackofficeToolsApp from './app';
+import { BrowserRouter as Router } from 'react-router-dom';
+import CampaignAudienceAndPricing from './app';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <BackofficeToolsApp />
+    <Router basename="advertisers">
+      <CampaignAudienceAndPricing />
+    </Router>
   </ThemeProvider>,
-  document.getElementById('root'),
+  document.getElementById('roo]t'),
 );
