@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
 import { SnackbarProvider } from 'notistack';
 import { MAX_COUNT_SNACK } from '../../config/constants';
@@ -15,11 +16,13 @@ const NewCampaignSettings = (): JSX.Element => {
   };
 
   return (
-    <SnackbarProvider maxSnack={MAX_COUNT_SNACK}>
-      <WrapperStartAppComponent store={store}>
-        <CampaignSettings />
-      </WrapperStartAppComponent>
-    </SnackbarProvider>
+    <Route path="/new_create_campaign_settings/:mode?/:id?">
+      <SnackbarProvider maxSnack={MAX_COUNT_SNACK}>
+        <WrapperStartAppComponent store={store}>
+          <CampaignSettings />
+        </WrapperStartAppComponent>
+      </SnackbarProvider>
+    </Route>
   );
 };
 
