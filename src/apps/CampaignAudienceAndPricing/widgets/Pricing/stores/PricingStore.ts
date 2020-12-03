@@ -109,6 +109,38 @@ const PricingModel = types
 
       return result;
     },
+    setPricingData(data: IPricingResultData) {
+      /* eslint-disable @typescript-eslint/camelcase */
+      const {
+        max_daily,
+        price_rtb,
+        dynamic,
+        price,
+        pricing_model,
+      } = data;
+
+      console.log('pricing data', {
+        max_daily,
+        price_rtb,
+        dynamic,
+        price,
+        pricing_model,
+      });
+
+      self.adModel = resultPricingModel[pricing_model];
+      price && (self.price.bid = String(price));
+      self.price.priceType = dynamic
+        ? EPriceType.DYNAMIC
+        : EPriceType.STANDARD;
+      price_rtb
+        ? (self.rtb.price = String(price_rtb))
+        : (self.rtb.price = '');
+      max_daily
+        ? (self.budget.daily = String(max_daily))
+        : (self.budget.daily = InitialPricingModel.budget.daily);
+      // TODO: Добавить budget.total когда будет в апи
+      /* eslint-enable @typescript-eslint/camelcase */
+    },
     // запросы
     getBidsPrice: flow(function* getBidsPrice() {
       try {
@@ -127,7 +159,8 @@ const PricingModel = types
         self.price[EBidType.MINIMUM] = String(data.min);
         self.price[EBidType.TARGET] = String(data.max);
         self.price[EBidType.RECOMMENDED] = String(data.recommended);
-        self.price.bid = String(data.recommended);
+        !self.price.bid &&
+          (self.price.bid = String(data.recommended));
         self.price.fetchStatus = EFetchStatus.SUCCESS;
       } catch (error) {
         self.price.fetchStatus = EFetchStatus.ERROR;

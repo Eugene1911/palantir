@@ -17,10 +17,7 @@ import {
   ETrafficSource,
   ETrafficType,
 } from '../assets/constants/commonAudienceTypes';
-import {
-  resultTrafficType,
-  resultTrafficSourceType,
-} from '../assets/constants/resultConst';
+import { resultTrafficType } from '../assets/constants/resultConst';
 
 export const InitialAudienceModel = {
   trafficType: ETrafficType.RON,
@@ -248,13 +245,78 @@ const AudienceModel = types
         disabled_subids: !isSubsBlack
           ? []
           : self[EIDModel.SUB_ID].tagsSelected.map(({ id }) => id),
-        traffic_source_type:
-          resultTrafficSourceType[self.trafficSource],
+        traffic_source_type: self.trafficSource,
         disable_rtb: !self.rtb,
         /* eslint-enable @typescript-eslint/camelcase */
       };
 
       return result;
+    },
+    setAudienceData(data: IAudienceResultData) {
+      /* eslint-disable @typescript-eslint/camelcase */
+      const {
+        spots,
+        exclude_spots,
+        enabled_applications,
+        disabled_applications,
+        enabled_subids,
+        disabled_subids,
+        traffic_type,
+        traffic_source_type,
+        disable_rtb,
+      } = data;
+
+      console.log('audience data', {
+        spots,
+        exclude_spots,
+        enabled_applications,
+        disabled_applications,
+        enabled_subids,
+        disabled_subids,
+        traffic_type,
+        traffic_source_type,
+        disable_rtb,
+      });
+
+      self.trafficType = resultTrafficType[traffic_type];
+      traffic_source_type
+        ? (self.trafficSource = traffic_source_type)
+        : (self.trafficSource = InitialAudienceModel.trafficSource);
+      disable_rtb
+        ? (self.rtb = !disable_rtb)
+        : (self.rtb = InitialAudienceModel.rtb);
+
+      const setTagsFromData = (model, tagsWhite, tagsBlack) => {
+        if (tagsBlack?.length > 0) {
+          self[model].listType = EListType.BLACK;
+          // @ts-ignore
+          self[model].tagsSelected = tagsBlack.map(tag => ({
+            id: tag,
+          }));
+        } else if (tagsWhite?.length > 0) {
+          self[model].listType = EListType.WHITE;
+          // @ts-ignore
+          self[model].tagsSelected = tagsWhite.map(tag => ({
+            id: tag,
+          }));
+        } else {
+          self[model].listType = EListType.WHITE;
+          self[model].tagsSelected = [];
+        }
+      };
+
+      setTagsFromData(EIDModel.SPOT_ID, spots, exclude_spots);
+      setTagsFromData(
+        EIDModel.SITE_ID,
+        enabled_applications,
+        disabled_applications,
+      );
+      setTagsFromData(
+        EIDModel.SUB_ID,
+        enabled_subids,
+        disabled_subids,
+      );
+      /* eslint-enable @typescript-eslint/camelcase */
     },
     // запросы
     getSpotsData: flow(function* getSpotsData() {
