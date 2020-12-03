@@ -33,6 +33,7 @@ import {
   BROWSERS_VERSIONS,
   OS_VERSIONS,
   MINIMAL_BIDS,
+  CAMPAIGN_EDIT_DRAFT,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -314,6 +315,13 @@ export const saveSpotPrice = (campaignId, spotId, params) =>
     ),
     params,
   );
+
+/**
+ * Edit campaign as draft
+ * @param {Object} params
+ */
+export const editCampaignAsDraft = (id, params) =>
+  API.patch(CAMPAIGN_EDIT_DRAFT(id), params);
 
 /**
  * Get campaign statuses

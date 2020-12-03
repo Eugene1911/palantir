@@ -1,6 +1,6 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import { INotification } from 'sharedTypes';
-import { saveCampaignAsDraft } from 'resources/api';
+import { editCampaignAsDraft } from 'resources/api';
 import {
   EFetchStatus,
   ICampaignAudienceAndPricingResultData,
@@ -18,14 +18,16 @@ const SaveStepActionModel = types
   })
   .actions(self => ({
     saveCampaign: flow(function* saveCampaign(
+      id: number,
       infoNotification: (arg: INotification) => void,
       resultData: ICampaignAudienceAndPricingResultData,
       successCallback: () => void,
     ) {
       self.savingStatus = EFetchStatus.PENDING;
       try {
-        const response = yield saveCampaignAsDraft(resultData);
-        console.log('resultData', resultData, 'response', response);
+        const response = yield editCampaignAsDraft(id, resultData);
+        console.log('resultData', resultData);
+        console.log('editCampaignAsDraft response', response);
 
         successCallback();
         self.savingStatus = EFetchStatus.SUCCESS;

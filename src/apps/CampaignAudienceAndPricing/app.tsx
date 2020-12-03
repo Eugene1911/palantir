@@ -46,7 +46,7 @@ function CampaignAudienceAndPricing(): JSX.Element {
         <CampaignStepper activeStep={1} />
         <Audience initialCampaignData={campaign} />
         <Pricing initialCampaignData={campaign} />
-        <SaveStepAction />
+        <SaveStepAction id={id} />
       </WrapperStartAppComponent>
     </SnackbarProvider>
   );
