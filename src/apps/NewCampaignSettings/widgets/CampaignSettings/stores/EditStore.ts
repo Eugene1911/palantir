@@ -6,6 +6,7 @@ import {
 } from 'sharedTypes';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { getCampaignById } from 'resources/api';
+import { DRAFT_STATUS } from 'config/constants';
 
 export const InitialEditStore = {
   isEdit: false,
@@ -37,7 +38,7 @@ const EditStore = types
       try {
         const { data } = yield getCampaignById(id);
         self.campaignStatus = LoadingStatus.SUCCESS;
-        self.isEditDraft = data?.status === 'draft';
+        self.isEditDraft = data?.status === DRAFT_STATUS;
         setNewCampaignSettingsEditData(data);
       } catch (error) {
         self.campaignStatus = LoadingStatus.ERROR;
