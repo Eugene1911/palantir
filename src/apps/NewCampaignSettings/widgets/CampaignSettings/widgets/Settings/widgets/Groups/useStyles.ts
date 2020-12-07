@@ -6,6 +6,7 @@ const useStyles = makeStyles<Theme, TNameAndGroupClasses>(() => ({
   },
   manage: {
     marginLeft: '24px',
+    fontSize: '14px',
   },
 }));
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { inject, observer } from 'mobx-react';
 
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +12,7 @@ import FilterLoader from 'sharedComponents/loaders/FilterLoader';
 import QuestionTooltip from 'sharedComponents/QuestionTooltip';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import { TGroupsModel } from '../../stores/models/Groups';
+import ManageGroupsDrawer from './widgets/ManageGroupsDrawer';
 import useStyles from './useStyles';
 
 interface IGroupsProps {
@@ -21,6 +22,10 @@ interface IGroupsProps {
 const Groups = ({ groups }: IGroupsProps): JSX.Element => {
   const classes = useStyles();
   const infoNotification = useHookInfoNotification();
+  const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
+
+  const toggleOpenDrawer = (): void =>
+    setIsOpenDrawer(prevOpen => !prevOpen);
 
   useEffect(() => {
     if (groups.groupListStatus === LoadingStatus.INITIAL) {
@@ -55,12 +60,24 @@ const Groups = ({ groups }: IGroupsProps): JSX.Element => {
           </FormControl>
         )}
       </Grid>
-      <QuestionTooltip title="Groups allow you to classify your ad campaigns by groups in the campaign listing page." />
-      <Grid item>
-        <Button color="primary" className={classes.manage}>
-          Manage groups
-        </Button>
-      </Grid>
+      {groups.groupListStatus === LoadingStatus.SUCCESS && (
+        <>
+          <QuestionTooltip title="Groups allow you to classify your ad campaigns by groups in the campaign listing page." />
+          <Grid item>
+            <Button
+              onClick={toggleOpenDrawer}
+              color="primary"
+              className={classes.manage}
+            >
+              Manage groups
+            </Button>
+          </Grid>
+        </>
+      )}
+      <ManageGroupsDrawer
+        isOpen={isOpenDrawer}
+        onCancel={toggleOpenDrawer}
+      />
     </>
   );
 };

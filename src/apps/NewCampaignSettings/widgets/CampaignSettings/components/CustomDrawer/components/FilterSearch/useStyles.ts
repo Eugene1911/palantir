@@ -11,9 +11,16 @@ const useStyles = makeStyles<Theme, TFilterSearchClasses>(
     search: {
       padding: '24px',
     },
+    noPadding: {
+      padding: '24px 0',
+    },
   }),
 );
 
-export type TFilterSearchClasses = 'icon' | 'focusedIcon' | 'search';
+export type TFilterSearchClasses =
+  | 'icon'
+  | 'focusedIcon'
+  | 'search'
+  | 'noPadding';
 
 export default useStyles;
