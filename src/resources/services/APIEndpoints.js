@@ -4,6 +4,8 @@ export const API_VERSION_1_1 = '/v1.1/';
 
 export const AUTH_TOKEN = `${API_DOMAIN}${API_VERSION_1}auth/token`;
 export const CAMPAIGNS = `${API_VERSION_1_1}campaigns`;
+export const CAMPAIGN_EDIT = id =>
+  `${API_VERSION_1_1}campaigns/${id}`;
 export const CAMPAIGNS_CLONE = `${API_VERSION_1_1}campaigns/{id}/clone`;
 export const CAMPAIGNS_SAVE_AS = `${API_VERSION_1_1}campaigns/{id}/save_as`;
 export const CAMPAIGNS_ARCHIVE = `${API_VERSION_1_1}campaigns/archive`;
@@ -20,6 +22,8 @@ export const OS = `${API_VERSION_1_1}os`;
 export const OS_VERSIONS = `${API_VERSION_1_1}os_versions`;
 export const BROWSERS = `${API_VERSION_1_1}browsers`;
 export const BROWSERS_VERSIONS = `${API_VERSION_1_1}browser_versions`;
+export const RETARGETING = userId =>
+  `${API_VERSION_1}retargeting/list/${userId}`;
 export const MINIMAL_BIDS = `${API_VERSION_1_1}minimal-bids/price`;
 export const SPOT_PRICE = `${API_VERSION_1_1}campaigns/{id}/spot/{spotId}/price`;
 export const CARRIERS = `${API_VERSION_1_1}carriers`;

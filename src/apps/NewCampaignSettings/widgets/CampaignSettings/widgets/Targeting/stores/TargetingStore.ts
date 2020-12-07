@@ -34,6 +34,9 @@ import KeywordsModel, {
 import IPRangesModel, {
   InitialIPRangesModel,
 } from './models/IPRanges';
+import RetargetingModel, {
+  InitialRetargetingModel,
+} from './models/Retargeting';
 import { ITargetingResultData } from '../../../../../types/resultTypes';
 
 export const InitialTargetingModel = {
@@ -50,6 +53,7 @@ export const InitialTargetingModel = {
   proxyTraffic: InitialProxyTrafficModel,
   keywords: InitialKeywordsModel,
   ipRanges: InitialIPRangesModel,
+  retargeting: InitialRetargetingModel,
 };
 
 const TargetingModel = types
@@ -67,6 +71,7 @@ const TargetingModel = types
     proxyTraffic: ProxyTrafficModel,
     keywords: KeywordsModel,
     ipRanges: IPRangesModel,
+    retargeting: RetargetingModel,
   })
   .actions(self => ({
     toggleIsAdvancedOpen(): void {
