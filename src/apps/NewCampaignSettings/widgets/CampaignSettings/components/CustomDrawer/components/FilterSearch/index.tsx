@@ -9,17 +9,19 @@ import useStyles from './useStyles';
 interface IFilterSearchProps {
   inputText: string;
   setInputText: (text: string) => void;
+  noPadding?: boolean;
 }
 
 const FilterSearch = ({
   inputText,
   setInputText,
+  noPadding,
 }: IFilterSearchProps): JSX.Element => {
   const classes = useStyles();
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
   return (
-    <Box className={classes.search}>
+    <Box className={noPadding ? classes.noPadding : classes.search}>
       <TextField
         placeholder="Search"
         variant="standard"

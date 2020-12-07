@@ -34,6 +34,8 @@ import {
   OS_VERSIONS,
   MINIMAL_BIDS,
   CAMPAIGN_EDIT_DRAFT,
+  UPDATE_GROUP,
+  BATCH,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -48,6 +50,26 @@ export const getFormats = params => API.get(FORMATS, { params });
  * @param {Object} params
  */
 export const getGroups = params => API.get(GROUPS, { params });
+
+/**
+ * Create campaign group
+ * @param {Object} params
+ */
+export const createGroup = params => API.post(GROUPS, params);
+
+/**
+ * Update campaign group
+ * @param {Object} params
+ */
+export const updateGroup = (id, params) =>
+  API.put(UPDATE_GROUP(id), params);
+
+/**
+ * Delete campaign group
+ * @param {Object} params
+ */
+export const deleteGroup = (id, params) =>
+  API.delete(UPDATE_GROUP(id), params);
 
 /**
  * Get Ad Devices
@@ -302,6 +324,12 @@ export const getOptimizerVariables = params =>
  */
 export const saveCampaignAsDraft = params =>
   API.post(CAMPAIGN_DRAFT, params);
+
+/**
+ * Make batch request
+ * @param {Object} params
+ */
+export const makeBatch = params => API.post(BATCH, params);
 
 /**
 =======

@@ -9,12 +9,20 @@ interface IFilterFooterProps {
   selectedCount: number;
   onCancel: () => void;
   onSave: () => void;
+  isShowSelectedCount?: boolean;
+  saveText?: string;
+  isSaveDisabled?: boolean;
+  customLeftButton?: JSX.Element;
 }
 
 const FilterFooter = ({
   selectedCount,
   onCancel,
   onSave,
+  isShowSelectedCount = true,
+  saveText,
+  isSaveDisabled = false,
+  customLeftButton,
 }: IFilterFooterProps): JSX.Element => {
   const classes = useStyles();
 
@@ -25,15 +33,23 @@ const FilterFooter = ({
       justify="space-between"
       alignItems="center"
     >
-      <Typography color="primary">
-        {selectedCount} Selected
-      </Typography>
+      {isShowSelectedCount && (
+        <Typography color="primary">
+          {selectedCount} Selected
+        </Typography>
+      )}
+      {!!customLeftButton && customLeftButton}
       <Grid item container className={classes.buttons}>
         <Button onClick={onCancel} className={classes.cancel}>
           Cancel
         </Button>
-        <Button onClick={onSave} variant="contained" color="primary">
-          Done
+        <Button
+          disabled={isSaveDisabled}
+          onClick={onSave}
+          variant="contained"
+          color="primary"
+        >
+          {saveText || 'Done'}
         </Button>
       </Grid>
     </Grid>

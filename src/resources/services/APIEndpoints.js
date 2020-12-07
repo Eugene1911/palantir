@@ -10,6 +10,8 @@ export const CAMPAIGNS_ARCHIVE = `${API_VERSION_1_1}campaigns/archive`;
 export const CAMPAIGNS_REJECT_REASONS = `${API_VERSION_1_1}campaigns/reject_reasons`;
 export const CAMPAIGNS_DISAPPROVE = `${API_VERSION_1_1}campaigns/{id}/disapprove`;
 export const GROUPS = `${API_VERSION_1_1}campaign-group`;
+export const UPDATE_GROUP = id =>
+  `${API_VERSION_1_1}campaign-group/${id}`;
 export const FORMATS = `${API_VERSION_1_1}formats`;
 export const DEVICES = `${API_VERSION_1_1}devices`;
 export const DEVICE_BRANDS = `${API_VERSION_1_1}device_brands`;
@@ -44,3 +46,6 @@ export const RBAC_CHECK_ACCESS = `${API_VERSION_1_1}rbac/check_access`;
 export const CAMPAIGN_DRAFT = `${API_VERSION_1_1}campaigns/draft`;
 export const CAMPAIGN_EDIT_DRAFT = id =>
   `${API_VERSION_1_1}campaigns/${id}/draft`;
+
+// Batch
+export const BATCH = `${API_VERSION_1_1}batch`;

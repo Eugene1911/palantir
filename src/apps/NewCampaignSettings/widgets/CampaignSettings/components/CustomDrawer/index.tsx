@@ -95,73 +95,71 @@ const CustomDrawer = ({
   };
 
   return (
-    <>
-      <Drawer anchor="right" open={isOpen} onClose={onCancel}>
-        <FilterHeader
-          onCancel={onCancel}
-          title={title}
-          withCloseButton={
-            withCloseButton !== undefined ? withCloseButton : true
-          }
-          withBackButton={withBackButton || false}
-        />
-        {isAsyncLoadingList && (
-          <>
-            {topFilterPermission && (
-              <TopFilter
-                isShowAsyncLoadButton={isShowAsyncLoadButton}
-                topFilterTitle={topFilterTitle}
-                setIsShowAsyncLoadButton={setIsShowAsyncLoadButton}
-              />
-            )}
-            <BottomFilter
-              isSelectedFilterActive={isSelectedFilterActive}
-              activeFilter={activeFilter}
-              filtersOptions={filtersOptions}
-              selectedCount={selectedCount}
-              toggleSelectedFilter={toggleSelectedFilter}
-              clearAllFilters={clearAllFilters}
-              handleSetActiveFilter={handleSetActiveFilter}
+    <Drawer anchor="right" open={isOpen} onClose={onCancel}>
+      <FilterHeader
+        onCancel={onCancel}
+        title={title}
+        withCloseButton={
+          withCloseButton !== undefined ? withCloseButton : true
+        }
+        withBackButton={withBackButton || false}
+      />
+      {isAsyncLoadingList && (
+        <>
+          {topFilterPermission && (
+            <TopFilter
+              isShowAsyncLoadButton={isShowAsyncLoadButton}
+              topFilterTitle={topFilterTitle}
+              setIsShowAsyncLoadButton={setIsShowAsyncLoadButton}
             />
-          </>
-        )}
-        <FilterSearch
-          inputText={inputText}
-          setInputText={setInputText}
-        />
-        <Container className={classes.content}>
-          {categoriesList
-            ? categoriesList.map(category => (
-                <ListCategory
-                  category={category}
-                  inputText={inputText}
-                  isSelectedFilterActive={isSelectedFilterActive}
-                  isAsyncLoadingList={isAsyncLoadingList}
-                  isShowAsyncLoadButton={isShowAsyncLoadButton}
-                  activeFilter={activeFilter}
-                  onSelect={onSelect}
-                  selectAllCategory={selectAllCategory}
-                  openAsyncFilter={openAsyncFilter}
-                  key={category.id}
-                />
-              ))
-            : list.map(item => (
-                <ListItem
-                  item={item}
-                  noFilter={false}
-                  inputText={inputText}
-                  onSelect={onSelect}
-                  key={item.id}
-                />
-              ))}
-        </Container>
-        <FilterFooter
-          onCancel={onCancel}
-          onSave={onSave}
-          selectedCount={selectedCount}
-        />
-      </Drawer>
-    </>
+          )}
+          <BottomFilter
+            isSelectedFilterActive={isSelectedFilterActive}
+            activeFilter={activeFilter}
+            filtersOptions={filtersOptions}
+            selectedCount={selectedCount}
+            toggleSelectedFilter={toggleSelectedFilter}
+            clearAllFilters={clearAllFilters}
+            handleSetActiveFilter={handleSetActiveFilter}
+          />
+        </>
+      )}
+      <FilterSearch
+        inputText={inputText}
+        setInputText={setInputText}
+      />
+      <Container className={classes.content}>
+        {categoriesList
+          ? categoriesList.map(category => (
+              <ListCategory
+                category={category}
+                inputText={inputText}
+                isSelectedFilterActive={isSelectedFilterActive}
+                isAsyncLoadingList={isAsyncLoadingList}
+                isShowAsyncLoadButton={isShowAsyncLoadButton}
+                activeFilter={activeFilter}
+                onSelect={onSelect}
+                selectAllCategory={selectAllCategory}
+                openAsyncFilter={openAsyncFilter}
+                key={category.id}
+              />
+            ))
+          : list.map(item => (
+              <ListItem
+                item={item}
+                noFilter={false}
+                inputText={inputText}
+                onSelect={onSelect}
+                key={item.id}
+              />
+            ))}
+      </Container>
+      <FilterFooter
+        onCancel={onCancel}
+        onSave={onSave}
+        selectedCount={selectedCount}
+      />
+    </Drawer>
   );
 };
 
