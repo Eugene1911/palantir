@@ -91,3 +91,6 @@ export const NOTIFIER_DEFAULT_OPTIONS = {
 
 // Key codes
 export const KEY_ENTER_CODE = 'Enter';
+
+// Name for window - global variables
+export const GLOBAL_NAME = 'GLOBAL';

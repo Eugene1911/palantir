@@ -10,7 +10,7 @@ import {
   updateGroup,
 } from 'resources/api';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
-import { GLOBAL_NAME } from '../../../../constants/globalName';
+import { GLOBAL_NAME } from 'config/constants';
 
 const CampaignModel = types.model({
   id: types.number,
