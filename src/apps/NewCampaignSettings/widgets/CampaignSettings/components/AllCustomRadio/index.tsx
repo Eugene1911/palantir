@@ -15,6 +15,7 @@ interface IAllCustomRadioProps {
   value: AllCustomStatus;
   name: string;
   counter?: string;
+  allLabel?: string;
 }
 
 const AllCustomRadio = ({
@@ -22,6 +23,7 @@ const AllCustomRadio = ({
   value,
   name,
   counter,
+  allLabel,
 }: IAllCustomRadioProps): JSX.Element => {
   const classes = useStyles();
 
@@ -41,7 +43,7 @@ const AllCustomRadio = ({
             <FormControlLabel
               value={AllCustomStatus.ALL}
               control={<Radio color="primary" />}
-              label="ALL"
+              label={allLabel || 'ALL'}
               className={classes.radio}
             />
           </Grid>

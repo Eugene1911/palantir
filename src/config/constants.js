@@ -94,3 +94,6 @@ export const KEY_ENTER_CODE = 'Enter';
 
 // Name for window - global variables
 export const GLOBAL_NAME = 'GLOBAL';
+
+// Status 'draft' for campaign
+export const DRAFT_STATUS = 'draft';

@@ -36,6 +36,8 @@ import {
   CAMPAIGN_EDIT_DRAFT,
   UPDATE_GROUP,
   BATCH,
+  CAMPAIGN_EDIT,
+  RETARGETING,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -122,6 +124,13 @@ export const getBrowsers = params => API.get(BROWSERS, { params });
  */
 export const getBrowsersVersions = params =>
   API.get(BROWSERS_VERSIONS, { params });
+
+/**
+ * Get Retargeting list
+ * @param {Object} params
+ */
+export const getRetargetingList = (userId, params) =>
+  API.get(RETARGETING(userId), { params });
 
 /**
  * Get MinimalBids
@@ -332,7 +341,6 @@ export const saveCampaignAsDraft = params =>
 export const makeBatch = params => API.post(BATCH, params);
 
 /**
-=======
  * Edit campaign as draft
  * @param {Object} params
  */
@@ -340,7 +348,13 @@ export const editCampaignAsDraft = (id, params) =>
   API.patch(CAMPAIGN_EDIT_DRAFT(id), params);
 
 /**
->>>>>>> 5be27d9b26c871d7a8ff5648426664d5ad7b345f
+ * Edit campaign
+ * @param {Object} params
+ */
+export const editCampaign = (id, params) =>
+  API.patch(CAMPAIGN_EDIT(id), params);
+
+/**
  * Save spot bid
  * @param {Object} params
  */

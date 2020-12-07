@@ -4,6 +4,7 @@ import { INotification, LoadingStatus } from 'sharedTypes';
 import {
   saveCampaignAsDraft,
   editCampaignAsDraft,
+  editCampaign,
 } from 'resources/api';
 import { INewCampaignSettingsResultData } from '../../../../../types/resultTypes';
 import { TEditStore } from '../../../stores/EditStore';
@@ -27,9 +28,12 @@ const SaveStepActionModel = types
     ) {
       self.savingStatus = LoadingStatus.LOADING;
       // TODO потом получать тут id для редиректа и выполнять successCallback
+      const editAction = edit.isEditDraft
+        ? editCampaignAsDraft
+        : editCampaign;
       const saveAction = edit.isEdit
         ? (): Promise<AxiosResponse> =>
-            editCampaignAsDraft(edit.campaignId, resultData)
+            editAction(edit.campaignId, resultData)
         : (): Promise<AxiosResponse> =>
             saveCampaignAsDraft(resultData);
       try {
@@ -40,7 +44,7 @@ const SaveStepActionModel = types
 
         infoNotification({
           variant: 'success',
-          message: 'Campaign successfully saved as draft',
+          message: 'Campaign successfully saved',
         });
       } catch (error) {
         self.savingStatus = LoadingStatus.ERROR;
