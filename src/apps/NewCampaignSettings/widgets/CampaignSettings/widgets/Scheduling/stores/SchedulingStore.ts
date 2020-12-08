@@ -65,10 +65,10 @@ const SchedulingModel = types
         hours_targeting: self.dayTimeRange,
         schedule_timezone: self.timezone,
         schedule_start_time: self.dateStart
-          ? format(self.dateStart, formatDateString)
+          ? `${format(self.dateStart, formatDateString)} 00:00:00`
           : '',
         schedule_end_time: self.dateEnd
-          ? format(self.dateEnd, formatDateString)
+          ? `${format(self.dateEnd, formatDateString)} 00:00:00`
           : '',
       };
       /* eslint-enable @typescript-eslint/camelcase */

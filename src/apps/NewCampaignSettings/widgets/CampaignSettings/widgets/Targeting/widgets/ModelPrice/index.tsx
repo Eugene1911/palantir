@@ -22,8 +22,7 @@ const ModelPrice = ({
           onChange={modelPrice.setFrom}
           placeholder="Any"
           label="From, $"
-          type="number"
-          inputProps={{ className: classes.input }}
+          inputProps={{ className: classes.input, pattern: '[0-9]*' }}
           fullWidth
         />
       </Grid>
@@ -33,8 +32,7 @@ const ModelPrice = ({
           onChange={modelPrice.setTo}
           placeholder="Any"
           label="To, $"
-          type="number"
-          inputProps={{ className: classes.input }}
+          inputProps={{ className: classes.input, pattern: '[0-9]*' }}
           fullWidth
         />
       </Grid>

@@ -11,7 +11,6 @@ const AdFormatModelType = types.model({
   width: types.optional(types.number, 0),
   height: types.optional(types.number, 0),
   type: types.string,
-  hidden: types.boolean,
 });
 
 export const InitialAdFormatModel = {
@@ -53,9 +52,8 @@ const AdFormatModel = types
         self.adFormatListStatus = LoadingStatus.SUCCESS;
         self.adFormatList = data.filter(
           item =>
-            !item.hidden &&
-            (!permissionsForAdFormats[item.name] ||
-              permissions[permissionsForAdFormats[item.name]]),
+            !permissionsForAdFormats[item.name] ||
+            permissions[permissionsForAdFormats[item.name]],
         );
       } catch (error) {
         self.adFormatListStatus = LoadingStatus.ERROR;

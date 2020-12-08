@@ -71,7 +71,7 @@ const DayTimeTable = ({
                     data-x={x}
                     data-y={y}
                   >
-                    {x + 1}
+                    {x}
                   </Box>
                 </TableCell>
               ))}
