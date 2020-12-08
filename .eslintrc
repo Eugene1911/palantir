@@ -76,6 +76,7 @@
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/prop-types": 1,
+    "no-empty-interface": 0,
     "no-console": 1,
     "no-underscore-dangle": 1,
     "import/imports-first": ["error", "absolute-first"],

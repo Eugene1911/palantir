@@ -4,9 +4,14 @@ import {
   getApplications,
   getFormats,
   // getSpots,
+  saveSpotPrice,
   getSpotsByApp,
 } from 'resources/api';
-import { EFetchStatus } from '../../../assets/commonTypes';
+import FilterSideStore from 'sharedWidgets/FilterSide/store/FilterSideStore';
+import {
+  EFetchStatus,
+  IAudienceResultData,
+} from '../../../assets/commonTypes';
 import {
   EIDModel,
   EListType,
@@ -14,6 +19,7 @@ import {
   ETrafficSource,
   ETrafficType,
 } from '../assets/constants/commonAudienceTypes';
+import { resultTrafficType } from '../assets/constants/resultConst';
 
 export const InitialAudienceModel = {
   trafficType: ETrafficType.RON,
@@ -36,13 +42,14 @@ export const InitialAudienceModel = {
     tags: [],
     tagsSelected: [],
   },
-  filterSideModel: EIDModel.SITE_ID,
   isAdvancedOpen: false,
   formats: {
     fetchStatus: EFetchStatus.NOT_FETCHED,
     allFormats: [],
     currentFormat: 1,
   },
+  filterSideModel: EIDModel.SITE_ID,
+  filterSideStore: FilterSideStore.create({}),
 };
 
 const Site = types.model({
@@ -129,10 +136,10 @@ const AudienceModel = types
       Object.values(ETrafficSource),
     ),
     rtb: types.boolean,
+    isAdvancedOpen: types.boolean,
     filterSideModel: types.enumeration<EIDModel>(
       Object.values(EIDModel),
     ),
-    isAdvancedOpen: types.boolean,
     formats: types.model('formats', {
       fetchStatus: types.enumeration<EFetchStatus>(
         Object.values(EFetchStatus),
@@ -140,6 +147,7 @@ const AudienceModel = types
       currentFormat: types.optional(types.number, 1),
       allFormats: types.array(Format),
     }),
+    filterSideStore: FilterSideStore,
   })
   .views(self => ({
     get selectedSites() {
@@ -228,6 +236,111 @@ const AudienceModel = types
         tagsToAdd,
       );
     },
+    saveBids() {
+      const selectedIds = self[EIDModel.SPOT_ID].tagsSelected.map(
+        ({ id }) => id,
+      );
+
+      const selectedSpots = self[
+        EIDModel.SPOT_ID
+      ].spots.filter(({ id }) => selectedIds.includes(id));
+
+      selectedSpots.forEach(
+        // Добавить Campaign id
+        ({ bid, id }) => bid && saveSpotPrice(1, id, {}),
+      );
+    },
+    getAudienceResultData(): IAudienceResultData {
+      const isSitesBlack =
+        self[EIDModel.SITE_ID].listType === EListType.BLACK;
+      const isSpotsBlack =
+        self[EIDModel.SPOT_ID].listType === EListType.BLACK;
+      const isSubsBlack =
+        self[EIDModel.SUB_ID].listType === EListType.BLACK;
+      const getIds = tags => tags.map(({ id }) => Number(id));
+
+      const result = {
+        /* eslint-disable @typescript-eslint/camelcase */
+        traffic_type: resultTrafficType[self.trafficType],
+        spots: isSpotsBlack
+          ? []
+          : getIds(self[EIDModel.SPOT_ID].tagsSelected),
+        exclude_spots: !isSpotsBlack
+          ? []
+          : getIds(self[EIDModel.SPOT_ID].tagsSelected),
+        enabled_applications: isSitesBlack
+          ? []
+          : getIds(self[EIDModel.SITE_ID].tagsSelected),
+        disabled_applications: !isSitesBlack
+          ? []
+          : getIds(self[EIDModel.SITE_ID].tagsSelected),
+        enabled_subids: isSubsBlack
+          ? []
+          : self[EIDModel.SUB_ID].tagsSelected.map(({ id }) => id),
+        disabled_subids: !isSubsBlack
+          ? []
+          : self[EIDModel.SUB_ID].tagsSelected.map(({ id }) => id),
+        traffic_source_type: self.trafficSource,
+        disable_rtb: !self.rtb,
+        /* eslint-enable @typescript-eslint/camelcase */
+      };
+
+      return result;
+    },
+    setAudienceData(data: IAudienceResultData) {
+      /* eslint-disable @typescript-eslint/camelcase */
+      const {
+        spots,
+        exclude_spots,
+        enabled_applications,
+        disabled_applications,
+        enabled_subids,
+        disabled_subids,
+        traffic_type,
+        traffic_source_type,
+        disable_rtb,
+      } = data;
+
+      self.trafficType = resultTrafficType[traffic_type];
+      traffic_source_type
+        ? (self.trafficSource = traffic_source_type)
+        : (self.trafficSource = InitialAudienceModel.trafficSource);
+      disable_rtb
+        ? (self.rtb = !disable_rtb)
+        : (self.rtb = InitialAudienceModel.rtb);
+
+      const setTagsFromData = (model, tagsWhite, tagsBlack) => {
+        if (tagsBlack?.length > 0) {
+          self[model].listType = EListType.BLACK;
+          // @ts-ignore
+          self[model].tagsSelected = tagsBlack.map(tag => ({
+            id: tag,
+          }));
+        } else if (tagsWhite?.length > 0) {
+          self[model].listType = EListType.WHITE;
+          // @ts-ignore
+          self[model].tagsSelected = tagsWhite.map(tag => ({
+            id: tag,
+          }));
+        } else {
+          self[model].listType = EListType.WHITE;
+          self[model].tagsSelected = [];
+        }
+      };
+
+      setTagsFromData(EIDModel.SPOT_ID, spots, exclude_spots);
+      setTagsFromData(
+        EIDModel.SITE_ID,
+        enabled_applications,
+        disabled_applications,
+      );
+      setTagsFromData(
+        EIDModel.SUB_ID,
+        enabled_subids,
+        disabled_subids,
+      );
+      /* eslint-enable @typescript-eslint/camelcase */
+    },
     // запросы
     getSpotsData: flow(function* getSpotsData() {
       try {
@@ -306,7 +419,10 @@ const AudienceModel = types
     getSitesData: flow(function* getAppData() {
       try {
         self[EIDModel.SITE_ID].fetchStatus = EFetchStatus.PENDING;
-        const { data } = yield getApplications({});
+        const { data } = yield getApplications({
+          // page: 1,
+          // size: 15000,
+        });
         console.log('sites', data.response);
         const sites = data.response.map(site => {
           const { id, url, name } = site;

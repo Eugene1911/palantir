@@ -1,15 +1,17 @@
 import { Instance } from 'mobx-state-tree';
-import { AllCustomStatus, LoadingStatus } from 'sharedTypes';
-import BaseTagsAndFilterModel from './BaseTagsAndFilterModel';
+import BaseTagsAndCategoriesModel, {
+  InitialBaseTagsAndCategoriesModel,
+} from './BaseTagsAndCategoriesModel';
 
 export const InitialOperatingSystemsModel = {
-  radio: AllCustomStatus.ALL,
-  list: [],
-  listStatus: LoadingStatus.INITIAL,
+  ...InitialBaseTagsAndCategoriesModel,
   errorWord: 'Operating systems',
+  parentField: 'os_id',
+  editSelectedCategoryField: 'oses',
+  editSelectedItemField: 'os_versions',
 };
 
-const OperatingSystemsModel = BaseTagsAndFilterModel.named(
+const OperatingSystemsModel = BaseTagsAndCategoriesModel.named(
   'OperatingSystemsModel',
 );
 

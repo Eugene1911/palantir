@@ -6,9 +6,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import FormControl from '@material-ui/core/FormControl';
+import { ProxyTrafficTypes } from 'sharedTypes';
 import useStyles from './useStyles';
 import { TProxyTrafficModel } from '../../stores/models/ProxyTraffic';
-import { ProxyTrafficTypes } from '../../constants/proxyTrafficTypes';
 
 interface IProxyTrafficProps {
   proxyTraffic?: TProxyTrafficModel;

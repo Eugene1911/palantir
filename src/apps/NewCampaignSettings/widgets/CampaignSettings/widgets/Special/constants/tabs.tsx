@@ -8,11 +8,7 @@ import Feature from '../widgets/Feature';
 import Weight from '../widgets/Weight';
 import FlatDeal from '../widgets/FlatDeal';
 
-export const tabs: ITab[] = [
-  {
-    leftSide: <CampaignFormLabel text="Feature" />,
-    rightSide: <Feature />,
-  },
+const advertiserAccountManagerTabs: ITab[] = [
   {
     leftSide: (
       <CampaignFormLabel
@@ -28,7 +24,18 @@ export const tabs: ITab[] = [
     rightSide: <Weight />,
   },
   {
-    leftSide: <CampaignFormLabel text="Flat deal" />,
+    leftSide: (
+      <CampaignFormLabel
+        text="Flat deal"
+        tooltipText={
+          'For managers only to set up the % of traffic fixed for the ' +
+          'flat campaign. Please type the number, for example, 50, ' +
+          'and save the campaign. For managers only to set up fixed ' +
+          'amount of impressions for the flat campaign. Please type ' +
+          'the number, for example, 10000, and save the campaign.'
+        }
+      />
+    ),
     rightSide: <FlatDeal />,
   },
   {
@@ -43,4 +50,23 @@ export const tabs: ITab[] = [
     leftSide: <CampaignFormLabel text="Flash" />,
     rightSide: <Flash />,
   },
+];
+
+export const tabs = (
+  isAdvertiserAccountManager: boolean,
+): Array<ITab | JSX.Element> => [
+  {
+    leftSide: (
+      <CampaignFormLabel
+        text="Feature"
+        tooltipText={
+          'Exclusive. For managers only. The feature allows you to ' +
+          'lock the ad campaign, so only managers can edit it (besides ' +
+          'adding the new creatives), and is typically used for flat deals.'
+        }
+      />
+    ),
+    rightSide: <Feature />,
+  },
+  ...(isAdvertiserAccountManager ? advertiserAccountManagerTabs : []),
 ];

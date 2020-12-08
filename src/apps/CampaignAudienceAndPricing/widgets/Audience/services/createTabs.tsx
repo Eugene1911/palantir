@@ -13,17 +13,38 @@ import {
   EIDModel,
   ETrafficType,
 } from '../assets/constants/commonAudienceTypes';
+// eslint-disable-next-line import/namespace
+
+export interface IAudiencePermissions {
+  isMembersAreaAvailable: boolean;
+  isSubIDAvailable: boolean;
+  isTrafficSourceAvailable: boolean;
+  isRTBAvailable: boolean;
+}
 
 interface ICreateTabsProps {
   toggleIsAdvancedOpen?: () => void;
   isAdvancedOpen: boolean;
   trafficType?: ETrafficType;
+  permissions: IAudiencePermissions;
 }
 
 function createTabs(
   props: ICreateTabsProps,
 ): Array<ITab | JSX.Element> {
-  const { isAdvancedOpen, toggleIsAdvancedOpen, trafficType } = props;
+  const {
+    isAdvancedOpen,
+    toggleIsAdvancedOpen,
+    trafficType,
+    permissions,
+  } = props;
+  const {
+    isMembersAreaAvailable,
+    isSubIDAvailable,
+    isTrafficSourceAvailable,
+    isRTBAvailable,
+  } = permissions;
+
   const tabs: Array<ITab | JSX.Element> = [
     {
       leftSide: (
@@ -32,7 +53,11 @@ function createTabs(
           tooltipText={leftSidesConst.trafficSelection.tooltip}
         />
       ),
-      rightSide: <TrafficSelectionButtons />,
+      rightSide: (
+        <TrafficSelectionButtons
+          isMembersAreaAvailable={isMembersAreaAvailable}
+        />
+      ),
     },
   ];
   if (trafficType === ETrafficType.RON) {
@@ -55,7 +80,10 @@ function createTabs(
         ),
         rightSide: <IDSelector model={EIDModel.SPOT_ID} />,
       },
-      {
+    );
+
+    isSubIDAvailable &&
+      tabs.push({
         leftSide: (
           <CampaignFormLabel
             text={leftSidesConst.subID.title}
@@ -63,8 +91,10 @@ function createTabs(
           />
         ),
         rightSide: <IDSelector model={EIDModel.SUB_ID} />,
-      },
-      {
+      });
+
+    isTrafficSourceAvailable &&
+      tabs.push({
         leftSide: (
           <CampaignFormLabel
             text={leftSidesConst.trafficSource.title}
@@ -72,20 +102,23 @@ function createTabs(
           />
         ),
         rightSide: <TrafficSourceSelector />,
-      },
-      <OpenAdvancedTabsButton
-        key={uuid()}
-        toggleIsAdvancedOpen={toggleIsAdvancedOpen}
-        isAdvancedOpen={isAdvancedOpen}
-      />,
-    );
-    if (isAdvancedOpen) {
-      tabs.push({
-        leftSide: (
-          <CampaignFormLabel text={leftSidesConst.rtb.title} />
-        ),
-        rightSide: <RTBSelector />,
       });
+
+    if (isRTBAvailable) {
+      tabs.push(
+        <OpenAdvancedTabsButton
+          key={uuid()}
+          toggleIsAdvancedOpen={toggleIsAdvancedOpen}
+          isAdvancedOpen={isAdvancedOpen}
+        />,
+      );
+      isAdvancedOpen &&
+        tabs.push({
+          leftSide: (
+            <CampaignFormLabel text={leftSidesConst.rtb.title} />
+          ),
+          rightSide: <RTBSelector />,
+        });
     }
   } else {
     tabs.push(<PrimeTable />);

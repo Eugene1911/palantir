@@ -1,15 +1,19 @@
 import { Instance } from 'mobx-state-tree';
-import { AllCustomStatus, LoadingStatus } from 'sharedTypes';
-import BaseTagsAndFilterModel from './BaseTagsAndFilterModel';
+import BaseTagsAndCategoriesModel, {
+  InitialBaseTagsAndCategoriesModel,
+} from './BaseTagsAndCategoriesModel';
 
 export const InitialBrowsersModel = {
-  radio: AllCustomStatus.ALL,
-  list: [],
-  listStatus: LoadingStatus.INITIAL,
+  ...InitialBaseTagsAndCategoriesModel,
   errorWord: 'Browsers',
+  parentField: 'browser_id',
+  editSelectedCategoryField: 'browsers',
+  editSelectedItemField: 'browser_versions',
 };
 
-const BrowsersModel = BaseTagsAndFilterModel.named('BrowsersModel');
+const BrowsersModel = BaseTagsAndCategoriesModel.named(
+  'BrowsersModel',
+);
 
 export type TBrowsersModel = Instance<typeof BrowsersModel>;
 

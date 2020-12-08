@@ -7,10 +7,9 @@ import AddICon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import FilterLoader from 'sharedComponents/loaders/FilterLoader';
 import useStyles from './useStyles';
-import CustomDrawer, {
-  IFilterCategoryItem,
-  IFilterListItem,
-} from '../CustomDrawer';
+import CustomDrawer from '../CustomDrawer';
+import { IFilterListItem } from '../CustomDrawer/components/ListItem';
+import { IFilterCategoryItem } from '../CustomDrawer/components/ListCategory';
 import CustomChip from '../CustomChip';
 
 interface IChipsWithFilterProps {
@@ -20,11 +19,17 @@ interface IChipsWithFilterProps {
   selectAllCategory?: (id: number, value: boolean) => void;
   filterTitle: string;
   loadingStatus: LoadingStatus;
+  permissionsStatus?: LoadingStatus;
   getList: (notification) => void;
   selectedCount?: number;
   onCancel: () => void;
   onSave: () => void;
   onDelete: (id: number, parentId?: number) => void;
+  isAsyncLoadingList?: boolean;
+  topFilterTitle?: string;
+  filtersOptions?: Array<{ name: string; count: number } | null>;
+  openAsyncFilter?: (category: IFilterCategoryItem) => void;
+  topFilterPermission?: boolean;
 }
 
 const ChipsWithFilter = ({
@@ -39,6 +44,12 @@ const ChipsWithFilter = ({
   onDelete,
   categoriesList,
   selectAllCategory,
+  isAsyncLoadingList,
+  topFilterTitle,
+  filtersOptions,
+  openAsyncFilter,
+  topFilterPermission,
+  permissionsStatus = LoadingStatus.SUCCESS,
 }: IChipsWithFilterProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const classes = useStyles();
@@ -48,10 +59,13 @@ const ChipsWithFilter = ({
     setIsFilterOpen(prevOpen => !prevOpen);
 
   useEffect(() => {
-    if (loadingStatus === LoadingStatus.INITIAL) {
+    if (
+      loadingStatus === LoadingStatus.INITIAL &&
+      permissionsStatus === LoadingStatus.SUCCESS
+    ) {
       getList(infoNotification);
     }
-  }, [loadingStatus, getList, infoNotification]);
+  }, [loadingStatus, getList, infoNotification, permissionsStatus]);
 
   const handleCancel = (): void => {
     toggleFilterOpen();
@@ -71,15 +85,17 @@ const ChipsWithFilter = ({
         <>
           <Grid className={classes.container} container>
             {list
-              .filter(item => item.selected)
+              .filter(item => item.selected || item.asLabel)
               .map(item => (
                 <CustomChip
-                  onDelete={(): void =>
-                    onDelete(item.id, item.parentId)
+                  onDelete={
+                    item.asLabel
+                      ? undefined
+                      : (): void => onDelete(item.id, item.parentId)
                   }
                   key={item.id}
                   label={item.name}
-                  isActive
+                  isActive={!item.isDefaultStyle}
                 />
               ))}
             <Button
@@ -102,6 +118,11 @@ const ChipsWithFilter = ({
             onSave={handleSave}
             categoriesList={categoriesList}
             selectAllCategory={selectAllCategory}
+            isAsyncLoadingList={isAsyncLoadingList}
+            topFilterTitle={topFilterTitle}
+            filtersOptions={filtersOptions}
+            openAsyncFilter={openAsyncFilter}
+            topFilterPermission={topFilterPermission}
           />
         </>
       )}

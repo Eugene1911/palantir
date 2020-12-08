@@ -12,10 +12,11 @@ import {
 
 interface IUseTableProps {
   audience: TAudienceModel;
+  isCustomSpot?: boolean;
 }
 
 export const useTable = (props: IUseTableProps) => {
-  const { audience } = props;
+  const { audience, isCustomSpot } = props;
 
   const [selectedSites, setSelectedSites] = React.useState<TSite[]>(
     audience.selectedSites,
@@ -24,10 +25,11 @@ export const useTable = (props: IUseTableProps) => {
     audience.selectedSpots,
   );
 
-  const baseSpots =
-    audience.trafficType === ETrafficType.RON
+  const baseSpots = React.useMemo(() => {
+    return audience.trafficType === ETrafficType.RON || isCustomSpot
       ? selectedSpots
       : audience[EIDModel.SPOT_ID].spots;
+  }, [audience.trafficType, audience.selectedSpots, isCustomSpot]);
 
   const [filteredSites, setFilteredSites] = React.useState<TSite[]>(
     selectedSites,
@@ -35,6 +37,10 @@ export const useTable = (props: IUseTableProps) => {
   const [filteredSpots, setFilteredSpots] = React.useState<TSpot[]>(
     baseSpots,
   );
+
+  React.useEffect(() => {
+    setFilteredSpots(baseSpots);
+  }, [baseSpots]);
 
   const getFilterTextArray = (inputText: string): string[] => {
     const textArray = !!inputText && inputText.split(',');
@@ -65,6 +71,34 @@ export const useTable = (props: IUseTableProps) => {
     );
   };
 
+  const deselectAll = React.useCallback(() => {
+    setSelectedSpots([]);
+  }, [setSelectedSpots]);
+
+  const selectSpot = React.useCallback(
+    (spot: TSpot) => {
+      setSelectedSpots([...selectedSpots, spot]);
+    },
+    [setSelectedSpots, selectedSpots],
+  );
+
+  const selectAll = React.useCallback(() => {
+    setSelectedSpots(baseSpots);
+  }, [baseSpots, setSelectedSpots]);
+
+  const isSelected = React.useCallback(
+    (spot: TSpot) => selectedSpots.includes(spot),
+    [selectedSpots],
+  );
+
+  const setBid = React.useCallback(
+    (value: string, spotID: string): void => {
+      audience.setSpotBid(value, spotID);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   const preventDefault = (event: React.SyntheticEvent): void =>
     event.preventDefault();
 
@@ -78,6 +112,11 @@ export const useTable = (props: IUseTableProps) => {
     setFilteredSites,
     filteredSpots,
     setFilteredSpots,
+    deselectAll,
+    selectAll,
+    selectSpot,
+    isSelected,
+    setBid,
     filterSites,
     filterSpots,
     getFilterTextArray,

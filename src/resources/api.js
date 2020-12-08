@@ -13,6 +13,7 @@ import {
   CATEGORIES,
   LANGUAGES,
   COUNTRIES,
+  REGION,
   CAMPAIGNS,
   APPLICATIONS,
   CAMPAIGNS_CLONE,
@@ -28,8 +29,14 @@ import {
   OPTIMIZER_STRATEGIES,
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
+  CAMPAIGN_DRAFT,
+  SPOT_PRICE,
+  BROWSERS_VERSIONS,
+  OS_VERSIONS,
+  MINIMAL_BIDS,
+  CAMPAIGN_EDIT_DRAFT,
 } from './services/APIEndpoints';
-import API, { APIServiceDjango } from './services/APIService';
+import API from './services/APIService';
 
 /**
  * Get Ad Formats
@@ -41,8 +48,7 @@ export const getFormats = params => API.get(FORMATS, { params });
  * Get Campaigns groups
  * @param {Object} params
  */
-export const getGroups = params =>
-  APIServiceDjango.get(GROUPS, { params });
+export const getGroups = params => API.get(GROUPS, { params });
 
 /**
  * Get Ad Devices
@@ -71,6 +77,13 @@ export const getDevicesModels = params =>
 export const getOSes = params => API.get(OS, { params });
 
 /**
+ * Get OSes versions
+ * @param {Object} params
+ */
+export const getOSesVersions = params =>
+  API.get(OS_VERSIONS, { params });
+
+/**
  * Get Languages
  * @param {Object} params
  */
@@ -81,6 +94,20 @@ export const getLanguages = params => API.get(LANGUAGES, { params });
  * @param {Object} params
  */
 export const getBrowsers = params => API.get(BROWSERS, { params });
+
+/**
+ * Get Browsers versions
+ * @param {Object} params
+ */
+export const getBrowsersVersions = params =>
+  API.get(BROWSERS_VERSIONS, { params });
+
+/**
+ * Get MinimalBids
+ * @param {Object} params
+ */
+export const getMinimalBids = params =>
+  API.post(MINIMAL_BIDS, params);
 
 /**
  * Get Browsers
@@ -138,6 +165,12 @@ export const getApplications = params =>
 export const getCountries = params => API.get(COUNTRIES, { params });
 
 /**
+ * Get Region by country code
+ * @param {string} code
+ */
+export const getRegionByCountryCode = code => API.get(REGION(code));
+
+/**
  * Publisher custom report
  * @param {String} groupType -[app, domain, browser, carrier, campaign, creative, etc]
  * @param {Object} params
@@ -193,7 +226,7 @@ export const putCampaignStatus = async (id, status) =>
 
 /**
  * Get compaign by ID
- * @param {Object} params
+ * @param {number} campaignId
  */
 export const getCampaignById = campaignId =>
   API.get(`${CAMPAIGNS}/${campaignId}`);
@@ -273,6 +306,35 @@ export const putOptimizer = (id, params) =>
  */
 export const getOptimizerVariables = params =>
   API.get(`${OPTIMIZER_VARIABLES}`, { params });
+
+/**
+ * Save campaign as draft
+ * @param {Object} params
+ */
+export const saveCampaignAsDraft = params =>
+  API.post(CAMPAIGN_DRAFT, params);
+
+/**
+=======
+ * Edit campaign as draft
+ * @param {Object} params
+ */
+export const editCampaignAsDraft = (id, params) =>
+  API.patch(CAMPAIGN_EDIT_DRAFT(id), params);
+
+/**
+>>>>>>> 5be27d9b26c871d7a8ff5648426664d5ad7b345f
+ * Save spot bid
+ * @param {Object} params
+ */
+export const saveSpotPrice = (campaignId, spotId, params) =>
+  API.post(
+    SPOT_PRICE.replace('{id}', campaignId).replace(
+      '{spotId}',
+      spotId,
+    ),
+    params,
+  );
 
 /**
  * Get campaign statuses

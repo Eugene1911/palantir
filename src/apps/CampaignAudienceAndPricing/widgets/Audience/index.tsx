@@ -1,19 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import Accordion from 'sharedComponents/Accordion';
 import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle';
-import createTabs from './services/createTabs';
+import AccessControl from 'helpers/accessControl/controller';
+import createTabs, {
+  IAudiencePermissions,
+} from './services/createTabs';
 import IDTableController from './widgets/IDTable';
 import {
+  accordionTitle,
   EIDModel,
   ETrafficSource,
   ETrafficType,
   trafficSources,
   trafficTypes,
 } from './assets/constants/commonAudienceTypes';
-import { EFetchStatus } from '../../assets/commonTypes';
+import {
+  EFetchStatus,
+  IAudienceResultData,
+} from '../../assets/commonTypes';
 
-interface IAudience {
+interface IAudienceProps {
   getSpotsData?: () => void;
   getSitesData?: () => void;
   getFormats?: () => void;
@@ -24,9 +31,11 @@ interface IAudience {
   isAdvancedOpen?: boolean;
   trafficType?: ETrafficType;
   trafficSource?: ETrafficSource;
+  initialCampaignData?: IAudienceResultData;
+  setAudienceData?: (data: IAudienceResultData) => void;
 }
 
-function Audience(props?: IAudience): JSX.Element {
+function Audience(props: IAudienceProps): JSX.Element {
   const {
     getSpotsData,
     getSitesData,
@@ -38,11 +47,53 @@ function Audience(props?: IAudience): JSX.Element {
     toggleIsAdvancedOpen,
     trafficType,
     trafficSource,
+    initialCampaignData,
+    setAudienceData,
   } = props;
+  const [permissions, setPermissions] = useState<
+    IAudiencePermissions
+  >({
+    isMembersAreaAvailable: false,
+    isSubIDAvailable: false,
+    isTrafficSourceAvailable: false,
+    isRTBAvailable: false,
+  });
+
+  const getAudiencePermissions = async () => {
+    const [
+      isMembersAreaAvailable,
+      isSubIDAvailable,
+      isTrafficSourceAvailable,
+      isRTBAvailable,
+    ] = await Promise.all([
+      AccessControl.canUseTrafficTypeMembersArea(),
+      AccessControl.canUseSubID(),
+      AccessControl.canUseTrafficSource(),
+      AccessControl.canUseRtb(),
+    ]);
+
+    setPermissions({
+      isMembersAreaAvailable,
+      isSubIDAvailable,
+      isTrafficSourceAvailable,
+      isRTBAvailable,
+    });
+  };
+
+  useEffect(() => {
+    getAudiencePermissions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    initialCampaignData && setAudienceData(initialCampaignData);
+  }, [initialCampaignData]);
+
   const tabs = createTabs({
     isAdvancedOpen,
     toggleIsAdvancedOpen,
     trafficType,
+    permissions,
   });
 
   formatFetchStatus === EFetchStatus.NOT_FETCHED && getFormats();
@@ -52,7 +103,7 @@ function Audience(props?: IAudience): JSX.Element {
   return (
     <>
       <Accordion
-        title="Audience"
+        title={accordionTitle}
         Icon={SupervisedUserCircle}
         isSelected
         subInfo1={trafficTypes[trafficType]}
@@ -79,5 +130,6 @@ export default inject(({ CampaignAudienceAndPricingStore }) => {
     toggleIsAdvancedOpen: audience.toggleIsAdvancedOpen,
     trafficType: audience.trafficType,
     trafficSource: audience.trafficSource,
+    setAudienceData: audience.setAudienceData,
   };
 })(observer(Audience));

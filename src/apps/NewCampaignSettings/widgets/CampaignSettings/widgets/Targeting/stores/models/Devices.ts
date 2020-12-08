@@ -1,4 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { AllCustomStatus } from 'sharedTypes';
 
 export const InitialDevicesModel = {
@@ -28,6 +29,31 @@ const DevicesModel = types
     },
     toggleDeviceType(index: number, value: boolean): void {
       self.devicesTypes[index] = +value;
+    },
+    getResultData(): number[] {
+      const devices = [];
+      self.devicesTypes.forEach((item, i) => {
+        if (self.devicesRadio === AllCustomStatus.ALL) {
+          devices.push(i);
+        } else if (item) {
+          devices.push(i);
+        }
+      });
+      return devices;
+    },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      if (
+        data.devices?.length &&
+        data.devices.length !==
+          InitialDevicesModel.devicesTypes.length
+      ) {
+        self.setDevicesRadio(AllCustomStatus.CUSTOM);
+        self.devicesTypes.forEach((type, index) => {
+          self.toggleDeviceType(index, data.devices.includes(index));
+        });
+      }
     },
   }));
 

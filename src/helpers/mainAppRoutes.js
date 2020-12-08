@@ -47,13 +47,13 @@ const mainAppRoutes = [
   },
   {
     component: CampaignAudienceAndPricing,
-    path: '/CampaignAudienceAndPricing',
-    exact: true,
+    appListPath: '/new_create_campaign_audience_pricing',
+    path: '/new_create_campaign_audience_pricing/:mode?/:id?',
   },
   {
     component: NewCampaignSettings,
-    path: '/NewCampaignSettings',
-    exact: true,
+    appListPath: '/NewCampaignSettings',
+    path: '/NewCampaignSettings/:mode?/:id?',
   },
   {
     component: OptimizersApp,

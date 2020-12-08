@@ -13,7 +13,7 @@ interface IWeightProps {
   special?: TSpecialModel;
 }
 
-const MIN_VALUE = 0;
+const MIN_VALUE = 1;
 const MAX_VALUE = 10;
 const STEP = 1;
 
@@ -25,7 +25,7 @@ const Weight = ({ special }: IWeightProps): JSX.Element => {
     event: ChangeEvent<{}>,
     newValue: number | number[],
   ): void => {
-    special.setWeight(newValue);
+    special.setWeight(newValue[0] || newValue);
   };
 
   const handleInputChange = (

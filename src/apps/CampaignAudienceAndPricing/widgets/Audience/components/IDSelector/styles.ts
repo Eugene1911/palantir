@@ -30,8 +30,8 @@ export const RadioTitle = styled.div``;
 
 export const RadioLabel = styled.div<IRadioLabelProps>`
   opacity: ${({ checked }) => +checked};
-  width: 36px;
-  height: 20px;
+  min-width: 24px;
+  padding: 0 6px;
   border-radius: 10px;
   text-align: center;
   margin-left: 8px;

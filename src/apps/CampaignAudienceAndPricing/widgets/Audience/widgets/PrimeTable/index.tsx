@@ -375,9 +375,8 @@ function PrimeTable(props: IPrimeTableProps): JSX.Element {
   );
 }
 
-export default inject(
-  ({ CampaignAudienceAndPricingStore, filterSideStore }) => ({
-    audience: CampaignAudienceAndPricingStore.audience,
-    filterSide: filterSideStore,
-  }),
-)(observer(PrimeTable));
+export default inject(({ CampaignAudienceAndPricingStore }) => ({
+  audience: CampaignAudienceAndPricingStore.audience,
+  filterSide:
+    CampaignAudienceAndPricingStore.audience.filterSideStore,
+}))(observer(PrimeTable));

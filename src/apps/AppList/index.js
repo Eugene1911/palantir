@@ -18,9 +18,9 @@ function AppList() {
 
   return (
     <ul>
-      {mainAppRoutes.map(({ path }) => (
+      {mainAppRoutes.map(({ appListPath, path }) => (
         <li key={path}>
-          <Link to={path}>{path}</Link>
+          <Link to={appListPath || path}>{appListPath || path}</Link>
         </li>
       ))}
     </ul>

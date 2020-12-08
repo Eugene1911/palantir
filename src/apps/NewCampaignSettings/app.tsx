@@ -1,7 +1,7 @@
 import React from 'react';
 import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
 import { SnackbarProvider } from 'notistack';
-import { MAX_COUNT_SNACK } from 'config/constants';
+import { MAX_COUNT_SNACK } from '../../config/constants';
 import CampaignSettings from './widgets/CampaignSettings';
 import NewCampaignSettingsStore, {
   InitialNewCampaignSettingsStore,

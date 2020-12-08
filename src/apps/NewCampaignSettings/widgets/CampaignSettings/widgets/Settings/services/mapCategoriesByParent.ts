@@ -3,10 +3,13 @@ import { cast } from 'mobx-state-tree';
 import {
   TCategoriesGroupByParentIdModel,
   TCategoryModel,
-} from '../stores/SettingsStore';
+} from '../stores/models/Categories';
+import { hiddenCategories } from '../constants/hiddenCategories';
 
 export const mapCategoriesByParent = (
   data: TCategoryModel[],
+  permission: boolean,
+  editSelectedId: number[],
 ): { [key: number]: TCategoriesGroupByParentIdModel } => {
   const categoriesByParent: {
     [key: number]: TCategoriesGroupByParentIdModel;
@@ -14,19 +17,25 @@ export const mapCategoriesByParent = (
   const categoriesParents: TCategoryModel[] = data.filter(
     item => !item.parent_id,
   );
-  categoriesParents.forEach(parent => {
-    categoriesByParent[parent.id] = {
-      id: parent.id,
-      name: parent.name,
-      active: true,
-      categories: cast([]),
-    };
-  });
+  categoriesParents
+    .filter(
+      item =>
+        !hiddenCategories.includes(item.name) ||
+        (hiddenCategories.includes(item.name) && permission),
+    )
+    .forEach(parent => {
+      categoriesByParent[parent.id] = {
+        id: parent.id,
+        name: parent.name,
+        active: true,
+        categories: cast([]),
+      };
+    });
   data.forEach(item => {
-    if (item.parent_id) {
+    if (item.parent_id && categoriesByParent[item.parent_id]) {
       categoriesByParent[item.parent_id].categories.push({
         ...item,
-        selected: false,
+        selected: editSelectedId.includes(item.id),
         inBlackList: false,
         inTempBlackList: false,
       });

@@ -16,7 +16,7 @@ export interface IRowItem {
 }
 
 interface IIDTableProps {
-  leftColumns: string[];
+  leftColumns: Array<string | JSX.Element>;
   rightColumns: Array<string | JSX.Element>;
   rowsSections: IRowItem[][][];
   // withCheckbox?: boolean;
@@ -35,7 +35,7 @@ function IDTable(props?: IIDTableProps): JSX.Element {
               {leftColumns.map(title => {
                 return (
                   <TableCell
-                    key={title}
+                    key={uuid()}
                     align="left"
                     className={classes.headerCell}
                   >

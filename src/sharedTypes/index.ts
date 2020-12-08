@@ -105,3 +105,14 @@ export interface INotification {
 }
 
 export type AnyFunction = (...args: any[]) => any;
+
+export enum ProxyTrafficTypes {
+  ALL = 'all',
+  PROXY = 'proxy',
+  NON_PROXY = 'non_proxy',
+}
+
+export interface IUrlParamsType {
+  mode: string;
+  id: string;
+}

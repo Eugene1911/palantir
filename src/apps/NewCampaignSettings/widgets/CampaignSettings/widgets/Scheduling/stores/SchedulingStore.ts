@@ -1,7 +1,11 @@
 import { Instance, types } from 'mobx-state-tree';
 import { AllCustomStatus } from 'sharedTypes';
+import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
+import { format } from 'date-fns';
 import { timezones } from '../constants/timezones';
 import { ALL_HOURS, FULL } from '../constants/dayTimeRanges';
+import { ISchedulingResultData } from '../../../../../types/resultTypes';
+import { formatDateString } from '../constants/formatDateString';
 
 const TimezoneModel = types.model({
   value: types.number,
@@ -32,7 +36,7 @@ const SchedulingModel = types
       self.timezone = timezone;
     },
     setDate(date: Date, type: 'dateStart' | 'dateEnd'): void {
-      self[type] = date;
+      self[type] = date || undefined;
     },
     // установка сразу всех часов в неделе одной строкой
     setDayTimeRange(newRange: string, status: AllCustomStatus): void {
@@ -54,6 +58,37 @@ const SchedulingModel = types
         self.dayTimeRange.substring(0, hourIndex) +
         newHour +
         self.dayTimeRange.substring(hourIndex + 1);
+    },
+    getResultData(): ISchedulingResultData {
+      /* eslint-disable @typescript-eslint/camelcase */
+      return {
+        hours_targeting: self.dayTimeRange,
+        schedule_timezone: self.timezone,
+        schedule_start_time: self.dateStart
+          ? format(self.dateStart, formatDateString)
+          : '',
+        schedule_end_time: self.dateEnd
+          ? format(self.dateEnd, formatDateString)
+          : '',
+      };
+      /* eslint-enable @typescript-eslint/camelcase */
+    },
+  }))
+  .actions(self => ({
+    setEditData(data: IFullCampaignType): void {
+      self.setTimezone(data.schedule_timezone);
+      if (data.hours_targeting !== FULL) {
+        self.setDayTimeRange(
+          data.hours_targeting,
+          AllCustomStatus.CUSTOM,
+        );
+      }
+      if (data.schedule_start_time) {
+        self.setDate(new Date(data.schedule_start_time), 'dateStart');
+      }
+      if (data.schedule_end_time) {
+        self.setDate(new Date(data.schedule_end_time), 'dateEnd');
+      }
     },
   }));
 
