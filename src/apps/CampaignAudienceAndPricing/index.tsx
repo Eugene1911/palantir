@@ -11,5 +11,5 @@ ReactDOM.render(
       <CampaignAudienceAndPricing />
     </Router>
   </ThemeProvider>,
-  document.getElementById('roo]t'),
+  document.getElementById('root'),
 );
