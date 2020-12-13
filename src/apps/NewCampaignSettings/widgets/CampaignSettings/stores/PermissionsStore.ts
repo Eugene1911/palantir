@@ -106,10 +106,12 @@ const PermissionsStore = types
         self.permissionsStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.permissionsStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Permissions loading error';
 
         infoNotification({
           variant: 'error',
-          message: 'Permissions loading error',
+          message,
         });
       }
     }),

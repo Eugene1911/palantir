@@ -48,10 +48,12 @@ const SaveStepActionModel = types
         });
       } catch (error) {
         self.savingStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Saving campaign error';
 
         infoNotification({
           variant: 'error',
-          message: 'Saving campaign error',
+          message,
         });
       }
     }),

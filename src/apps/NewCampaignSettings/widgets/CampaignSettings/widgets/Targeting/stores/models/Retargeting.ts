@@ -46,10 +46,12 @@ const RetargetingModel = types
         self.retargetingStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.retargetingStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Retargeting loading error';
 
         infoNotification({
           variant: 'error',
-          message: 'Retargeting loading error',
+          message,
         });
       }
     }),

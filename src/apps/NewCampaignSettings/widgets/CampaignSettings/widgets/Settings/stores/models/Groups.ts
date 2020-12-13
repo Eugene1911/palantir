@@ -75,10 +75,12 @@ const GroupsModel = types
         self.groupListStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.groupListStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Groups loading error';
 
         infoNotification({
           variant: 'error',
-          message: 'Groups loading error',
+          message,
         });
       }
     }),
@@ -165,10 +167,12 @@ const GroupsModel = types
         successCallback();
       } catch (error) {
         self.groupActionStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Updating group error';
 
         infoNotification({
           variant: 'error',
-          message: 'Updating group error',
+          message,
         });
       }
     }),
@@ -194,10 +198,12 @@ const GroupsModel = types
         successCallback();
       } catch (error) {
         self.groupActionStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Deleting group error';
 
         infoNotification({
           variant: 'error',
-          message: 'Deleting group error',
+          message,
         });
       }
     }),
@@ -231,9 +237,12 @@ const GroupsModel = types
         }
         successCallback();
       } catch (error) {
+        const message =
+          error?.response?.data?.msg || 'Get campaign list error';
+
         infoNotification({
           variant: 'error',
-          message: 'Get campaign list error',
+          message,
         });
       }
     }),

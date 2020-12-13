@@ -189,10 +189,12 @@ const CategoriesModel = types
         }
       } catch (error) {
         self.categoriesListStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Categories loading error';
 
         infoNotification({
           variant: 'error',
-          message: 'Categories loading error',
+          message,
         });
       }
     }),

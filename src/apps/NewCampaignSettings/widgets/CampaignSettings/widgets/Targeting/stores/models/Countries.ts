@@ -181,10 +181,12 @@ const CountriesModel = types
         self.regionStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.regionStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Region loading error';
 
         infoNotification({
           variant: 'error',
-          message: 'Region loading error',
+          message,
         });
       }
     }),
@@ -324,10 +326,12 @@ const CountriesModel = types
         self.listStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.listStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Countries loading error';
 
         infoNotification({
           variant: 'error',
-          message: 'Countries loading error',
+          message,
         });
       }
     }),

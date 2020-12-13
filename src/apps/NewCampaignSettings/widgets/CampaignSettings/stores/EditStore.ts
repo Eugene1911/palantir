@@ -42,9 +42,12 @@ const EditStore = types
         setNewCampaignSettingsEditData(data);
       } catch (error) {
         self.campaignStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Get campaign error';
+
         infoNotification({
           variant: 'error',
-          message: 'Get campaign error',
+          message,
         });
       }
     }),

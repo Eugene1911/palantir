@@ -60,10 +60,12 @@ const AdFormatModel = types
         );
       } catch (error) {
         self.adFormatListStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Ad Formats loading error';
 
         infoNotification({
           variant: 'error',
-          message: 'Ad Formats loading error',
+          message,
         });
       }
     }),

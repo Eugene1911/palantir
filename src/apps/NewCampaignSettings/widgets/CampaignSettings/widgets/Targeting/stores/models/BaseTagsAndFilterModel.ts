@@ -83,10 +83,13 @@ const BaseTagsAndFilterModel = types
         );
       } catch (error) {
         self.listStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg ||
+          `${self.errorWord} loading error`;
 
         infoNotification({
           variant: 'error',
-          message: `${self.errorWord} loading error`,
+          message,
         });
       }
     }),
