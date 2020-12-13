@@ -38,6 +38,11 @@ const BaseTagsAndFilterModel = types
     setRadio(radio: AllCustomStatus): void {
       self.radio = radio;
     },
+    selectAllTags(value: boolean): void {
+      self.list.forEach(item => {
+        item.tempSelected = value;
+      });
+    },
     setSelected(id: number, value: boolean): void {
       const itemIndex = self.list.findIndex(item => item.id === id);
       if (itemIndex !== -1) {

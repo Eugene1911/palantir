@@ -7,8 +7,8 @@ import useStyles from './useStyles';
 
 interface IFilterFooterProps {
   selectedCount: number;
-  onCancel: () => void;
-  onSave: () => void;
+  onCancel?: () => void;
+  onSave?: () => void;
   isShowSelectedCount?: boolean;
   saveText?: string;
   isSaveDisabled?: boolean;
@@ -40,17 +40,21 @@ const FilterFooter = ({
       )}
       {!!customLeftButton && customLeftButton}
       <Grid item container className={classes.buttons}>
-        <Button onClick={onCancel} className={classes.cancel}>
-          Cancel
-        </Button>
-        <Button
-          disabled={isSaveDisabled}
-          onClick={onSave}
-          variant="contained"
-          color="primary"
-        >
-          {saveText || 'Done'}
-        </Button>
+        {onCancel && (
+          <Button onClick={onCancel} className={classes.cancel}>
+            Cancel
+          </Button>
+        )}
+        {onSave && (
+          <Button
+            disabled={isSaveDisabled}
+            onClick={onSave}
+            variant="contained"
+            color="primary"
+          >
+            {saveText || 'Done'}
+          </Button>
+        )}
       </Grid>
     </Grid>
   );

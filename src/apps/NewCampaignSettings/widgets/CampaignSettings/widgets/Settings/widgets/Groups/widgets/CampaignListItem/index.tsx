@@ -36,7 +36,7 @@ const CampaignListItem = ({
           {campaign.status}
         </Typography>
         <Typography className={classes.type}>
-          {campaign.type}
+          {campaign.formatName || campaign.type}
         </Typography>
       </Grid>
     </Box>

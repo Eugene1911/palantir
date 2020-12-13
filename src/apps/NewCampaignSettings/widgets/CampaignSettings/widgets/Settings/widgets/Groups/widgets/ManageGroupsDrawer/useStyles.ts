@@ -10,8 +10,6 @@ const useStyles = makeStyles<Theme, TManageGroupsDrawerClasses>(
       marginTop: '-4px',
     },
     button: {
-      marginLeft: '15px',
-      marginTop: '8px',
       fontSize: '14px',
     },
   }),

@@ -17,6 +17,8 @@ const CampaignModel = types.model({
   name: types.string,
   status: types.string,
   type: types.string,
+  formatId: types.number,
+  formatName: types.maybe(types.string),
 });
 
 export type TCampaignModel = Instance<typeof CampaignModel>;
@@ -102,10 +104,12 @@ const GroupsModel = types
         successCallback();
       } catch (error) {
         self.groupActionStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || 'Creating group error';
 
         infoNotification({
           variant: 'error',
-          message: 'Creating group error',
+          message,
         });
       }
     }),
@@ -201,6 +205,7 @@ const GroupsModel = types
       infoNotification: (arg: INotification) => void,
       groupId: number,
       successCallback: () => void,
+      getAdFormatNameById: (id: number) => string | undefined,
     ) {
       try {
         const {
@@ -218,7 +223,8 @@ const GroupsModel = types
             self.groupList[groupIndex].list = cast(
               response.map(campaign => ({
                 ...campaign,
-                format: campaign.format_id,
+                formatId: campaign.format_id,
+                formatName: getAdFormatNameById(campaign.format_id),
               })),
             );
           }

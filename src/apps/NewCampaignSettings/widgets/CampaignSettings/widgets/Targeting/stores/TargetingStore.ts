@@ -99,7 +99,7 @@ const TargetingModel = types
         os_versions: self.operatingSystems.getItemsResult(),
         browsers: self.browsers.getCategoriesResult(),
         browser_versions: self.browsers.getItemsResult(),
-        carriers: self.carriers.getResultData(),
+        carriers: self.carriers.getItemsResult(),
         network_traffic_type: self.proxyTraffic.proxyTrafficRadio,
         ...self.ipRanges.getResultData(),
         keywords: self.keywords.list.toJS(),

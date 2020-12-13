@@ -23,6 +23,7 @@ interface IGroupListItemProps {
   group: TGroupModel;
   openUpdateDrawer: (group: TGroupModel) => void;
   inputText: string;
+  getAdFormatNameById?: (id: number) => string | undefined;
 }
 
 const GroupListItem = ({
@@ -30,6 +31,7 @@ const GroupListItem = ({
   group,
   openUpdateDrawer,
   groups,
+  getAdFormatNameById,
 }: IGroupListItemProps): JSX.Element => {
   const classes = useStyles();
   const infoNotification = useHookInfoNotification();
@@ -48,6 +50,7 @@ const GroupListItem = ({
         infoNotification,
         group.id,
         toggleLoader,
+        getAdFormatNameById,
       );
     }
   };
@@ -114,4 +117,6 @@ const GroupListItem = ({
 
 export default inject(({ newCampaignSettings }) => ({
   groups: newCampaignSettings.settings.groups,
+  getAdFormatNameById:
+    newCampaignSettings.settings.adFormat.getAdFormatNameById,
 }))(observer(GroupListItem));

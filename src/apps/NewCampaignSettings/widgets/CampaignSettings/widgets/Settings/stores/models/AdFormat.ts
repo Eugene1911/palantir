@@ -31,6 +31,9 @@ const AdFormatModel = types
       return self.adFormatList.find(item => item.id === self.adFormat)
         ?.name;
     },
+    getAdFormatNameById(id: number): string | undefined {
+      return self.adFormatList.find(item => item.id === id)?.name;
+    },
   }))
   .actions(self => ({
     setAdFormat(

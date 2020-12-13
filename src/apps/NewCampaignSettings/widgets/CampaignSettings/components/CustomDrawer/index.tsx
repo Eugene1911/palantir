@@ -30,6 +30,10 @@ interface ICustomDrawerProps {
   withBackButton?: boolean;
   withCloseButton?: boolean;
   topFilterPermission?: boolean;
+  selectAllTags?: (value: boolean) => void;
+  filterCategoriesFunction?: (
+    category: IFilterCategoryItem,
+  ) => boolean;
 }
 
 const CustomDrawer = ({
@@ -49,6 +53,8 @@ const CustomDrawer = ({
   withCloseButton,
   withBackButton,
   topFilterPermission,
+  selectAllTags,
+  filterCategoriesFunction,
 }: ICustomDrawerProps): JSX.Element => {
   const classes = useStyles();
   const [inputText, setInputText] = useState<string>('');
@@ -94,6 +100,13 @@ const CustomDrawer = ({
     setIsSelectedFilterActive(prevActive => !prevActive);
   };
 
+  const filteredCategoriesList =
+    categoriesList && filterCategoriesFunction
+      ? categoriesList.filter(category =>
+          filterCategoriesFunction(category),
+        )
+      : categoriesList;
+
   return (
     <Drawer anchor="right" open={isOpen} onClose={onCancel}>
       <FilterHeader
@@ -127,10 +140,13 @@ const CustomDrawer = ({
       <FilterSearch
         inputText={inputText}
         setInputText={setInputText}
+        selectAllTags={selectAllTags}
+        selectedCount={selectedCount}
+        filterCategoriesFunction={filterCategoriesFunction}
       />
       <Container className={classes.content}>
         {categoriesList
-          ? categoriesList.map(category => (
+          ? filteredCategoriesList.map(category => (
               <ListCategory
                 category={category}
                 inputText={inputText}

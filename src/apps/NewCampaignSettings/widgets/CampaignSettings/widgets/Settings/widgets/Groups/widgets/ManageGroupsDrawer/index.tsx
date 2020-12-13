@@ -15,6 +15,7 @@ import {
 import NewGroupDrawer from '../NewGroupDrawer';
 import UpdateGroupDrawer from '../UpdateGroupDrawer';
 import GroupListItem from '../GroupListItem';
+import FilterFooter from '../../../../../../components/CustomDrawer/components/FilterFooter';
 
 interface IManageGroupsDrawerProps {
   isOpen: boolean;
@@ -65,15 +66,21 @@ const ManageGroupsDrawer = ({
               key={group.id}
             />
           ))}
-          <Button
-            color="primary"
-            className={classes.button}
-            startIcon={<AddIcon />}
-            onClick={toggleOpenNewDrawer}
-          >
-            New Group
-          </Button>
         </Container>
+        <FilterFooter
+          selectedCount={0}
+          isShowSelectedCount={false}
+          customLeftButton={
+            <Button
+              color="primary"
+              className={classes.button}
+              startIcon={<AddIcon />}
+              onClick={toggleOpenNewDrawer}
+            >
+              New Group
+            </Button>
+          }
+        />
       </Drawer>
       <NewGroupDrawer
         onCancel={toggleOpenNewDrawer}
