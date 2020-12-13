@@ -5,6 +5,7 @@ const useStyles = makeStyles<Theme, TUpdateGroupDrawerClasses>(
     content: {
       padding: '24px',
       flexGrow: 1,
+      overflowY: 'auto',
     },
     button: {
       color: '#ff103e',

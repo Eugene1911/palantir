@@ -14,6 +14,8 @@ export const CAMPAIGNS_DISAPPROVE = `${API_VERSION_1_1}campaigns/{id}/disapprove
 export const GROUPS = `${API_VERSION_1_1}campaign-group`;
 export const UPDATE_GROUP = id =>
   `${API_VERSION_1_1}campaign-group/${id}`;
+export const GET_GROUP_BY_ID = id =>
+  `${API_VERSION_1_1}campaign-group/${id}`;
 export const FORMATS = `${API_VERSION_1_1}ad_formats`;
 export const DEVICES = `${API_VERSION_1_1}devices`;
 export const DEVICE_BRANDS = `${API_VERSION_1_1}device_brands`;

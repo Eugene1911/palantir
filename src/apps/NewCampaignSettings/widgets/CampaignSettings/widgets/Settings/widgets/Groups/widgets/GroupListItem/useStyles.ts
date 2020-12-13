@@ -39,6 +39,8 @@ const useStyles = makeStyles<Theme, TGroupListItemClasses>(() => ({
   accordionDetails: {
     display: 'block',
     padding: '0 24px',
+    maxHeight: '1000px',
+    overflowY: 'auto',
   },
   name: {
     fontSize: '16px',

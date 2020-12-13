@@ -37,7 +37,7 @@ const SettingsModel = types
       return {
         name: self.name,
         format_id: self.adFormat.adFormat,
-        ...(self.groups.group && { group_id: self.groups.group }),
+        group_id: self.groups?.group?.id || null,
         categories: self.categories.getResultData(),
       };
       /* eslint-enable @typescript-eslint/camelcase */

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 
 import Drawer from '@material-ui/core/Drawer';
+import { LoadingStatus } from 'sharedTypes';
 import { inject, observer } from 'mobx-react';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
+import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import FilterSearch from '../../../../../../components/CustomDrawer/components/FilterSearch';
 import FilterHeader from '../../../../../../components/CustomDrawer/components/FilterHeader';
 import useStyles from './useStyles';
@@ -28,6 +31,7 @@ const ManageGroupsDrawer = ({
   onCancel,
   groups,
 }: IManageGroupsDrawerProps): JSX.Element => {
+  const infoNotification = useHookInfoNotification();
   const classes = useStyles();
   const [inputText, setInputText] = useState<string>('');
   const [isOpenNewDrawer, setIsOpenNewDrawer] = useState<boolean>(
@@ -66,6 +70,22 @@ const ManageGroupsDrawer = ({
               key={group.id}
             />
           ))}
+          {groups.currentPage < groups.pagesCount && (
+            <Grid container justify="center">
+              <Button
+                color="primary"
+                className={classes.loadButton}
+                disabled={
+                  groups.groupListStatus === LoadingStatus.LOADING
+                }
+                onClick={(): void =>
+                  groups.loadMoreGroups(infoNotification)
+                }
+              >
+                Load more groups
+              </Button>
+            </Grid>
+          )}
         </Container>
         <FilterFooter
           selectedCount={0}

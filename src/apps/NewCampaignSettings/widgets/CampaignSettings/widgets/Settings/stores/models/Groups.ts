@@ -8,6 +8,7 @@ import {
   getGroups,
   makeBatch,
   updateGroup,
+  getGroup,
 } from 'resources/api';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { GLOBAL_NAME } from 'config/constants';
@@ -28,6 +29,9 @@ const GroupModel = types.model({
   name: types.string,
   isEmpty: types.boolean,
   list: types.array(CampaignModel),
+  currentPage: types.number,
+  pagesCount: types.number,
+  campaignsCount: types.number,
 });
 
 export type TGroupModel = Instance<typeof GroupModel>;
@@ -36,11 +40,15 @@ export const InitialGroupsModel = {
   groupList: [],
   groupListStatus: LoadingStatus.INITIAL,
   groupActionStatus: LoadingStatus.INITIAL,
+  currentPage: 1,
+  pagesCount: 1,
+  searchGroupList: [],
+  searchGroupListStatus: LoadingStatus.INITIAL,
 };
 
 const GroupsModel = types
   .model({
-    group: types.maybe(types.number),
+    group: types.maybe(GroupModel),
     groupList: types.array(GroupModel),
     groupListStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
@@ -48,11 +56,33 @@ const GroupsModel = types
     groupActionStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
     ),
+    currentPage: types.number,
+    pagesCount: types.number,
+    searchGroupList: types.array(GroupModel),
+    searchGroupListStatus: types.enumeration<LoadingStatus>(
+      Object.values(LoadingStatus),
+    ),
   })
   .actions(self => ({
-    setGroup(group: number): void {
-      self.group = group;
+    setGroup(group: TGroupModel): void {
+      self.group = group ? cloneDeep(group) : undefined;
     },
+    setGroupById: flow(function* setGroupById(groupId: number) {
+      try {
+        const { data } = yield getGroup(groupId, {});
+        self.group = cast({
+          id: data.id,
+          name: data.name,
+          isEmpty: false,
+          list: [],
+          currentPage: 1,
+          pagesCount: 1,
+          campaignsCount: 0,
+        });
+      } catch (error) {
+        self.group = undefined;
+      }
+    }),
     getGroupList: flow(function* getGroupList(
       infoNotification: (arg: INotification) => void,
     ) {
@@ -61,15 +91,21 @@ const GroupsModel = types
         const { data } = yield getGroups({
           // eslint-disable-next-line @typescript-eslint/camelcase
           user_id: window[GLOBAL_NAME].user_id,
+          page: self.currentPage,
         });
+
+        self.pagesCount = data.page_count;
         const list = data.response;
 
-        self.groupList = cast(
-          list.map(group => ({
+        self.groupList.push(
+          ...list.map(group => ({
             id: group.id,
             name: group.name,
             isEmpty: false,
             list: [],
+            currentPage: 1,
+            pagesCount: 1,
+            campaignsCount: 0,
           })),
         );
         self.groupListStatus = LoadingStatus.SUCCESS;
@@ -82,6 +118,46 @@ const GroupsModel = types
           variant: 'error',
           message,
         });
+      }
+    }),
+    searchGroupByName: flow(function* searchGroupByName(
+      infoNotification: (arg: INotification) => void,
+      name: string,
+    ) {
+      if (name) {
+        self.searchGroupListStatus = LoadingStatus.LOADING;
+        try {
+          const { data } = yield getGroups({
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            user_id: window[GLOBAL_NAME].user_id,
+            name,
+          });
+          const list = data.response;
+
+          self.searchGroupList = cast(
+            list.map(group => ({
+              id: group.id,
+              name: group.name,
+              isEmpty: false,
+              list: [],
+              currentPage: 1,
+              pagesCount: 1,
+              campaignsCount: 0,
+            })),
+          );
+          self.searchGroupListStatus = LoadingStatus.SUCCESS;
+        } catch (error) {
+          self.searchGroupListStatus = LoadingStatus.ERROR;
+          const message =
+            error?.response?.data?.msg || 'Groups loading error';
+
+          infoNotification({
+            variant: 'error',
+            message,
+          });
+        }
+      } else {
+        self.searchGroupList = cast([]);
       }
     }),
     createCampaignGroup: flow(function* createCampaignGroup(
@@ -101,6 +177,9 @@ const GroupsModel = types
           ...data,
           isEmpty: false,
           list: [],
+          currentPage: 1,
+          pagesCount: 1,
+          campaignsCount: 0,
         });
         self.groupActionStatus = LoadingStatus.SUCCESS;
         successCallback();
@@ -150,6 +229,7 @@ const GroupsModel = types
                   campaignIndex,
                   1,
                 );
+                self.groupList[groupIndex].campaignsCount -= 1;
               }
             });
           }
@@ -161,6 +241,9 @@ const GroupsModel = types
             ...data,
             isEmpty: self.groupList[groupIndex].isEmpty,
             list: cloneDeep(self.groupList[groupIndex].list),
+            currentPage: self.groupList[groupIndex].currentPage,
+            pagesCount: self.groupList[groupIndex].pagesCount,
+            campaignsCount: self.groupList[groupIndex].campaignsCount,
           };
         }
         self.groupActionStatus = LoadingStatus.SUCCESS;
@@ -190,7 +273,7 @@ const GroupsModel = types
         );
         if (groupIndex !== -1) {
           self.groupList.splice(groupIndex, 1);
-          if (self.group === id) {
+          if (self.group?.id === id) {
             self.group = undefined;
           }
         }
@@ -214,20 +297,25 @@ const GroupsModel = types
       getAdFormatNameById: (id: number) => string | undefined,
     ) {
       try {
-        const {
-          data: { response },
-          // eslint-disable-next-line @typescript-eslint/camelcase
-        } = yield getCampaigns({ group_id: groupId });
+        const currentGroup = self.groupList.find(
+          group => group.id === groupId,
+        );
+        const { data } = yield getCampaigns({
+          group_id: groupId, // eslint-disable-line @typescript-eslint/camelcase
+          page: currentGroup?.currentPage || 1,
+        });
 
         const groupIndex = self.groupList.findIndex(
           group => group.id === groupId,
         );
         if (groupIndex !== -1) {
-          if (!response.length) {
+          if (!data.response.length) {
             self.groupList[groupIndex].isEmpty = true;
           } else {
-            self.groupList[groupIndex].list = cast(
-              response.map(campaign => ({
+            self.groupList[groupIndex].pagesCount = data.page_count;
+            self.groupList[groupIndex].campaignsCount = data.count;
+            self.groupList[groupIndex].list.push(
+              ...data.response.map(campaign => ({
                 ...campaign,
                 formatId: campaign.format_id,
                 formatName: getAdFormatNameById(campaign.format_id),
@@ -250,7 +338,33 @@ const GroupsModel = types
   .actions(self => ({
     setEditData(data: IFullCampaignType): void {
       if (data.group_id) {
-        self.setGroup(data.group_id);
+        self.setGroupById(data.group_id);
+      }
+    },
+  }))
+  .actions(self => ({
+    loadMoreGroups(
+      infoNotification: (arg: INotification) => void,
+    ): void {
+      if (self.currentPage < self.pagesCount) {
+        self.currentPage += 1;
+        self.getGroupList(infoNotification);
+      }
+    },
+    loadMoreCampaigns(
+      infoNotification: (arg: INotification) => void,
+      group: TGroupModel,
+      successCallback: () => void,
+      getAdFormatNameById: (id: number) => string | undefined,
+    ): void {
+      if (group.currentPage < group.pagesCount) {
+        group.currentPage += 1;
+        self.getCampaignListByGroup(
+          infoNotification,
+          group.id,
+          successCallback,
+          getAdFormatNameById,
+        );
       }
     },
   }));
