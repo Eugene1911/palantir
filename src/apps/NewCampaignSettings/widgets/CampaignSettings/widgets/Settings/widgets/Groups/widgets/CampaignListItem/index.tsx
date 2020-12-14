@@ -13,7 +13,7 @@ interface ICampaignListItemProps {
 const CampaignListItem = ({
   campaign,
 }: ICampaignListItemProps): JSX.Element => {
-  const classes = useStyles();
+  const classes = useStyles({ dotColor: campaign.dotColor });
 
   return (
     <Box className={classes.container}>
@@ -32,8 +32,9 @@ const CampaignListItem = ({
         </Typography>
       </Grid>
       <Grid container wrap="nowrap" alignItems="center">
+        <Box className={classes.dot} />
         <Typography className={classes.status}>
-          {campaign.status}
+          {campaign.statusText || campaign.status}
         </Typography>
         <Typography className={classes.type}>
           {campaign.formatName || campaign.type}

@@ -1,6 +1,14 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles<Theme, TCampaignListItemClasses>(() => ({
+interface ICampaignListItemClassesProps {
+  dotColor: string;
+}
+
+const useStyles = makeStyles<
+  Theme,
+  ICampaignListItemClassesProps,
+  TCampaignListItemClasses
+>(() => ({
   container: {
     padding: '10px 0',
     flexGrow: 1,
@@ -33,6 +41,14 @@ const useStyles = makeStyles<Theme, TCampaignListItemClasses>(() => ({
       textTransform: 'uppercase',
     },
   },
+  dot: {
+    marginRight: '8px',
+    width: '6px',
+    height: '6px',
+    borderRadius: '50%',
+    background: (props: ICampaignListItemClassesProps): string =>
+      props.dotColor,
+  },
 }));
 
 export type TCampaignListItemClasses =
@@ -41,6 +57,7 @@ export type TCampaignListItemClasses =
   | 'container'
   | 'string'
   | 'status'
+  | 'dot'
   | 'type';
 
 export default useStyles;

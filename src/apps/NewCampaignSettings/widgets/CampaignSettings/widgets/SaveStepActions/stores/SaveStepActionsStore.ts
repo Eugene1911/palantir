@@ -23,11 +23,10 @@ const SaveStepActionModel = types
     saveCampaign: flow(function* saveCampaign(
       infoNotification: (arg: INotification) => void,
       resultData: INewCampaignSettingsResultData,
-      successCallback: () => void,
+      successCallback: (id: number) => void,
       edit: TEditStore,
     ) {
       self.savingStatus = LoadingStatus.LOADING;
-      // TODO потом получать тут id для редиректа и выполнять successCallback
       const editAction = edit.isEditDraft
         ? editCampaignAsDraft
         : editCampaign;
@@ -37,9 +36,9 @@ const SaveStepActionModel = types
         : (): Promise<AxiosResponse> =>
             saveCampaignAsDraft(resultData);
       try {
-        yield saveAction();
+        const { data } = yield saveAction();
 
-        // successCallback();
+        successCallback(data.id);
         self.savingStatus = LoadingStatus.SUCCESS;
 
         infoNotification({
