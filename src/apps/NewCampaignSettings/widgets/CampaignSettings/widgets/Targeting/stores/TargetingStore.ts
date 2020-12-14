@@ -1,4 +1,4 @@
-import { Instance, types } from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import CountriesModel, {
   InitialCountriesModel,
@@ -77,6 +77,12 @@ const TargetingModel = types
     toggleIsAdvancedOpen(): void {
       self.isAdvancedOpen = !self.isAdvancedOpen;
     },
+    getAccordionText(): string[] {
+      return [
+        self.countries.getAccordionText(),
+        self.devices.getAccordionText(),
+      ];
+    },
     getResultData(): ITargetingResultData {
       /* eslint-disable @typescript-eslint/camelcase */
       return {
@@ -123,7 +129,5 @@ const TargetingModel = types
       self.keywords.setEditData(data);
     },
   }));
-
-export type TTargetingModel = Instance<typeof TargetingModel>;
 
 export default TargetingModel;

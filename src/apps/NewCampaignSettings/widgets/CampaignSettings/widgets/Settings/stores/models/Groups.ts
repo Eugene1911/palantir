@@ -67,6 +67,9 @@ const GroupsModel = types
     setGroup(group: TGroupModel): void {
       self.group = group ? cloneDeep(group) : undefined;
     },
+    getAccordionText(): string {
+      return self.group?.name || '';
+    },
     setGroupById: flow(function* setGroupById(groupId: number) {
       try {
         const { data } = yield getGroup(groupId, {});

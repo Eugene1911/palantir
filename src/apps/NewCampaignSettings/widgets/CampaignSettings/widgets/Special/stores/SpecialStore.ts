@@ -116,6 +116,21 @@ const SpecialModel = types
     clearFlatImpressions(): void {
       self.flatImpressions = undefined;
     },
+    getAccordionText(): string[] {
+      if (
+        self.flatDeal === FlatDealValues.FLAT_RATE &&
+        (self.flatRate || self.flatRate === 0)
+      ) {
+        return [`Flat Rate: ${self.flatRate}%`];
+      }
+      if (
+        self.flatDeal === FlatDealValues.FLAT_IMPRESSIONS &&
+        (self.flatImpressions || self.flatImpressions === 0)
+      ) {
+        return [`Flat impressions: ${self.flatImpressions}`];
+      }
+      return ['No flat'];
+    },
     getResultData(): ISpecialResultData {
       /* eslint-disable @typescript-eslint/camelcase */
       return {

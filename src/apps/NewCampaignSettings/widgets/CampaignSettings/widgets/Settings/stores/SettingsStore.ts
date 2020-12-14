@@ -32,6 +32,13 @@ const SettingsModel = types
     setName(name: string): void {
       self.name = name;
     },
+    getAccordionText(): string[] {
+      return [
+        self.adFormat.getAccordionText(),
+        self.categories.getAccordionText(),
+        self.groups.getAccordionText(),
+      ];
+    },
     getResultData(): ISettingsResultData {
       /* eslint-disable @typescript-eslint/camelcase */
       return {

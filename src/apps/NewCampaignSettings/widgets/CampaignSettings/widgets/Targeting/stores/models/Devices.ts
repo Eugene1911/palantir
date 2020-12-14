@@ -1,6 +1,7 @@
 import { Instance, types } from 'mobx-state-tree';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { AllCustomStatus } from 'sharedTypes';
+import { deviceTypes } from '../../widgets/Devices/constants/deviceTypes';
 
 export const InitialDevicesModel = {
   devicesRadio: AllCustomStatus.ALL,
@@ -29,6 +30,23 @@ const DevicesModel = types
     },
     toggleDeviceType(index: number, value: boolean): void {
       self.devicesTypes[index] = +value;
+    },
+    getAccordionText(): string {
+      let resultString = '';
+      let summ = 0;
+      self.devicesTypes.forEach((type, i) => {
+        summ += type;
+        if (type) {
+          const name =
+            deviceTypes[i][0] + deviceTypes[i].slice(1).toLowerCase();
+          resultString += `${name}, `;
+        }
+      });
+      return `Devices: ${
+        summ === self.devicesTypes.length
+          ? summ.toString()
+          : resultString.substr(0, resultString.length - 2)
+      }`;
     },
     getResultData(): number[] {
       const devices = [];
