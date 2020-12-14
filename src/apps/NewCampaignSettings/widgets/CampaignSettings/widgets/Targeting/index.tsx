@@ -5,6 +5,7 @@ import GpsFixed from '@material-ui/icons/GpsFixed';
 import { LoadingStatus } from 'sharedTypes';
 import AccordionPanel from 'sharedComponents/Accordion';
 import { tabs } from './constants/tabs';
+import { ISubInfoType } from '../../../../types/subInfoType';
 
 interface ITargetingProps {
   isAdvancedOpen?: boolean;
@@ -12,7 +13,7 @@ interface ITargetingProps {
   canUseTrafficSourceType?: boolean;
   canUseKeywords?: boolean;
   toggleIsAdvancedOpen?: () => void;
-  getAccordionText?: () => string[];
+  getAccordionText?: () => ISubInfoType;
   campaignStatus?: LoadingStatus;
   getAllCount?: () => string;
 }
@@ -27,7 +28,7 @@ const Targeting = ({
   campaignStatus,
   getAllCount,
 }: ITargetingProps): JSX.Element => {
-  const [subInfo, setSubInfo] = useState<string[]>(
+  const [subInfo, setSubInfo] = useState<ISubInfoType>(
     getAccordionText(),
   );
 
@@ -54,8 +55,8 @@ const Targeting = ({
         canUseTrafficSourceType,
         canUseKeywords,
       )}
-      subInfo1={subInfo[0]}
-      subInfo2={subInfo[1]}
+      subInfo1={subInfo.subInfo1}
+      subInfo2={subInfo.subInfo2}
       onExpand={getNewSubInfo}
     />
   );

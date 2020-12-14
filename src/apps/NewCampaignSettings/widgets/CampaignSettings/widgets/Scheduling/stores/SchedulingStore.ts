@@ -9,6 +9,7 @@ import {
   formatDateString,
   formatDateTabString,
 } from '../constants/formatDateString';
+import { ISubInfoType } from '../../../../../types/subInfoType';
 
 const TimezoneModel = types.model({
   value: types.number,
@@ -62,7 +63,7 @@ const SchedulingModel = types
         newHour +
         self.dayTimeRange.substring(hourIndex + 1);
     },
-    getAccordionText(): string[] {
+    getAccordionText(): ISubInfoType {
       const timezoneName = timezones.find(
         tz => tz.value === self.timezone,
       ).shortLabel;
@@ -84,7 +85,11 @@ const SchedulingModel = types
         self.dayTimeRangeStatus === AllCustomStatus.ALL
           ? 'All time'
           : 'Custom day-time range';
-      return [timezoneName, dates, range];
+      return {
+        subInfo1: timezoneName,
+        subInfo2: dates,
+        subInfo3: range,
+      };
     },
     getResultData(): ISchedulingResultData {
       /* eslint-disable @typescript-eslint/camelcase */

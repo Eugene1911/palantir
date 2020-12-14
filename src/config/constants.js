@@ -24,6 +24,7 @@ export const CAMPAIGNS_STATUSES = {
   ENABLED: 'enabled',
   REJECTED: 'rejected',
   NO_FUNDS: 'no_funds',
+  DRAFT: 'draft',
 };
 
 // Client statuses

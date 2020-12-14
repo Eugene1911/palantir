@@ -5,10 +5,11 @@ import AccordionPanel from 'sharedComponents/Accordion';
 import { LoadingStatus } from 'sharedTypes';
 import HowToReg from '@material-ui/icons/HowToReg';
 import { tabs } from './constants/tabs';
+import { ISubInfoType } from '../../../../types/subInfoType';
 
 interface ISpecialProps {
   isAdvertiserAccountManager?: boolean;
-  getAccordionText?: () => string[];
+  getAccordionText?: () => ISubInfoType;
   campaignStatus?: LoadingStatus;
 }
 
@@ -17,7 +18,7 @@ const Special = ({
   getAccordionText,
   campaignStatus,
 }: ISpecialProps): JSX.Element => {
-  const [subInfo, setSubInfo] = useState<string[]>(
+  const [subInfo, setSubInfo] = useState<ISubInfoType>(
     getAccordionText(),
   );
 
@@ -38,7 +39,7 @@ const Special = ({
       title="Special"
       isSelected={false}
       tabs={tabs(isAdvertiserAccountManager)}
-      subInfo1={subInfo[0]}
+      subInfo1={subInfo.subInfo1}
       onExpand={getNewSubInfo}
     />
   );

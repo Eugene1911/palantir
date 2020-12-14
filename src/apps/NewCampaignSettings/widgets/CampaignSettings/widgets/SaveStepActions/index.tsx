@@ -8,6 +8,7 @@ import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import { INewCampaignSettingsResultData } from '../../../../types/resultTypes';
 import { TSaveStepActionModel } from './stores/SaveStepActionsStore';
 import { TEditStore } from '../../stores/EditStore';
+import PAGE_PATH from '../../../../../../helpers/pagePath';
 
 interface ISaveStepActionProps {
   getNewCampaignSettingsResultData?: () => INewCampaignSettingsResultData;
@@ -43,7 +44,7 @@ const SaveStepAction = ({
   return (
     <CampaignActions
       onSave={(): void =>
-        handleSave('/new_create_campaign_audience_pricing')
+        handleSave(PAGE_PATH.CAMPAIGN_AUDIENCE_AND_PRICING)
       }
       onSaveAsDraft={(): void => handleSave()}
       isLoading={saveActions.savingStatus === LoadingStatus.LOADING}

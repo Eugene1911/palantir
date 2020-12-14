@@ -38,6 +38,7 @@ import RetargetingModel, {
   InitialRetargetingModel,
 } from './models/Retargeting';
 import { ITargetingResultData } from '../../../../../types/resultTypes';
+import { ISubInfoType } from '../../../../../types/subInfoType';
 
 export const InitialTargetingModel = {
   isAdvancedOpen: false,
@@ -77,11 +78,11 @@ const TargetingModel = types
     toggleIsAdvancedOpen(): void {
       self.isAdvancedOpen = !self.isAdvancedOpen;
     },
-    getAccordionText(): string[] {
-      return [
-        self.countries.getAccordionText(),
-        self.devices.getAccordionText(),
-      ];
+    getAccordionText(): ISubInfoType {
+      return {
+        subInfo1: self.countries.getAccordionText(),
+        subInfo2: self.devices.getAccordionText(),
+      };
     },
     getResultData(): ITargetingResultData {
       /* eslint-disable @typescript-eslint/camelcase */

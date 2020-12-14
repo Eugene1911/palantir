@@ -6,6 +6,7 @@ import {
   RadioValues,
 } from '../constants/radioValues';
 import { ISpecialResultData } from '../../../../../types/resultTypes';
+import { ISubInfoType } from '../../../../../types/subInfoType';
 
 export type RadioTypes = RadioValues | FlatDealValues;
 
@@ -116,20 +117,22 @@ const SpecialModel = types
     clearFlatImpressions(): void {
       self.flatImpressions = undefined;
     },
-    getAccordionText(): string[] {
+    getAccordionText(): ISubInfoType {
       if (
         self.flatDeal === FlatDealValues.FLAT_RATE &&
         (self.flatRate || self.flatRate === 0)
       ) {
-        return [`Flat Rate: ${self.flatRate}%`];
+        return { subInfo1: `Flat Rate: ${self.flatRate}%` };
       }
       if (
         self.flatDeal === FlatDealValues.FLAT_IMPRESSIONS &&
         (self.flatImpressions || self.flatImpressions === 0)
       ) {
-        return [`Flat impressions: ${self.flatImpressions}`];
+        return {
+          subInfo1: `Flat impressions: ${self.flatImpressions}`,
+        };
       }
-      return ['No flat'];
+      return { subInfo1: 'No flat' };
     },
     getResultData(): ISpecialResultData {
       /* eslint-disable @typescript-eslint/camelcase */

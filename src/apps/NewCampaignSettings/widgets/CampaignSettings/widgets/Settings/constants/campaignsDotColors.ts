@@ -1,7 +1,7 @@
 export const campaignsDotColors = {
-  red: '#ff103e',
-  blue: '#b9e0ed',
-  yellow: '#eab20f',
-  default: '#dddddd',
-  green: '#90eb04',
+  red: 'red',
+  blue: 'blue',
+  yellow: 'yellow',
+  default: 'default',
+  green: 'green',
 };
