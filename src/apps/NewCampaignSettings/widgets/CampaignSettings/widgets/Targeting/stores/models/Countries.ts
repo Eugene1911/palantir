@@ -61,20 +61,31 @@ const CountriesModel = types
       return self.categoriesList.filter(item => item.tempSelected)
         .length;
     },
-    get getAllCount(): string {
+    getAllCount(asCodes = false): string {
       let countryCount = 0;
       let regionCount = 0;
+      const codes = [];
       self.list.forEach(item => {
         if (item.parentId) {
           regionCount += 1;
         } else if (!item.asLabel) {
           countryCount += 1;
+          codes.push(item.code);
         }
       });
       let resultString = '';
       if (countryCount || regionCount) {
         if (countryCount) {
-          resultString += `${countryCount} Countries`;
+          let codesString = '';
+          if (asCodes && countryCount <= 3) {
+            codes.forEach((code, i) => {
+              codesString += code;
+              if (i !== codes.length - 1) {
+                codesString += ', ';
+              }
+            });
+          }
+          resultString += codesString || `${countryCount} Countries`;
         }
         if (countryCount && regionCount) {
           resultString += ', ';
@@ -335,6 +346,12 @@ const CountriesModel = types
         });
       }
     }),
+    getAccordionText(): string {
+      if (self.radio === AllCustomStatus.ALL) {
+        return 'All countries';
+      }
+      return self.getAllCount(true);
+    },
     getCategoriesResult(): string[] {
       if (self.radio === AllCustomStatus.ALL) {
         return [];

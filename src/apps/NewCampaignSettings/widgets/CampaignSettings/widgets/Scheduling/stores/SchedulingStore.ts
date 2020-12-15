@@ -5,7 +5,11 @@ import { format } from 'date-fns';
 import { timezones } from '../constants/timezones';
 import { ALL_HOURS, FULL } from '../constants/dayTimeRanges';
 import { ISchedulingResultData } from '../../../../../types/resultTypes';
-import { formatDateString } from '../constants/formatDateString';
+import {
+  formatDateString,
+  formatDateTabString,
+} from '../constants/formatDateString';
+import { ISubInfoType } from '../../../../../types/subInfoType';
 
 const TimezoneModel = types.model({
   value: types.number,
@@ -58,6 +62,34 @@ const SchedulingModel = types
         self.dayTimeRange.substring(0, hourIndex) +
         newHour +
         self.dayTimeRange.substring(hourIndex + 1);
+    },
+    getAccordionText(): ISubInfoType {
+      const timezoneName = timezones.find(
+        tz => tz.value === self.timezone,
+      ).shortLabel;
+      let dates = 'All day';
+      const dateStart = self.dateStart
+        ? format(self.dateStart, formatDateTabString)
+        : null;
+      const dateEnd = self.dateEnd
+        ? format(self.dateEnd, formatDateTabString)
+        : null;
+      if (dateStart && dateEnd) {
+        dates = `${dateStart} - ${dateEnd}`;
+      } else if (dateStart) {
+        dates = `Start: ${dateStart}`;
+      } else if (dateEnd) {
+        dates = `End: ${dateEnd}`;
+      }
+      const range =
+        self.dayTimeRangeStatus === AllCustomStatus.ALL
+          ? 'All time'
+          : 'Custom day-time range';
+      return {
+        subInfo1: timezoneName,
+        subInfo2: dates,
+        subInfo3: range,
+      };
     },
     getResultData(): ISchedulingResultData {
       /* eslint-disable @typescript-eslint/camelcase */

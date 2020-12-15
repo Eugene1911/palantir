@@ -251,6 +251,10 @@ const CategoriesModel = types
         }
       }
     },
+    getAccordionText(): string {
+      const count = self.selectedTags.length;
+      return `${count} ${count === 1 ? 'category' : 'categories'}`;
+    },
     getResultData(): number[] {
       if (self.categoriesRadio === AllCustomStatus.ALL) {
         return [];

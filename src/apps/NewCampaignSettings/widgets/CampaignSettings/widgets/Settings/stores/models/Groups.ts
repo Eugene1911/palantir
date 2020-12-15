@@ -12,11 +12,14 @@ import {
 } from 'resources/api';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { GLOBAL_NAME } from 'config/constants';
+import { getCampaignDotStatus } from '../../services/getCampaignDotStatus';
 
 const CampaignModel = types.model({
   id: types.number,
   name: types.string,
   status: types.string,
+  dotColor: types.string,
+  statusText: types.string,
   type: types.string,
   formatId: types.number,
   formatName: types.maybe(types.string),
@@ -66,6 +69,9 @@ const GroupsModel = types
   .actions(self => ({
     setGroup(group: TGroupModel): void {
       self.group = group ? cloneDeep(group) : undefined;
+    },
+    getAccordionText(): string {
+      return self.group?.name || '';
     },
     setGroupById: flow(function* setGroupById(groupId: number) {
       try {
@@ -315,11 +321,21 @@ const GroupsModel = types
             self.groupList[groupIndex].pagesCount = data.page_count;
             self.groupList[groupIndex].campaignsCount = data.count;
             self.groupList[groupIndex].list.push(
-              ...data.response.map(campaign => ({
-                ...campaign,
-                formatId: campaign.format_id,
-                formatName: getAdFormatNameById(campaign.format_id),
-              })),
+              ...data.response.map(campaign => {
+                const statusObject = getCampaignDotStatus(
+                  campaign.status,
+                  campaign.active,
+                  campaign.no_funds,
+                  campaign.is_archived,
+                );
+                return {
+                  ...campaign,
+                  formatId: campaign.format_id,
+                  formatName: getAdFormatNameById(campaign.format_id),
+                  dotColor: statusObject.color,
+                  statusText: statusObject.text,
+                };
+              }),
             );
           }
         }

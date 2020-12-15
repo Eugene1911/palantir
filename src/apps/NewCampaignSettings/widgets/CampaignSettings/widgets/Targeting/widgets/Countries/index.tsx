@@ -58,7 +58,7 @@ const Countries = ({
         onChange={countries.setRadio}
         value={countries.radio}
         name="countries"
-        counter={countries.getAllCount}
+        counter={countries.getAllCount()}
       />
 
       {countries.radio === AllCustomStatus.CUSTOM && (

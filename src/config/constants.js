@@ -24,6 +24,7 @@ export const CAMPAIGNS_STATUSES = {
   ENABLED: 'enabled',
   REJECTED: 'rejected',
   NO_FUNDS: 'no_funds',
+  DRAFT: 'draft',
 };
 
 // Client statuses
@@ -97,3 +98,9 @@ export const GLOBAL_NAME = 'GLOBAL';
 
 // Status 'draft' for campaign
 export const DRAFT_STATUS = 'draft';
+
+// Status 'rejected' for campaign
+export const REJECTED_STATUS = 'rejected';
+
+// Status 'paused' for campaign
+export const PAUSED_STATUS = 'paused';

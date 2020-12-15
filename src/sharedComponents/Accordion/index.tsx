@@ -22,6 +22,7 @@ export interface IAccordionPanelProps {
   Icon?: ElementType;
   children?: JSX.Element;
   tabs?: Array<ITab | JSX.Element>;
+  onExpand?: (value: boolean) => void;
 }
 
 function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
@@ -34,6 +35,7 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
     subInfo3,
     children,
     tabs,
+    onExpand,
   } = props;
   const [isExpanded, setIsExpanded] = React.useState(isSelected);
 
@@ -72,11 +74,19 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
     );
   };
 
+  const handleChangeExpand = (): void => {
+    const newExpanded = !isExpanded;
+    setIsExpanded(newExpanded);
+    if (onExpand) {
+      onExpand(newExpanded);
+    }
+  };
+
   return (
     <Accordion
       defaultExpanded={isSelected}
       expanded={isExpanded}
-      onChange={(): void => setIsExpanded(!isExpanded)}
+      onChange={handleChangeExpand}
     >
       <ExpansionPanelSummary
         className={classes.main}

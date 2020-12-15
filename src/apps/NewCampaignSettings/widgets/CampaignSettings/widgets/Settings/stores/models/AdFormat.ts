@@ -45,6 +45,9 @@ const AdFormatModel = types
         callback(self.getAdFormatName);
       }
     },
+    getAccordionText(): string {
+      return self.getAdFormatName;
+    },
     getAdFormatList: flow(function* getAdFormatList(
       infoNotification: (arg: INotification) => void,
       permissions: TPermissionsStore,

@@ -8,6 +8,7 @@ import CategoriesModel, {
 } from './models/Categories';
 import GroupsModel, { InitialGroupsModel } from './models/Groups';
 import { ISettingsResultData } from '../../../../../types/resultTypes';
+import { ISubInfoType } from '../../../../../types/subInfoType';
 
 export const InitialSettingsModel = {
   name: '',
@@ -31,6 +32,13 @@ const SettingsModel = types
   .actions(self => ({
     setName(name: string): void {
       self.name = name;
+    },
+    getAccordionText(): ISubInfoType {
+      return {
+        subInfo1: self.adFormat.getAccordionText(),
+        subInfo2: self.categories.getAccordionText(),
+        subInfo3: self.groups.getAccordionText(),
+      };
     },
     getResultData(): ISettingsResultData {
       /* eslint-disable @typescript-eslint/camelcase */
