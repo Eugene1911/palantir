@@ -5,6 +5,7 @@ import {
   LoadingStatus,
 } from 'sharedTypes';
 import { AxiosResponse } from 'axios';
+import { errorsString } from '../../../../constants/strings';
 
 const BaseItemModel = types.model({
   code: types.optional(types.string, ''),
@@ -85,7 +86,7 @@ const BaseTagsAndFilterModel = types
         self.listStatus = LoadingStatus.ERROR;
         const message =
           error?.response?.data?.msg ||
-          `${self.errorWord} loading error`;
+          errorsString.getList(self.errorWord);
 
         infoNotification({
           variant: 'error',

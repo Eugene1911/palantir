@@ -4,6 +4,7 @@ import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { getFormats } from 'resources/api';
 import { TPermissionsStore } from '../../../../stores/PermissionsStore';
 import { permissionsForAdFormats } from '../../constants/permissionsForAdFormats';
+import { errorsString } from '../../../../constants/strings';
 
 const AdFormatModelType = types.model({
   id: types.number,
@@ -64,7 +65,7 @@ const AdFormatModel = types
       } catch (error) {
         self.adFormatListStatus = LoadingStatus.ERROR;
         const message =
-          error?.response?.data?.msg || 'Ad Formats loading error';
+          error?.response?.data?.msg || errorsString.getAdFormat;
 
         infoNotification({
           variant: 'error',

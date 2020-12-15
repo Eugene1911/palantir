@@ -8,6 +8,7 @@ import {
 } from 'resources/api';
 import { INewCampaignSettingsResultData } from '../../../../../types/resultTypes';
 import { TEditStore } from '../../../stores/EditStore';
+import { errorsString } from '../../../constants/strings';
 
 export const InitialSaveStepActionModel = {
   savingStatus: LoadingStatus.INITIAL,
@@ -48,7 +49,7 @@ const SaveStepActionModel = types
       } catch (error) {
         self.savingStatus = LoadingStatus.ERROR;
         const message =
-          error?.response?.data?.msg || 'Saving campaign error';
+          error?.response?.data?.msg || errorsString.saveCampaign;
 
         infoNotification({
           variant: 'error',

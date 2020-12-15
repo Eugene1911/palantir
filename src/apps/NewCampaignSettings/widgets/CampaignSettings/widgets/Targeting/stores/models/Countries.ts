@@ -7,6 +7,7 @@ import {
 } from 'sharedTypes';
 import { getCountries, getRegionByCountryCode } from 'resources/api';
 import { countriesWithGroups } from '../../constants/countriesGroups';
+import { errorsString } from '../../../../constants/strings';
 
 const ItemModel = types.model({
   id: types.number,
@@ -193,7 +194,7 @@ const CountriesModel = types
       } catch (error) {
         self.regionStatus = LoadingStatus.ERROR;
         const message =
-          error?.response?.data?.msg || 'Region loading error';
+          error?.response?.data?.msg || errorsString.getRegions;
 
         infoNotification({
           variant: 'error',
@@ -338,7 +339,7 @@ const CountriesModel = types
       } catch (error) {
         self.listStatus = LoadingStatus.ERROR;
         const message =
-          error?.response?.data?.msg || 'Countries loading error';
+          error?.response?.data?.msg || errorsString.getCountries;
 
         infoNotification({
           variant: 'error',

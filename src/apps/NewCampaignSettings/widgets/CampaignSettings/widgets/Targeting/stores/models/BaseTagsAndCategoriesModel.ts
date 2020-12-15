@@ -8,6 +8,7 @@ import { AxiosResponse } from 'axios';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { categoriesForceAdd } from '../../constants/categoriesForceAdd';
 import { IFilterCategoryItem } from '../../../../components/CustomDrawer/components/ListCategory';
+import { errorsString } from '../../../../constants/strings';
 
 const ItemModel = types.model({
   id: types.number,
@@ -315,7 +316,7 @@ const BaseTagsAndCategoriesModel = types
         self.listStatus = LoadingStatus.ERROR;
         const message =
           error?.response?.data?.msg ||
-          `${self.errorWord} loading error`;
+          errorsString.getList(self.errorWord);
 
         infoNotification({
           variant: 'error',
