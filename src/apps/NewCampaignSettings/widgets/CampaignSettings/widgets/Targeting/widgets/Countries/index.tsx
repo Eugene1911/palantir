@@ -94,6 +94,7 @@ const Countries = ({
               onSelect={countries.setSelected}
               withCloseButton={false}
               withBackButton
+              invisibleBackdrop
             />
           )}
         </>

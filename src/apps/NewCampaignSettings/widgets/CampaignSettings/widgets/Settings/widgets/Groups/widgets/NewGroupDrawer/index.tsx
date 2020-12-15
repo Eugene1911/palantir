@@ -43,7 +43,12 @@ const NewGroupDrawer = ({
 
   return (
     <>
-      <Drawer anchor="right" open={isOpen} onClose={handleClose}>
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={handleClose}
+        ModalProps={{ BackdropProps: { invisible: true } }}
+      >
         <FilterHeader
           onCancel={handleClose}
           title="New group"

@@ -39,6 +39,7 @@ const GroupFilter = ({
       anchor="right"
       open={isShowFilter}
       onClose={toggleShowFilter}
+      ModalProps={{ BackdropProps: { invisible: true } }}
     >
       <FilterHeader
         onCancel={toggleShowFilter}
