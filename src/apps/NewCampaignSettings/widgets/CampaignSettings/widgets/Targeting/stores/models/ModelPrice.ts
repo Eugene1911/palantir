@@ -11,15 +11,17 @@ const ModelPriceModel = types
   })
   .actions(self => ({
     setFrom(event: ChangeEvent<HTMLInputElement>): void {
-      self.from =
+      const value =
         event.target.value === '' ? undefined : +event.target.value;
+      self.from = event.target.validity.valid ? value : self.from;
     },
     setFromValue(value: number): void {
       self.from = value;
     },
     setTo(event: ChangeEvent<HTMLInputElement>): void {
-      self.to =
+      const value =
         event.target.value === '' ? undefined : +event.target.value;
+      self.to = event.target.validity.valid ? value : self.to;
     },
     setToValue(value: number): void {
       self.to = value;

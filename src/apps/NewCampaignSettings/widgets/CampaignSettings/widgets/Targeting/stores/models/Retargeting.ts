@@ -6,6 +6,7 @@ import {
 } from 'sharedTypes';
 import { getRetargetingList } from 'resources/api';
 import { GLOBAL_NAME } from 'config/constants';
+import { errorsString } from '../../../../constants/strings';
 
 const RetargetingItemModel = types.model({
   id: types.number,
@@ -46,10 +47,12 @@ const RetargetingModel = types
         self.retargetingStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.retargetingStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || errorsString.getRetargeting;
 
         infoNotification({
           variant: 'error',
-          message: 'Retargeting loading error',
+          message,
         });
       }
     }),

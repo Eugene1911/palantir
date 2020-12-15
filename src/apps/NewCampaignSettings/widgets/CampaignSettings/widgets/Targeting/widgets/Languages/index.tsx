@@ -33,6 +33,7 @@ const Languages = ({ languages }: ILanguagesProps): JSX.Element => {
           onSave={languages.saveSelected}
           onCancel={languages.cancelSelected}
           onDelete={languages.deleteSelected}
+          selectAllTags={languages.selectAllTags}
         />
       )}
     </>

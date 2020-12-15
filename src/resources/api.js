@@ -35,6 +35,7 @@ import {
   MINIMAL_BIDS,
   CAMPAIGN_EDIT_DRAFT,
   UPDATE_GROUP,
+  GET_GROUP_BY_ID,
   BATCH,
   CAMPAIGN_EDIT,
   RETARGETING,
@@ -65,6 +66,13 @@ export const createGroup = params => API.post(GROUPS, params);
  */
 export const updateGroup = (id, params) =>
   API.put(UPDATE_GROUP(id), params);
+
+/**
+ * Get campaign group by id
+ * @param {Object} params
+ */
+export const getGroup = (id, params) =>
+  API.get(GET_GROUP_BY_ID(id), params);
 
 /**
  * Delete campaign group

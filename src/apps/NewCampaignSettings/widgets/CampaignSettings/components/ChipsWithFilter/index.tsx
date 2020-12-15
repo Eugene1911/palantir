@@ -30,6 +30,10 @@ interface IChipsWithFilterProps {
   filtersOptions?: Array<{ name: string; count: number } | null>;
   openAsyncFilter?: (category: IFilterCategoryItem) => void;
   topFilterPermission?: boolean;
+  selectAllTags?: (value: boolean) => void;
+  filterCategoriesFunction?: (
+    category: IFilterCategoryItem,
+  ) => boolean;
 }
 
 const ChipsWithFilter = ({
@@ -50,6 +54,8 @@ const ChipsWithFilter = ({
   openAsyncFilter,
   topFilterPermission,
   permissionsStatus = LoadingStatus.SUCCESS,
+  selectAllTags,
+  filterCategoriesFunction,
 }: IChipsWithFilterProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const classes = useStyles();
@@ -123,6 +129,8 @@ const ChipsWithFilter = ({
             filtersOptions={filtersOptions}
             openAsyncFilter={openAsyncFilter}
             topFilterPermission={topFilterPermission}
+            selectAllTags={selectAllTags}
+            filterCategoriesFunction={filterCategoriesFunction}
           />
         </>
       )}

@@ -47,6 +47,7 @@ const OperatingSystems = ({
           onDelete={operatingSystems.deleteSelected}
           selectAllCategory={operatingSystems.selectAllCategory}
           permissionsStatus={permissionsStatus}
+          selectAllTags={operatingSystems.selectAllItems}
         />
       )}
     </>

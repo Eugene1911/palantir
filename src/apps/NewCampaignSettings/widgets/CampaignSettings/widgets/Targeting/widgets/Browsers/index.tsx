@@ -47,6 +47,7 @@ const Browsers = ({
           onDelete={browsers.deleteSelected}
           selectAllCategory={browsers.selectAllCategory}
           permissionsStatus={permissionsStatus}
+          selectAllTags={browsers.selectAllItems}
         />
       )}
     </>

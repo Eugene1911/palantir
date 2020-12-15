@@ -7,6 +7,7 @@ import {
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { getCampaignById } from 'resources/api';
 import { DRAFT_STATUS } from 'config/constants';
+import { errorsString } from '../constants/strings';
 
 export const InitialEditStore = {
   isEdit: false,
@@ -42,9 +43,12 @@ const EditStore = types
         setNewCampaignSettingsEditData(data);
       } catch (error) {
         self.campaignStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || errorsString.getCampaign;
+
         infoNotification({
           variant: 'error',
-          message: 'Get campaign error',
+          message,
         });
       }
     }),

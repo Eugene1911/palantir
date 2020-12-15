@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 
 import Drawer from '@material-ui/core/Drawer';
+import { LoadingStatus } from 'sharedTypes';
 import { inject, observer } from 'mobx-react';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
+import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import FilterSearch from '../../../../../../components/CustomDrawer/components/FilterSearch';
 import FilterHeader from '../../../../../../components/CustomDrawer/components/FilterHeader';
 import useStyles from './useStyles';
@@ -15,6 +18,7 @@ import {
 import NewGroupDrawer from '../NewGroupDrawer';
 import UpdateGroupDrawer from '../UpdateGroupDrawer';
 import GroupListItem from '../GroupListItem';
+import FilterFooter from '../../../../../../components/CustomDrawer/components/FilterFooter';
 
 interface IManageGroupsDrawerProps {
   isOpen: boolean;
@@ -27,6 +31,7 @@ const ManageGroupsDrawer = ({
   onCancel,
   groups,
 }: IManageGroupsDrawerProps): JSX.Element => {
+  const infoNotification = useHookInfoNotification();
   const classes = useStyles();
   const [inputText, setInputText] = useState<string>('');
   const [isOpenNewDrawer, setIsOpenNewDrawer] = useState<boolean>(
@@ -65,15 +70,37 @@ const ManageGroupsDrawer = ({
               key={group.id}
             />
           ))}
-          <Button
-            color="primary"
-            className={classes.button}
-            startIcon={<AddIcon />}
-            onClick={toggleOpenNewDrawer}
-          >
-            New Group
-          </Button>
+          {groups.currentPage < groups.pagesCount && (
+            <Grid container justify="center">
+              <Button
+                color="primary"
+                className={classes.loadButton}
+                disabled={
+                  groups.groupListStatus === LoadingStatus.LOADING
+                }
+                onClick={(): void =>
+                  groups.loadMoreGroups(infoNotification)
+                }
+              >
+                Load more groups
+              </Button>
+            </Grid>
+          )}
         </Container>
+        <FilterFooter
+          selectedCount={0}
+          isShowSelectedCount={false}
+          customLeftButton={
+            <Button
+              color="primary"
+              className={classes.button}
+              startIcon={<AddIcon />}
+              onClick={toggleOpenNewDrawer}
+            >
+              New Group
+            </Button>
+          }
+        />
       </Drawer>
       <NewGroupDrawer
         onCancel={toggleOpenNewDrawer}

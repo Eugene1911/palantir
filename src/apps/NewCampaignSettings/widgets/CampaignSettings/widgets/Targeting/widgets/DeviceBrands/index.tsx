@@ -41,6 +41,7 @@ const DeviceBrands = ({
           onCancel={deviceBrands.cancelSelected}
           onDelete={deviceBrands.deleteSelected}
           selectAllCategory={deviceBrands.selectAllCategory}
+          selectAllTags={deviceBrands.selectAllItems}
         />
       )}
     </>

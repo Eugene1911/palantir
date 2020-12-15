@@ -1,9 +1,11 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import { INotification, LoadingStatus } from 'sharedTypes';
 import AccessControl from 'helpers/accessControl/controller';
+import { errorsString } from '../constants/strings';
 
 export const InitialPermissionsStore = {
   permissionsStatus: LoadingStatus.INITIAL,
+  canUseBlacklistCategories: false,
   canSetupHiddenCategories: false,
   canUseTabsFormat: false,
   canUseSpecialFormats: false,
@@ -26,6 +28,7 @@ const PermissionsStore = types
     permissionsStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
     ),
+    canUseBlacklistCategories: types.boolean,
     canSetupHiddenCategories: types.boolean,
     canUseTabsFormat: types.boolean,
     canUseSpecialFormats: types.boolean,
@@ -49,6 +52,7 @@ const PermissionsStore = types
       self.permissionsStatus = LoadingStatus.LOADING;
       try {
         const [
+          canUseBlacklistCategories,
           canSetupHiddenCategories,
           canUseTabsFormat,
           canUseSpecialFormats,
@@ -65,6 +69,7 @@ const PermissionsStore = types
           isPerformanceManager,
           canUseSpecialSettings,
         ] = yield Promise.all([
+          AccessControl.canUseBlacklistCategories(),
           AccessControl.canSetupHiddenCategories(),
           AccessControl.canUseTabsFormat(),
           AccessControl.canUseSpecialFormats(),
@@ -82,6 +87,7 @@ const PermissionsStore = types
           AccessControl.canUseSpecialSettings(),
         ]);
 
+        self.canUseBlacklistCategories = canUseBlacklistCategories;
         self.canSetupHiddenCategories = canSetupHiddenCategories;
         self.canUseTabsFormat = canUseTabsFormat;
         self.canUseSpecialFormats = canUseSpecialFormats;
@@ -101,10 +107,12 @@ const PermissionsStore = types
         self.permissionsStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.permissionsStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || errorsString.getPermissions;
 
         infoNotification({
           variant: 'error',
-          message: 'Permissions loading error',
+          message,
         });
       }
     }),

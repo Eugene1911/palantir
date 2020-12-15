@@ -21,12 +21,14 @@ import {
   TGroupModel,
 } from '../../../../stores/models/Groups';
 import CampaignListItem from '../CampaignListItem';
+import { useFetchMoreInModal } from '../../services/useFetchMore';
 
 interface IUpdateGroupDrawerProps {
   isOpen: boolean;
   onCancel: () => void;
   groups?: TGroupsModel;
   group: TGroupModel;
+  getAdFormatNameById?: (id: number) => string | undefined;
 }
 
 const UpdateGroupDrawer = ({
@@ -34,6 +36,7 @@ const UpdateGroupDrawer = ({
   onCancel,
   groups,
   group,
+  getAdFormatNameById,
 }: IUpdateGroupDrawerProps): JSX.Element => {
   const classes = useStyles();
   const infoNotification = useHookInfoNotification();
@@ -45,6 +48,20 @@ const UpdateGroupDrawer = ({
   useEffect(() => {
     setIsDisabled(!name);
   }, [name]);
+
+  const handleLoadMoreCampaigns = (): void => {
+    if (group.currentPage < group.pagesCount) {
+      setIsDisabled(true);
+      groups.loadMoreCampaigns(
+        infoNotification,
+        group,
+        () => setIsDisabled(false),
+        getAdFormatNameById,
+      );
+    }
+  };
+
+  const { listRef } = useFetchMoreInModal(handleLoadMoreCampaigns);
 
   const handleSave = (): void => {
     groups.updateCampaignGroup(
@@ -76,7 +93,7 @@ const UpdateGroupDrawer = ({
           title={group.name}
           withBackButton
         />
-        <Box className={classes.content}>
+        <Box className={classes.content} {...{ ref: listRef }}>
           <TextField
             value={name}
             onChange={(event): void =>
@@ -136,4 +153,6 @@ const UpdateGroupDrawer = ({
 
 export default inject(({ newCampaignSettings }) => ({
   groups: newCampaignSettings.settings.groups,
+  getAdFormatNameById:
+    newCampaignSettings.settings.adFormat.getAdFormatNameById,
 }))(observer(UpdateGroupDrawer));

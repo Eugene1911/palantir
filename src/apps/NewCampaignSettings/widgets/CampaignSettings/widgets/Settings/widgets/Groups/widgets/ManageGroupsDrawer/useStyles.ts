@@ -10,13 +10,18 @@ const useStyles = makeStyles<Theme, TManageGroupsDrawerClasses>(
       marginTop: '-4px',
     },
     button: {
-      marginLeft: '15px',
-      marginTop: '8px',
       fontSize: '14px',
+    },
+    loadButton: {
+      fontSize: '14px',
+      marginTop: '32px',
     },
   }),
 );
 
-export type TManageGroupsDrawerClasses = 'content' | 'button';
+export type TManageGroupsDrawerClasses =
+  | 'content'
+  | 'button'
+  | 'loadButton';
 
 export default useStyles;

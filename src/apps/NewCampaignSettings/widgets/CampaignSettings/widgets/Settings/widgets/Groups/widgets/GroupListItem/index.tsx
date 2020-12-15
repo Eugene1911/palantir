@@ -9,20 +9,20 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Accordion from '@material-ui/core/Accordion';
-import CampaignListItem from '../CampaignListItem';
 import useStyles from './useStyles';
 import {
   TGroupsModel,
   TGroupModel,
 } from '../../../../stores/models/Groups';
+import { GroupAccordionDetail } from './GroupAccordionDetail';
 
 interface IGroupListItemProps {
   groups?: TGroupsModel;
   group: TGroupModel;
   openUpdateDrawer: (group: TGroupModel) => void;
   inputText: string;
+  getAdFormatNameById?: (id: number) => string | undefined;
 }
 
 const GroupListItem = ({
@@ -30,6 +30,7 @@ const GroupListItem = ({
   group,
   openUpdateDrawer,
   groups,
+  getAdFormatNameById,
 }: IGroupListItemProps): JSX.Element => {
   const classes = useStyles();
   const infoNotification = useHookInfoNotification();
@@ -48,6 +49,19 @@ const GroupListItem = ({
         infoNotification,
         group.id,
         toggleLoader,
+        getAdFormatNameById,
+      );
+    }
+  };
+
+  const handleLoadMoreCampaigns = (): void => {
+    if (group.currentPage < group.pagesCount) {
+      toggleLoader();
+      groups.loadMoreCampaigns(
+        infoNotification,
+        group,
+        toggleLoader,
+        getAdFormatNameById,
       );
     }
   };
@@ -86,7 +100,7 @@ const GroupListItem = ({
           )}
           {!!group.list.length && (
             <Typography className={classes.infoText}>
-              {group.list.length} campaigns
+              {group.campaignsCount} campaigns
             </Typography>
           )}
           {isLoading ? (
@@ -101,17 +115,16 @@ const GroupListItem = ({
           )}
         </Grid>
       </AccordionSummary>
-      {!!group.list.length && (
-        <AccordionDetails className={classes.accordionDetails}>
-          {group.list.map(item => (
-            <CampaignListItem key={item.id} campaign={item} />
-          ))}
-        </AccordionDetails>
-      )}
+      <GroupAccordionDetail
+        group={group}
+        fetchMore={handleLoadMoreCampaigns}
+      />
     </Accordion>
   );
 };
 
 export default inject(({ newCampaignSettings }) => ({
   groups: newCampaignSettings.settings.groups,
+  getAdFormatNameById:
+    newCampaignSettings.settings.adFormat.getAdFormatNameById,
 }))(observer(GroupListItem));

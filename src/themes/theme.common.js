@@ -1,13 +1,16 @@
 import grey from '@material-ui/core/colors/grey';
 
 export const statuses = {
-  green: '#78cd51',
   orange: '#e6af5f',
   orangeDark: '#f37f3f',
-  red: '#ca5c54',
   redDark: '#943028',
   blueLight: '#b9e0ed',
   grey: grey[400],
+  red: '#ff103e',
+  blue: '#b9e0ed',
+  yellow: '#eab20f',
+  default: '#dddddd',
+  green: '#90eb04',
 };
 
 export const bidStatuses = {

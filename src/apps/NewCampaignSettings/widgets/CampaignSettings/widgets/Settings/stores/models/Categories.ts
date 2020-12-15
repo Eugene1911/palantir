@@ -18,6 +18,7 @@ import { mapCategoriesByParent } from '../../services/mapCategoriesByParent';
 import { TPermissionsStore } from '../../../../stores/PermissionsStore';
 import { hiddenCategories } from '../../constants/hiddenCategories';
 import { noHiddenCategoriesAdFormats } from '../../constants/permissionsForAdFormats';
+import { errorsString } from '../../../../constants/strings';
 
 const CategoryModel = types.model({
   name: types.string,
@@ -189,10 +190,12 @@ const CategoriesModel = types
         }
       } catch (error) {
         self.categoriesListStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || errorsString.getCategories;
 
         infoNotification({
           variant: 'error',
-          message: 'Categories loading error',
+          message,
         });
       }
     }),
@@ -248,6 +251,10 @@ const CategoriesModel = types
           applyCallbackToEveryTag(self.categoriesList, callback);
         }
       }
+    },
+    getAccordionText(): string {
+      const count = self.selectedTags.length;
+      return `${count} ${count === 1 ? 'category' : 'categories'}`;
     },
     getResultData(): number[] {
       if (self.categoriesRadio === AllCustomStatus.ALL) {
