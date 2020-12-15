@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -46,7 +47,7 @@ const TagsListWithEnter = ({
     <>
       <Grid
         alignItems="flex-end"
-        className={classes.container}
+        className={cn({ [classes.container]: !!list.length })}
         container
       >
         <Grid xs={5} item>
@@ -85,17 +86,19 @@ const TagsListWithEnter = ({
           </Grid>
         )}
       </Grid>
-      <Grid className={classes.container} container>
-        {list.map(item => (
-          <CustomChip
-            onDelete={(): void => onDelete(item)}
-            key={item}
-            label={item}
-            isActive={!isError}
-            isError={isError}
-          />
-        ))}
-      </Grid>
+      {!!list.length && (
+        <Grid className={classes.container} container>
+          {list.map(item => (
+            <CustomChip
+              onDelete={(): void => onDelete(item)}
+              key={item}
+              label={item}
+              isActive={!isError}
+              isError={isError}
+            />
+          ))}
+        </Grid>
+      )}
     </>
   );
 };

@@ -18,7 +18,9 @@ import Keywords from '../widgets/Keywords';
 
 const proxyTrafficTab: ITab[] = [
   {
-    leftSide: <CampaignFormLabel text="Proxy traffic type" />,
+    leftSide: (
+      <CampaignFormLabel text="Proxy traffic type" withRadioMargin />
+    ),
     rightSide: <ProxyTraffic />,
   },
 ];
@@ -33,6 +35,7 @@ const keywordsTab: ITab[] = [
           'separated by a comma and save your ad campaign. Or you can ' +
           'type a keyword and press "Enter" to add it to the targeting.'
         }
+        withInputMargin
       />
     ),
     rightSide: <Keywords />,
@@ -43,7 +46,7 @@ const advancedTabs = (
   canUseKeywords: boolean,
 ): Array<ITab | JSX.Element> => [
   {
-    leftSide: <CampaignFormLabel text="IP ranges" />,
+    leftSide: <CampaignFormLabel text="IP ranges" withRadioMargin />,
     rightSide: <IPRanges />,
   },
   ...(canUseKeywords ? keywordsTab : []),
@@ -55,11 +58,18 @@ const advancedTabs = (
 
 const devicesTabs: ITab[] = [
   {
-    leftSide: <CampaignFormLabel text="Device brands and models" />,
+    leftSide: (
+      <CampaignFormLabel
+        text="Device brands and models"
+        withRadioMargin
+      />
+    ),
     rightSide: <DeviceBrands />,
   },
   {
-    leftSide: <CampaignFormLabel text="Device release date" />,
+    leftSide: (
+      <CampaignFormLabel text="Device release date" withInputMargin />
+    ),
     rightSide: <DeviceReleaseDate />,
   },
   {
@@ -67,6 +77,7 @@ const devicesTabs: ITab[] = [
       <CampaignFormLabel
         text="Model price"
         tooltipText="You can target devices depending on their retail price range on the day they were released."
+        withInputMargin
       />
     ),
     rightSide: <ModelPrice />,
@@ -81,28 +92,35 @@ export const tabs = (
   canUseKeywords: boolean,
 ): Array<ITab | JSX.Element> => [
   {
-    leftSide: <CampaignFormLabel text="Countries and region" />,
+    leftSide: (
+      <CampaignFormLabel
+        text="Countries and region"
+        withRadioMargin
+      />
+    ),
     rightSide: <Countries />,
   },
   {
-    leftSide: <CampaignFormLabel text="Languages" />,
+    leftSide: <CampaignFormLabel text="Languages" withRadioMargin />,
     rightSide: <Languages />,
   },
   {
-    leftSide: <CampaignFormLabel text="Devices" />,
+    leftSide: <CampaignFormLabel text="Devices" withRadioMargin />,
     rightSide: <Devices />,
   },
   ...(canUseDeviceSetting ? devicesTabs : []),
   {
-    leftSide: <CampaignFormLabel text="Operating systems" />,
+    leftSide: (
+      <CampaignFormLabel text="Operating systems" withRadioMargin />
+    ),
     rightSide: <OperatingSystems />,
   },
   {
-    leftSide: <CampaignFormLabel text="Browsers" />,
+    leftSide: <CampaignFormLabel text="Browsers" withRadioMargin />,
     rightSide: <Browsers />,
   },
   {
-    leftSide: <CampaignFormLabel text="Carriers" />,
+    leftSide: <CampaignFormLabel text="Carriers" withRadioMargin />,
     rightSide: <Carriers />,
   },
   <OpenAdvancedTabsButton

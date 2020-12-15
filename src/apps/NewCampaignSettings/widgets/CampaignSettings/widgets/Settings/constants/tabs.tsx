@@ -7,11 +7,13 @@ import NameAndGroup from '../widgets/NameAndGroup';
 
 export const tabs: ITab[] = [
   {
-    leftSide: <CampaignFormLabel text="Name and group" />,
+    leftSide: (
+      <CampaignFormLabel text="Name and group" withInputMargin />
+    ),
     rightSide: <NameAndGroup />,
   },
   {
-    leftSide: <CampaignFormLabel text="Ad format" />,
+    leftSide: <CampaignFormLabel text="Ad format" withInputMargin />,
     rightSide: <AdFormat />,
   },
   {
@@ -25,6 +27,7 @@ export const tabs: ITab[] = [
           'also blacklist the categories using the button "Add tags ' +
           'to blacklist". '
         }
+        withRadioMargin
       />
     ),
     rightSide: <Categories />,

@@ -7,7 +7,7 @@ const useStyles = makeStyles<Theme, TTagsListWithEnterClasses>(
       marginLeft: '20px',
     },
     container: {
-      marginTop: '8px',
+      marginBottom: '8px',
     },
   }),
 );
