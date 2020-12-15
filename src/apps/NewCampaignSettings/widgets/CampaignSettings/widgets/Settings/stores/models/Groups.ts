@@ -13,6 +13,7 @@ import {
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { GLOBAL_NAME } from 'config/constants';
 import { getCampaignDotStatus } from '../../services/getCampaignDotStatus';
+import { errorsString } from '../../../../constants/strings';
 
 const CampaignModel = types.model({
   id: types.number,
@@ -118,7 +119,7 @@ const GroupsModel = types
       } catch (error) {
         self.groupListStatus = LoadingStatus.ERROR;
         const message =
-          error?.response?.data?.msg || 'Groups loading error';
+          error?.response?.data?.msg || errorsString.getGroups;
 
         infoNotification({
           variant: 'error',
@@ -155,7 +156,7 @@ const GroupsModel = types
         } catch (error) {
           self.searchGroupListStatus = LoadingStatus.ERROR;
           const message =
-            error?.response?.data?.msg || 'Groups loading error';
+            error?.response?.data?.msg || errorsString.searchGroups;
 
           infoNotification({
             variant: 'error',
@@ -192,7 +193,7 @@ const GroupsModel = types
       } catch (error) {
         self.groupActionStatus = LoadingStatus.ERROR;
         const message =
-          error?.response?.data?.msg || 'Creating group error';
+          error?.response?.data?.msg || errorsString.createGroup;
 
         infoNotification({
           variant: 'error',
@@ -257,7 +258,7 @@ const GroupsModel = types
       } catch (error) {
         self.groupActionStatus = LoadingStatus.ERROR;
         const message =
-          error?.response?.data?.msg || 'Updating group error';
+          error?.response?.data?.msg || errorsString.updateGroup;
 
         infoNotification({
           variant: 'error',
@@ -288,7 +289,7 @@ const GroupsModel = types
       } catch (error) {
         self.groupActionStatus = LoadingStatus.ERROR;
         const message =
-          error?.response?.data?.msg || 'Deleting group error';
+          error?.response?.data?.msg || errorsString.deleteGroup;
 
         infoNotification({
           variant: 'error',
@@ -342,7 +343,7 @@ const GroupsModel = types
         successCallback();
       } catch (error) {
         const message =
-          error?.response?.data?.msg || 'Get campaign list error';
+          error?.response?.data?.msg || errorsString.getCampaignList;
 
         infoNotification({
           variant: 'error',

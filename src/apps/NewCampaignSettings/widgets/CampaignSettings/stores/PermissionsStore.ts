@@ -1,6 +1,7 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import { INotification, LoadingStatus } from 'sharedTypes';
 import AccessControl from 'helpers/accessControl/controller';
+import { errorsString } from '../constants/strings';
 
 export const InitialPermissionsStore = {
   permissionsStatus: LoadingStatus.INITIAL,
@@ -107,7 +108,7 @@ const PermissionsStore = types
       } catch (error) {
         self.permissionsStatus = LoadingStatus.ERROR;
         const message =
-          error?.response?.data?.msg || 'Permissions loading error';
+          error?.response?.data?.msg || errorsString.getPermissions;
 
         infoNotification({
           variant: 'error',

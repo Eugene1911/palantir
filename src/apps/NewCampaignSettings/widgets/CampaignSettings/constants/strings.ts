@@ -1,0 +1,17 @@
+export const errorsString = {
+  saveCampaign: 'Saving campaign error',
+  getAdFormat: 'Ad Formats loading error',
+  getCategories: 'Categories loading error',
+  getGroups: 'Groups loading error',
+  searchGroups: 'Groups searching error',
+  createGroup: 'Creating group error',
+  updateGroup: 'Updating group error',
+  deleteGroup: 'Deleting group error',
+  getCampaignList: 'Get campaign list error',
+  getList: (errorWord): string => `${errorWord} loading error`,
+  getRegions: 'Regions loading error',
+  getCountries: 'Countries loading error',
+  getRetargeting: 'Retargeting loading error',
+  getCampaign: 'Get campaign error',
+  getPermissions: 'Permissions loading error',
+};

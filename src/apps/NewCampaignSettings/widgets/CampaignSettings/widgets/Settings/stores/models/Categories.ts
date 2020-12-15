@@ -18,6 +18,7 @@ import { mapCategoriesByParent } from '../../services/mapCategoriesByParent';
 import { TPermissionsStore } from '../../../../stores/PermissionsStore';
 import { hiddenCategories } from '../../constants/hiddenCategories';
 import { noHiddenCategoriesAdFormats } from '../../constants/permissionsForAdFormats';
+import { errorsString } from '../../../../constants/strings';
 
 const CategoryModel = types.model({
   name: types.string,
@@ -190,7 +191,7 @@ const CategoriesModel = types
       } catch (error) {
         self.categoriesListStatus = LoadingStatus.ERROR;
         const message =
-          error?.response?.data?.msg || 'Categories loading error';
+          error?.response?.data?.msg || errorsString.getCategories;
 
         infoNotification({
           variant: 'error',
