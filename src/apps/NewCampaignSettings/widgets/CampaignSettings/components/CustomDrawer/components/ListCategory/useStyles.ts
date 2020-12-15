@@ -15,6 +15,10 @@ const useStyles = makeStyles<Theme, TListCategoryClasses>(() => ({
     marginLeft: '-9px',
     height: '48px',
     minHeight: '48px',
+    cursor: 'pointer',
+    '&:hover': {
+      background: '#f2f2f2',
+    },
   },
   accordionSummaryExpanded: {
     height: '48px',

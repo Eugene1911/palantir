@@ -34,6 +34,8 @@ interface ICustomDrawerProps {
   filterCategoriesFunction?: (
     category: IFilterCategoryItem,
   ) => boolean;
+  invisibleBackdrop?: boolean;
+  hideFooter?: boolean;
 }
 
 const CustomDrawer = ({
@@ -55,6 +57,8 @@ const CustomDrawer = ({
   topFilterPermission,
   selectAllTags,
   filterCategoriesFunction,
+  invisibleBackdrop = false,
+  hideFooter = false,
 }: ICustomDrawerProps): JSX.Element => {
   const classes = useStyles();
   const [inputText, setInputText] = useState<string>('');
@@ -108,7 +112,12 @@ const CustomDrawer = ({
       : categoriesList;
 
   return (
-    <Drawer anchor="right" open={isOpen} onClose={onCancel}>
+    <Drawer
+      anchor="right"
+      open={isOpen}
+      onClose={onCancel}
+      ModalProps={{ BackdropProps: { invisible: invisibleBackdrop } }}
+    >
       <FilterHeader
         onCancel={onCancel}
         title={title}
@@ -170,11 +179,13 @@ const CustomDrawer = ({
               />
             ))}
       </Container>
-      <FilterFooter
-        onCancel={onCancel}
-        onSave={onSave}
-        selectedCount={selectedCount}
-      />
+      {!hideFooter && (
+        <FilterFooter
+          onCancel={onCancel}
+          onSave={onSave}
+          selectedCount={selectedCount}
+        />
+      )}
     </Drawer>
   );
 };

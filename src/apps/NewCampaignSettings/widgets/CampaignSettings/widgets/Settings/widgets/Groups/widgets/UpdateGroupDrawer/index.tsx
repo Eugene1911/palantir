@@ -87,7 +87,12 @@ const UpdateGroupDrawer = ({
 
   return (
     <>
-      <Drawer anchor="right" open={isOpen} onClose={onCancel}>
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={onCancel}
+        ModalProps={{ BackdropProps: { invisible: true } }}
+      >
         <FilterHeader
           onCancel={onCancel}
           title={group.name}

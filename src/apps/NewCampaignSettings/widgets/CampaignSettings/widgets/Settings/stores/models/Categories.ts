@@ -113,6 +113,13 @@ const CategoriesModel = types
         )
       );
     },
+    get isNeedDisable(): boolean {
+      let summ = 0;
+      Array.from(self.categoriesList.keys()).forEach((key): void => {
+        summ += +self.categoriesList.get(key).active;
+      });
+      return summ === 1;
+    },
   }))
   .actions(self => ({
     filterCategoriesByAdFormat(adFormatName: string): void {

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import { LoadingStatus } from 'sharedTypes';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import AddICon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import FilterLoader from 'sharedComponents/loaders/FilterLoader';
 import useStyles from './useStyles';
@@ -11,6 +13,7 @@ import CustomDrawer from '../CustomDrawer';
 import { IFilterListItem } from '../CustomDrawer/components/ListItem';
 import { IFilterCategoryItem } from '../CustomDrawer/components/ListCategory';
 import CustomChip from '../CustomChip';
+import { CLOSED_HEIGHT } from './constants/closedHeight';
 
 interface IChipsWithFilterProps {
   list: IFilterListItem[];
@@ -34,6 +37,7 @@ interface IChipsWithFilterProps {
   filterCategoriesFunction?: (
     category: IFilterCategoryItem,
   ) => boolean;
+  invisibleBackdrop?: boolean;
 }
 
 const ChipsWithFilter = ({
@@ -56,10 +60,17 @@ const ChipsWithFilter = ({
   permissionsStatus = LoadingStatus.SUCCESS,
   selectAllTags,
   filterCategoriesFunction,
+  invisibleBackdrop,
 }: IChipsWithFilterProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
+  const [isClosedList, setIsClosedList] = useState<boolean>(false);
+  const [isNeedShowAll, setIsNeedShowAll] = useState<boolean>(false);
   const classes = useStyles();
+  const containerRef = useRef(null);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+
+  const toggleListClosed = (): void =>
+    setIsClosedList(prevClosed => !prevClosed);
 
   const toggleFilterOpen = (): void =>
     setIsFilterOpen(prevOpen => !prevOpen);
@@ -83,16 +94,32 @@ const ChipsWithFilter = ({
     onSave();
   };
 
+  const filteredList = list.filter(
+    item => item.selected || item.asLabel,
+  );
+
+  useEffect(() => {
+    const newIsNeedShowAll =
+      containerRef.current?.clientHeight > CLOSED_HEIGHT;
+    setIsNeedShowAll(newIsNeedShowAll);
+    setIsClosedList(newIsNeedShowAll);
+  }, [filteredList.length]);
+
   return (
     <>
       {loadingStatus === LoadingStatus.LOADING ? (
         <FilterLoader />
       ) : (
         <>
-          <Grid className={classes.container} container>
-            {list
-              .filter(item => item.selected || item.asLabel)
-              .map(item => (
+          <Box
+            className={
+              isClosedList
+                ? classes.closedContainer
+                : classes.container
+            }
+          >
+            <Grid container ref={containerRef}>
+              {filteredList.map(item => (
                 <CustomChip
                   onDelete={
                     item.asLabel
@@ -104,15 +131,25 @@ const ChipsWithFilter = ({
                   isActive={!item.isDefaultStyle}
                 />
               ))}
+              <Button
+                className={classes.button}
+                color="primary"
+                startIcon={<AddICon />}
+                onClick={toggleFilterOpen}
+              >
+                Add
+              </Button>
+            </Grid>
+          </Box>
+          {!!filteredList.length && isNeedShowAll && (
             <Button
               className={classes.button}
               color="primary"
-              startIcon={<AddICon />}
-              onClick={toggleFilterOpen}
+              onClick={toggleListClosed}
             >
-              Add custom
+              {isClosedList ? 'Show all' : 'Close'}
             </Button>
-          </Grid>
+          )}
 
           <CustomDrawer
             title={filterTitle}
@@ -131,7 +168,19 @@ const ChipsWithFilter = ({
             topFilterPermission={topFilterPermission}
             selectAllTags={selectAllTags}
             filterCategoriesFunction={filterCategoriesFunction}
+            invisibleBackdrop={invisibleBackdrop}
           />
+
+          {!!filteredList.length && (
+            <Button
+              className={classes.editButton}
+              color="primary"
+              startIcon={<EditIcon />}
+              onClick={toggleFilterOpen}
+            >
+              Edit
+            </Button>
+          )}
         </>
       )}
     </>

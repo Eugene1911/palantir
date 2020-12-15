@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
@@ -57,27 +58,31 @@ const IPRanges = ({ ipRanges }: IIPRangesProps): JSX.Element => {
       </FormControl>
 
       {ipRanges.radio === AllIncludeExclude.INCLUDE && (
-        <TagsListWithEnter
-          list={ipRanges.list}
-          onEnter={ipRanges.setTags}
-          onDelete={ipRanges.deleteTag}
-          onClearAll={ipRanges.clearAll}
-          isError={false}
-          label="Include IP ranges"
-          tagsCount={ipRanges.tagsCount}
-        />
+        <Box className={classes.container}>
+          <TagsListWithEnter
+            list={ipRanges.list}
+            onEnter={ipRanges.setTags}
+            onDelete={ipRanges.deleteTag}
+            onClearAll={ipRanges.clearAll}
+            isError={false}
+            label="Include IP ranges"
+            tagsCount={ipRanges.tagsCount}
+          />
+        </Box>
       )}
 
       {ipRanges.radio === AllIncludeExclude.EXCLUDE && (
-        <TagsListWithEnter
-          list={ipRanges.excludeList}
-          onEnter={ipRanges.setTags}
-          onDelete={ipRanges.deleteTag}
-          onClearAll={ipRanges.clearAll}
-          isError
-          label="Exclude IP ranges"
-          tagsCount={ipRanges.tagsCount}
-        />
+        <Box className={classes.container}>
+          <TagsListWithEnter
+            list={ipRanges.excludeList}
+            onEnter={ipRanges.setTags}
+            onDelete={ipRanges.deleteTag}
+            onClearAll={ipRanges.clearAll}
+            isError
+            label="Exclude IP ranges"
+            tagsCount={ipRanges.tagsCount}
+          />
+        </Box>
       )}
     </>
   );

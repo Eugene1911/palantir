@@ -36,7 +36,7 @@ const DeviceReleaseDate = ({
           </Select>
         </FormControl>
       </Grid>
-      <QuestionTooltip title="To target devices released within the last 6 months, simply enter '6'." />
+      <QuestionTooltip title="To target devices released within the last 6 months, choose '6 months'" />
     </Grid>
   );
 };

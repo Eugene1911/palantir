@@ -39,6 +39,7 @@ const GroupFilter = ({
       anchor="right"
       open={isShowFilter}
       onClose={toggleShowFilter}
+      ModalProps={{ BackdropProps: { invisible: true } }}
     >
       <FilterHeader
         onCancel={toggleShowFilter}
@@ -62,7 +63,6 @@ const GroupFilter = ({
             item={option?.name}
             isSelected={option?.name === activeFilter}
             onSelectFilter={handleSetActiveFilter}
-            count={option?.count}
             key={uuid()}
           />
         ))}
