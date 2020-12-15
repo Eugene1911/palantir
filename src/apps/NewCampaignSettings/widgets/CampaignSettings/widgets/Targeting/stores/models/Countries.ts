@@ -302,19 +302,6 @@ const CountriesModel = types
         ).length;
       });
     },
-    cancelSelectedRegion(parentId: number): void {
-      const parent = self.categoriesList.find(
-        category => category.id === parentId,
-      );
-      if (parent) {
-        parent.list.forEach(item => {
-          item.tempSelected = item.selected;
-        });
-        parent.selectedCount = parent.list.filter(
-          item => item.selected,
-        ).length;
-      }
-    },
     getList: flow(function* getList(
       infoNotification: (arg: INotification) => void,
     ) {

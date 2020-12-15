@@ -35,11 +35,6 @@ const Countries = ({
     setActiveCountry(null);
   };
 
-  const cancelSelectedRegion = (): void => {
-    countries.cancelSelectedRegion(activeCountry.id);
-    closeRegionFilter();
-  };
-
   const openRegionFilter = (country: IFilterCategoryItem): void => {
     if (!country.list.length) {
       countries.getRegion(infoNotification, country.code).then(() => {
@@ -87,7 +82,7 @@ const Countries = ({
             <CustomDrawer
               isOpen={isOpenRegionFilter}
               selectedCount={activeCountry.selectedCount}
-              onCancel={cancelSelectedRegion}
+              onCancel={closeRegionFilter}
               onSave={closeRegionFilter}
               title={`${activeCountry.name} region`}
               list={activeCountry.list || []}
@@ -95,6 +90,7 @@ const Countries = ({
               withCloseButton={false}
               withBackButton
               invisibleBackdrop
+              hideFooter
             />
           )}
         </>

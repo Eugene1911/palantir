@@ -13,7 +13,7 @@ interface IFilterListItemProps {
   item: string;
   isSelected: boolean;
   onSelectFilter: (item: string) => void;
-  count: number;
+  count?: number;
 }
 
 const FilterListItem = ({
@@ -52,7 +52,7 @@ const FilterListItem = ({
           {item}
         </Typography>
       </Grid>
-      {isSelected && (
+      {isSelected && !!count && (
         <CustomChip
           className={classes.filterCounter}
           label={count}

@@ -63,7 +63,6 @@ const GroupFilter = ({
             item={option?.name}
             isSelected={option?.name === activeFilter}
             onSelectFilter={handleSetActiveFilter}
-            count={option?.count}
             key={uuid()}
           />
         ))}

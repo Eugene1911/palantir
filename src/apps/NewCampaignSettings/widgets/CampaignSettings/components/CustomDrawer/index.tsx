@@ -35,6 +35,7 @@ interface ICustomDrawerProps {
     category: IFilterCategoryItem,
   ) => boolean;
   invisibleBackdrop?: boolean;
+  hideFooter?: boolean;
 }
 
 const CustomDrawer = ({
@@ -57,6 +58,7 @@ const CustomDrawer = ({
   selectAllTags,
   filterCategoriesFunction,
   invisibleBackdrop = false,
+  hideFooter = false,
 }: ICustomDrawerProps): JSX.Element => {
   const classes = useStyles();
   const [inputText, setInputText] = useState<string>('');
@@ -177,11 +179,13 @@ const CustomDrawer = ({
               />
             ))}
       </Container>
-      <FilterFooter
-        onCancel={onCancel}
-        onSave={onSave}
-        selectedCount={selectedCount}
-      />
+      {!hideFooter && (
+        <FilterFooter
+          onCancel={onCancel}
+          onSave={onSave}
+          selectedCount={selectedCount}
+        />
+      )}
     </Drawer>
   );
 };
