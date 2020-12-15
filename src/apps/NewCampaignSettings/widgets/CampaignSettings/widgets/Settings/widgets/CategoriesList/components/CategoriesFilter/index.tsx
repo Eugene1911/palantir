@@ -54,6 +54,7 @@ const CategoriesFilter = ({
                 label={value.name}
                 labelPlacement="start"
                 className={classes.switch}
+                disabled={!!value.active && categories.isNeedDisable}
               />
             ),
           )}
