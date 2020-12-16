@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, useRouteMatch } from 'react-router-dom';
 import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
 import { SnackbarProvider } from 'notistack';
 import { MAX_COUNT_SNACK } from '../../config/constants';
@@ -7,7 +7,6 @@ import CampaignSettings from './widgets/CampaignSettings';
 import NewCampaignSettingsStore, {
   InitialNewCampaignSettingsStore,
 } from './stores/NewCampaignSettingsStore';
-import PAGE_PATH from '../../helpers/pagePath';
 
 const NewCampaignSettings = (): JSX.Element => {
   const store = {
@@ -16,8 +15,10 @@ const NewCampaignSettings = (): JSX.Element => {
     ),
   };
 
+  const { path } = useRouteMatch();
+
   return (
-    <Route path={`${PAGE_PATH.CAMPAIGN_SETTINGS}/:mode?/:id?`}>
+    <Route path={path}>
       <SnackbarProvider maxSnack={MAX_COUNT_SNACK}>
         <WrapperStartAppComponent store={store}>
           <CampaignSettings />
