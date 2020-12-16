@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, useRouteMatch, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import WrapperStartAppComponent from 'sharedComponents/WrapperStartAppComponent';
 import { SnackbarProvider } from 'notistack';
 import { MAX_COUNT_SNACK } from '../../config/constants';
@@ -15,13 +15,11 @@ const NewCampaignSettings = (): JSX.Element => {
     ),
   };
 
-  const { path } = useRouteMatch();
-
   return (
     <SnackbarProvider maxSnack={MAX_COUNT_SNACK}>
       <WrapperStartAppComponent store={store}>
         <Switch>
-          <Route path={`${path}/:mode?/:id?`}>
+          <Route path=":mode?/:id?">
             <CampaignSettings />
           </Route>
         </Switch>
