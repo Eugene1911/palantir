@@ -7,7 +7,7 @@ import NewCampaignSettings from './app';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <Router basename="/advertisers/new_create_campaign_audience_pricing/">
+    <Router basename="/advertisers/new_create_campaign_settings/">
       <NewCampaignSettings />
     </Router>
   </ThemeProvider>,
