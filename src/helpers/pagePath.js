@@ -1,5 +1,6 @@
 const PAGE_PATH = {
   // ADVERTISER
+  ADVERTISERS: '/advertisers',
   ADVERTISER_CAMPAIGNS_STATISTIC:
     '/advertisers/campaigns/statistics/',
   ADVERTISER_CAMPAIGNS_EDIT: '/advertisers/campaigns/edit/',
