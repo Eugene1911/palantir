@@ -5,9 +5,11 @@ import ReactDOM from 'react-dom';
 import theme from 'config/theme';
 import NewCampaignSettings from './app';
 
+const { pathname } = window.location;
+
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <Router basename="/advertisers/new_create_campaign_settings/">
+    <Router basename={pathname}>
       <NewCampaignSettings />
     </Router>
   </ThemeProvider>,

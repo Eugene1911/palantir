@@ -30,7 +30,7 @@ const SaveStepAction = ({
     const resultData = getNewCampaignSettingsResultData();
     const successCallback = (id: number): void => {
       if (link && id) {
-        history.push(`${link}/edit/${id}`);
+        history.push(`edit/${id}`);
       }
     };
     saveActions.saveCampaign(
