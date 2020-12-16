@@ -23,7 +23,7 @@ const NewCampaignSettings = (): JSX.Element => {
       <WrapperStartAppComponent store={store}>
         <Switch>
           <Route
-            path={`${path}${PAGE_PATH.CAMPAIGN_SETTINGS}/:mode?/:id?`}
+            path={`${path}${PAGE_PATH.CAMPAIGN_SETTINGS}:mode?/:id?`}
           >
             <CampaignSettings />
           </Route>
