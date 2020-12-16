@@ -12,6 +12,7 @@ import CampaignAudienceAndPricingStore, {
 } from './stores/CampaignAudienceAndPricingStore';
 import { getCampaignById } from '../../resources/api';
 import { EUrlMode } from './assets/commonTypes';
+import PAGE_PATH from '../../helpers/pagePath';
 
 const store = {
   CampaignAudienceAndPricingStore: CampaignAudienceAndPricingStore.create(
@@ -43,7 +44,9 @@ function CampaignAudienceAndPricing(): JSX.Element {
   const { path } = useRouteMatch();
 
   return (
-    <Route path={path}>
+    <Route
+      path={`${path}${PAGE_PATH.CAMPAIGN_AUDIENCE_AND_PRICING}/:mode?/:id?`}
+    >
       <SnackbarProvider maxSnack={MAX_COUNT_SNACK}>
         <WrapperStartAppComponent store={store}>
           <CampaignStepper activeStep={1} />
