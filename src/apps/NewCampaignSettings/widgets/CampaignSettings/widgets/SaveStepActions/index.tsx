@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 
 import CampaignActions from 'sharedWidgets/CampaignActions';
 import PAGE_PATH from 'helpers/pagePath';
-import { goToEditingStep } from 'helpers/goToEditingStep';
+import { goToExternalApp } from 'helpers/goToExternalApp';
 import { LoadingStatus } from 'sharedTypes';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import { INewCampaignSettingsResultData } from '../../../../types/resultTypes';
@@ -29,7 +29,7 @@ const SaveStepAction = ({
     const resultData = getNewCampaignSettingsResultData();
     const successCallback = (id: number): void => {
       if (link && id) {
-        goToEditingStep(link, id);
+        goToExternalApp(link, id);
       }
     };
     saveActions.saveCampaign(
