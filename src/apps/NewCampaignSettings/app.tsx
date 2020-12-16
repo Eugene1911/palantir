@@ -7,7 +7,6 @@ import CampaignSettings from './widgets/CampaignSettings';
 import NewCampaignSettingsStore, {
   InitialNewCampaignSettingsStore,
 } from './stores/NewCampaignSettingsStore';
-import PAGE_PATH from '../../helpers/pagePath';
 
 const NewCampaignSettings = (): JSX.Element => {
   const store = {
@@ -22,9 +21,7 @@ const NewCampaignSettings = (): JSX.Element => {
     <SnackbarProvider maxSnack={MAX_COUNT_SNACK}>
       <WrapperStartAppComponent store={store}>
         <Switch>
-          <Route
-            path={`${path}${PAGE_PATH.CAMPAIGN_SETTINGS}:mode?/:id?`}
-          >
+          <Route path={`${path}/:mode?/:id?`}>
             <CampaignSettings />
           </Route>
         </Switch>
