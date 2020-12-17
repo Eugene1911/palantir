@@ -1,14 +1,14 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { useHistory } from 'react-router-dom';
 
 import CampaignActions from 'sharedWidgets/CampaignActions';
+import PAGE_PATH from 'helpers/pagePath';
+import { goToExternalApp } from 'helpers/goToExternalApp';
 import { LoadingStatus } from 'sharedTypes';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import { INewCampaignSettingsResultData } from '../../../../types/resultTypes';
 import { TSaveStepActionModel } from './stores/SaveStepActionsStore';
 import { TEditStore } from '../../stores/EditStore';
-import PAGE_PATH from '../../../../../../helpers/pagePath';
 
 interface ISaveStepActionProps {
   getNewCampaignSettingsResultData?: () => INewCampaignSettingsResultData;
@@ -24,13 +24,12 @@ const SaveStepAction = ({
   edit,
 }: ISaveStepActionProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
-  const history = useHistory();
 
   const handleSave = (link?: string): void => {
     const resultData = getNewCampaignSettingsResultData();
     const successCallback = (id: number): void => {
       if (link && id) {
-        history.push(`edit/${id}`);
+        goToExternalApp(link, id);
       }
     };
     saveActions.saveCampaign(
