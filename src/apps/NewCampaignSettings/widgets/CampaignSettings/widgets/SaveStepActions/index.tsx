@@ -13,14 +13,16 @@ import { TEditStore } from '../../stores/EditStore';
 interface ISaveStepActionProps {
   getNewCampaignSettingsResultData?: () => INewCampaignSettingsResultData;
   saveActions?: TSaveStepActionModel;
-  isAllRequiredFieldsFilled?: boolean;
+  isAllRequiredFieldsFilledForNext?: boolean;
+  isAllRequiredFieldsFilledForSave?: boolean;
   edit?: TEditStore;
 }
 
 const SaveStepAction = ({
   getNewCampaignSettingsResultData,
   saveActions,
-  isAllRequiredFieldsFilled,
+  isAllRequiredFieldsFilledForNext,
+  isAllRequiredFieldsFilledForSave,
   edit,
 }: ISaveStepActionProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
@@ -47,7 +49,8 @@ const SaveStepAction = ({
       }
       onSaveAsDraft={(): void => handleSave()}
       isLoading={saveActions.savingStatus === LoadingStatus.LOADING}
-      isSaveDisabled={!isAllRequiredFieldsFilled}
+      isSaveDisabled={!isAllRequiredFieldsFilledForSave}
+      isNextDisabled={!isAllRequiredFieldsFilledForNext}
     />
   );
 };
@@ -56,7 +59,9 @@ export default inject(({ newCampaignSettings }) => ({
   getNewCampaignSettingsResultData:
     newCampaignSettings.getNewCampaignSettingsResultData,
   saveActions: newCampaignSettings.saveActions,
-  isAllRequiredFieldsFilled:
-    newCampaignSettings.isAllRequiredFieldsFilled,
+  isAllRequiredFieldsFilledForNext:
+    newCampaignSettings.isAllRequiredFieldsFilledForNext,
+  isAllRequiredFieldsFilledForSave:
+    newCampaignSettings.isAllRequiredFieldsFilledForSave,
   edit: newCampaignSettings.edit,
 }))(observer(SaveStepAction));

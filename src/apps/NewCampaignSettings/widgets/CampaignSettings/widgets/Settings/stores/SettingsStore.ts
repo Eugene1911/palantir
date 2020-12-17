@@ -24,11 +24,6 @@ const SettingsModel = types
     adFormat: AdFormatModel,
     categories: CategoriesModel,
   })
-  .views(self => ({
-    get isAllRequiredFieldsFilled(): boolean {
-      return !!self.name && !!self.adFormat.adFormat;
-    },
-  }))
   .actions(self => ({
     setName(name: string): void {
       self.name = name;

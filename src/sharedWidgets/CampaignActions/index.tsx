@@ -11,6 +11,7 @@ export interface ICampaignActionsProps {
   onClickPrevious?: () => void;
   onSave: () => void;
   isSaveDisabled?: boolean;
+  isNextDisabled?: boolean;
   isLoading?: boolean;
   onSaveAsDraft: () => void;
   saveButtonText?: string;
@@ -20,6 +21,7 @@ const CampaignActions = ({
   onClickPrevious,
   onSave,
   isSaveDisabled = false,
+  isNextDisabled = false,
   onSaveAsDraft,
   saveButtonText,
   isLoading = false,
@@ -43,6 +45,7 @@ const CampaignActions = ({
               className={classes.button}
               onClick={onSaveAsDraft}
               variant="outlined"
+              disabled={isSaveDisabled}
             >
               Save
             </Button>
@@ -61,7 +64,7 @@ const CampaignActions = ({
             <Button
               variant="contained"
               color="primary"
-              disabled={isSaveDisabled}
+              disabled={isNextDisabled}
               onClick={onSave}
               className={cn(classes.button, classes.nextButton)}
               classes={{ endIcon: classes.nextIcon }}
