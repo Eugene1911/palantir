@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import union from 'lodash/union';
+import uniqBy from 'lodash/uniqBy';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -31,7 +31,7 @@ import {
 } from '../../assets/constants/commonAudienceTypes';
 import { buttonsConst } from '../../assets/constants/buttonsConst';
 import { EFetchStatus } from '../../../../assets/commonTypes';
-import textToTagsWithCheck from '../../services/textToTagsWithCheck';
+import { textToTagsWithCheck } from '../../services/textAndTagsUtils';
 import { useTable } from '../../services/useTable';
 import {
   titles,
@@ -53,13 +53,11 @@ function IDTableController(
   const model = audience.filterSideModel;
   const isRON = audience.trafficType === ETrafficType.RON;
 
-  const siteFetchStatus = audience[EIDModel.SITE_ID].fetchStatus;
+  // const siteFetchStatus = audience[EIDModel.SITE_ID].fetchStatus;
   const spotFetchStatus = audience[EIDModel.SPOT_ID].fetchStatus;
   const isFetchSuccess = React.useMemo(
-    () =>
-      siteFetchStatus === EFetchStatus.SUCCESS &&
-      spotFetchStatus === EFetchStatus.SUCCESS,
-    [siteFetchStatus, spotFetchStatus],
+    () => spotFetchStatus === EFetchStatus.SUCCESS,
+    [spotFetchStatus],
   );
 
   const {
@@ -111,7 +109,7 @@ function IDTableController(
     if (model === EIDModel.SPOT_ID) {
       inputText.length
         ? filterSpots(getFilterTextArray(inputText))
-        : setFilteredSpots(baseSpots);
+        : setFilteredSpots(isRON ? selectedSpots : baseSpots);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseSpots, model, selectedSites, selectedSpots]);
@@ -129,11 +127,13 @@ function IDTableController(
   };
 
   const addAllSpots = (prime: boolean): void => {
-    const spotsToAdd = audience[EIDModel.SPOT_ID].spots.filter(
-      ({ isPrime }) => isPrime === prime,
+    const spotsToAdd = audience[
+      EIDModel.SPOT_ID
+    ].spots.filter(({ isPrime, isMemberArea }) =>
+      prime ? isPrime : isMemberArea,
     );
 
-    setSelectedSpots(union(selectedSpots, spotsToAdd));
+    setSelectedSpots(uniqBy([...selectedSpots, ...spotsToAdd], 'id'));
   };
 
   const saveLocalState = () => {
@@ -442,6 +442,7 @@ function IDTableController(
     return <></>;
   }
 
+  // console.log('filtered spots', filteredSpots);
   return (
     <FilterSide
       title={titles[model]}

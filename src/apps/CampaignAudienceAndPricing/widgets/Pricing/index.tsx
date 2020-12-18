@@ -26,6 +26,7 @@ interface IPricingProps {
   priceBid?: string;
   priceType?: EPriceType;
   priceFetchStatus?: EFetchStatus;
+  currentFormat?: number;
   getBidsPrice?: () => void;
   distribution?: EDistribution;
   dailyBudget?: string;
@@ -45,6 +46,7 @@ function Pricing(props: IPricingProps): JSX.Element {
     priceType,
     initialCampaignData,
     setPricingData,
+    currentFormat,
   } = props;
   const [permissions, setPermissions] = useState<IPricingPermissions>(
     {
@@ -69,6 +71,7 @@ function Pricing(props: IPricingProps): JSX.Element {
     getPricingPermissions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     initialCampaignData && setPricingData(initialCampaignData);
   }, [initialCampaignData]);
@@ -76,6 +79,10 @@ function Pricing(props: IPricingProps): JSX.Element {
   const tabs = createTabs({ showRtb, permissions });
 
   priceFetchStatus === EFetchStatus.NOT_FETCHED && getBidsPrice();
+
+  useEffect(() => {
+    getBidsPrice();
+  }, [currentFormat]);
 
   const getInfo1 = React.useCallback(() => {
     let info1 = adModels[adModel];
@@ -113,7 +120,8 @@ export default inject(({ CampaignAudienceAndPricingStore }) => {
     priceBid: pricing.price.bid,
     priceType: pricing.price.priceType,
     dailyBudget: pricing.budget.daily,
-    showRtb: audience.rtb,
     setPricingData: pricing.setPricingData,
+    showRtb: audience.rtb,
+    currentFormat: audience.formats.currentFormat,
   };
 })(observer(Pricing));

@@ -25,6 +25,7 @@ import {
   TOOLS_URL_UNPACK,
   PUBLISHER_CUSTOM_REPORT,
   SPOTS,
+  SPOTS_BY_APP,
   OPTIMIZER_STRATEGIES,
   OPTIMIZER_VARIABLES,
   RBAC_CHECK_ACCESS,
@@ -34,6 +35,8 @@ import {
   OS_VERSIONS,
   MINIMAL_BIDS,
   CAMPAIGN_EDIT_DRAFT,
+  SPOT,
+  APPLICATION,
   UPDATE_GROUP,
   GET_GROUP_BY_ID,
   BATCH,
@@ -159,6 +162,16 @@ export const getCarriers = params => API.get(CARRIERS, { params });
  */
 export const getSpots = params =>
   API.get(SPOTS, {
+    params,
+    paramsSerializer: requestParamsSerializer,
+  });
+
+/**
+ * Get Spots
+ * @param {Object} params
+ */
+export const getSpotsByApp = params =>
+  API.get(SPOTS_BY_APP, {
     params,
     paramsSerializer: requestParamsSerializer,
   });
@@ -374,6 +387,20 @@ export const saveSpotPrice = (campaignId, spotId, params) =>
     ),
     params,
   );
+
+/**
+ * Get spot
+ * @param {Object} params
+ */
+export const getSpot = (spotId, params = {}) =>
+  API.get(SPOT.replace('{spotId}', spotId), params);
+
+/**
+ * Get application
+ * @param {Object} params
+ */
+export const getApplication = (siteId, params = {}) =>
+  API.get(APPLICATION.replace('{id}', siteId), params);
 
 /**
  * Get campaign statuses

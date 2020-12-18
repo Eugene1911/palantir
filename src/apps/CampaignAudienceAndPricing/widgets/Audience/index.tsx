@@ -21,10 +21,13 @@ import {
 } from '../../assets/commonTypes';
 
 interface IAudienceProps {
-  getSpotsData?: () => void;
-  getSitesData?: () => void;
+  getSpotsData?: (format?: number) => void;
+  // getSitesData?: () => void;
+  getFormats?: () => void;
+  // currentFormat?: number;
+  formatFetchStatus?: EFetchStatus;
   spotsFetchStatus?: EFetchStatus;
-  sitesFetchStatus?: EFetchStatus;
+  // sitesFetchStatus?: EFetchStatus;
   toggleIsAdvancedOpen?: () => void;
   isAdvancedOpen?: boolean;
   trafficType?: ETrafficType;
@@ -36,16 +39,22 @@ interface IAudienceProps {
 function Audience(props: IAudienceProps): JSX.Element {
   const {
     getSpotsData,
-    getSitesData,
+    // getSitesData,
+    getFormats,
+    formatFetchStatus,
     spotsFetchStatus,
-    sitesFetchStatus,
+    // sitesFetchStatus,
     isAdvancedOpen,
     toggleIsAdvancedOpen,
     trafficType,
     trafficSource,
     initialCampaignData,
     setAudienceData,
+    // currentFormat,
   } = props;
+
+  const [needSetData, setNeedSetData] = React.useState(false);
+
   const [permissions, setPermissions] = useState<
     IAudiencePermissions
   >({
@@ -82,8 +91,25 @@ function Audience(props: IAudienceProps): JSX.Element {
   }, []);
 
   useEffect(() => {
-    initialCampaignData && setAudienceData(initialCampaignData);
-  }, [initialCampaignData]);
+    if (
+      !initialCampaignData &&
+      spotsFetchStatus === EFetchStatus.NOT_FETCHED
+    ) {
+      getSpotsData();
+    }
+
+    if (
+      initialCampaignData &&
+      spotsFetchStatus === EFetchStatus.SUCCESS
+    ) {
+      if (!needSetData) {
+        getSpotsData(initialCampaignData.format_id);
+        setNeedSetData(true);
+      } else {
+        setAudienceData(initialCampaignData);
+      }
+    }
+  }, [initialCampaignData, spotsFetchStatus, needSetData]);
 
   const tabs = createTabs({
     isAdvancedOpen,
@@ -92,8 +118,7 @@ function Audience(props: IAudienceProps): JSX.Element {
     permissions,
   });
 
-  spotsFetchStatus === EFetchStatus.NOT_FETCHED && getSpotsData();
-  sitesFetchStatus === EFetchStatus.NOT_FETCHED && getSitesData();
+  formatFetchStatus === EFetchStatus.NOT_FETCHED && getFormats();
 
   return (
     <>
@@ -113,11 +138,15 @@ function Audience(props: IAudienceProps): JSX.Element {
 
 export default inject(({ CampaignAudienceAndPricingStore }) => {
   const { audience } = CampaignAudienceAndPricingStore;
+
   return {
     getSpotsData: audience.getSpotsData,
-    getSitesData: audience.getSitesData,
+    // getSitesData: audience.getSitesData,
+    // currentFormat: audience.formats.currentFormat,
+    getFormats: audience.getFormats,
+    formatFetchStatus: audience.formats.fetchStatus,
     spotsFetchStatus: audience[EIDModel.SPOT_ID].fetchStatus,
-    sitesFetchStatus: audience[EIDModel.SITE_ID].fetchStatus,
+    // sitesFetchStatus: audience[EIDModel.SITE_ID].fetchStatus,
     isAdvancedOpen: audience.isAdvancedOpen,
     toggleIsAdvancedOpen: audience.toggleIsAdvancedOpen,
     trafficType: audience.trafficType,

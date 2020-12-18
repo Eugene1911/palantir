@@ -31,12 +31,15 @@ export const SPOT_PRICE = `${API_VERSION_1_1}campaigns/{id}/spot/{spotId}/price`
 export const CARRIERS = `${API_VERSION_1_1}carriers`;
 export const USERS = `${API_VERSION_1_1}users`;
 export const APPLICATIONS = `${API_VERSION_1_1}applications`;
+export const APPLICATION = `${API_VERSION_1_1}application/{id}`;
 export const TOOLS_CURRENCY_EXCHANGE = `${API_VERSION_1_1}tools/currency_exchange`;
 export const TOOLS_URL_UNPACK = `${API_VERSION_1_1}tools/url-unpack`;
 export const COUNTRIES = `${API_VERSION_1_1}geo/countries`;
 export const REGION = code =>
   `${API_VERSION_1_1}geo/regions?country=${code}`;
+export const SPOT = `${API_VERSION_1_1}spots/{spotId}`;
 export const SPOTS = `${API_VERSION_1_1}spots`;
+export const SPOTS_BY_APP = `${API_VERSION_1_1}spots/by-app`;
 export const CATEGORIES = `${API_VERSION_1_1}categories`;
 export const LANGUAGES = `${API_VERSION_1_1}languages`;
 export const OPTIMIZER_STRATEGIES = `${API_VERSION_1_1}optimizer/strategies`;

@@ -146,7 +146,6 @@ const PricingModel = types
           stretch_time: self.distribution === EDistribution.EVEN,
           /* eslint-enable @typescript-eslint/camelcase */
         });
-        // console.log('bids', data);
 
         self.price[EBidType.MINIMUM] = String(data.min);
         self.price[EBidType.TARGET] = String(data.max);
