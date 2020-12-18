@@ -35,11 +35,6 @@ const Countries = ({
     setActiveCountry(null);
   };
 
-  const cancelSelectedRegion = (): void => {
-    countries.cancelSelectedRegion(activeCountry.id);
-    closeRegionFilter();
-  };
-
   const openRegionFilter = (country: IFilterCategoryItem): void => {
     if (!country.list.length) {
       countries.getRegion(infoNotification, country.code).then(() => {
@@ -58,7 +53,7 @@ const Countries = ({
         onChange={countries.setRadio}
         value={countries.radio}
         name="countries"
-        counter={countries.getAllCount}
+        counter={countries.getAllCount()}
       />
 
       {countries.radio === AllCustomStatus.CUSTOM && (
@@ -87,13 +82,15 @@ const Countries = ({
             <CustomDrawer
               isOpen={isOpenRegionFilter}
               selectedCount={activeCountry.selectedCount}
-              onCancel={cancelSelectedRegion}
+              onCancel={closeRegionFilter}
               onSave={closeRegionFilter}
               title={`${activeCountry.name} region`}
               list={activeCountry.list || []}
               onSelect={countries.setSelected}
               withCloseButton={false}
               withBackButton
+              invisibleBackdrop
+              hideFooter
             />
           )}
         </>

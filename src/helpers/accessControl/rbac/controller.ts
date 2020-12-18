@@ -6,6 +6,9 @@ import { IAccessToCampaignTargeting } from 'helpers/accessControl/example/usage'
 // Also the implementation which uses API RBAC endpoints to resolve the methods of the interface will be:
 // eslint-disable-next-line @typescript-eslint/class-name-casing
 class _AccessControl implements IAccessToCampaignTargeting {
+  private static _permCampUseBlacklistCategories =
+    'campaign.use_blacklist_categories';
+
   private static _permCampSetupHiddenCategories =
     'campaign.setup_hidden_categories';
 
@@ -57,6 +60,12 @@ class _AccessControl implements IAccessToCampaignTargeting {
   private static _permAdModelCPA = 'campaign.use_cpa_pricing_model';
 
   private static _permRtb = 'campaign.setup_rtb';
+
+  canUseBlacklistCategories(): Promise<boolean> {
+    return this._checkPerm(
+      _AccessControl._permCampUseBlacklistCategories,
+    );
+  }
 
   canSetupHiddenCategories(): Promise<boolean> {
     return this._checkPerm(

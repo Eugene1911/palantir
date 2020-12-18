@@ -6,7 +6,9 @@ import DayTimeRange from '../widgets/DayTimeRange';
 
 export const tabs: ITab[] = [
   {
-    leftSide: <CampaignFormLabel text="Start and end date" />,
+    leftSide: (
+      <CampaignFormLabel text="Start and end date" withInputMargin />
+    ),
     rightSide: <StartEndDate />,
   },
   {
@@ -20,6 +22,7 @@ export const tabs: ITab[] = [
           'hover over the time and extend it by selecting the ' +
           'period you need.'
         }
+        withRadioMargin
       />
     ),
     rightSide: <DayTimeRange />,

@@ -7,6 +7,7 @@ import {
 } from 'sharedTypes';
 import { getCountries, getRegionByCountryCode } from 'resources/api';
 import { countriesWithGroups } from '../../constants/countriesGroups';
+import { errorsString } from '../../../../constants/strings';
 
 const ItemModel = types.model({
   id: types.number,
@@ -61,20 +62,31 @@ const CountriesModel = types
       return self.categoriesList.filter(item => item.tempSelected)
         .length;
     },
-    get getAllCount(): string {
+    getAllCount(asCodes = false): string {
       let countryCount = 0;
       let regionCount = 0;
+      const codes = [];
       self.list.forEach(item => {
         if (item.parentId) {
           regionCount += 1;
         } else if (!item.asLabel) {
           countryCount += 1;
+          codes.push(item.code);
         }
       });
       let resultString = '';
       if (countryCount || regionCount) {
         if (countryCount) {
-          resultString += `${countryCount} Countries`;
+          let codesString = '';
+          if (asCodes && countryCount <= 3) {
+            codes.forEach((code, i) => {
+              codesString += code;
+              if (i !== codes.length - 1) {
+                codesString += ', ';
+              }
+            });
+          }
+          resultString += codesString || `${countryCount} Countries`;
         }
         if (countryCount && regionCount) {
           resultString += ', ';
@@ -181,10 +193,12 @@ const CountriesModel = types
         self.regionStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.regionStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || errorsString.getRegions;
 
         infoNotification({
           variant: 'error',
-          message: 'Region loading error',
+          message,
         });
       }
     }),
@@ -288,19 +302,6 @@ const CountriesModel = types
         ).length;
       });
     },
-    cancelSelectedRegion(parentId: number): void {
-      const parent = self.categoriesList.find(
-        category => category.id === parentId,
-      );
-      if (parent) {
-        parent.list.forEach(item => {
-          item.tempSelected = item.selected;
-        });
-        parent.selectedCount = parent.list.filter(
-          item => item.selected,
-        ).length;
-      }
-    },
     getList: flow(function* getList(
       infoNotification: (arg: INotification) => void,
     ) {
@@ -324,13 +325,21 @@ const CountriesModel = types
         self.listStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.listStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || errorsString.getCountries;
 
         infoNotification({
           variant: 'error',
-          message: 'Countries loading error',
+          message,
         });
       }
     }),
+    getAccordionText(): string {
+      if (self.radio === AllCustomStatus.ALL) {
+        return 'All countries';
+      }
+      return self.getAllCount(true);
+    },
     getCategoriesResult(): string[] {
       if (self.radio === AllCustomStatus.ALL) {
         return [];

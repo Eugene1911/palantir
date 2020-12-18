@@ -1,8 +1,9 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-// import { useHistory } from 'react-router-dom';
 
 import CampaignActions from 'sharedWidgets/CampaignActions';
+import PAGE_PATH from 'helpers/pagePath';
+import { goToExternalApp } from 'helpers/goToExternalApp';
 import { LoadingStatus } from 'sharedTypes';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import { INewCampaignSettingsResultData } from '../../../../types/resultTypes';
@@ -23,14 +24,13 @@ const SaveStepAction = ({
   edit,
 }: ISaveStepActionProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
-  // const history = useHistory();
 
-  const handleSaveAsDraft = (link: string): void => {
+  const handleSave = (link?: string): void => {
     const resultData = getNewCampaignSettingsResultData();
-    // TODO разобраться потом с редиректом и показом уведомления на сохранение
-    // const successCallback = (): void => history.push(link);
-    const successCallback = (): void => {
-      console.log(link);
+    const successCallback = (id: number): void => {
+      if (link && id) {
+        goToExternalApp(link, id);
+      }
     };
     saveActions.saveCampaign(
       infoNotification,
@@ -43,9 +43,9 @@ const SaveStepAction = ({
   return (
     <CampaignActions
       onSave={(): void =>
-        handleSaveAsDraft('/CampaignAudienceAndPricing')
+        handleSave(PAGE_PATH.CAMPAIGN_AUDIENCE_AND_PRICING)
       }
-      onSaveAsDraft={(): void => handleSaveAsDraft('/AppList')}
+      onSaveAsDraft={(): void => handleSave()}
       isLoading={saveActions.savingStatus === LoadingStatus.LOADING}
       isSaveDisabled={!isAllRequiredFieldsFilled}
     />

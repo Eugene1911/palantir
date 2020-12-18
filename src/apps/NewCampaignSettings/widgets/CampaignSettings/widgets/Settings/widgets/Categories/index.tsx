@@ -24,19 +24,24 @@ const Categories = ({
 
       {categories.categoriesRadio === AllCustomStatus.CUSTOM && (
         <>
-          <CustomChip
-            label={categories.selectedTags.length}
-            isActive
-            isSmall
-          />
-          <CustomChip
-            label={
-              categories.blackListTags.length +
-              categories.tempBlackListTags.length
-            }
-            isError
-            isSmall
-          />
+          {!!categories.selectedTags.length && (
+            <CustomChip
+              label={categories.selectedTags.length}
+              isActive
+              isSmall
+            />
+          )}
+          {(!!categories.blackListTags.length ||
+            !!categories.tempBlackListTags.length) && (
+            <CustomChip
+              label={
+                categories.blackListTags.length +
+                categories.tempBlackListTags.length
+              }
+              isError
+              isSmall
+            />
+          )}
         </>
       )}
 

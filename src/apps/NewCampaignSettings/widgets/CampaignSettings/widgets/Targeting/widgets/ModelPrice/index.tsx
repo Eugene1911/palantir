@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import Grid from '@material-ui/core/Grid';
+import { ONLY_INTEGER_INPUT_PATTERN } from 'config/constants';
 import TextField from '@material-ui/core/TextField';
 import { TModelPriceModel } from '../../stores/models/ModelPrice';
 import useStyles from './useStyles';
@@ -22,8 +23,10 @@ const ModelPrice = ({
           onChange={modelPrice.setFrom}
           placeholder="Any"
           label="From, $"
-          type="number"
-          inputProps={{ className: classes.input }}
+          inputProps={{
+            className: classes.input,
+            pattern: ONLY_INTEGER_INPUT_PATTERN,
+          }}
           fullWidth
         />
       </Grid>
@@ -33,8 +36,10 @@ const ModelPrice = ({
           onChange={modelPrice.setTo}
           placeholder="Any"
           label="To, $"
-          type="number"
-          inputProps={{ className: classes.input }}
+          inputProps={{
+            className: classes.input,
+            pattern: ONLY_INTEGER_INPUT_PATTERN,
+          }}
           fullWidth
         />
       </Grid>

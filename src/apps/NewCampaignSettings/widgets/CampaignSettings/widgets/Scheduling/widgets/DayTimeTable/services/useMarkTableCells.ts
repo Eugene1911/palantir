@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AllCustomStatus } from 'sharedTypes';
 import useStyles from '../useStyles';
-import { FULL } from '../../../constants/dayTimeRanges';
 
 export const useMarkTableCells = (
   saveNewCells,
@@ -33,17 +32,6 @@ export const useMarkTableCells = (
     event => {
       // если была нажата ячейка
       if (firstCell.current) {
-        const activeCells = document.getElementsByClassName(
-          classes.activeBox,
-        );
-        // если выделили ВСЕ ячейки, то сразу проставляем статус ALL и ничего не расчитываем
-        if (activeCells.length === FULL.length) {
-          saveNewCells(FULL, AllCustomStatus.ALL);
-          setIsPressed(false);
-          setIsMoving(false);
-          return;
-        }
-
         // если было выделение нескольких ячеек
         if (isMoving) {
           let resultString = '';
@@ -115,9 +103,6 @@ export const useMarkTableCells = (
         if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
           // то делаем ее закрашенной
           cell.classList.add(classes.activeBox);
-        } else {
-          // иначе делаем белой
-          cell.classList.remove(classes.activeBox);
         }
       });
 

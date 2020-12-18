@@ -57,6 +57,8 @@ const StartEndDate = ({
         <Grid item xs={2} classes={{ root: classes.input }}>
           <KeyboardDatePicker
             label="Start date"
+            variant="inline"
+            disableToolbar
             format="MM/dd/yyyy"
             value={scheduling.dateStart || null}
             onChange={(date): void =>
@@ -67,6 +69,8 @@ const StartEndDate = ({
         <Grid item xs={2}>
           <KeyboardDatePicker
             label="Start end"
+            variant="inline"
+            disableToolbar
             format="MM/dd/yyyy"
             value={scheduling.dateEnd || null}
             onChange={(date): void =>

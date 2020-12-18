@@ -4,9 +4,11 @@ import { INotification, LoadingStatus } from 'sharedTypes';
 import {
   saveCampaignAsDraft,
   editCampaignAsDraft,
+  editCampaign,
 } from 'resources/api';
 import { INewCampaignSettingsResultData } from '../../../../../types/resultTypes';
 import { TEditStore } from '../../../stores/EditStore';
+import { errorsString } from '../../../constants/strings';
 
 export const InitialSaveStepActionModel = {
   savingStatus: LoadingStatus.INITIAL,
@@ -22,32 +24,36 @@ const SaveStepActionModel = types
     saveCampaign: flow(function* saveCampaign(
       infoNotification: (arg: INotification) => void,
       resultData: INewCampaignSettingsResultData,
-      successCallback: () => void,
+      successCallback: (id: number) => void,
       edit: TEditStore,
     ) {
       self.savingStatus = LoadingStatus.LOADING;
-      // TODO потом получать тут id для редиректа и выполнять successCallback
+      const editAction = edit.isEditDraft
+        ? editCampaignAsDraft
+        : editCampaign;
       const saveAction = edit.isEdit
         ? (): Promise<AxiosResponse> =>
-            editCampaignAsDraft(edit.campaignId, resultData)
+            editAction(edit.campaignId, resultData)
         : (): Promise<AxiosResponse> =>
             saveCampaignAsDraft(resultData);
       try {
-        yield saveAction();
+        const { data } = yield saveAction();
 
-        // successCallback();
+        successCallback(data.id);
         self.savingStatus = LoadingStatus.SUCCESS;
 
         infoNotification({
           variant: 'success',
-          message: 'Campaign successfully saved as draft',
+          message: 'Campaign successfully saved',
         });
       } catch (error) {
         self.savingStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || errorsString.saveCampaign;
 
         infoNotification({
           variant: 'error',
-          message: 'Saving campaign error',
+          message,
         });
       }
     }),

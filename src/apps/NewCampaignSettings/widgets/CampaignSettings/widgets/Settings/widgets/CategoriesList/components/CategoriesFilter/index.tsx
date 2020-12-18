@@ -11,13 +11,16 @@ import AddIcon from '@material-ui/icons/Add';
 import useStyles from './useStyles';
 import { AddMode } from '../../../../constants/addMode';
 import { TCategoriesModel } from '../../../../stores/models/Categories';
+import { TPermissionsStore } from '../../../../../../stores/PermissionsStore';
 
 interface ICategoriesFilterProps {
   categories?: TCategoriesModel;
+  permissions?: TPermissionsStore;
 }
 
 const CategoriesFilter = ({
   categories,
+  permissions,
 }: ICategoriesFilterProps): JSX.Element => {
   const classes = useStyles();
 
@@ -51,27 +54,31 @@ const CategoriesFilter = ({
                 label={value.name}
                 labelPlacement="start"
                 className={classes.switch}
+                disabled={!!value.active && categories.isNeedDisable}
               />
             ),
           )}
         </FormGroup>
       </Grid>
-      <Grid item>
-        <Button
-          className={cn(classes.blackList, {
-            [classes.activeBlackListButton]:
-              categories.addMode === AddMode.BLACKLIST,
-          })}
-          onClick={(): void => categories.toggleAddMode()}
-        >
-          <AddIcon className={classes.addIcon} />
-          ADD Tags to blacklist
-        </Button>
-      </Grid>
+      {permissions.canUseBlacklistCategories && (
+        <Grid item>
+          <Button
+            className={cn(classes.blackList, {
+              [classes.activeBlackListButton]:
+                categories.addMode === AddMode.BLACKLIST,
+            })}
+            onClick={(): void => categories.toggleAddMode()}
+          >
+            <AddIcon className={classes.addIcon} />
+            ADD Tags to blacklist
+          </Button>
+        </Grid>
+      )}
     </Grid>
   );
 };
 
 export default inject(({ newCampaignSettings }) => ({
   categories: newCampaignSettings.settings.categories,
+  permissions: newCampaignSettings.permissions,
 }))(observer(CategoriesFilter));

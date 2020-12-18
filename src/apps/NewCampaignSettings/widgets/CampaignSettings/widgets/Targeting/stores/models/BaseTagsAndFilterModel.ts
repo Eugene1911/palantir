@@ -5,6 +5,7 @@ import {
   LoadingStatus,
 } from 'sharedTypes';
 import { AxiosResponse } from 'axios';
+import { errorsString } from '../../../../constants/strings';
 
 const BaseItemModel = types.model({
   code: types.optional(types.string, ''),
@@ -37,6 +38,11 @@ const BaseTagsAndFilterModel = types
   .actions(self => ({
     setRadio(radio: AllCustomStatus): void {
       self.radio = radio;
+    },
+    selectAllTags(value: boolean): void {
+      self.list.forEach(item => {
+        item.tempSelected = value;
+      });
     },
     setSelected(id: number, value: boolean): void {
       const itemIndex = self.list.findIndex(item => item.id === id);
@@ -78,10 +84,13 @@ const BaseTagsAndFilterModel = types
         );
       } catch (error) {
         self.listStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg ||
+          errorsString.getList(self.errorWord);
 
         infoNotification({
           variant: 'error',
-          message: `${self.errorWord} loading error`,
+          message,
         });
       }
     }),

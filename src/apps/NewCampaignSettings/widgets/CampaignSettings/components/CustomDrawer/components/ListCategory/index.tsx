@@ -111,6 +111,9 @@ const ListCategory = ({
           onFocus={(event): void => event.stopPropagation()}
           checked={category.tempSelected}
           color="primary"
+          indeterminate={
+            !!category.selectedCount && !category.tempSelected
+          }
         />
         <ListItemName name={category.name} inputText={inputText} />
         {!!category.selectedCount && (

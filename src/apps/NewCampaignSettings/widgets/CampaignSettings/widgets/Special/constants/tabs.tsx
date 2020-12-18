@@ -34,20 +34,23 @@ const advertiserAccountManagerTabs: ITab[] = [
           'amount of impressions for the flat campaign. Please type ' +
           'the number, for example, 10000, and save the campaign.'
         }
+        withRadioMargin
       />
     ),
     rightSide: <FlatDeal />,
   },
   {
-    leftSide: <CampaignFormLabel text="AdBlock" />,
+    leftSide: <CampaignFormLabel text="AdBlock" withRadioMargin />,
     rightSide: <AdBlock />,
   },
   {
-    leftSide: <CampaignFormLabel text="Private mode" />,
+    leftSide: (
+      <CampaignFormLabel text="Private mode" withRadioMargin />
+    ),
     rightSide: <PrivateMode />,
   },
   {
-    leftSide: <CampaignFormLabel text="Flash" />,
+    leftSide: <CampaignFormLabel text="Flash" withRadioMargin />,
     rightSide: <Flash />,
   },
 ];
@@ -64,6 +67,7 @@ export const tabs = (
           'lock the ad campaign, so only managers can edit it (besides ' +
           'adding the new creatives), and is typically used for flat deals.'
         }
+        withRadioMargin
       />
     ),
     rightSide: <Feature />,

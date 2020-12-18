@@ -3,6 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles<Theme, TFilterFooterClasses>(() => ({
   buttons: {
     width: 'auto',
+    marginLeft: 'auto',
   },
   cancel: {
     marginRight: '8px',
@@ -10,6 +11,9 @@ const useStyles = makeStyles<Theme, TFilterFooterClasses>(() => ({
   footer: {
     padding: '24px',
     background: '#f2f2f2',
+    '& button': {
+      fontSize: '14px',
+    },
   },
 }));
 

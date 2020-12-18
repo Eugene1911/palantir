@@ -4,6 +4,7 @@ import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { getFormats } from 'resources/api';
 import { TPermissionsStore } from '../../../../stores/PermissionsStore';
 import { permissionsForAdFormats } from '../../constants/permissionsForAdFormats';
+import { errorsString } from '../../../../constants/strings';
 
 const AdFormatModelType = types.model({
   id: types.number,
@@ -11,7 +12,6 @@ const AdFormatModelType = types.model({
   width: types.optional(types.number, 0),
   height: types.optional(types.number, 0),
   type: types.string,
-  hidden: types.boolean,
 });
 
 export const InitialAdFormatModel = {
@@ -32,6 +32,9 @@ const AdFormatModel = types
       return self.adFormatList.find(item => item.id === self.adFormat)
         ?.name;
     },
+    getAdFormatNameById(id: number): string | undefined {
+      return self.adFormatList.find(item => item.id === id)?.name;
+    },
   }))
   .actions(self => ({
     setAdFormat(
@@ -43,6 +46,9 @@ const AdFormatModel = types
         callback(self.getAdFormatName);
       }
     },
+    getAccordionText(): string {
+      return self.getAdFormatName;
+    },
     getAdFormatList: flow(function* getAdFormatList(
       infoNotification: (arg: INotification) => void,
       permissions: TPermissionsStore,
@@ -53,16 +59,17 @@ const AdFormatModel = types
         self.adFormatListStatus = LoadingStatus.SUCCESS;
         self.adFormatList = data.filter(
           item =>
-            !item.hidden &&
-            (!permissionsForAdFormats[item.name] ||
-              permissions[permissionsForAdFormats[item.name]]),
+            !permissionsForAdFormats[item.name] ||
+            permissions[permissionsForAdFormats[item.name]],
         );
       } catch (error) {
         self.adFormatListStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || errorsString.getAdFormat;
 
         infoNotification({
           variant: 'error',
-          message: 'Ad Formats loading error',
+          message,
         });
       }
     }),

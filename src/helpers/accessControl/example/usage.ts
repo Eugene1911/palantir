@@ -4,6 +4,7 @@
 
 // The interface always must be defined next to client method (here `printTagretingSkills` below)
 export interface IAccessToCampaignTargeting {
+  canUseBlacklistCategories(): Promise<boolean>;
   canSetupHiddenCategories(): Promise<boolean>;
   canUseTabsFormat(): Promise<boolean>;
   canUseSpecialFormats(): Promise<boolean>;

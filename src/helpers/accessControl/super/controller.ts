@@ -3,6 +3,10 @@ import { IAccessToCampaignTargeting } from 'helpers/accessControl/example/usage'
 
 // Then the dummy implementation which always returns true for any method of the interface will be:
 class _AccessControl implements IAccessToCampaignTargeting {
+  canUseBlacklistCategories(): Promise<boolean> {
+    return this._getTruePromise();
+  }
+
   canSetupHiddenCategories(): Promise<boolean> {
     return this._getTruePromise();
   }

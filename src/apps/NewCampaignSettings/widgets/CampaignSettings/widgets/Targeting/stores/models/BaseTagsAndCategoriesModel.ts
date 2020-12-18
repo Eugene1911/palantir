@@ -6,6 +6,9 @@ import {
 } from 'sharedTypes';
 import { AxiosResponse } from 'axios';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
+import { categoriesForceAdd } from '../../constants/categoriesForceAdd';
+import { IFilterCategoryItem } from '../../../../components/CustomDrawer/components/ListCategory';
+import { errorsString } from '../../../../constants/strings';
 
 const ItemModel = types.model({
   id: types.number,
@@ -20,6 +23,8 @@ const BaseItemModel = types.model({
   parentId: types.maybe(types.number),
 });
 
+type TBaseItemModel = Instance<typeof BaseItemModel>;
+
 const CategoryModel = types.model({
   id: types.number,
   name: types.string,
@@ -27,6 +32,7 @@ const CategoryModel = types.model({
   selectedCount: types.number,
   selected: types.boolean,
   tempSelected: types.boolean,
+  code: types.maybe(types.string),
 });
 
 export type TCategoryModel = Instance<typeof CategoryModel>;
@@ -93,6 +99,28 @@ const BaseTagsAndCategoriesModel = types
         }
       }
     },
+    selectAllItems(
+      value: boolean,
+      filterCategoriesFunction?: (
+        category: IFilterCategoryItem,
+      ) => boolean,
+    ): void {
+      self.categoriesList.forEach(category => {
+        if (
+          !filterCategoriesFunction ||
+          (!!filterCategoriesFunction &&
+            filterCategoriesFunction(category))
+        ) {
+          category.tempSelected = value;
+          category.list.forEach(item => {
+            item.tempSelected = value;
+          });
+          category.selectedCount = category.list.filter(
+            item => item.tempSelected,
+          ).length;
+        }
+      });
+    },
     selectAllCategory(id: number, value: boolean): void {
       const currentCategory = self.categoriesList.find(
         category => category.id === id,
@@ -117,9 +145,12 @@ const BaseTagsAndCategoriesModel = types
         category.list.forEach(item => {
           item.selected = item.tempSelected;
           if (item.selected) {
+            const name = category.code
+              ? item.name
+              : `${category.name} ${item.name}`;
             self.list.push({
               ...item,
-              name: `${category.name} ${item.name}`,
+              name,
             });
           }
         });
@@ -135,6 +166,8 @@ const BaseTagsAndCategoriesModel = types
           )?.parentId;
           if (parentId) {
             self.setSelected(itemId, true, parentId);
+          } else {
+            self.editSelectedCategoriesId.unshift(itemId);
           }
         });
       }
@@ -221,13 +254,7 @@ const BaseTagsAndCategoriesModel = types
         ]);
         const categoriesList = categoriesData.data;
         const itemsList = itemsData.data;
-
-        self.fullItemsList = cast(
-          itemsList.map(item => ({
-            id: item.id,
-            parentId: item[self.parentField],
-          })),
-        );
+        const fullItemsList: TBaseItemModel[] = [];
 
         const categories: TCategoryModel[] = categoriesList.map(
           category => ({
@@ -237,33 +264,63 @@ const BaseTagsAndCategoriesModel = types
             selectedCount: 0,
             selected: false,
             tempSelected: false,
+            code: category.code2,
           }),
         );
         if (withItems) {
           itemsList.forEach(item => {
-            const itemCategory = categories.find(
-              category => category.id === item[self.parentField],
-            );
+            const parentId = item[self.parentField];
+            const itemCategory = categories.find(category => {
+              if (typeof parentId === 'string') {
+                return category.code === parentId;
+              }
+              return category.id === parentId;
+            });
             if (itemCategory) {
               itemCategory.list.push({
                 id: item.id,
                 name: item.name || item.value,
-                parentId: item[self.parentField],
+                parentId: itemCategory.id,
                 selected: false,
                 tempSelected: false,
               });
+            } else if (
+              categoriesForceAdd.includes(item.name?.toLowerCase()) &&
+              !categories.find(
+                category => category.name === item.name,
+              )
+            ) {
+              categories.unshift({
+                id: item.id,
+                name: item.name || item.value,
+                list: cast([]),
+                selectedCount: 0,
+                selected: false,
+                tempSelected: false,
+                code: item.code2,
+              });
             }
+            fullItemsList.push({
+              id: item.id,
+              parentId: itemCategory?.id,
+            });
           });
         }
+
+        self.fullItemsList = cast(fullItemsList);
+
         self.categoriesList = cast(categories);
         self.selectDataByEditIds();
         self.listStatus = LoadingStatus.SUCCESS;
       } catch (error) {
         self.listStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg ||
+          errorsString.getList(self.errorWord);
 
         infoNotification({
           variant: 'error',
-          message: `${self.errorWord} loading error`,
+          message,
         });
       }
     }),
@@ -293,7 +350,12 @@ const BaseTagsAndCategoriesModel = types
         return [];
       }
       return self.list
-        .filter(item => item.selected && item.parentId)
+        .filter(
+          item =>
+            item.selected &&
+            (item.parentId ||
+              categoriesForceAdd.includes(item.name?.toLowerCase())),
+        )
         .map(item => item.id);
     },
   }))

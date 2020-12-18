@@ -30,6 +30,12 @@ interface ICustomDrawerProps {
   withBackButton?: boolean;
   withCloseButton?: boolean;
   topFilterPermission?: boolean;
+  selectAllTags?: (value: boolean) => void;
+  filterCategoriesFunction?: (
+    category: IFilterCategoryItem,
+  ) => boolean;
+  invisibleBackdrop?: boolean;
+  hideFooter?: boolean;
 }
 
 const CustomDrawer = ({
@@ -49,6 +55,10 @@ const CustomDrawer = ({
   withCloseButton,
   withBackButton,
   topFilterPermission,
+  selectAllTags,
+  filterCategoriesFunction,
+  invisibleBackdrop = false,
+  hideFooter = false,
 }: ICustomDrawerProps): JSX.Element => {
   const classes = useStyles();
   const [inputText, setInputText] = useState<string>('');
@@ -94,74 +104,89 @@ const CustomDrawer = ({
     setIsSelectedFilterActive(prevActive => !prevActive);
   };
 
+  const filteredCategoriesList =
+    categoriesList && filterCategoriesFunction
+      ? categoriesList.filter(category =>
+          filterCategoriesFunction(category),
+        )
+      : categoriesList;
+
   return (
-    <>
-      <Drawer anchor="right" open={isOpen} onClose={onCancel}>
-        <FilterHeader
-          onCancel={onCancel}
-          title={title}
-          withCloseButton={
-            withCloseButton !== undefined ? withCloseButton : true
-          }
-          withBackButton={withBackButton || false}
-        />
-        {isAsyncLoadingList && (
-          <>
-            {topFilterPermission && (
-              <TopFilter
-                isShowAsyncLoadButton={isShowAsyncLoadButton}
-                topFilterTitle={topFilterTitle}
-                setIsShowAsyncLoadButton={setIsShowAsyncLoadButton}
-              />
-            )}
-            <BottomFilter
-              isSelectedFilterActive={isSelectedFilterActive}
-              activeFilter={activeFilter}
-              filtersOptions={filtersOptions}
-              selectedCount={selectedCount}
-              toggleSelectedFilter={toggleSelectedFilter}
-              clearAllFilters={clearAllFilters}
-              handleSetActiveFilter={handleSetActiveFilter}
+    <Drawer
+      anchor="right"
+      open={isOpen}
+      onClose={onCancel}
+      ModalProps={{ BackdropProps: { invisible: invisibleBackdrop } }}
+    >
+      <FilterHeader
+        onCancel={onCancel}
+        title={title}
+        withCloseButton={
+          withCloseButton !== undefined ? withCloseButton : true
+        }
+        withBackButton={withBackButton || false}
+      />
+      {isAsyncLoadingList && (
+        <>
+          {topFilterPermission && (
+            <TopFilter
+              isShowAsyncLoadButton={isShowAsyncLoadButton}
+              topFilterTitle={topFilterTitle}
+              setIsShowAsyncLoadButton={setIsShowAsyncLoadButton}
             />
-          </>
-        )}
-        <FilterSearch
-          inputText={inputText}
-          setInputText={setInputText}
-        />
-        <Container className={classes.content}>
-          {categoriesList
-            ? categoriesList.map(category => (
-                <ListCategory
-                  category={category}
-                  inputText={inputText}
-                  isSelectedFilterActive={isSelectedFilterActive}
-                  isAsyncLoadingList={isAsyncLoadingList}
-                  isShowAsyncLoadButton={isShowAsyncLoadButton}
-                  activeFilter={activeFilter}
-                  onSelect={onSelect}
-                  selectAllCategory={selectAllCategory}
-                  openAsyncFilter={openAsyncFilter}
-                  key={category.id}
-                />
-              ))
-            : list.map(item => (
-                <ListItem
-                  item={item}
-                  noFilter={false}
-                  inputText={inputText}
-                  onSelect={onSelect}
-                  key={item.id}
-                />
-              ))}
-        </Container>
+          )}
+          <BottomFilter
+            isSelectedFilterActive={isSelectedFilterActive}
+            activeFilter={activeFilter}
+            filtersOptions={filtersOptions}
+            selectedCount={selectedCount}
+            toggleSelectedFilter={toggleSelectedFilter}
+            clearAllFilters={clearAllFilters}
+            handleSetActiveFilter={handleSetActiveFilter}
+          />
+        </>
+      )}
+      <FilterSearch
+        inputText={inputText}
+        setInputText={setInputText}
+        selectAllTags={selectAllTags}
+        selectedCount={selectedCount}
+        filterCategoriesFunction={filterCategoriesFunction}
+      />
+      <Container className={classes.content}>
+        {categoriesList
+          ? filteredCategoriesList.map(category => (
+              <ListCategory
+                category={category}
+                inputText={inputText}
+                isSelectedFilterActive={isSelectedFilterActive}
+                isAsyncLoadingList={isAsyncLoadingList}
+                isShowAsyncLoadButton={isShowAsyncLoadButton}
+                activeFilter={activeFilter}
+                onSelect={onSelect}
+                selectAllCategory={selectAllCategory}
+                openAsyncFilter={openAsyncFilter}
+                key={category.id}
+              />
+            ))
+          : list.map(item => (
+              <ListItem
+                item={item}
+                noFilter={false}
+                inputText={inputText}
+                onSelect={onSelect}
+                key={item.id}
+              />
+            ))}
+      </Container>
+      {!hideFooter && (
         <FilterFooter
           onCancel={onCancel}
           onSave={onSave}
           selectedCount={selectedCount}
         />
-      </Drawer>
-    </>
+      )}
+    </Drawer>
   );
 };
 

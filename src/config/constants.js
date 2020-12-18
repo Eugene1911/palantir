@@ -24,6 +24,7 @@ export const CAMPAIGNS_STATUSES = {
   ENABLED: 'enabled',
   REJECTED: 'rejected',
   NO_FUNDS: 'no_funds',
+  DRAFT: 'draft',
 };
 
 // Client statuses
@@ -91,3 +92,11 @@ export const NOTIFIER_DEFAULT_OPTIONS = {
 
 // Key codes
 export const KEY_ENTER_CODE = 'Enter';
+
+// Name for window - global variables
+export const GLOBAL_NAME = 'GLOBAL';
+
+// Status 'draft' for campaign
+export const DRAFT_STATUS = 'draft';
+
+export const ONLY_INTEGER_INPUT_PATTERN = '[0-9]*';

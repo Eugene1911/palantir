@@ -8,6 +8,7 @@ import CategoriesModel, {
 } from './models/Categories';
 import GroupsModel, { InitialGroupsModel } from './models/Groups';
 import { ISettingsResultData } from '../../../../../types/resultTypes';
+import { ISubInfoType } from '../../../../../types/subInfoType';
 
 export const InitialSettingsModel = {
   name: '',
@@ -32,12 +33,19 @@ const SettingsModel = types
     setName(name: string): void {
       self.name = name;
     },
+    getAccordionText(): ISubInfoType {
+      return {
+        subInfo1: self.adFormat.getAccordionText(),
+        subInfo2: self.categories.getAccordionText(),
+        subInfo3: self.groups.getAccordionText(),
+      };
+    },
     getResultData(): ISettingsResultData {
       /* eslint-disable @typescript-eslint/camelcase */
       return {
         name: self.name,
         format_id: self.adFormat.adFormat,
-        ...(self.groups.group && { group_id: self.groups.group }),
+        group_id: self.groups?.group?.id || null,
         categories: self.categories.getResultData(),
       };
       /* eslint-enable @typescript-eslint/camelcase */

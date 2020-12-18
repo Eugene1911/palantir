@@ -42,6 +42,9 @@ const ListItem = ({
       key={item.id}
       wrap="nowrap"
       container
+      onClick={(): void =>
+        onSelect(item.id, !item.tempSelected, item.parentId)
+      }
     >
       <Grid item>
         <Checkbox

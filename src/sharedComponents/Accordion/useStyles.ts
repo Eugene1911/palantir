@@ -38,7 +38,8 @@ const useStyles = makeStyles<
   },
   tab: {
     textAlign: 'left',
-    padding: '30px 0',
+    padding: '24px 0',
+    position: 'relative',
   },
   bottomBorder: {
     borderBottom: 'solid 1px #f2f2f2',

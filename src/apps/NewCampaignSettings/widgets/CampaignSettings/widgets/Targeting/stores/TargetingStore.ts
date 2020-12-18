@@ -1,4 +1,4 @@
-import { Instance, types } from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import CountriesModel, {
   InitialCountriesModel,
@@ -34,7 +34,11 @@ import KeywordsModel, {
 import IPRangesModel, {
   InitialIPRangesModel,
 } from './models/IPRanges';
+import RetargetingModel, {
+  InitialRetargetingModel,
+} from './models/Retargeting';
 import { ITargetingResultData } from '../../../../../types/resultTypes';
+import { ISubInfoType } from '../../../../../types/subInfoType';
 
 export const InitialTargetingModel = {
   isAdvancedOpen: false,
@@ -50,6 +54,7 @@ export const InitialTargetingModel = {
   proxyTraffic: InitialProxyTrafficModel,
   keywords: InitialKeywordsModel,
   ipRanges: InitialIPRangesModel,
+  retargeting: InitialRetargetingModel,
 };
 
 const TargetingModel = types
@@ -67,10 +72,17 @@ const TargetingModel = types
     proxyTraffic: ProxyTrafficModel,
     keywords: KeywordsModel,
     ipRanges: IPRangesModel,
+    retargeting: RetargetingModel,
   })
   .actions(self => ({
     toggleIsAdvancedOpen(): void {
       self.isAdvancedOpen = !self.isAdvancedOpen;
+    },
+    getAccordionText(): ISubInfoType {
+      return {
+        subInfo1: self.countries.getAccordionText(),
+        subInfo2: self.devices.getAccordionText(),
+      };
     },
     getResultData(): ITargetingResultData {
       /* eslint-disable @typescript-eslint/camelcase */
@@ -94,7 +106,7 @@ const TargetingModel = types
         os_versions: self.operatingSystems.getItemsResult(),
         browsers: self.browsers.getCategoriesResult(),
         browser_versions: self.browsers.getItemsResult(),
-        carriers: self.carriers.getResultData(),
+        carriers: self.carriers.getItemsResult(),
         network_traffic_type: self.proxyTraffic.proxyTrafficRadio,
         ...self.ipRanges.getResultData(),
         keywords: self.keywords.list.toJS(),
@@ -118,7 +130,5 @@ const TargetingModel = types
       self.keywords.setEditData(data);
     },
   }));
-
-export type TTargetingModel = Instance<typeof TargetingModel>;
 
 export default TargetingModel;

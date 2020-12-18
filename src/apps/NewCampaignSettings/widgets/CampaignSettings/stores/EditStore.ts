@@ -6,9 +6,12 @@ import {
 } from 'sharedTypes';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { getCampaignById } from 'resources/api';
+import { DRAFT_STATUS } from 'config/constants';
+import { errorsString } from '../constants/strings';
 
 export const InitialEditStore = {
   isEdit: false,
+  isEditDraft: false,
   campaignId: null,
   campaignStatus: LoadingStatus.INITIAL,
 };
@@ -18,6 +21,7 @@ const IS_EDIT_MODE = 'edit';
 const EditStore = types
   .model({
     isEdit: types.boolean,
+    isEditDraft: types.boolean,
     campaignId: types.maybeNull(types.number),
     campaignStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
@@ -35,12 +39,16 @@ const EditStore = types
       try {
         const { data } = yield getCampaignById(id);
         self.campaignStatus = LoadingStatus.SUCCESS;
+        self.isEditDraft = data?.status === DRAFT_STATUS;
         setNewCampaignSettingsEditData(data);
       } catch (error) {
         self.campaignStatus = LoadingStatus.ERROR;
+        const message =
+          error?.response?.data?.msg || errorsString.getCampaign;
+
         infoNotification({
           variant: 'error',
-          message: 'Get campaign error',
+          message,
         });
       }
     }),

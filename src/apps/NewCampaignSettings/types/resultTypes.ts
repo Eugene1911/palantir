@@ -52,6 +52,6 @@ export interface INewCampaignSettingsResultData
     ISchedulingResultData,
     ISpecialResultData,
     ITargetingResultData {
-  pricing_model: 'cpm'; // TODO это для второго шага, потом убрать
-  max_daily: 15; // TODO это для второго шага, потом убрать
+  pricing_model: string; // TODO это для второго шага, потом убрать
+  max_daily: number; // TODO это для второго шага, потом убрать
 }

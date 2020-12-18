@@ -37,6 +37,11 @@ import {
   CAMPAIGN_EDIT_DRAFT,
   SPOT,
   APPLICATION,
+  UPDATE_GROUP,
+  GET_GROUP_BY_ID,
+  BATCH,
+  CAMPAIGN_EDIT,
+  RETARGETING,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -51,6 +56,33 @@ export const getFormats = params => API.get(FORMATS, { params });
  * @param {Object} params
  */
 export const getGroups = params => API.get(GROUPS, { params });
+
+/**
+ * Create campaign group
+ * @param {Object} params
+ */
+export const createGroup = params => API.post(GROUPS, params);
+
+/**
+ * Update campaign group
+ * @param {Object} params
+ */
+export const updateGroup = (id, params) =>
+  API.put(UPDATE_GROUP(id), params);
+
+/**
+ * Get campaign group by id
+ * @param {Object} params
+ */
+export const getGroup = (id, params) =>
+  API.get(GET_GROUP_BY_ID(id), params);
+
+/**
+ * Delete campaign group
+ * @param {Object} params
+ */
+export const deleteGroup = (id, params) =>
+  API.delete(UPDATE_GROUP(id), params);
 
 /**
  * Get Ad Devices
@@ -103,6 +135,13 @@ export const getBrowsers = params => API.get(BROWSERS, { params });
  */
 export const getBrowsersVersions = params =>
   API.get(BROWSERS_VERSIONS, { params });
+
+/**
+ * Get Retargeting list
+ * @param {Object} params
+ */
+export const getRetargetingList = (userId, params) =>
+  API.get(RETARGETING(userId), { params });
 
 /**
  * Get MinimalBids
@@ -317,12 +356,24 @@ export const saveCampaignAsDraft = params =>
   API.post(CAMPAIGN_DRAFT, params);
 
 /**
-=======
+ * Make batch request
+ * @param {Object} params
+ */
+export const makeBatch = params => API.post(BATCH, params);
+
+/**
  * Edit campaign as draft
  * @param {Object} params
  */
 export const editCampaignAsDraft = (id, params) =>
   API.patch(CAMPAIGN_EDIT_DRAFT(id), params);
+
+/**
+ * Edit campaign
+ * @param {Object} params
+ */
+export const editCampaign = (id, params) =>
+  API.patch(CAMPAIGN_EDIT(id), params);
 
 /**
  * Save spot bid
