@@ -51,7 +51,4 @@ export interface INewCampaignSettingsResultData
   extends ISettingsResultData,
     ISchedulingResultData,
     ISpecialResultData,
-    ITargetingResultData {
-  pricing_model: string; // TODO это для второго шага, потом убрать
-  max_daily: number; // TODO это для второго шага, потом убрать
-}
+    ITargetingResultData {}

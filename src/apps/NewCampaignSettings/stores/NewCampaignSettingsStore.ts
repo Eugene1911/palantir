@@ -32,8 +32,6 @@ export const InitialNewCampaignSettingsStore = {
   scheduling: InitialSchedulingModel,
   targeting: InitialTargetingModel,
   special: InitialSpecialModel,
-  pricingModel: 'cpm', // TODO временно, для второго шага, потом убрать
-  maxDaily: 15, // TODO временно, для второго шага, потом убрать
 };
 
 const NewCampaignSettingsStore = types
@@ -45,12 +43,20 @@ const NewCampaignSettingsStore = types
     scheduling: SchedulingModel,
     targeting: TargetingModel,
     special: SpecialModel,
-    pricingModel: types.string, // TODO временно, для второго шага, потом убрать
-    maxDaily: types.number, // TODO временно, для второго шага, потом убрать
   })
   .views(self => ({
-    get isAllRequiredFieldsFilled(): boolean {
-      return self.settings.isAllRequiredFieldsFilled;
+    get isAllRequiredFieldsFilledForNext(): boolean {
+      return (
+        !!self.settings.name && !!self.settings.adFormat.adFormat
+      );
+    },
+    get isAllRequiredFieldsFilledForSave(): boolean {
+      if (self.edit.isEdit && !self.edit.isEditDraft) {
+        return (
+          !!self.settings.name && !!self.settings.adFormat.adFormat
+        );
+      }
+      return !!self.settings.name;
     },
   }))
   .actions(self => ({
@@ -64,10 +70,6 @@ const NewCampaignSettingsStore = types
         ...schedulingData,
         ...targetingData,
         ...specialData,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        pricing_model: self.pricingModel, // TODO временно, для второго шага, потом убрать
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        max_daily: self.maxDaily, // TODO временно, для второго шага, потом убрать
       };
     },
     setNewCampaignSettingsEditData(data: IFullCampaignType): void {
@@ -75,14 +77,6 @@ const NewCampaignSettingsStore = types
       self.scheduling.setEditData(data);
       self.targeting.setEditData(data);
       self.special.setEditData(data);
-      if (data?.max_daily) {
-        // TODO временно, для второго шага, потом убрать
-        self.maxDaily = data.max_daily;
-      }
-      if (data?.pricing_model) {
-        // TODO временно, для второго шага, потом убрать
-        self.pricingModel = data.pricing_model;
-      }
     },
   }));
 
