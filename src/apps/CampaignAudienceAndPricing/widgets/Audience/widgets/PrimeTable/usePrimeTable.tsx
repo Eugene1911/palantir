@@ -22,16 +22,14 @@ export const usePrimeTable = (props: IUsePrimeTableProps) => {
     filterSpots,
   } = props;
 
-  const siteFetchStatus = audience[EIDModel.SITE_ID].fetchStatus;
   const spotFetchStatus = audience[EIDModel.SPOT_ID].fetchStatus;
   const isFetchSuccess = React.useMemo(
-    () =>
-      siteFetchStatus === EFetchStatus.SUCCESS &&
-      spotFetchStatus === EFetchStatus.SUCCESS,
-    [siteFetchStatus, spotFetchStatus],
+    () => spotFetchStatus === EFetchStatus.SUCCESS,
+    [spotFetchStatus],
   );
 
   const updateSelected = React.useCallback(() => {
+    console.log('updateSelected', audience.selectedSpots);
     if (isFetchSuccess) {
       setSelectedSpots(audience.selectedSpots);
       setFilteredSpots(audience.selectedSpots);

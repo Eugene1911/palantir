@@ -38,7 +38,7 @@ function CampaignAudienceAndPricing(): JSX.Element {
     mode === EUrlMode.EDIT && id && getCampaign();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // console.log('campaign', campaign);
+  console.log('campaign', campaign);
 
   return (
     <Route path="/new_create_campaign_audience_pricing/:mode?/:id?">

@@ -19,6 +19,7 @@ export interface IAudienceResultData {
   disabled_subids?: string[];
   traffic_source_type?: ETrafficSource;
   disable_rtb?: boolean;
+  format_id?: number;
 }
 export interface IPricingResultData {
   pricing_model: string;
@@ -32,7 +33,6 @@ export interface ICampaignAudienceAndPricingResultData
   extends IAudienceResultData,
     IPricingResultData {
   name?: string;
-  format_id?: number;
   hours_targeting?: string;
 }
 

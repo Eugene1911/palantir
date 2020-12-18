@@ -1,5 +1,5 @@
 import React from 'react';
-import isArray from 'lodash/isArray';
+// import isArray from 'lodash/isArray';
 import union from 'lodash/union';
 import Radio from '@material-ui/core/Radio';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -14,7 +14,11 @@ import AddSpotsButton from '../../widgets/AddSpotsButton';
 import { ETagStatus } from '../../assets/constants/commonAudienceTypes';
 import { radioTitles } from '../../assets/constants/rightSidesConst';
 import { buttonsConst } from '../../assets/constants/buttonsConst';
-import textToTagsWithCheck from '../../services/textToTagsWithCheck';
+import {
+  // textToTagsWithCheck,
+  getTextArray,
+  checkTags,
+} from '../../services/textAndTagsUtils';
 import * as S from './styles';
 import useStyles from './useStyles';
 
@@ -31,6 +35,7 @@ export interface IIDSelectorProps {
   disabledTagToolTip: string;
   isNewTagAllowed: boolean;
   addSpotsButton: boolean;
+  getTagById: (id: string) => Promise<any | boolean>;
 }
 
 const TAGS_WRAP_MAX_HEIGHT = 158;
@@ -42,13 +47,14 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
     onRadioChange,
     onInputEnter,
     onFilterSideOpen,
-    tags,
+    // tags,
     tagsSelected,
     closeTag,
     clearTags,
     disabledTagToolTip,
-    isNewTagAllowed,
+    // isNewTagAllowed,
     addSpotsButton,
+    getTagById,
   } = props;
   const { inputText, setInputText, onInputChange } = useSearchInput();
 
@@ -56,11 +62,6 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
     false,
   );
   const tagsWrapRef = React.useRef(null);
-
-  // console.log('wrap', tagsWrapRef);
-  // console.log('wrap current', tagsWrapRef.current);
-  // tagsWrapRef.current && console.log('wrap height', tagsWrapRef.current.clientHeight);
-  // tagsWrapRef.current && console.log('wrap height', tagsWrapRef.current.getBoundingClientRect().height);
 
   React.useEffect(() => {
     setNeedShowAll(
@@ -70,23 +71,39 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
 
   const onKeyPressHandler = (
     event?: React.KeyboardEvent<HTMLInputElement>,
-  ): void => {
+  ) => {
     if (!event || event.key === KEY_ENTER_CODE) {
       event?.preventDefault();
 
-      const tagsID = textToTagsWithCheck(
-        inputText,
-        isNewTagAllowed ? tagsSelected : tags,
-        isNewTagAllowed,
-      );
-
-      if (isArray(tagsID)) {
-        onInputEnter(
-          isNewTagAllowed ? tagsID : union(tagsID, tagsSelected),
-        );
+      const textArray = getTextArray(inputText);
+      if (textArray.length === 0) {
+        return;
       }
 
-      setInputText('');
+      const newTags = [];
+      const tagsSelectedId = tagsSelected.map(({ id }) => id);
+      checkTags(textArray, newTags, getTagById).then(() => {
+        console.log('onKeyPressHandler newTags', newTags);
+        if (newTags.length > 0) {
+          onInputEnter(union(tagsSelectedId, newTags));
+        }
+
+        setInputText('');
+      });
+
+      // const tagsID = textToTagsWithCheck(
+      //   inputText,
+      //   isNewTagAllowed ? tagsSelected : tags,
+      //   isNewTagAllowed,
+      // );
+      //
+      // if (isArray(tagsID)) {
+      //   onInputEnter(
+      //     isNewTagAllowed ? tagsID : union(tagsID, tagsSelected),
+      //   );
+      // }
+
+      // setInputText('');
     }
   };
 

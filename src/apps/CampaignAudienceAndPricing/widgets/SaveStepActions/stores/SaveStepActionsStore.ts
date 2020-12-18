@@ -25,7 +25,9 @@ const SaveStepActionModel = types
     ) {
       self.savingStatus = EFetchStatus.PENDING;
       try {
-        yield editCampaignAsDraft(id, resultData);
+        const response = yield editCampaignAsDraft(id, resultData);
+        console.log('resultData', resultData);
+        console.log('editCampaignAsDraft response', response);
 
         successCallback();
         self.savingStatus = EFetchStatus.SUCCESS;

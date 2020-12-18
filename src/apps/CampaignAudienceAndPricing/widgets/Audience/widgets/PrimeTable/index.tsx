@@ -35,6 +35,7 @@ import { tagsConst } from './assets/tableConst';
 import { usePrimeTable } from './usePrimeTable';
 import useStyles from './useStyles';
 import * as S from './styles';
+// import { getSnapshot } from 'mobx-state-tree';
 
 interface IPrimeTableProps {
   audience?: TAudienceModel;
@@ -53,7 +54,8 @@ function PrimeTable(props: IPrimeTableProps): JSX.Element {
     filterSpots,
     getFilterTextArray,
     preventDefault,
-  } = useTable({ audience });
+  } = useTable({ audience, name: 'PrimeTable' });
+  console.log('selected spots', selectedSpots);
 
   const { inputText, onInputChange } = useSearchInput();
 
@@ -90,6 +92,7 @@ function PrimeTable(props: IPrimeTableProps): JSX.Element {
   const onEditClickHandler = () => {
     audience.setFilterSideModel(EIDModel.SPOT_ID);
     filterSide.onToggleFilterHandler();
+    // console.log("edit click ", getSnapshot(filterSide), getSnapshot(audience))
   };
 
   const setBid = React.useCallback(
@@ -254,6 +257,9 @@ function PrimeTable(props: IPrimeTableProps): JSX.Element {
   };
 
   const classes = useStyles();
+
+  // console.log('filtered spots', filteredSpots);
+  // console.log('selected spots', selectedSpots);
 
   return (
     <>

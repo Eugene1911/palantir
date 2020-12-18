@@ -35,6 +35,8 @@ import {
   OS_VERSIONS,
   MINIMAL_BIDS,
   CAMPAIGN_EDIT_DRAFT,
+  SPOT,
+  APPLICATION,
 } from './services/APIEndpoints';
 import API from './services/APIService';
 
@@ -323,7 +325,6 @@ export const editCampaignAsDraft = (id, params) =>
   API.patch(CAMPAIGN_EDIT_DRAFT(id), params);
 
 /**
->>>>>>> 5be27d9b26c871d7a8ff5648426664d5ad7b345f
  * Save spot bid
  * @param {Object} params
  */
@@ -335,6 +336,20 @@ export const saveSpotPrice = (campaignId, spotId, params) =>
     ),
     params,
   );
+
+/**
+ * Get spot
+ * @param {Object} params
+ */
+export const getSpot = (spotId, params = {}) =>
+  API.get(SPOT.replace('{spotId}', spotId), params);
+
+/**
+ * Get application
+ * @param {Object} params
+ */
+export const getApplication = (siteId, params = {}) =>
+  API.get(APPLICATION.replace('{id}', siteId), params);
 
 /**
  * Get campaign statuses

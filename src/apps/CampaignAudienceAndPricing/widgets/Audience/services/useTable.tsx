@@ -13,10 +13,11 @@ import {
 interface IUseTableProps {
   audience: TAudienceModel;
   isCustomSpot?: boolean;
+  name?: string;
 }
 
 export const useTable = (props: IUseTableProps) => {
-  const { audience, isCustomSpot } = props;
+  const { audience, isCustomSpot, name } = props;
 
   const [selectedSites, setSelectedSites] = React.useState<TSite[]>(
     audience.selectedSites,
@@ -25,11 +26,30 @@ export const useTable = (props: IUseTableProps) => {
     audience.selectedSpots,
   );
 
-  const baseSpots = React.useMemo(() => {
-    return audience.trafficType === ETrafficType.RON || isCustomSpot
-      ? selectedSpots
-      : audience[EIDModel.SPOT_ID].spots;
-  }, [audience.trafficType, audience.selectedSpots, isCustomSpot]);
+  console.log('useTable name', name);
+  console.log('useTable selectedSpots', selectedSpots);
+  const baseSpotsRON = React.useMemo(() => audience.selectedSpots, [
+    audience.selectedSpots,
+  ]);
+
+  const baseSpotsPrime = React.useMemo(() => {
+    if (audience.trafficType === ETrafficType.PRIME) {
+      return audience[EIDModel.SPOT_ID].spots.filter(
+        ({ isPrime }) => isPrime,
+      );
+    }
+    if (audience.trafficType === ETrafficType.MEMBERS_AREA) {
+      return audience[EIDModel.SPOT_ID].spots.filter(
+        ({ isMemberArea }) => isMemberArea,
+      );
+    }
+    return [];
+  }, [audience.trafficType]);
+
+  const baseSpots =
+    audience.trafficType === ETrafficType.RON || isCustomSpot
+      ? baseSpotsRON
+      : baseSpotsPrime;
 
   const [filteredSites, setFilteredSites] = React.useState<TSite[]>(
     selectedSites,
