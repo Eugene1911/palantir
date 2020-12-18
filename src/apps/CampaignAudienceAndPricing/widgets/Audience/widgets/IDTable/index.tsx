@@ -85,7 +85,6 @@ function IDTableController(
 
   React.useEffect(() => {
     if (isFetchSuccess) {
-      console.log('useEffect');
       setSelectedSites(audience.selectedSites);
       setSelectedSpots(audience.selectedSpots);
       setFilteredSites(audience.selectedSites);

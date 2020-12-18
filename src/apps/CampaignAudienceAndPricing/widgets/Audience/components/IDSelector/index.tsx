@@ -83,27 +83,12 @@ function IDSelector(props?: IIDSelectorProps): JSX.Element {
       const newTags = [];
       const tagsSelectedId = tagsSelected.map(({ id }) => id);
       checkTags(textArray, newTags, getTagById).then(() => {
-        console.log('onKeyPressHandler newTags', newTags);
         if (newTags.length > 0) {
           onInputEnter(union(tagsSelectedId, newTags));
         }
 
         setInputText('');
       });
-
-      // const tagsID = textToTagsWithCheck(
-      //   inputText,
-      //   isNewTagAllowed ? tagsSelected : tags,
-      //   isNewTagAllowed,
-      // );
-      //
-      // if (isArray(tagsID)) {
-      //   onInputEnter(
-      //     isNewTagAllowed ? tagsID : union(tagsID, tagsSelected),
-      //   );
-      // }
-
-      // setInputText('');
     }
   };
 

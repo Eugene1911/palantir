@@ -29,7 +29,6 @@ export const usePrimeTable = (props: IUsePrimeTableProps) => {
   );
 
   const updateSelected = React.useCallback(() => {
-    console.log('updateSelected', audience.selectedSpots);
     if (isFetchSuccess) {
       setSelectedSpots(audience.selectedSpots);
       setFilteredSpots(audience.selectedSpots);

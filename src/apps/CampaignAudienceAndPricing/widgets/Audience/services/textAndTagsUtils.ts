@@ -24,7 +24,6 @@ export async function checkTags(
   for (const text of textArray) {
     // eslint-disable-next-line no-await-in-loop
     const tag = await getTag(text);
-    console.log('checkTags', tag);
     tag?.id ? newTagsId.push(tag.id) : newTagsId.push(text);
   }
 }

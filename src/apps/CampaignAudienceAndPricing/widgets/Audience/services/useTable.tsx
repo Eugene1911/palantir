@@ -13,11 +13,10 @@ import {
 interface IUseTableProps {
   audience: TAudienceModel;
   isCustomSpot?: boolean;
-  name?: string;
 }
 
 export const useTable = (props: IUseTableProps) => {
-  const { audience, isCustomSpot, name } = props;
+  const { audience, isCustomSpot } = props;
 
   const [selectedSites, setSelectedSites] = React.useState<TSite[]>(
     audience.selectedSites,
@@ -26,8 +25,6 @@ export const useTable = (props: IUseTableProps) => {
     audience.selectedSpots,
   );
 
-  console.log('useTable name', name);
-  console.log('useTable selectedSpots', selectedSpots);
   const baseSpotsRON = React.useMemo(() => audience.selectedSpots, [
     audience.selectedSpots,
   ]);

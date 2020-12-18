@@ -1,4 +1,4 @@
-import { flow, getSnapshot, Instance, types } from 'mobx-state-tree';
+import { flow, Instance, types } from 'mobx-state-tree';
 import union from 'lodash/union';
 import flatten from 'lodash/flatten';
 import uniqBy from 'lodash/uniqBy';
@@ -345,19 +345,6 @@ const AudienceModel = types
         format_id,
       } = data;
 
-      console.log('audience data', {
-        spots,
-        exclude_spots,
-        enabled_applications,
-        disabled_applications,
-        enabled_subids,
-        disabled_subids,
-        traffic_type,
-        traffic_source_type,
-        disable_rtb,
-        format_id,
-      });
-
       self.formats.currentFormat = format_id;
       self.trafficType = resultTrafficType[traffic_type];
       traffic_source_type
@@ -395,7 +382,6 @@ const AudienceModel = types
           )
         ) {
           const { data: spotData } = yield getSpot(Number(tag.id));
-          console.log('set newSpot data', spotData);
           setSpot(spotData, self);
         }
       }
@@ -415,7 +401,6 @@ const AudienceModel = types
           const { data: siteData } = yield getApplication(
             Number(tag.id),
           );
-          console.log('set siteData data', siteData);
           setSite(siteData, self);
         }
       }
@@ -434,7 +419,6 @@ const AudienceModel = types
         self[EIDModel.SPOT_ID].fetchStatus = EFetchStatus.PENDING;
 
         const format = externalFormat || self.formats.currentFormat;
-        console.log('format', format);
         /* eslint-disable @typescript-eslint/camelcase */
         const [prime, membersArea] = yield Promise.all([
           getSpotsByApp({
@@ -451,8 +435,6 @@ const AudienceModel = types
         /* eslint-enable @typescript-eslint/camelcase */
         const dataPrime = prime.data.response;
         const dataMembersArea = membersArea.data.response;
-        console.log('spots by sites', dataPrime, dataMembersArea);
-
         const primeSpotsBySites = setSpotsBySites(dataPrime);
         const membersAreaSpotsBySites = setSpotsBySites(
           dataMembersArea,
@@ -496,8 +478,6 @@ const AudienceModel = types
           [...primeSites, ...membersAreaSites],
           'id',
         );
-        console.log('all spots', spots);
-        console.log('all sites', sites);
 
         // @ts-ignore
         self[EIDModel.SPOT_ID].spots = spots;
@@ -524,11 +504,7 @@ const AudienceModel = types
     getSitesData: flow(function* getAppData() {
       try {
         self[EIDModel.SITE_ID].fetchStatus = EFetchStatus.PENDING;
-        const { data } = yield getApplications({
-          // page: 1,
-          // size: 15000,
-        });
-        console.log('sites', data.response);
+        const { data } = yield getApplications({});
         const sites = data.response.map(site => {
           const { id, url, name } = site;
 
@@ -567,8 +543,6 @@ const AudienceModel = types
 
         self.formats.allFormats = formats;
         self.formats.currentFormat = formats[0].id;
-        console.log('formats', formats);
-
         self.formats.fetchStatus = EFetchStatus.SUCCESS;
       } catch (error) {
         self.formats.fetchStatus = EFetchStatus.ERROR;
@@ -608,15 +582,11 @@ const AudienceModel = types
           if (!Number(tagId)) {
             !self[EIDModel.SPOT_ID].tags.find(checkTag) &&
               setDisabledTag();
-            console.log(
-              'snapshot',
-              getSnapshot(self[EIDModel.SPOT_ID]),
-            );
+
             return false;
           }
 
           const { data: spotData } = yield getSpot(Number(tagId));
-          console.log('newSpot data', spotData);
           const spotTag = setSpot(spotData, self);
 
           return spotTag;
@@ -635,7 +605,6 @@ const AudienceModel = types
         const { data: siteData } = yield getApplication(
           Number(tagId),
         );
-        console.log('newSite data', siteData);
         const siteTag = setSite(siteData, self);
 
         return siteTag;
