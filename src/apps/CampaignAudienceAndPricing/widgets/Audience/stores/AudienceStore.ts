@@ -10,6 +10,11 @@ import {
   getSpotsByApp,
   saveSpotPrice,
 } from 'resources/api';
+import {
+  MEMBERS_AREA_TRAFFIC_TYPE,
+  PRIME_TRAFFIC_TYPE,
+  SPOTS_FETCH_MAX_SIZE,
+} from 'config/constants';
 import FilterSideStore from 'sharedWidgets/FilterSide/store/FilterSideStore';
 import {
   EFetchStatus,
@@ -423,13 +428,13 @@ const AudienceModel = types
         const [prime, membersArea] = yield Promise.all([
           getSpotsByApp({
             ad_format_id: format,
-            traffic_type: 'prime',
-            size: 1900,
+            traffic_type: PRIME_TRAFFIC_TYPE,
+            size: SPOTS_FETCH_MAX_SIZE,
           }),
           getSpotsByApp({
             ad_format_id: format,
-            traffic_type: 'members_area',
-            size: 1900,
+            traffic_type: MEMBERS_AREA_TRAFFIC_TYPE,
+            size: SPOTS_FETCH_MAX_SIZE,
           }),
         ]);
         /* eslint-enable @typescript-eslint/camelcase */

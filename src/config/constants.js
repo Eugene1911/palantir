@@ -100,3 +100,8 @@ export const GLOBAL_NAME = 'GLOBAL';
 export const DRAFT_STATUS = 'draft';
 
 export const ONLY_INTEGER_INPUT_PATTERN = '[0-9]*';
+
+export const PRIME_TRAFFIC_TYPE = 'prime';
+export const MEMBERS_AREA_TRAFFIC_TYPE = 'members_area';
+
+export const SPOTS_FETCH_MAX_SIZE = 1900;
