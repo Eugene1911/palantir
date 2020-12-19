@@ -5,6 +5,7 @@ import {
   saveCampaignAsDraft,
   editCampaignAsDraft,
   editCampaign,
+  createNotes,
 } from 'resources/api';
 import { INewCampaignSettingsResultData } from '../../../../../types/resultTypes';
 import { TEditStore } from '../../../stores/EditStore';
@@ -26,6 +27,7 @@ const SaveStepActionModel = types
       resultData: INewCampaignSettingsResultData,
       successCallback: (id: number) => void,
       edit: TEditStore,
+      notes: string,
     ) {
       self.savingStatus = LoadingStatus.LOADING;
       const editAction = edit.isEditDraft
@@ -38,6 +40,7 @@ const SaveStepActionModel = types
             saveCampaignAsDraft(resultData);
       try {
         const { data } = yield saveAction();
+        yield createNotes(data.id, { text: notes });
 
         successCallback(data.id);
         self.savingStatus = LoadingStatus.SUCCESS;

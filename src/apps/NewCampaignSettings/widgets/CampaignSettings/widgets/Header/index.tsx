@@ -32,7 +32,13 @@ const Header = ({ edit, name }: IHeaderProps): JSX.Element => {
 
   const campaignStatus = getStatus();
 
-  return <CampaignFormHeader name={name} status={campaignStatus} />;
+  return (
+    <CampaignFormHeader
+      name={name}
+      status={campaignStatus}
+      campaignId={edit.campaignId}
+    />
+  );
 };
 
 export default inject(({ newCampaignSettings }) => ({

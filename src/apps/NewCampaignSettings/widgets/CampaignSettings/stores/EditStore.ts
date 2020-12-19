@@ -50,6 +50,7 @@ const EditStore = types
         const { data } = yield getCampaignById(id);
         self.campaignStatus = LoadingStatus.SUCCESS;
 
+        self.campaignId = id;
         self.isEditDraft = data.status === DRAFT_STATUS;
         self.status = data.status;
         self.isActive = data.active;
@@ -85,7 +86,6 @@ const EditStore = types
         self.isEdit &&
         self.campaignStatus === LoadingStatus.INITIAL
       ) {
-        self.campaignId = id;
         self.getCampaignDataById(
           infoNotification,
           id,

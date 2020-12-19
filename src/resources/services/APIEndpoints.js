@@ -58,3 +58,7 @@ export const CAMPAIGN_EDIT_DRAFT = id =>
 
 // Batch
 export const BATCH = `${API_VERSION_1_1}batch`;
+
+// Notes
+export const CAMPAIGN_NOTES = id =>
+  `${API_VERSION_1_1}campaigns/${id}/notes`;

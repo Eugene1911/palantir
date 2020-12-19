@@ -12,12 +12,14 @@ interface ICampaignFormHeaderProps {
   header?: TCampaignFormHeaderStore;
   name: string;
   status: string;
+  campaignId?: number;
 }
 
 const CampaignFormHeader = ({
   header,
   name,
   status,
+  campaignId,
 }: ICampaignFormHeaderProps): JSX.Element => {
   const classes = useStyles();
 
@@ -40,7 +42,7 @@ const CampaignFormHeader = ({
         <Typography>{status}</Typography>
       </Grid>
       <Grid item>
-        <Notes />
+        <Notes campaignId={campaignId} />
       </Grid>
     </Grid>
   );

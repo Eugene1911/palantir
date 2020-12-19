@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { inject, observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
+import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
+import { LoadingStatus } from 'sharedTypes';
 import DescriptionIcon from '@material-ui/icons/Description';
 import useStyles from './useStyles';
 import { TNotesModel } from '../../stores/models/NotesModel';
@@ -9,13 +11,21 @@ import NotesDrawer from './components/NotesDrawer';
 
 interface INotesProps {
   notes?: TNotesModel;
+  campaignId?: number;
 }
 
-const Notes = ({ notes }: INotesProps): JSX.Element => {
+const Notes = ({ notes, campaignId }: INotesProps): JSX.Element => {
+  const infoNotification = useHookInfoNotification();
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggleOpen = (): void => setIsOpen(prevOpen => !prevOpen);
+
+  useEffect(() => {
+    if (notes.notesStatus === LoadingStatus.INITIAL && campaignId) {
+      notes.getNotesByCampaignId(infoNotification, campaignId);
+    }
+  });
 
   return (
     <>
