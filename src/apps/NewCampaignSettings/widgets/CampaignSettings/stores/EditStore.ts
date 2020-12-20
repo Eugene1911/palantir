@@ -33,6 +33,8 @@ const EditStore = types
     isNoFunds: types.boolean,
     isArchived: types.boolean,
     approved: types.string,
+    created: types.maybe(types.Date),
+    updated: types.maybe(types.Date),
     campaignStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
     ),
@@ -57,6 +59,8 @@ const EditStore = types
         self.isArchived = data.is_archived;
         self.isNoFunds = data.no_funds;
         self.approved = data.approved;
+        self.created = new Date(data.created_at);
+        self.updated = new Date(data.updated_at);
 
         setNewCampaignSettingsEditData(data);
       } catch (error) {

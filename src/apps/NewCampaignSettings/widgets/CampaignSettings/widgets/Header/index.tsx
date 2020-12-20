@@ -2,41 +2,38 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import CampaignFormHeader from 'sharedWidgets/CampaignFormHeader';
-import {
-  CAMPAIGNS_STATUSES,
-  CLIENT_STATUSES,
-} from 'config/constants';
+import { getCampaignHeaderStatus } from 'helpers/getCampaignHeaderStatus';
 import { TEditStore } from '../../stores/EditStore';
 
 interface IHeaderProps {
   edit?: TEditStore;
   name?: string;
+  exclusive?: boolean;
+  backup?: boolean;
 }
 
-const Header = ({ edit, name }: IHeaderProps): JSX.Element => {
-  const getStatus = (): string => {
-    if (edit.isArchived) {
-      return CAMPAIGNS_STATUSES.ARCHIVED;
-    }
-    if (edit.isActive) {
-      return CLIENT_STATUSES.ACTIVE;
-    }
-    if (
-      edit.approved === CLIENT_STATUSES.PENDING &&
-      edit.status !== CAMPAIGNS_STATUSES.DRAFT
-    ) {
-      return CLIENT_STATUSES.PENDING;
-    }
-    return edit.status;
-  };
-
-  const campaignStatus = getStatus();
+const Header = ({
+  edit,
+  name,
+  exclusive,
+  backup,
+}: IHeaderProps): JSX.Element => {
+  const campaignStatus = getCampaignHeaderStatus({
+    status: edit.status,
+    approved: edit.approved,
+    isActive: edit.isActive,
+    isArchived: edit.isArchived,
+  });
 
   return (
     <CampaignFormHeader
       name={name}
       status={campaignStatus}
       campaignId={edit.campaignId}
+      created={edit.created}
+      updated={edit.updated}
+      isExclusive={exclusive}
+      isBackup={backup}
     />
   );
 };
@@ -44,4 +41,6 @@ const Header = ({ edit, name }: IHeaderProps): JSX.Element => {
 export default inject(({ newCampaignSettings }) => ({
   edit: newCampaignSettings.edit,
   name: newCampaignSettings.settings.name,
+  backup: newCampaignSettings.special.feature.backup,
+  exclusive: newCampaignSettings.special.feature.exclusive,
 }))(observer(Header));
