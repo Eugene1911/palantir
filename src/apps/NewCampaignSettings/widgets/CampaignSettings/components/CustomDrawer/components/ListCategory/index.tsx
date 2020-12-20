@@ -72,6 +72,11 @@ const ListCategory = ({
     return null;
   }
 
+  const handleClickSummary = (event): void => {
+    event.stopPropagation();
+    selectAllCategory(category.id, !category.tempSelected);
+  };
+
   return (
     <Accordion
       classes={{ expanded: classes.accordionExpanded }}
@@ -97,11 +102,7 @@ const ListCategory = ({
           expandIcon: classes.accordionSummaryExpandIcon,
           content: classes.accordionSummaryContent,
         }}
-        onClick={
-          isAsyncLoadingList
-            ? (event): void => event.stopPropagation()
-            : undefined
-        }
+        onClick={isAsyncLoadingList ? handleClickSummary : undefined}
       >
         <Checkbox
           onChange={(evt): void =>

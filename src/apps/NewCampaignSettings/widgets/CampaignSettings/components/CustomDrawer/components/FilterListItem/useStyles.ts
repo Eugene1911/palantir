@@ -4,6 +4,10 @@ const useStyles = makeStyles<Theme, TFilterListItemClasses>(() => ({
   itemName: {
     fontSize: '16px',
   },
+  itemNameNotSelected: {
+    color: '#2a2935',
+    opacity: 0.5,
+  },
   filterItem: {
     cursor: 'pointer',
     padding: '14px 0',
@@ -31,6 +35,7 @@ export type TFilterListItemClasses =
   | 'filterItem'
   | 'activeFilterIcon'
   | 'hiddenIcon'
+  | 'itemNameNotSelected'
   | 'filterCounter';
 
 export default useStyles;

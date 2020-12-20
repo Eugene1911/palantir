@@ -47,7 +47,9 @@ const FilterListItem = ({
       <Grid item>
         <Typography
           color={isSelected ? 'primary' : undefined}
-          className={classes.itemName}
+          className={cn(classes.itemName, {
+            [classes.itemNameNotSelected]: !isSelected && count === 0,
+          })}
         >
           {item}
         </Typography>

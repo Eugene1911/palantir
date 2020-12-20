@@ -34,6 +34,16 @@ const GroupFilter = ({
 }: IGroupFilterProps): JSX.Element => {
   const classes = useStyles();
 
+  const handleChangeSelectedFilter = (): void => {
+    toggleSelectedFilter();
+    toggleShowFilter();
+  };
+
+  const handleChangeActiveFilter = (item: string): void => {
+    handleSetActiveFilter(item);
+    toggleShowFilter();
+  };
+
   return (
     <Drawer
       anchor="right"
@@ -54,7 +64,7 @@ const GroupFilter = ({
         <FilterListItem
           item="Selected"
           isSelected={isSelectedFilterActive}
-          onSelectFilter={toggleSelectedFilter}
+          onSelectFilter={handleChangeSelectedFilter}
           count={selectedCount}
         />
         <Divider className={classes.divider} />
@@ -62,7 +72,7 @@ const GroupFilter = ({
           <FilterListItem
             item={option?.name}
             isSelected={option?.name === activeFilter}
-            onSelectFilter={handleSetActiveFilter}
+            onSelectFilter={handleChangeActiveFilter}
             key={uuid()}
           />
         ))}
