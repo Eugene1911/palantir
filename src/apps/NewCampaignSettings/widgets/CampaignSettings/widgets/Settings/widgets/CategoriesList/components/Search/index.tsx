@@ -60,6 +60,7 @@ const Search = ({ categories }: ISearchProps): JSX.Element => {
         item
       >
         <Autocomplete
+          key={categories.getAllAvailableTags.length}
           options={categories.getAllAvailableTags}
           getOptionLabel={(option: TCategoryModel): string =>
             option.name

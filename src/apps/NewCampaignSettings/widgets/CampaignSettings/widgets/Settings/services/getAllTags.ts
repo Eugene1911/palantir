@@ -20,10 +20,14 @@ export const getAllTags = (
 export const applyCallbackToEveryTag = (
   categoriesList: IMSTMap<IAnyType>,
   callback: (tag: TCategoryModel) => void,
+  onlyForActive?: boolean,
 ): void => {
   Array.from(categoriesList.keys()).forEach((key): void => {
-    categoriesList.get(key).categories.forEach((tag): void => {
-      callback(tag);
-    });
+    const category = categoriesList.get(key);
+    if (!onlyForActive || (onlyForActive && category.active)) {
+      category.categories.forEach((tag): void => {
+        callback(tag);
+      });
+    }
   });
 };

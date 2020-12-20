@@ -75,6 +75,7 @@ const Countries = ({
             filtersOptions={countriesGroups}
             openAsyncFilter={openRegionFilter}
             permissionsStatus={permissionsStatus}
+            selectAllTags={countries.selectAllCategories}
             isAsyncLoadingList
           />
 
@@ -87,6 +88,9 @@ const Countries = ({
               title={`${activeCountry.name} region`}
               list={activeCountry.list || []}
               onSelect={countries.setSelected}
+              selectAllTags={(value): void =>
+                countries.selectAllItems(value, activeCountry.id)
+              }
               withCloseButton={false}
               withBackButton
               invisibleBackdrop

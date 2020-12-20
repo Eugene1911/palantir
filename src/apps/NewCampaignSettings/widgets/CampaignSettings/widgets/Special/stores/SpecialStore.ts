@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import { DEFAULT_FLAT_RATE } from 'config/constants';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { Instance, types } from 'mobx-state-tree';
 import {
@@ -107,6 +108,9 @@ const SpecialModel = types
     },
     setFlatImpressions(event: ChangeEvent<HTMLInputElement>): void {
       self.flatImpressions = +event.target.value;
+      if (!self.flatRate) {
+        self.flatRate = DEFAULT_FLAT_RATE;
+      }
     },
     setFlatImpressionsValue(value: number): void {
       self.flatImpressions = value;
@@ -163,6 +167,9 @@ const SpecialModel = types
           FlatDealValues.FLAT_IMPRESSIONS,
           'flatDeal',
         );
+        if (data.flat_rate || data.flat_rate === 0) {
+          self.setFlatRateValue(data.flat_rate);
+        }
       } else if (data.flat_rate || data.flat_rate === 0) {
         self.setFlatRateValue(data.flat_rate);
         self.setRadioValue(FlatDealValues.FLAT_RATE, 'flatDeal');

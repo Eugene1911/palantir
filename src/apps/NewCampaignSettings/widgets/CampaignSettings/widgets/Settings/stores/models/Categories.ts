@@ -235,7 +235,7 @@ const CategoriesModel = types
           tag.selected = false;
         }
       };
-      applyCallbackToEveryTag(self.categoriesList, callback);
+      applyCallbackToEveryTag(self.categoriesList, callback, true);
     },
     selectTagsBySearch(search: string): void {
       if (search) {

@@ -107,3 +107,5 @@ export const MEMBERS_AREA_TRAFFIC_TYPE = 'members_area';
 export const SPOTS_FETCH_MAX_SIZE = 1900;
 
 export const DEFAULT_CAMPAIGN_NAME = 'New campaign';
+
+export const DEFAULT_FLAT_RATE = 5;
