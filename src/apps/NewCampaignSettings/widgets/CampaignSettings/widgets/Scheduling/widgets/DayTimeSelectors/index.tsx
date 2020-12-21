@@ -33,7 +33,7 @@ const DayTimeSelectors = ({
 
   return (
     <>
-      <Grid container className={classes.container}>
+      <Grid container className={classes.buttonsContainer}>
         <Button
           onClick={(): void =>
             handleClickButton(FULL, AllCustomStatus.CUSTOM)

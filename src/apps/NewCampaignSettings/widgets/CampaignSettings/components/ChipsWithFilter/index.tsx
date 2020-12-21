@@ -38,6 +38,7 @@ interface IChipsWithFilterProps {
     category: IFilterCategoryItem,
   ) => boolean;
   invisibleBackdrop?: boolean;
+  hideFooter?: boolean;
 }
 
 const ChipsWithFilter = ({
@@ -61,6 +62,7 @@ const ChipsWithFilter = ({
   selectAllTags,
   filterCategoriesFunction,
   invisibleBackdrop,
+  hideFooter,
 }: IChipsWithFilterProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const [isClosedList, setIsClosedList] = useState<boolean>(false);
@@ -169,6 +171,7 @@ const ChipsWithFilter = ({
             selectAllTags={selectAllTags}
             filterCategoriesFunction={filterCategoriesFunction}
             invisibleBackdrop={invisibleBackdrop}
+            hideFooter={hideFooter}
           />
 
           {!!filteredList.length && (

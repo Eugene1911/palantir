@@ -5,6 +5,7 @@ export const StepperWrapper = styled.div`
   border: solid 1px #f9f9f9;
   background-color: #ffffff;
   padding: 20px 28px;
+  margin-bottom: 16px;
 `;
 
 interface IIconWrapperProps {

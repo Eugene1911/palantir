@@ -28,9 +28,21 @@ const useStyles = makeStyles<Theme, TCustomChipClasses>(
         backgroundColor: '#ffe7ec !important',
       },
     },
+    small: {
+      height: '20px',
+    },
+    deleteIcon: {
+      opacity: 0.27,
+      color: '#030969',
+    },
   }),
 );
 
-export type TCustomChipClasses = 'default' | 'active' | 'error';
+export type TCustomChipClasses =
+  | 'default'
+  | 'active'
+  | 'error'
+  | 'deleteIcon'
+  | 'small';
 
 export default useStyles;

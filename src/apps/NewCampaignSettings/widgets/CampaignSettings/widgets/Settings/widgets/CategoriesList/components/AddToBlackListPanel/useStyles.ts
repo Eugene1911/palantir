@@ -7,15 +7,11 @@ const useStyles = makeStyles<Theme, TAddToBlackListPanelClasses>(
       padding: '24px',
       background: '#ffe7eb',
       boxShadow: 'inset 0 1px 0 0 #f2f2f2',
-      position: 'absolute',
+      position: 'fixed',
       right: 0,
       left: 0,
       bottom: 0,
-    },
-    fakeContainer: {
-      width: '1px',
-      height: '50px',
-      marginTop: '32px',
+      zIndex: 10,
     },
     buttons: {
       width: 'auto',
@@ -29,7 +25,6 @@ const useStyles = makeStyles<Theme, TAddToBlackListPanelClasses>(
 export type TAddToBlackListPanelClasses =
   | 'container'
   | 'buttons'
-  | 'cancel'
-  | 'fakeContainer';
+  | 'cancel';
 
 export default useStyles;

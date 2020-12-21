@@ -1,9 +1,8 @@
 import React, { ChangeEvent } from 'react';
 
 import Grid from '@material-ui/core/Grid';
-import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import CustomFormControlLabel from 'sharedComponents/CustomFormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { AllCustomStatus } from 'sharedTypes';
 import CustomChip from '../CustomChip';
@@ -14,7 +13,7 @@ interface IAllCustomRadioProps {
   onChange: (status: AllCustomStatus) => void;
   value: AllCustomStatus;
   name: string;
-  counter?: string;
+  counter?: string | number;
   allLabel?: string;
 }
 
@@ -40,21 +39,23 @@ const AllCustomRadio = ({
       <RadioGroup name={name} value={value} onChange={handleChange}>
         <Grid container>
           <Grid item>
-            <FormControlLabel
+            <CustomFormControlLabel
+              groupValue={value}
               value={AllCustomStatus.ALL}
-              control={<Radio color="primary" />}
               label={allLabel || 'ALL'}
               className={classes.radio}
             />
           </Grid>
           <Grid item>
-            <FormControlLabel
+            <CustomFormControlLabel
+              groupValue={value}
               value={AllCustomStatus.CUSTOM}
-              control={<Radio color="primary" />}
               label="CUSTOM"
             />
           </Grid>
-          {counter && <CustomChip isSmall label={counter} isActive />}
+          {!!counter && (
+            <CustomChip isSmall label={counter} isActive />
+          )}
         </Grid>
       </RadioGroup>
     </FormControl>

@@ -23,13 +23,19 @@ const ExpandIcon = ({
 }: IExpandIconProps): JSX.Element => {
   const classes = useStyles();
 
+  const handleClickIcon = (event): void => {
+    event.stopPropagation();
+    openAsyncFilter(category);
+  };
+
   if (isAsyncLoadingList) {
     if (!isShowAsyncLoadButton) {
       return null;
     }
     return (
       <ChevronRightIcon
-        onClick={(): void => openAsyncFilter(category)}
+        className={classes.chevron}
+        onClick={handleClickIcon}
       />
     );
   }

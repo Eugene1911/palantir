@@ -62,6 +62,17 @@ const CountriesModel = types
       return self.categoriesList.filter(item => item.tempSelected)
         .length;
     },
+    get allSelectedCount(): number {
+      let sum = 0;
+      self.categoriesList.forEach(category => {
+        if (category.tempSelected) {
+          sum += 1;
+        } else {
+          sum += category.selectedCount;
+        }
+      });
+      return sum;
+    },
     getAllCount(asCodes = false): string {
       let countryCount = 0;
       let regionCount = 0;
@@ -69,7 +80,7 @@ const CountriesModel = types
       self.list.forEach(item => {
         if (item.parentId) {
           regionCount += 1;
-        } else if (!item.asLabel) {
+        } else {
           countryCount += 1;
           codes.push(item.code);
         }
@@ -100,13 +111,34 @@ const CountriesModel = types
   }))
   .views(self => ({
     get stepperText(): string {
-      if (self.radio === AllCustomStatus.ALL) {
+      const count = self.getAllCount(true);
+      if (self.radio === AllCustomStatus.ALL || !count) {
         return 'All countries';
       }
-      return self.getAllCount(true);
+      return count;
     },
   }))
   .actions(self => ({
+    selectAllCategories(value: boolean): void {
+      self.categoriesList.forEach(category => {
+        category.tempSelected = value;
+      });
+    },
+    selectAllItems(value: boolean, parentId: number): void {
+      const parent = self.categoriesList.find(
+        category => category.id === parentId,
+      );
+      if (parent) {
+        parent.list.forEach(item => {
+          item.tempSelected = value;
+          parent.selectedCount = parent.list.filter(
+            i => i.tempSelected,
+          ).length;
+          parent.tempSelected =
+            parent.selectedCount === parent.list.length;
+        });
+      }
+    },
     selectAllCategory(id: number, value: boolean): void {
       const currentCategory = self.categoriesList.find(
         category => category.id === id,
@@ -343,10 +375,11 @@ const CountriesModel = types
       }
     }),
     getAccordionText(): string {
-      if (self.radio === AllCustomStatus.ALL) {
+      const count = self.getAllCount(true);
+      if (self.radio === AllCustomStatus.ALL || !count) {
         return 'All countries';
       }
-      return self.getAllCount(true);
+      return count;
     },
     getCategoriesResult(): string[] {
       if (self.radio === AllCustomStatus.ALL) {

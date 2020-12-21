@@ -41,6 +41,7 @@ const Settings = ({
       subInfo2={subInfo.subInfo2}
       subInfo3={subInfo.subInfo3}
       onExpand={getNewSubInfo}
+      isFirst
     />
   );
 };

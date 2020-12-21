@@ -46,6 +46,10 @@ const CustomChip = ({
       onDelete={onDelete}
       variant="outlined"
       size={isSmall ? 'small' : undefined}
+      classes={{
+        sizeSmall: classes.small,
+        deleteIcon: classes.deleteIcon,
+      }}
     />
   );
 };

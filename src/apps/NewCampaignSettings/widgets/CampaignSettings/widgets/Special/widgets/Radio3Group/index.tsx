@@ -2,9 +2,8 @@ import React, { ChangeEvent } from 'react';
 import { inject, observer } from 'mobx-react';
 
 import Grid from '@material-ui/core/Grid';
-import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import CustomFormControlLabel from 'sharedComponents/CustomFormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import {
   TSpecialModel,
@@ -44,9 +43,9 @@ const Radio3Group = ({
         <Grid container>
           {radios.map(radio => (
             <Grid key={radio.label} item>
-              <FormControlLabel
+              <CustomFormControlLabel
+                groupValue={special[field]}
                 value={radio.value}
-                control={<Radio color="primary" />}
                 label={radio.label}
                 className={classes.radio}
               />

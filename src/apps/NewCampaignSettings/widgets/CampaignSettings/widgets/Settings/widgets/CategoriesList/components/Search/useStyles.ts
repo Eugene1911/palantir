@@ -4,7 +4,7 @@ const useStyles = makeStyles<Theme, TSearchClasses>(
   (theme: Theme) => ({
     container: {
       width: '100%',
-      marginTop: '22px',
+      marginTop: '18px',
       minHeight: '36px',
     },
     focusedContainer: {
@@ -23,11 +23,19 @@ const useStyles = makeStyles<Theme, TSearchClasses>(
     popper: {
       maxWidth: '280px',
     },
+    arrow: {
+      visibility: 'hidden',
+    },
+    input: {
+      fontSize: '16px',
+    },
   }),
 );
 
 export type TSearchClasses =
   | 'container'
+  | 'arrow'
+  | 'input'
   | 'select'
   | 'icon'
   | 'popper'

@@ -20,6 +20,7 @@ const DeviceBrands = ({
         onChange={deviceBrands.setRadio}
         value={deviceBrands.radio}
         name="deviceBrands"
+        counter={deviceBrands.selectedCount}
       />
 
       {deviceBrands.radio === AllCustomStatus.CUSTOM && (

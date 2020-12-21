@@ -24,6 +24,7 @@ const OperatingSystems = ({
         onChange={operatingSystems.setRadio}
         value={operatingSystems.radio}
         name="operatingSystems"
+        counter={operatingSystems.selectedCount}
       />
 
       {operatingSystems.radio === AllCustomStatus.CUSTOM && (

@@ -15,9 +15,10 @@ function QuestionTooltip({
 
   return (
     <Tooltip
-      classes={{ tooltip: classes.tooltip }}
+      classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
       title={title}
       placement="right"
+      TransitionProps={{ exit: false }}
       arrow
     >
       <IconButton className={classes.button} component="span">

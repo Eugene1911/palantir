@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { inject, observer } from 'mobx-react';
 
 import Grid from '@material-ui/core/Grid';
@@ -15,6 +15,20 @@ const ModelPrice = ({
   modelPrice,
 }: IModelPriceProps): JSX.Element => {
   const classes = useStyles();
+  const toRef = useRef(null);
+
+  useEffect(() => {
+    if (
+      modelPrice.from !== undefined &&
+      modelPrice.to !== undefined &&
+      modelPrice.from > modelPrice.to
+    ) {
+      modelPrice.setToValue(undefined);
+      toRef.current?.focus();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modelPrice.from]);
+
   return (
     <Grid container>
       <Grid className={classes.textField} item xs={2}>
@@ -41,6 +55,7 @@ const ModelPrice = ({
             pattern: ONLY_INTEGER_INPUT_PATTERN,
           }}
           fullWidth
+          inputRef={toRef}
         />
       </Grid>
     </Grid>

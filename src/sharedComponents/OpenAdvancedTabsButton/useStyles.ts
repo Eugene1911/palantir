@@ -8,6 +8,9 @@ const useStyles = makeStyles<Theme, TOpenAdvancedTabsButtonClasses>(
       color: '#2a263a',
       padding: '6px 14px',
       fontWeight: 'normal',
+      '&:hover': {
+        backgroundColor: 'transparent',
+      },
     },
   }),
 );

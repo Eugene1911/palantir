@@ -50,11 +50,17 @@ const Devices = ({ devices }: IDevicesProps): JSX.Element => {
                         !!devices.devicesTypes[index] &&
                         devices.isNeedDisable
                       }
+                      classes={{ root: classes.icon }}
                     />
                   }
                   label={type}
                   key={type}
                   className={classes.checkbox}
+                  classes={{
+                    label: devices.devicesTypes[index]
+                      ? classes.activeLabel
+                      : classes.label,
+                  }}
                 />
               ))}
             </FormGroup>

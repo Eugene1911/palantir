@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles<Theme, TCategoriesFilterClasses>(() => ({
   container: {
-    marginTop: '40px',
+    marginTop: '22px',
   },
   blackList: {
     fontSize: '14px',
@@ -26,6 +26,7 @@ const useStyles = makeStyles<Theme, TCategoriesFilterClasses>(() => ({
   },
   switch: {
     marginRight: '26px',
+    marginLeft: 0,
     textTransform: 'uppercase',
   },
   switchWrapper: {

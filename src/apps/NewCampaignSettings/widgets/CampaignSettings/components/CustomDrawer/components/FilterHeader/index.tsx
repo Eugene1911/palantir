@@ -28,6 +28,13 @@ const FilterHeader = ({
 }: IFilterHeaderProps): JSX.Element => {
   const classes = useStyles();
 
+  const handleClear = (): void => {
+    if (clearAllFilters) {
+      clearAllFilters();
+    }
+    onCancel();
+  };
+
   return (
     <>
       <Grid
@@ -56,7 +63,7 @@ const FilterHeader = ({
         {withClearButton && (
           <Grid item>
             <Button
-              onClick={clearAllFilters}
+              onClick={handleClear}
               className={classes.clearFilters}
               color="primary"
             >
@@ -65,7 +72,7 @@ const FilterHeader = ({
           </Grid>
         )}
       </Grid>
-      <Divider />
+      <Divider classes={{ root: classes.divider }} />
     </>
   );
 };

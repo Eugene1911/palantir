@@ -23,6 +23,7 @@ export interface IAccordionPanelProps {
   children?: JSX.Element;
   tabs?: Array<ITab | JSX.Element>;
   onExpand?: (value: boolean) => void;
+  isFirst?: boolean;
 }
 
 function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
@@ -36,6 +37,7 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
     children,
     tabs,
     onExpand,
+    isFirst,
   } = props;
   const [isExpanded, setIsExpanded] = React.useState(isSelected);
 
@@ -87,10 +89,13 @@ function AccordionPanel(props: IAccordionPanelProps): JSX.Element {
       defaultExpanded={isSelected}
       expanded={isExpanded}
       onChange={handleChangeExpand}
+      className={isFirst ? classes.root : undefined}
+      classes={isFirst ? { rounded: classes.rounded } : undefined}
     >
       <ExpansionPanelSummary
         className={classes.main}
-        expandIcon={<ExpandMoreIcon color="primary" />}
+        classes={{ expanded: classes.summaryClosed }}
+        expandIcon={<ExpandMoreIcon className={classes.arrow} />}
       >
         <Grid alignItems="flex-start" container>
           <Grid item xs={2} container>

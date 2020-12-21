@@ -24,7 +24,11 @@ const InputDeleteIcon = ({
       className={classes.deleteIconWrapper}
       position="start"
     >
-      <Cancel className={classes.deleteIcon} onClick={onClick} />
+      <Cancel
+        fontSize="small"
+        className={classes.deleteIcon}
+        onClick={onClick}
+      />
     </InputAdornment>
   );
 };

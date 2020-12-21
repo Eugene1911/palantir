@@ -5,6 +5,7 @@ const useStyles = makeStyles<Theme, TInputDeleteIconClasses>(
     deleteIconWrapper: {
       position: 'absolute',
       right: 0,
+      marginRight: 0,
     },
     deleteIcon: {
       color: '#cdcdcd',

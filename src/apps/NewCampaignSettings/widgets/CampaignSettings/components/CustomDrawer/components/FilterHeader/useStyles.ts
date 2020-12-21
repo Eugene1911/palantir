@@ -23,6 +23,9 @@ const useStyles = makeStyles<Theme, TFilterHeaderClasses>(() => ({
   titleWrapper: {
     marginRight: 'auto',
   },
+  divider: {
+    backgroundColor: '#f2f2f2',
+  },
 }));
 
 export type TFilterHeaderClasses =
@@ -30,6 +33,7 @@ export type TFilterHeaderClasses =
   | 'close'
   | 'title'
   | 'back'
+  | 'divider'
   | 'clearFilters'
   | 'titleWrapper';
 

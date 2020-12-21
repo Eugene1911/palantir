@@ -18,6 +18,7 @@ const Languages = ({ languages }: ILanguagesProps): JSX.Element => {
         onChange={languages.setRadio}
         value={languages.radio}
         name="languages"
+        counter={languages.selectedCount}
       />
 
       {languages.radio === AllCustomStatus.CUSTOM && (

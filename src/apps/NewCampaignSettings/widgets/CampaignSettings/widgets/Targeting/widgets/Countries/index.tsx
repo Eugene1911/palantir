@@ -64,7 +64,7 @@ const Countries = ({
             filterTitle="Choose countries and region"
             loadingStatus={countries.listStatus}
             getList={countries.getList}
-            selectedCount={countries.selectedCount}
+            selectedCount={countries.allSelectedCount}
             onSave={countries.saveSelected}
             onCancel={countries.cancelSelected}
             onDelete={countries.deleteSelected}
@@ -75,6 +75,8 @@ const Countries = ({
             filtersOptions={countriesGroups}
             openAsyncFilter={openRegionFilter}
             permissionsStatus={permissionsStatus}
+            selectAllTags={countries.selectAllCategories}
+            hideFooter={!countries.allSelectedCount}
             isAsyncLoadingList
           />
 
@@ -87,6 +89,9 @@ const Countries = ({
               title={`${activeCountry.name} region`}
               list={activeCountry.list || []}
               onSelect={countries.setSelected}
+              selectAllTags={(value): void =>
+                countries.selectAllItems(value, activeCountry.id)
+              }
               withCloseButton={false}
               withBackButton
               invisibleBackdrop
