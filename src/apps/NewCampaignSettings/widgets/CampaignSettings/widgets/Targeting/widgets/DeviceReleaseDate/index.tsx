@@ -18,7 +18,7 @@ const DeviceReleaseDate = ({
   deviceReleaseDate,
 }: IDeviceReleaseDateProps): JSX.Element => {
   return (
-    <Grid container alignItems="center">
+    <Grid container alignItems="flex-end">
       <Grid xs={2} item>
         <FormControl fullWidth>
           <InputLabel>Months ago</InputLabel>

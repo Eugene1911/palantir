@@ -34,6 +34,7 @@ const useStyles = makeStyles<Theme, TDayTimeTableClasses>(
     },
     activeBox: {
       background: theme.palette.primary.main,
+      color: 'rgba(255, 255, 255, 0.32)',
     },
     head: {
       width: '56px',

@@ -30,8 +30,12 @@ const BottomFilter = ({
   const classes = useStyles();
   const [isShowFilter, setIsShowFilter] = useState<boolean>(false);
 
-  const toggleShowFilter = (): void =>
+  const toggleShowFilter = (event?): void => {
+    if (event) {
+      event.stopPropagation();
+    }
     setIsShowFilter(prevShow => !prevShow);
+  };
 
   return (
     <>
@@ -41,6 +45,7 @@ const BottomFilter = ({
           alignItems="center"
           container
           className={classes.filter}
+          onClick={toggleShowFilter}
         >
           <Grid item>
             <Typography className={classes.filterTitle}>

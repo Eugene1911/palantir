@@ -21,6 +21,11 @@ const useStyles = makeStyles<Theme, TCampaignStepperClasses>(() => ({
     color: '#95959a',
     fontSize: '12px',
   },
+  step: {
+    '&:first-child': {
+      paddingLeft: 0,
+    },
+  },
 }));
 
 export type TCampaignStepperClasses =
@@ -29,6 +34,7 @@ export type TCampaignStepperClasses =
   | 'icon'
   | 'iconContainer'
   | 'editIcon'
+  | 'step'
   | 'subLabel';
 
 export default useStyles;

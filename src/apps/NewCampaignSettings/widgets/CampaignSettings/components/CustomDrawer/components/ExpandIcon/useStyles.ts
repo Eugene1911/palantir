@@ -7,8 +7,11 @@ const useStyles = makeStyles<Theme, TExpandIconClasses>(() => ({
   icon: {
     background: 'transparent',
   },
+  chevron: {
+    color: '#2a2a34',
+  },
 }));
 
-export type TExpandIconClasses = 'filledIcon' | 'icon';
+export type TExpandIconClasses = 'filledIcon' | 'icon' | 'chevron';
 
 export default useStyles;

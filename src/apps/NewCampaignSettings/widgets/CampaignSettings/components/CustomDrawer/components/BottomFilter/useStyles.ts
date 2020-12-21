@@ -2,12 +2,13 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles<Theme, TBottomFilterClasses>(() => ({
   close: {
-    color: '#2a2935',
+    color: '#2a2a34',
   },
   filter: {
     padding: '7px 16px',
     borderRadius: '6px',
     background: 'rgba(241, 242, 247, 0.5)',
+    cursor: 'pointer',
   },
   filterTitle: {
     fontWeight: 500,

@@ -72,7 +72,7 @@ const FilterHeader = ({
           </Grid>
         )}
       </Grid>
-      <Divider />
+      <Divider classes={{ root: classes.divider }} />
     </>
   );
 };

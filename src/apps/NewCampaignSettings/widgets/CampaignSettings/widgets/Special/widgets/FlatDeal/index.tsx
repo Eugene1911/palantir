@@ -47,6 +47,11 @@ const FlatDeal = ({ special }: IFlatDealProps): JSX.Element => {
                     }
                   />
                 ),
+                classes: {
+                  disabled: classes.underline,
+                  root: classes.inputRoot,
+                  focused: classes.inputFocused,
+                },
               }}
               inputProps={{ className: classes.input }} // eslint-disable-line react/jsx-no-duplicate-props
               fullWidth
@@ -73,6 +78,11 @@ const FlatDeal = ({ special }: IFlatDealProps): JSX.Element => {
                     }
                   />
                 ),
+                classes: {
+                  disabled: classes.underline,
+                  root: classes.inputRoot,
+                  focused: classes.inputFocused,
+                },
               }}
               inputProps={{ className: classes.input }} // eslint-disable-line react/jsx-no-duplicate-props
               fullWidth

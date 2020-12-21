@@ -14,8 +14,35 @@ const useStyles = makeStyles<Theme, TFlatDealClasses>(() => ({
       margin: 0,
     },
   },
+  underline: {
+    '&::before': {
+      borderBottomStyle: 'solid !important',
+      opacity: 0.5,
+    },
+  },
+  inputRoot: {
+    '& svg': {
+      visibility: 'hidden',
+    },
+    '&:hover': {
+      '& svg': {
+        visibility: 'visible',
+      },
+    },
+  },
+  inputFocused: {
+    '& svg': {
+      visibility: 'visible',
+    },
+  },
 }));
 
-export type TFlatDealClasses = 'container' | 'textField' | 'input';
+export type TFlatDealClasses =
+  | 'container'
+  | 'textField'
+  | 'inputRoot'
+  | 'inputFocused'
+  | 'input'
+  | 'underline';
 
 export default useStyles;

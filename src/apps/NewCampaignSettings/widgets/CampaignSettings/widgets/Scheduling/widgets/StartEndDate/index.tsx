@@ -64,6 +64,9 @@ const StartEndDate = ({
             onChange={(date): void =>
               scheduling.setDate(date, 'dateStart')
             }
+            InputAdornmentProps={{
+              classes: { positionEnd: classes.dateIcon },
+            }}
           />
         </Grid>
         <Grid item xs={2}>
@@ -76,6 +79,9 @@ const StartEndDate = ({
             onChange={(date): void =>
               scheduling.setDate(date, 'dateEnd')
             }
+            InputAdornmentProps={{
+              classes: { positionEnd: classes.dateIcon },
+            }}
           />
         </Grid>
       </Grid>

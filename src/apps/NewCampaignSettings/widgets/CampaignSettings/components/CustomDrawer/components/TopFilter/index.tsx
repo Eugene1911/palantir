@@ -26,6 +26,9 @@ const TopFilter = ({
         alignItems="center"
         container
         className={classes.filter}
+        onClick={(): void =>
+          setIsShowAsyncLoadButton(!isShowAsyncLoadButton)
+        }
       >
         <Grid item>
           <Typography className={classes.filterTitle}>

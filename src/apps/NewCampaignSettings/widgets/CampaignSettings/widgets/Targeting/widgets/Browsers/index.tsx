@@ -24,6 +24,7 @@ const Browsers = ({
         onChange={browsers.setRadio}
         value={browsers.radio}
         name="browsers"
+        counter={browsers.selectedCount}
       />
 
       {browsers.radio === AllCustomStatus.CUSTOM && (

@@ -3,8 +3,7 @@ import { inject, observer } from 'mobx-react';
 
 import Grid from '@material-ui/core/Grid';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
+import CustomFormControlLabel from 'sharedComponents/CustomFormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { ProxyTrafficTypes } from 'sharedTypes';
 import useStyles from './useStyles';
@@ -32,25 +31,25 @@ const ProxyTraffic = ({
       >
         <Grid container>
           <Grid item>
-            <FormControlLabel
+            <CustomFormControlLabel
+              groupValue={proxyTraffic.proxyTrafficRadio}
               value={ProxyTrafficTypes.ALL}
-              control={<Radio color="primary" />}
               label="ALL"
               className={classes.radio}
             />
           </Grid>
           <Grid item>
-            <FormControlLabel
+            <CustomFormControlLabel
+              groupValue={proxyTraffic.proxyTrafficRadio}
               value={ProxyTrafficTypes.NON_PROXY}
-              control={<Radio color="primary" />}
               label="NON-PROXY TRAFFIC ONLY"
               className={classes.radio}
             />
           </Grid>
           <Grid item>
-            <FormControlLabel
+            <CustomFormControlLabel
+              groupValue={proxyTraffic.proxyTrafficRadio}
               value={ProxyTrafficTypes.PROXY}
-              control={<Radio color="primary" />}
               label="PROXY TRAFFIC ONLY"
             />
           </Grid>

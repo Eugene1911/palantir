@@ -65,13 +65,18 @@ const Search = ({ categories }: ISearchProps): JSX.Element => {
           getOptionLabel={(option: TCategoryModel): string =>
             option.name
           }
-          classes={{ popper: classes.popper }}
+          classes={{
+            popper: classes.popper,
+            endAdornment: classes.arrow,
+            input: classes.input,
+          }}
           disablePortal
           onChange={handleChangeSearch}
           onInputChange={(evt, value): void => setInputText(value)}
           blurOnSelect
           clearOnBlur
           clearOnEscape
+          disableClearable
           ref={inputRef}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           renderInput={(params: any): JSX.Element => (
@@ -84,6 +89,7 @@ const Search = ({ categories }: ISearchProps): JSX.Element => {
                 startAdornment: (
                   <InputAdornment position="start">
                     <SearchIcon
+                      fontSize="default"
                       className={
                         isFocused ? classes.focusedIcon : classes.icon
                       }

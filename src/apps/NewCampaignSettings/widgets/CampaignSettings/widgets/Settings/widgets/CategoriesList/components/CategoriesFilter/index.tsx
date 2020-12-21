@@ -67,7 +67,7 @@ const CategoriesFilter = ({
               [classes.activeBlackListButton]:
                 categories.addMode === AddMode.BLACKLIST,
             })}
-            onClick={(): void => categories.toggleAddMode()}
+            onClick={(): void => categories.toggleAddMode(true)}
           >
             <AddIcon className={classes.addIcon} />
             ADD Tags to blacklist

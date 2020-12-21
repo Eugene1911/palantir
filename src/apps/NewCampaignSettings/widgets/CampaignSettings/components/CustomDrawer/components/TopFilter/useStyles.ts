@@ -5,6 +5,7 @@ const useStyles = makeStyles<Theme, TTopFilterClasses>(() => ({
     padding: '7px 16px',
     borderRadius: '6px',
     background: 'rgba(241, 242, 247, 0.5)',
+    cursor: 'pointer',
   },
   filterTitle: {
     fontWeight: 500,

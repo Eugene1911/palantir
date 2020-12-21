@@ -32,7 +32,12 @@ const ExpandIcon = ({
     if (!isShowAsyncLoadButton) {
       return null;
     }
-    return <ChevronRightIcon onClick={handleClickIcon} />;
+    return (
+      <ChevronRightIcon
+        className={classes.chevron}
+        onClick={handleClickIcon}
+      />
+    );
   }
 
   if (!category.list.length) {

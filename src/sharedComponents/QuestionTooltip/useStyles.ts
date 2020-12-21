@@ -2,9 +2,9 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles<Theme, TQuestionTooltipClasses>({
   button: {
-    margin: '0 6px',
+    margin: '6px',
     color: '#cdcdcd',
-    padding: '1px 0',
+    padding: '1px',
   },
   icon: {
     width: '14px',
@@ -13,9 +13,17 @@ const useStyles = makeStyles<Theme, TQuestionTooltipClasses>({
   tooltip: {
     fontSize: '12px',
     whiteSpace: 'pre-wrap',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  arrow: {
+    color: 'rgba(0, 0, 0, 0.7)',
   },
 });
 
-export type TQuestionTooltipClasses = 'button' | 'icon' | 'tooltip';
+export type TQuestionTooltipClasses =
+  | 'button'
+  | 'icon'
+  | 'tooltip'
+  | 'arrow';
 
 export default useStyles;

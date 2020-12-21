@@ -4,8 +4,7 @@ import { inject, observer } from 'mobx-react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
+import CustomFormControlLabel from 'sharedComponents/CustomFormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import useStyles from './useStyles';
 import { TIPRangesModel } from '../../stores/models/IPRanges';
@@ -31,25 +30,25 @@ const IPRanges = ({ ipRanges }: IIPRangesProps): JSX.Element => {
         >
           <Grid container>
             <Grid item>
-              <FormControlLabel
+              <CustomFormControlLabel
+                groupValue={ipRanges.radio}
                 value={AllIncludeExclude.ALL}
-                control={<Radio color="primary" />}
                 label="ALL"
                 className={classes.radio}
               />
             </Grid>
             <Grid item>
-              <FormControlLabel
+              <CustomFormControlLabel
+                groupValue={ipRanges.radio}
                 value={AllIncludeExclude.INCLUDE}
-                control={<Radio color="primary" />}
                 label="INCLUDE"
                 className={classes.radio}
               />
             </Grid>
             <Grid item>
-              <FormControlLabel
+              <CustomFormControlLabel
+                groupValue={ipRanges.radio}
                 value={AllIncludeExclude.EXCLUDE}
-                control={<Radio color="primary" />}
                 label="EXCLUDE"
               />
             </Grid>

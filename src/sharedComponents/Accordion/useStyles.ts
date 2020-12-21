@@ -9,12 +9,22 @@ const useStyles = makeStyles<
   ICampaignEditPanelSummaryStylesProps,
   TCampaignEditPanelSummaryClasses
 >((theme: Theme) => ({
+  root: {
+    '&::before': {
+      height: 0,
+    },
+  },
+  rounded: {
+    borderRadius: '8px 8px 0 0',
+  },
   main: {
     fontSize: theme.typography.pxToRem(16),
     paddingLeft: 28,
-    backgroundColor: 'rgba(242, 242, 242, 0.3)',
     height: '56px',
     minHeight: '56px !important', // по другому не переопределить
+  },
+  summaryClosed: {
+    backgroundColor: '#fbfbfb',
   },
   title: {
     fontWeight: 500,
@@ -48,9 +58,16 @@ const useStyles = makeStyles<
     fontSize: '16px',
     color: 'rgba(42, 42, 52, 0.7)',
   },
+  arrow: {
+    color: '#2a2a34',
+  },
 }));
 
 export type TCampaignEditPanelSummaryClasses =
+  | 'root'
+  | 'rounded'
+  | 'summaryClosed'
+  | 'arrow'
   | 'main'
   | 'title'
   | 'tab'

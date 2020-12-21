@@ -62,6 +62,17 @@ const CountriesModel = types
       return self.categoriesList.filter(item => item.tempSelected)
         .length;
     },
+    get allSelectedCount(): number {
+      let sum = 0;
+      self.categoriesList.forEach(category => {
+        if (category.tempSelected) {
+          sum += 1;
+        } else {
+          sum += category.selectedCount;
+        }
+      });
+      return sum;
+    },
     getAllCount(asCodes = false): string {
       let countryCount = 0;
       let regionCount = 0;

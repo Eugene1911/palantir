@@ -46,6 +46,7 @@ const Carriers = ({
         onChange={carriers.setRadio}
         value={carriers.radio}
         name="carriers"
+        counter={carriers.selectedCount}
       />
 
       {carriers.radio === AllCustomStatus.CUSTOM && (

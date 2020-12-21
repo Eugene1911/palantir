@@ -4,7 +4,7 @@ import { CLOSED_HEIGHT } from './constants/closedHeight';
 const useStyles = makeStyles<Theme, TChipsWithFilterClasses>(() => ({
   button: {
     fontSize: '14px',
-    marginTop: '8px',
+    marginTop: '6px',
   },
   editButton: {
     fontSize: '14px',

@@ -37,7 +37,7 @@ function CampaignStepper(props: ICampaignStepperProps): JSX.Element {
     <S.StepperWrapper>
       <Stepper className={classes.root}>
         {campaignSteps.map((label, index) => (
-          <Step active key={label}>
+          <Step className={classes.step} active key={label}>
             <StepLabel
               classes={{
                 label: classes.label,
