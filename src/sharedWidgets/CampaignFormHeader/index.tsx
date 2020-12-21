@@ -13,7 +13,7 @@ import {
   DEFAULT_CAMPAIGN_NAME,
 } from 'config/constants';
 import { TCampaignFormHeaderStore } from './stores/CampaignFormHeaderStore';
-import Notes from './widgets/Notes';
+import CampaignFormNotes from './widgets/CampaignFormNotes';
 import useStyles from './useStyles';
 import CampaignStatus from './components/CampaignStatus';
 
@@ -102,7 +102,7 @@ const CampaignFormHeader = ({
         )}
       </Grid>
       <Grid item>
-        <Notes campaignId={campaignId} />
+        <CampaignFormNotes campaignId={campaignId} />
       </Grid>
     </Grid>
   );

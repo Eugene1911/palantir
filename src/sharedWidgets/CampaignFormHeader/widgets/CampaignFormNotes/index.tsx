@@ -9,12 +9,15 @@ import useStyles from './useStyles';
 import { TNotesModel } from '../../stores/models/NotesModel';
 import NotesDrawer from './components/NotesDrawer';
 
-interface INotesProps {
+interface ICampaignFormNotesProps {
   notes?: TNotesModel;
   campaignId?: number;
 }
 
-const Notes = ({ notes, campaignId }: INotesProps): JSX.Element => {
+const CampaignFormNotes = ({
+  notes,
+  campaignId,
+}: ICampaignFormNotesProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -45,4 +48,4 @@ const Notes = ({ notes, campaignId }: INotesProps): JSX.Element => {
 
 export default inject(({ campaignFormHeader }) => ({
   notes: campaignFormHeader.notes,
-}))(observer(Notes));
+}))(observer(CampaignFormNotes));

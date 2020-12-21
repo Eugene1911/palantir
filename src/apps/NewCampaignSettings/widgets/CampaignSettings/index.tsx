@@ -15,8 +15,8 @@ import Targeting from './widgets/Targeting';
 import Special from './widgets/Special';
 import SaveStepAction from './widgets/SaveStepActions';
 import { TPermissionsStore } from './stores/PermissionsStore';
-import Stepper from './widgets/Stepper';
-import Header from './widgets/Header';
+import CampaignSettingsStepper from './widgets/CampaignSettingsStepper';
+import CampaignSettingsHeader from './widgets/CampaignSettingsHeader';
 
 interface ICampaignSettingsProps {
   permissions?: TPermissionsStore;
@@ -57,8 +57,8 @@ const CampaignSettings = ({
 
   return (
     <>
-      <Header />
-      <Stepper />
+      <CampaignSettingsHeader />
+      <CampaignSettingsStepper />
       <Settings />
       <Scheduling />
       <Targeting />

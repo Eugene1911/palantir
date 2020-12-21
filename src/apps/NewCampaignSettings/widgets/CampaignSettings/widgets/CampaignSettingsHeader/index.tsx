@@ -5,19 +5,19 @@ import CampaignFormHeader from 'sharedWidgets/CampaignFormHeader';
 import { getCampaignHeaderStatus } from 'helpers/getCampaignHeaderStatus';
 import { TEditStore } from '../../stores/EditStore';
 
-interface IHeaderProps {
+interface ICampaignSettingsHeaderProps {
   edit?: TEditStore;
   name?: string;
   exclusive?: boolean;
   backup?: boolean;
 }
 
-const Header = ({
+const CampaignSettingsHeader = ({
   edit,
   name,
   exclusive,
   backup,
-}: IHeaderProps): JSX.Element => {
+}: ICampaignSettingsHeaderProps): JSX.Element => {
   const campaignStatus = getCampaignHeaderStatus({
     status: edit.status,
     approved: edit.approved,
@@ -43,4 +43,4 @@ export default inject(({ newCampaignSettings }) => ({
   name: newCampaignSettings.settings.name,
   backup: newCampaignSettings.special.feature.backup,
   exclusive: newCampaignSettings.special.feature.exclusive,
-}))(observer(Header));
+}))(observer(CampaignSettingsHeader));
