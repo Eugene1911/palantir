@@ -19,6 +19,7 @@ const useStyles = makeStyles<Theme, TCampaignStepperClasses>(() => ({
   },
   subLabel: {
     color: '#95959a',
+    fontSize: '12px',
   },
 }));
 

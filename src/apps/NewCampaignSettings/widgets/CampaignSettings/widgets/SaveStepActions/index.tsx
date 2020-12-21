@@ -5,6 +5,7 @@ import CampaignActions from 'sharedWidgets/CampaignActions';
 import PAGE_PATH from 'helpers/pagePath';
 import { goToExternalApp } from 'helpers/goToExternalApp';
 import { LoadingStatus } from 'sharedTypes';
+import { TNotesModel } from 'sharedWidgets/CampaignFormHeader/stores/models/NotesModel';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
 import { INewCampaignSettingsResultData } from '../../../../types/resultTypes';
 import { TSaveStepActionModel } from './stores/SaveStepActionsStore';
@@ -16,6 +17,7 @@ interface ISaveStepActionProps {
   isAllRequiredFieldsFilledForNext?: boolean;
   isAllRequiredFieldsFilledForSave?: boolean;
   edit?: TEditStore;
+  notes?: TNotesModel;
 }
 
 const SaveStepAction = ({
@@ -24,6 +26,7 @@ const SaveStepAction = ({
   isAllRequiredFieldsFilledForNext,
   isAllRequiredFieldsFilledForSave,
   edit,
+  notes,
 }: ISaveStepActionProps): JSX.Element => {
   const infoNotification = useHookInfoNotification();
 
@@ -39,6 +42,7 @@ const SaveStepAction = ({
       resultData,
       successCallback,
       edit,
+      notes.notes,
     );
   };
 
@@ -55,13 +59,16 @@ const SaveStepAction = ({
   );
 };
 
-export default inject(({ newCampaignSettings }) => ({
-  getNewCampaignSettingsResultData:
-    newCampaignSettings.getNewCampaignSettingsResultData,
-  saveActions: newCampaignSettings.saveActions,
-  isAllRequiredFieldsFilledForNext:
-    newCampaignSettings.isAllRequiredFieldsFilledForNext,
-  isAllRequiredFieldsFilledForSave:
-    newCampaignSettings.isAllRequiredFieldsFilledForSave,
-  edit: newCampaignSettings.edit,
-}))(observer(SaveStepAction));
+export default inject(
+  ({ newCampaignSettings, campaignFormHeader }) => ({
+    getNewCampaignSettingsResultData:
+      newCampaignSettings.getNewCampaignSettingsResultData,
+    saveActions: newCampaignSettings.saveActions,
+    isAllRequiredFieldsFilledForNext:
+      newCampaignSettings.isAllRequiredFieldsFilledForNext,
+    isAllRequiredFieldsFilledForSave:
+      newCampaignSettings.isAllRequiredFieldsFilledForSave,
+    edit: newCampaignSettings.edit,
+    notes: campaignFormHeader.notes,
+  }),
+)(observer(SaveStepAction));

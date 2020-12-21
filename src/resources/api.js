@@ -42,8 +42,25 @@ import {
   BATCH,
   CAMPAIGN_EDIT,
   RETARGETING,
+  CAMPAIGN_NOTES,
 } from './services/APIEndpoints';
 import API from './services/APIService';
+
+/**
+ * Create campaign notes
+ * @param {number} id
+ * @param {Object} params
+ */
+export const createNotes = (id, params) =>
+  API.post(CAMPAIGN_NOTES(id), params);
+
+/**
+ * Get campaign notes
+ * @param {number} id
+ * @param {Object} params
+ */
+export const getNotes = (id, params) =>
+  API.get(CAMPAIGN_NOTES(id), params);
 
 /**
  * Get Ad Formats

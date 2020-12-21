@@ -98,6 +98,14 @@ const CountriesModel = types
       return resultString;
     },
   }))
+  .views(self => ({
+    get stepperText(): string {
+      if (self.radio === AllCustomStatus.ALL) {
+        return 'All countries';
+      }
+      return self.getAllCount(true);
+    },
+  }))
   .actions(self => ({
     selectAllCategory(id: number, value: boolean): void {
       const currentCategory = self.categoriesList.find(

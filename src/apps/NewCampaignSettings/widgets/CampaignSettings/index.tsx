@@ -8,7 +8,6 @@ import {
 } from 'sharedTypes';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import useHookInfoNotification from 'sharedComponents/useHookInfoNotification';
-import CampaignStepper from 'sharedComponents/CampaignStepper';
 import { inject, observer } from 'mobx-react';
 import Settings from './widgets/Settings';
 import Scheduling from './widgets/Scheduling';
@@ -16,6 +15,8 @@ import Targeting from './widgets/Targeting';
 import Special from './widgets/Special';
 import SaveStepAction from './widgets/SaveStepActions';
 import { TPermissionsStore } from './stores/PermissionsStore';
+import CampaignSettingsStepper from './widgets/CampaignSettingsStepper';
+import CampaignSettingsHeader from './widgets/CampaignSettingsHeader';
 
 interface ICampaignSettingsProps {
   permissions?: TPermissionsStore;
@@ -56,8 +57,8 @@ const CampaignSettings = ({
 
   return (
     <>
-      CampaignSettings
-      <CampaignStepper activeStep={0} />
+      <CampaignSettingsHeader />
+      <CampaignSettingsStepper />
       <Settings />
       <Scheduling />
       <Targeting />

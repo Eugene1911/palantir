@@ -6,13 +6,18 @@ import {
 } from 'sharedTypes';
 import { IFullCampaignType } from 'sharedTypes/fullCampaignType';
 import { getCampaignById } from 'resources/api';
-import { DRAFT_STATUS } from 'config/constants';
+import { CLIENT_STATUSES, DRAFT_STATUS } from 'config/constants';
 import { errorsString } from '../constants/strings';
 
 export const InitialEditStore = {
   isEdit: false,
   isEditDraft: false,
   campaignId: null,
+  status: DRAFT_STATUS,
+  isActive: false,
+  isNoFunds: false,
+  isArchived: false,
+  approved: CLIENT_STATUSES.INACTIVE,
   campaignStatus: LoadingStatus.INITIAL,
 };
 
@@ -23,6 +28,13 @@ const EditStore = types
     isEdit: types.boolean,
     isEditDraft: types.boolean,
     campaignId: types.maybeNull(types.number),
+    status: types.string,
+    isActive: types.boolean,
+    isNoFunds: types.boolean,
+    isArchived: types.boolean,
+    approved: types.string,
+    created: types.maybe(types.Date),
+    updated: types.maybe(types.Date),
     campaignStatus: types.enumeration<LoadingStatus>(
       Object.values(LoadingStatus),
     ),
@@ -39,7 +51,17 @@ const EditStore = types
       try {
         const { data } = yield getCampaignById(id);
         self.campaignStatus = LoadingStatus.SUCCESS;
-        self.isEditDraft = data?.status === DRAFT_STATUS;
+
+        self.campaignId = id;
+        self.isEditDraft = data.status === DRAFT_STATUS;
+        self.status = data.status;
+        self.isActive = data.active;
+        self.isArchived = data.is_archived;
+        self.isNoFunds = data.no_funds;
+        self.approved = data.approved;
+        self.created = new Date(data.created_at);
+        self.updated = new Date(data.updated_at);
+
         setNewCampaignSettingsEditData(data);
       } catch (error) {
         self.campaignStatus = LoadingStatus.ERROR;
@@ -68,7 +90,6 @@ const EditStore = types
         self.isEdit &&
         self.campaignStatus === LoadingStatus.INITIAL
       ) {
-        self.campaignId = id;
         self.getCampaignDataById(
           infoNotification,
           id,

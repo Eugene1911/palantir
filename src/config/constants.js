@@ -105,3 +105,5 @@ export const PRIME_TRAFFIC_TYPE = 'prime';
 export const MEMBERS_AREA_TRAFFIC_TYPE = 'members_area';
 
 export const SPOTS_FETCH_MAX_SIZE = 1900;
+
+export const DEFAULT_CAMPAIGN_NAME = 'New campaign';
